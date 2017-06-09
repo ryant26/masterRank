@@ -1,0 +1,70 @@
+Master Rank Websocket API
+=========================
+
+	Client API: (Events that the client expects)
+	--------------------------------------------
+	
+	PlayerConnected
+	{
+		battleNetId: ""
+		hero: {
+			name: "widowMaker"
+			stats: {}
+		}
+	}
+
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+	PlayerDisconnected
+	{
+		battleNetId: ""
+	}
+
+
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+	GroupInviteRecieved
+	{
+		group: {
+			id: 10
+			players: [
+				{
+					battleNetId: ""
+					hero: {
+						name: "widowMaker"
+						stats: {}
+					}
+				}
+			]
+		}
+	}
+
+
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+	GroupInviteAccepted
+	{
+		player: {
+			battleNetId: ""
+		}
+	}
+
+
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+	GroupInviteDeclined
+	{
+		player: {
+			battleNetId: ""
+		}
+	}
+
+
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
