@@ -41,7 +41,7 @@ function getOverwatchNames(i) {
 			});
 	
 	/* store promise results: */
-	listOfGamerTags.then(function(allData){
+	listOfGamerTags.then((allData) => {
 		// console.log(allData);
 		fs.writeFile("owNames" + i + ".csv",allData, function(err) {
 			if (err) {
@@ -54,10 +54,9 @@ function getOverwatchNames(i) {
 
 /** 
  * 100 usernames per page
- * I'd recommend crawling about 20 to 30 pages at a time
+ * I'd recommend crawling about 50 to 100 pages at a time
  * Range up to a lot - say 1300 pages?, some will fail because the website also fails to load and the nature of js
 **/
 // let allDataPromises = range(20).map((i) => getOverwatchNames(i));
-let allDataPromises = range(200,220,1).map((i) => getOverwatchNames(i));
-
+let allDataPromises = range(1200,1300,1).map((i) => getOverwatchNames(i));
 // Promise.all(allDataPromises).then((allData) => { storeToMongo(); }); 

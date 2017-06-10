@@ -2,6 +2,13 @@
 
 node data-scraping.js
 
-- I'd recommend running on pages 40 to 50 pages at a time
-- Anything more may cause a failure or 2
-- Will add passing in args
+- The data scraper creates a csv per webpage from overwatchtracker.com 
+- There are 100 usernames per page
+- I'd recommend running the script on about 100 pages at a time. I don't know the upper limit. Go till it breaks!
+- I hit about 2000 overwatchtracker webpages before I stopped. Go till it breaks! x2
+
+TODO: 
+    - Passing args to data-scraper to set range of pages. Currently just programmatically do it.
+    - Aggregate generated .csv files into a single .csv file: 
+        - Promise limitations allowed only usernames from a single page to a single .csv
+        - If you know a way around let me know!
