@@ -13,3 +13,4 @@ TODO:
     - Aggregate generated .csv files into a single .csv file in javascript: 
         - Promise limitations allowed only usernames from a single page to a single .csv
         - If you know a way around let me know!
+    - Send to Mongo or some DB
