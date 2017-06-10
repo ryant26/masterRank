@@ -1,0 +1,7 @@
+## Running Basic Web Crawler:
+
+node data-scraping.js
+
+- I'd recommend running on pages 40 to 50 pages at a time
+- Anything more may cause a failure or 2
+- Will add passing in args
