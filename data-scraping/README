@@ -1,6 +1,7 @@
 ## Running Basic Web Crawler:
 
 node data-scraping.js
+cat *.csv > theNames1.csv && rm ow*
 
 - The data scraper creates a csv per webpage from overwatchtracker.com 
 - There are 100 usernames per page
@@ -9,6 +10,6 @@ node data-scraping.js
 
 TODO: 
     - Passing args to data-scraper to set range of pages. Currently just programmatically do it.
-    - Aggregate generated .csv files into a single .csv file: 
+    - Aggregate generated .csv files into a single .csv file in javascript: 
         - Promise limitations allowed only usernames from a single page to a single .csv
         - If you know a way around let me know!
