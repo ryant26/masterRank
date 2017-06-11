@@ -10,14 +10,22 @@ export default class HeroCard extends Component {
     super(props);
     this.state = {
       isStatsToggleOn: false,
+      hovering: false,
     };
 
     this.toggleStats = this.toggleStats.bind(this);
+    this.toggleHover = this.toggleHover.bind(this);
   }
 
   toggleStats() {
     this.setState(prevState => ({
       isStatsToggleOn: !prevState.isStatsToggleOn
+    }))
+  }
+
+  toggleHover() {
+    this.setState(prevState => ({
+      hovering: !prevState.hovering
     }))
   }
 
@@ -60,16 +68,21 @@ export default class HeroCard extends Component {
     let winPercentage = parseFloat(this.props.hero.general_stats.win_percentage * 100.0).toFixed(1);
 
     return (
-      <div style={containerStyle} onClick={this.toggleStats}>
+      <div style={containerStyle}
+        onClick={this.toggleStats}
+        onMouseEnter={this.toggleHover}
+        onMouseLeave={this.toggleHover}>
         <div style={heroIconStyle}>{this.props.hero.name}</div>
 
-
         <div style={SRStyle}>
-          <div>SR</div>
+          <div>Rank</div>
           <div>2734</div>
         </div>
 
-        <div style={gamesPlayedStyle}>{this.props.hero.general_stats.games_played}</div>
+        <div style={gamesPlayedStyle}>
+          <div>Games Played</div>
+          <div>{this.props.hero.general_stats.games_played}</div>
+        </div>
 
         <div style={winPercentageStyle}>
           <div>WIN %</div>
