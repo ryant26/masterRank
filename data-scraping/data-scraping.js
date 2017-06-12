@@ -26,15 +26,15 @@ function getOverwatchNames(i) {
 	var listOfGamerTags = 
 		rp('https://overwatchtracker.com/leaderboards/pc/global/CompetitiveRank?page='+ i +'&mode=1')
 			.then(function(body){	
-					const dom = new JSDOM(body); 
-					var allDataToolTips = dom.window.document.querySelectorAll('[data-tooltip]');
-					var allData = []; 
-					for (let i=0; i<allDataToolTips.length; i++) {
-						allData.push(allDataToolTips[i].textContent); 
-					} 
-					//console.log(allData); 
-					//console.log("number: " + i); 
-					return allData; 
+				const dom = new JSDOM(body); 
+				var allDataToolTips = dom.window.document.querySelectorAll('[data-tooltip]');
+				var allData = []; 
+				for (let i=0; i<allDataToolTips.length; i++) {
+					allData.push(allDataToolTips[i].textContent); 
+				} 
+				//console.log(allData); 
+				//console.log("number: " + i); 
+				return allData; 
 			})
 			.catch(function (err) {
 				console.log("crawl failed ...");
