@@ -1,9 +1,10 @@
 import React, {
   Component
 } from 'react';
-import FontAwesome from 'react-fontawesome'
 
 import HeroCardStats from './HeroCardStats.js'
+import HeroImage from './HeroImage.js'
+import InvitePlayerButton from './InvitePlayerButton.js'
 
 export default class HeroCard extends Component {
 
@@ -15,7 +16,7 @@ export default class HeroCard extends Component {
     };
 
     this.toggleStats = this.toggleStats.bind(this);
-    this.toggleHover = this.toggleHover.bind(this);
+    this.toggleInvitePlayerButton = this.toggleInvitePlayerButton.bind(this);
   }
 
   toggleStats() {
@@ -24,7 +25,7 @@ export default class HeroCard extends Component {
     }))
   }
 
-  toggleHover() {
+  toggleInvitePlayerButton() {
     this.setState(prevState => ({
       isHovering: !prevState.isHovering
     }))
@@ -36,15 +37,6 @@ export default class HeroCard extends Component {
       'backgroundColor': '#66ccff',
       'width': '720px',
       'margin': '10px',
-    }
-
-    const heroIconStyle = {
-      'backgroundColor': 'lightgrey',
-      'color': 'darkgrey',
-      'height': '60px',
-      'width': '60px',
-      'float': 'left',
-      'fontSize': '48px',
     }
 
     const boxStyle = {
@@ -59,19 +51,14 @@ export default class HeroCard extends Component {
       <div>
         <div style={containerStyle}
           onClick={this.toggleStats}
-          onMouseEnter={this.toggleHover}
-          onMouseLeave={this.toggleHover}>
+          onMouseEnter={this.toggleInvitePlayerButton}
+          onMouseLeave={this.toggleInvitePlayerButton}>
 
           <div style={boxStyle}>
             {
               this.state.isHovering
-              ? <button style={heroIconStyle}>
-                  <FontAwesome name='plus' />
-                </button>
-              : <img style={heroIconStyle}
-                  src={require(`../assets/${this.props.hero.name}-icon.png`)}
-                  alt = {this.props.hero.name+' icon'}
-                />
+              ? <InvitePlayerButton />
+              : <HeroImage heroName={this.props.hero.name}/>
             }
           </div>
 
