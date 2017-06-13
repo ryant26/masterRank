@@ -58,5 +58,5 @@ function getOverwatchNames(i) {
  * Range up to a lot - say 1300 pages?, some will fail because the website also fails to load and the nature of js
 **/
 // let allDataPromises = range(20).map((i) => getOverwatchNames(i));
-let allDataPromises = range(1200,1300,1).map((i) => getOverwatchNames(i));
+let allDataPromises = range(1407,1408,1).map((i) => getOverwatchNames(i));
 // Promise.all(allDataPromises).then((allData) => { storeToMongo(); }); 
