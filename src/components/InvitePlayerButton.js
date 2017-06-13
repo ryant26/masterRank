@@ -6,6 +6,16 @@ import FontAwesome from 'react-fontawesome'
 
 export default class InvitePlayerButton extends Component {
 
+  constructor(props) {
+    super(props);
+    
+    this.invitePlayer = this.invitePlayer.bind(this);
+  }
+
+  invitePlayer() {
+    console.log("invite player");
+  }
+
   render() {
     const buttonStyle = {
       'backgroundColor': 'lightgrey',
@@ -17,7 +27,7 @@ export default class InvitePlayerButton extends Component {
     }
 
     return (
-      <button style={buttonStyle}>
+      <button style={buttonStyle} onClick={this.invitePlayer}>
         <FontAwesome name='plus' />
       </button>
     );

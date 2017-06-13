@@ -39,10 +39,15 @@ export default class HeroCard extends Component {
       'margin': '10px',
     }
 
-    const boxStyle = {
+    const statsStyle = {
+      'display': 'flex',
+      'width': '660px',
+    }
+
+    const componentStyle = {
       'textAlign': 'center',
       'height': '60px',
-      'width': '25%',
+      'width': '33%',
     }
 
     let winPercentage = parseFloat(this.props.hero.general_stats.win_percentage * 100.0).toFixed(1);
@@ -50,33 +55,33 @@ export default class HeroCard extends Component {
     return (
       <div>
         <div style={containerStyle}
-          onClick={this.toggleStats}
           onMouseEnter={this.toggleInvitePlayerButton}
           onMouseLeave={this.toggleInvitePlayerButton}>
 
-          <div style={boxStyle}>
-            {
-              this.state.isHovering
-              ? <InvitePlayerButton />
-              : <HeroImage heroName={this.props.hero.name}/>
-            }
-          </div>
+          {
+            this.state.isHovering
+            ? <InvitePlayerButton />
+            : <HeroImage heroName={this.props.hero.name}/>
+          }
 
-          <div style={boxStyle}>
-            <div>Rank</div>
-            <div>2734</div>
-          </div>
+          <div style={statsStyle} onClick={this.toggleStats}>
+            <div style={componentStyle} >
+              <div>Rank</div>
+              <div>2734</div>
+            </div>
 
-          <div style={boxStyle}>
-            <div>Games Played</div>
-            <div>{this.props.hero.general_stats.games_played}</div>
-          </div>
+            <div style={componentStyle}>
+              <div>Games Played</div>
+              <div>{this.props.hero.general_stats.games_played}</div>
+            </div>
 
-          <div style={boxStyle}>
-            <div>WIN %</div>
-            <div>{winPercentage}%</div>
+            <div style={componentStyle}>
+              <div>WIN %</div>
+              <div>{winPercentage}%</div>
+            </div>
           </div>
         </div>
+        
         {
           this.state.isStatsToggleOn
           ? <HeroCardStats hero={this.props.hero}/>
