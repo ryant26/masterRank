@@ -15,7 +15,7 @@ export default class StatBox extends Component {
     }
 
     const indicator = {
-      'backgroundColor': 'orange',
+      'backgroundColor': 'lightgrey',
       'height': '5px',
       'width': '90px',
     }

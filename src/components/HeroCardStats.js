@@ -11,8 +11,7 @@ export default class HeroCardStats extends Component {
 
     const row = {
       'height': '56px',
-      'width': '720px',
-      'paddingTop': '15px',
+      'padding': '15px',
     }
 
     return (
