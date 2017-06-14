@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as HeroActions from '../actions/hero.js';
-import Header from '../components/Header.js';
+import HeroSelector from '../components/HeroSelector.js'
 import HeroCard from '../components/HeroCard.js';
 
 class MasterRank extends Component {
@@ -14,7 +14,7 @@ class MasterRank extends Component {
     const { dispatch, heroes } = this.props;
     const addHero = bindActionCreators(HeroActions.addHero, dispatch)
 
-    const heroCardComponents = heroes.map(function(hero) {
+    const heroCardComponents = heroes.map(hero => {
       return <HeroCard hero={hero} key={hero.name} />
     })
 
@@ -31,6 +31,8 @@ class MasterRank extends Component {
           <div className="App-header">
             <h2>Master Rank</h2>
           </div>
+
+          <HeroSelector />
 
           <div className="HeroCard">
               { heroCardComponents }
