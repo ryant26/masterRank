@@ -12,5 +12,5 @@ app.listen(port, () => {
 
 io.on('connection', (socket) => {
     new ServerApi(socket);
-    socket.emit('initialData', {hello: 'world'})
+    socket.emit('initialData', {hello: 'world'});
 });

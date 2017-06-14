@@ -19,6 +19,6 @@ describe('Connection', function() {
         socket.on('initialData', (data) => {
             assert.equal(data.hello, 'world');
             done();
-        })
-    })
+        });
+    });
 });
