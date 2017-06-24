@@ -1,3 +1,5 @@
+notifications:
+  slack: masterrank:iABmZr4oGqMPDJrrBFaSgA15
 branches:
   only:
     - master
