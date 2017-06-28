@@ -1,1 +1,6 @@
+# IDEA
+.idea/
+
+# Javascript
 node_modules
+
