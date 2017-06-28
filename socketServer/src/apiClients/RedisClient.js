@@ -23,7 +23,7 @@ let RedisClient = function() {
                 stats: {}
             };
 
-            resolve(client.saddAsync(`${battleNetId}.heros`, JSON.stringify(data)));
+            resolve(client.saddAsync(`users.${battleNetId}.heros`, JSON.stringify(data)));
         });
     };
 
@@ -33,7 +33,7 @@ let RedisClient = function() {
                 .then((heros) => {
                     for (let hero of heros) {
                         if (hero.hero === heroName) {
-                            resolve(client.srem(`${battleNetId}.heros`, hero));
+                            resolve(client.srem(`users.${battleNetId}.heros`, hero));
                             return;
                         }
                     }
@@ -45,7 +45,7 @@ let RedisClient = function() {
 
     this.getPlayerHeros = function(battleNetId) {
         return new Promise((resolve) => {
-            client.smembersAsync(`${battleNetId}.heros`)
+            client.smembersAsync(`users.${battleNetId}.heros`)
                 .then((data) => {
                     let out = [];
                     if (data) {
