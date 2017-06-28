@@ -11,11 +11,11 @@ let paths = {
 };
 
 gulp.task('default', () => {
-    return runSequence('lint', 'test');
+    return runSequence('lint', 'unittest', 'functionaltest');
 });
 
 gulp.task('lint', () => {
-    return gulp.src([paths.tests, paths.src])
+    return gulp.src([paths.functionaltests, paths.unittests, paths.src])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());

@@ -37,7 +37,8 @@ let RedisClient = function() {
                             return;
                         }
                     }
-                    logger.warn(`Tried to remove nonexistant hero[${heroName} from player:[${battleNetId}]`);
+                    logger.warn(`Tried to remove nonexistant hero [${heroName}] from player:[${battleNetId}]`);
+                    resolve();
                 });
         });
     };
@@ -46,18 +47,14 @@ let RedisClient = function() {
         return new Promise((resolve) => {
             client.smembersAsync(`${battleNetId}.heros`)
                 .then((data) => {
-                    resolve(data.map((hero) => {
-                        return JSON.parse(hero);
-                    }));
+                    let out = [];
+                    if (data) {
+                        out = data.map((hero) => {
+                            return JSON.parse(hero);
+                        });
+                    }
+                    resolve(out);
                 });
-        });
-    };
-
-    this.getPlayerInfo = function(battleNetId) {
-        return new Promise((resolve) => {
-            client.getAsync(battleNetId).then((result) => {
-                resolve(JSON.parse(result));
-            });
         });
     };
 };
