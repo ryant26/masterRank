@@ -1,6 +1,8 @@
 let chai = require('chai');
 let assert = chai.assert;
 let randomString = require('randomstring');
+let logger = require('winston');
+let sinon = require('sinon');
 let RedisClient = require('../../../src/apiClients/RedisClient');
 
 describe('addHero', function() {
@@ -73,6 +75,19 @@ describe('removeHero', function() {
             })
             .then((heros) => {
                 assert.lengthOf(heros, 2);
+                done();
+            });
+    });
+
+    it('should log a warning for a hero that doesnt exist', function(done) {
+        let id = randomString.generate();
+
+        let hero1 = 'hero1';
+        sinon.spy(logger, 'warn');
+        client.removeHero(id, hero1)
+            .then(() => {
+                assert(logger.warn.calledOnce);
+                logger.warn.restore();
                 done();
             });
     });
