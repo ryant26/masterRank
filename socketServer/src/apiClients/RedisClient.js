@@ -57,6 +57,27 @@ let RedisClient = function() {
                 });
         });
     };
+
+    this.addPlayerInfo = function (battleNetId, information) {
+        return client.setAsync(`users.${battleNetId}.info`, JSON.stringify(information));
+    };
+
+    this.deletePlayerInfo = function (battleNetId) {
+        return client.delAsync(`users.${battleNetId}.info`);
+    };
+
+    this.getPlayerInfo = function (battleNetId) {
+        return new Promise((resolve) => {
+            client.getAsync(`users.${battleNetId}.info`)
+                .then((data) => {
+                    let out = null;
+                    if(data) {
+                        out = JSON.parse(data);
+                    }
+                    resolve(out);
+                });
+        });
+    };
 };
 
 module.exports = RedisClient;
