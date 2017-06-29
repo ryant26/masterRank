@@ -1,9 +1,9 @@
 let logger = require('winston');
 
-const Api = function(socket) {
+const PlayerController = function(socket) {
     socket.on('test', () => {
         logger.info('received test');
     });
 };
 
-module.exports = Api;
+module.exports = PlayerController;

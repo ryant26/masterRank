@@ -2,7 +2,7 @@ let app = require('http').createServer();
 let io = require('socket.io')(app);
 let config = require('config');
 let logger = require('winston');
-let ServerApi = require('./serverApi/Api');
+let PlayerController = require('./controllers/PlayerController');
 
 const port = config.get('port');
 
@@ -11,6 +11,6 @@ app.listen(port, () => {
 });
 
 io.on('connection', (socket) => {
-    new ServerApi(socket);
+    new PlayerController(socket);
     socket.emit('initialData', {hello: 'world'});
 });
