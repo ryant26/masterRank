@@ -5,7 +5,7 @@
  * @param config.RedisClient - Redis Client
  * @constructor
  */
-const GroupController = function (config) {
+const GroupController = function () {
 
 };
 
