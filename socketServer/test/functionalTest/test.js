@@ -12,12 +12,17 @@ let connectionUrlEu = `${connectionUrl}/eu`;
 
 let battleNetId = 'testUser#1234';
 
+let getAuthenticatedSocket = function (battleNetId, socketUrl) {
+    let outSocket = io(socketUrl, {forceNew: true});
+    outSocket.emit('authenticate', {battleNetId: battleNetId});
+    return outSocket;
+};
+
 describe('Connection', function() {
     let socket;
 
     before(function () {
-        socket = io(connectionUrlUs);
-        socket.emit('authenticate', {battleNetId});
+        socket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
     });
 
     after(function() {
@@ -37,8 +42,7 @@ describe('initalData', function() {
     let socket;
 
     before(function () {
-        socket = io(connectionUrlUs);
-        socket.emit('authenticate', {battleNetId});
+        socket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
     });
 
     after(function() {
@@ -51,8 +55,7 @@ describe('initalData', function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = io(connectionUrlUs, {forceNew: true});
-            socket2.emit('authenticate', {battleNetId: 'testUser2#1234'});
+            let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
 
             socket2.on('initialData', (data) => {
                 assert.lengthOf(data, 1);
@@ -69,8 +72,7 @@ describe('initalData', function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = io(connectionUrlUs, {forceNew: true});
-            socket2.emit('authenticate', {battleNetId: 'goldPlayer#1234'});
+            let socket2 = getAuthenticatedSocket('goldPlayer#1234', connectionUrlUs);
 
             socket2.on('initialData', (data) => {
                 assert.isEmpty(data);
@@ -86,8 +88,7 @@ describe('initalData', function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = io(connectionUrlEu, {forceNew: true});
-            socket2.emit('authenticate', {battleNetId: 'testUser2#1234'});
+            let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlEu);
 
             socket2.on('initialData', (data) => {
                 assert.isEmpty(data);
