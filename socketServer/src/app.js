@@ -9,8 +9,8 @@ let RedisClient = require('./apiClients/RedisClient');
 
 const port = config.get('port');
 
-let onAuthenticated = function (socket, region) {
-    new PlayerController({socket, region, PlayerClient, RedisClient, io});
+let onAuthenticated = function (namespace, socket, region) {
+    new PlayerController({namespace, socket, region, PlayerClient, RedisClient});
 };
 
 let setupRegion = function(namespace, region) {
@@ -18,7 +18,7 @@ let setupRegion = function(namespace, region) {
         new AuthenticationController({
             socket,
             authenticatedCallback: () => {
-                onAuthenticated(socket, region);
+                onAuthenticated(namespace, socket, region);
             }
         });
     });

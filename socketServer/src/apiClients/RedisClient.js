@@ -61,6 +61,8 @@ let removeMetaHero = function (rank, region, hero) {
         client.sremAsync(`${region}.${rank}.heros`, hero).then((removed) => {
             if (!removed) {
                 logger.warn(`Tried to remove non-existant hero: {battleNetId: ${hero.battleNetId}, heroName: ${hero.heroName}} from rank [${rank}] and region [${region}]`);
+            } else {
+                logger.info(`Removed hero: {battleNetId: ${hero.battleNetId}, heroName: ${hero.heroName}} from rank [${rank}] and region [${region}]`);
             }
             resolve();
         });
