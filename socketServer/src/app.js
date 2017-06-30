@@ -3,14 +3,33 @@ let io = require('socket.io')(app);
 let config = require('config');
 let logger = require('winston');
 let PlayerController = require('./controllers/PlayerController');
+let AuthenticationController = require('./controllers/AuthenticationController');
 
 const port = config.get('port');
+
+let onAuthenticated = function (socket, region) {
+    new PlayerController({socket, region});
+};
+
+let setupRegion = function(namespace, region) {
+    namespace.on('connection', (socket) => {
+        new AuthenticationController({
+            socket,
+            authenticatedCallback: () => {
+                onAuthenticated(socket, region);
+            }
+        });
+    });
+};
 
 app.listen(port, () => {
     logger.info(`listening on port ${port}`);
 });
 
-io.on('connection', (socket) => {
-    new PlayerController(socket);
-    socket.emit('initialData', {hello: 'world'});
-});
+let usRegion = io.of('/us');
+let euRegion = io.of('/eu');
+let asRegion = io.of('/as');
+
+setupRegion(usRegion);
+setupRegion(euRegion);
+setupRegion(asRegion);
