@@ -5,8 +5,10 @@
  * @param config.RedisClient - Redis Client
  * @constructor
  */
-const GroupController = function () {
-
+const GroupController = function (config) {
+    // let socket = config.socket;
+    // let token = socket.token;
+    // let redisClient = config.RedisClient;
 };
 
 module.exports = GroupController;
