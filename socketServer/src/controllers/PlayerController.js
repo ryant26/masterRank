@@ -6,7 +6,7 @@ let logger = require('winston');
  * @param config.region - Region
  * @param config.PlayerClient - Player Client (Hero API)
  * @param config.RedisClient - Redis Client
- * @param config.io - Socket Server
+ * @param config.namespace - Socket Namespace
  * @constructor
  */
 const PlayerController = function(config) {
@@ -16,7 +16,7 @@ const PlayerController = function(config) {
     let battleNetId = token.battleNetId;
     let playerClient = config.PlayerClient;
     let redisClient = config.RedisClient;
-    let io = config.io;
+    let namespace = config.namespace;
 
     playerClient.getPlayerRank(battleNetId, config.region).then((rankObj) => {
         redisClient.addPlayerInfo(battleNetId, rankObj);
@@ -33,7 +33,18 @@ const PlayerController = function(config) {
             let heroObj = {heroName: hero, stats, battleNetId: battleNetId};
             redisClient.addPlayerHero(battleNetId, heroObj);
             redisClient.addMetaHero(socket.rank, region, heroObj);
-            io.in(socket.rank).emit('heroAdded', heroObj);
+            namespace.to(socket.rank).emit('heroAdded', heroObj);
+        });
+    });
+
+    socket.on('disconnect', () => {
+        redisClient.getPlayerHeros(battleNetId).then((heros) => {
+            heros.forEach((hero) => {
+                redisClient.removePlayerHeroByName(battleNetId, hero.heroName);
+                redisClient.removeMetaHero(socket.rank, region, hero).then(() => {
+                    namespace.to(socket.rank).emit('heroRemoved', hero);
+                });
+            });
         });
     });
 };
