@@ -40,7 +40,56 @@ describe('Connection', function() {
     });
 });
 
+describe('disconnect', function() {
+    let socket;
 
+    beforeEach(function () {
+        socket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
+    });
+
+    afterEach(function() {
+        socket.close();
+    });
+
+    it('should remove all heros from the meta list', function(done) {
+        socket.emit('addHero', randomString.generate());
+        socket.emit('addHero', randomString.generate());
+        socket.emit('addHero', randomString.generate());
+
+        setTimeout(function() {
+            socket.close();
+        }, 50);
+
+        // Ensure hero is fully added before we connect the 2nd user
+        setTimeout(function() {
+            let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
+
+            socket2.on('initialData', (data) => {
+                assert.isEmpty(data);
+                socket2.close();
+                done();
+            });
+        }, 100);
+    });
+
+    it('should call the removeHero event when a hero is removed', function(done) {
+        let heroName = randomString.generate();
+        socket.emit('addHero', heroName);
+
+        let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
+
+        socket2.on('heroRemoved', (hero) => {
+            assert.equal(hero.heroName, heroName);
+            socket2.close();
+            done();
+        });
+
+        setTimeout(function() {
+            socket.close();
+        }, 50);
+
+    });
+});
 
 describe('initalData', function() {
     let socket;
@@ -140,6 +189,23 @@ describe('addHero', function() {
 
     afterEach(function() {
         socket.close();
+    });
+
+    it('should handle adding multiple heros for a single player', function(done) {
+        socket.emit('addHero', randomString.generate());
+        socket.emit('addHero', randomString.generate());
+        socket.emit('addHero', randomString.generate());
+
+        // Ensure hero is fully added before we connect the 2nd user
+        setTimeout(function() {
+            let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
+
+            socket2.on('initialData', (data) => {
+                assert.lengthOf(data, 3);
+                socket2.close();
+                done();
+            });
+        }, 50);
     });
 
     it('should call the heroAdded event on all connected clients', function(done) {
