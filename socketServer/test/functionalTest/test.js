@@ -7,13 +7,14 @@ let config = require('config');
 require('../../src/app');
 
 let connectionUrl = `${config.get('url')}:${config.get('port')}/us`;
+let battleNetId = 'testUser#1234';
 
 describe('Connection', function() {
     let socket;
 
     before(function () {
         socket = io(connectionUrl);
-        socket.emit('authenticate', {});
+        socket.emit('authenticate', {battleNetId});
     });
 
     it('should call initialData on the client upon connect', function(done) {
