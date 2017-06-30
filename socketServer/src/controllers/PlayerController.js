@@ -23,7 +23,9 @@ const PlayerController = function(config) {
         socket.join(rankObj.rank);
         socket.rank = rankObj.rank;
         logger.info(`Player [${battleNetId}] joined rank [${rankObj.rank}]`);
-        socket.emit('initialData', {hello: 'world'});
+        redisClient.getMetaHeros(rankObj.rank, region).then((heros) => {
+            socket.emit('initialData', heros);
+        });
     });
 
     socket.on('addHero', (hero) => {
