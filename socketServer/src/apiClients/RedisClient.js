@@ -26,8 +26,7 @@ let removePlayerHeroByName = function (battleNetId, heroName) {
             .then((heros) => {
                 for (let hero of heros) {
                     if (hero.heroName === heroName) {
-                        resolve(client.srem(`users.${battleNetId}.heros`, hero));
-                        return;
+                        return resolve(client.srem(`users.${battleNetId}.heros`, hero));
                     }
                 }
                 logger.warn(`Tried to remove nonexistant hero [${heroName}] from player:[${battleNetId}]`);
