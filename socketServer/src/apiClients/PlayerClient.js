@@ -5,6 +5,19 @@ let getPlayerRank = function(battleNetId, region) {
     });
 };
 
+let getHeroStats = function(battleNetId, region, hero) {
+    return new Promise((resolve) => {
+        resolve({
+            eliminations: 10,
+            winPercentage: 65,
+            battleNetId,
+            region,
+            hero
+        });
+    });
+};
+
 module.exports = {
-    getPlayerRank
+    getPlayerRank,
+    getHeroStats
 };

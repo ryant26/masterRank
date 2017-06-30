@@ -15,23 +15,18 @@ let client = redis.createClient({
     url: redisUrl
 });
 
-let addHero = function (battleNetId, hero) {
+let addPlayerHero = function (battleNetId, hero) {
     return new Promise((resolve) => {
-        let data = {
-            hero,
-            stats: {}
-        };
-
-        resolve(client.saddAsync(`users.${battleNetId}.heros`, JSON.stringify(data)));
+        resolve(client.saddAsync(`users.${battleNetId}.heros`, JSON.stringify(hero)));
     });
 };
 
-let removeHero = function (battleNetId, heroName) {
+let removePlayerHeroByName = function (battleNetId, heroName) {
     return new Promise((resolve) => {
         getPlayerHeros(battleNetId)
             .then((heros) => {
                 for (let hero of heros) {
-                    if (hero.hero === heroName) {
+                    if (hero.heroName === heroName) {
                         resolve(client.srem(`users.${battleNetId}.heros`, hero));
                         return;
                     }
@@ -45,6 +40,31 @@ let removeHero = function (battleNetId, heroName) {
 let getPlayerHeros = function(battleNetId) {
     return new Promise((resolve) => {
         client.smembersAsync(`users.${battleNetId}.heros`)
+            .then((data) => {
+                let out = [];
+                if (data) {
+                    out = data.map((hero) => {
+                        return JSON.parse(hero);
+                    });
+                }
+                resolve(out);
+            });
+    });
+};
+
+let addMetaHero = function (rank, region, hero) {
+    return new Promise((resolve) => {
+        resolve(client.saddAsync(`${region}.${rank}.heros`, JSON.stringify(hero)));
+    });
+};
+
+let removeMetaHero = function (rank, region, hero) {
+    return client.srem(`${region}.${rank}.heros`, hero);
+};
+
+let getMetaHeros = function(battleNetId, rank, region) {
+    return new Promise((resolve) => {
+        client.smembersAsync(`${region}.${rank}.heros`)
             .then((data) => {
                 let out = [];
                 if (data) {
@@ -79,9 +99,12 @@ let getPlayerInfo = function (battleNetId) {
 };
 
 module.exports = {
-    addHero,
-    removeHero,
+    addPlayerHero,
+    removePlayerHeroByName,
     getPlayerHeros,
+    addMetaHero,
+    removeMetaHero,
+    getMetaHeros,
     addPlayerInfo,
     deletePlayerInfo,
     getPlayerInfo

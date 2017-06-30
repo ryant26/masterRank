@@ -10,7 +10,7 @@ let RedisClient = require('./apiClients/RedisClient');
 const port = config.get('port');
 
 let onAuthenticated = function (socket, region) {
-    new PlayerController({socket, region, PlayerClient, RedisClient});
+    new PlayerController({socket, region, PlayerClient, RedisClient, io});
 };
 
 let setupRegion = function(namespace, region) {
@@ -32,6 +32,6 @@ let usRegion = io.of('/us');
 let euRegion = io.of('/eu');
 let asRegion = io.of('/as');
 
-setupRegion(usRegion);
-setupRegion(euRegion);
-setupRegion(asRegion);
+setupRegion(usRegion, 'us');
+setupRegion(euRegion, 'eu');
+setupRegion(asRegion, 'as');

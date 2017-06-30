@@ -5,17 +5,24 @@ let logger = require('winston');
 let sinon = require('sinon');
 let RedisClient = require('../../../src/apiClients/RedisClient');
 
-describe('addHero', function() {
+let getHeroObject = function (name) {
+    return {
+        heroName: name,
+        stats:{}
+    };
+};
+
+describe('addPlayerHero', function() {
 
     it('should create a new object for new users', function() {
         let id = '1234';
-        return RedisClient.addHero(id, 'hero')
+        return RedisClient.addPlayerHero(id, getHeroObject('hero'))
             .then(() => {
                 return RedisClient.getPlayerHeros(id);
             })
             .then((heros) => {
                 assert.lengthOf(heros, 1);
-                assert.equal(heros[0].hero, 'hero');
+                assert.equal(heros[0].heroName, 'hero');
             });
     });
 
@@ -24,7 +31,7 @@ describe('addHero', function() {
 
         let hero1 = 'hero1';
         let hero2 = 'hero2';
-        return Promise.all([RedisClient.addHero(id, hero1), RedisClient.addHero(id, hero2)])
+        return Promise.all([RedisClient.addPlayerHero(id, getHeroObject(hero1)), RedisClient.addPlayerHero(id, getHeroObject(hero2))])
             .then(() => {
                 return RedisClient.getPlayerHeros(id);
             })
@@ -37,7 +44,7 @@ describe('addHero', function() {
         let id = randomString.generate();
 
         let hero1 = 'hero1';
-        return Promise.all([RedisClient.addHero(id, hero1), RedisClient.addHero(id, hero1)])
+        return Promise.all([RedisClient.addPlayerHero(id, getHeroObject(hero1)), RedisClient.addPlayerHero(id, getHeroObject(hero1))])
             .then(() => {
                 return RedisClient.getPlayerHeros(id);
             })
@@ -47,15 +54,17 @@ describe('addHero', function() {
     });
 });
 
-describe('removeHero', function() {
+describe('removePlayerHeroByName', function() {
 
     it('should remove a hero from anywhere in the list', function() {
         let id = randomString.generate();
 
         let hero1 = 'hero1';
-        return Promise.all([RedisClient.addHero(id, randomString.generate()), RedisClient.addHero(id, hero1), RedisClient.addHero(id, randomString.generate())])
+        return Promise.all([RedisClient.addPlayerHero(id, getHeroObject(hero1)),
+            RedisClient.addPlayerHero(id, getHeroObject(randomString.generate())),
+            RedisClient.addPlayerHero(id, getHeroObject(randomString.generate()))])
             .then(() => {
-                return RedisClient.removeHero(id, hero1);
+                return RedisClient.removePlayerHeroByName(id, hero1);
             })
             .then(() => {
                 return RedisClient.getPlayerHeros(id);
@@ -70,7 +79,7 @@ describe('removeHero', function() {
 
         let hero1 = 'hero1';
         sinon.spy(logger, 'warn');
-        return RedisClient.removeHero(id, hero1)
+        return RedisClient.removePlayerHeroByName(id, hero1)
             .then(() => {
                 assert(logger.warn.calledOnce);
                 logger.warn.restore();
