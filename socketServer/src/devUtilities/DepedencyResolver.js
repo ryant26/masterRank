@@ -1,5 +1,5 @@
 
-let mockEnvironments = ['develop', 'unitTest'];
+let mockEnvironments = ['develop', 'unitTest', 'functionalTest'];
 
 let isMockEnvironment = function() {
     return mockEnvironments.indexOf(process.env.NODE_ENV) > -1;
