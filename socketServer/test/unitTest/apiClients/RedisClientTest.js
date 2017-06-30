@@ -168,7 +168,7 @@ describe('removeMetaHero', function() {
         }).then(() => {
             return RedisClient.getMetaHeros(rank, region);
         }).then((heros) => {
-            assert.lengthOf(heros, 0);
+            assert.isEmpty(heros);
         });
     });
 
@@ -180,7 +180,7 @@ describe('removeMetaHero', function() {
         }).then(() => {
             return RedisClient.getMetaHeros(rank, region);
         }).then((heros) => {
-            assert.lengthOf(heros, 0);
+            assert.isEmpty(heros);
             return RedisClient.getMetaHeros(rank2, region);
         }).then((heros) => {
             assert.lengthOf(heros, 1);
@@ -195,6 +195,23 @@ describe('removeMetaHero', function() {
         }).then(() => {
             assert(logger.warn.calledOnce);
             logger.warn.restore();
+        });
+    });
+});
+
+describe('getMetaHeros', function() {
+    let rank;
+    let region;
+
+    beforeEach(function() {
+        rank = randomString.generate();
+        region = randomString.generate();
+    });
+
+    it('should return an empty list if the rank/region is empty', function() {
+        return RedisClient.getMetaHeros(rank, region).then((heros) => {
+            assert.isArray(heros);
+            assert.isEmpty(heros);
         });
     });
 });
