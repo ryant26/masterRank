@@ -1,13 +1,10 @@
 let logger = require('winston');
 
-const PlayerController = function(socket) {
+const PlayerController = function(config) {
+    let socket = config.socket;
     let token = socket.token;
 
-    socket.on('setRegion', (region, fn) => {
-        // Set the users region
-        // Get rank
-        // Call the fn with all hero's in that player's rank && region
-    });
+    socket.emit('initialData', {hello: 'world'});
 };
 
 module.exports = PlayerController;

@@ -6,13 +6,14 @@ let config = require('config');
 // Start the Socket Server
 require('../../src/app');
 
-let connectionUrl = `${config.get('url')}:${config.get('port')}`;
+let connectionUrl = `${config.get('url')}:${config.get('port')}/us`;
 
 describe('Connection', function() {
     let socket;
 
     before(function () {
         socket = io(connectionUrl);
+        socket.emit('authenticate', {});
     });
 
     it('should call initialData on the client upon connect', function(done) {
