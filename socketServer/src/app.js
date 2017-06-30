@@ -6,7 +6,6 @@ let PlayerController = require('./controllers/PlayerController');
 let AuthenticationController = require('./controllers/AuthenticationController');
 let PlayerClient = require('./apiClients/PlayerClient');
 let RedisClient = require('./apiClients/RedisClient');
-RedisClient = new RedisClient();
 
 const port = config.get('port');
 

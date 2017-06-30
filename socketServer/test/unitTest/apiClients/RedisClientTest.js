@@ -6,17 +6,12 @@ let sinon = require('sinon');
 let RedisClient = require('../../../src/apiClients/RedisClient');
 
 describe('addHero', function() {
-    let client;
-
-    before(function () {
-        client = new RedisClient();
-    });
 
     it('should create a new object for new users', function() {
         let id = '1234';
-        return client.addHero(id, 'hero')
+        return RedisClient.addHero(id, 'hero')
             .then(() => {
-                return client.getPlayerHeros(id);
+                return RedisClient.getPlayerHeros(id);
             })
             .then((heros) => {
                 assert.lengthOf(heros, 1);
@@ -29,9 +24,9 @@ describe('addHero', function() {
 
         let hero1 = 'hero1';
         let hero2 = 'hero2';
-        return Promise.all([client.addHero(id, hero1), client.addHero(id, hero2)])
+        return Promise.all([RedisClient.addHero(id, hero1), RedisClient.addHero(id, hero2)])
             .then(() => {
-                return client.getPlayerHeros(id);
+                return RedisClient.getPlayerHeros(id);
             })
             .then((heros) => {
                 assert.lengthOf(heros, 2);
@@ -42,9 +37,9 @@ describe('addHero', function() {
         let id = randomString.generate();
 
         let hero1 = 'hero1';
-        return Promise.all([client.addHero(id, hero1), client.addHero(id, hero1)])
+        return Promise.all([RedisClient.addHero(id, hero1), RedisClient.addHero(id, hero1)])
             .then(() => {
-                return client.getPlayerHeros(id);
+                return RedisClient.getPlayerHeros(id);
             })
             .then((heros) => {
                 assert.lengthOf(heros, 1);
@@ -53,22 +48,17 @@ describe('addHero', function() {
 });
 
 describe('removeHero', function() {
-    let client;
-
-    before(function () {
-        client = new RedisClient();
-    });
 
     it('should remove a hero from anywhere in the list', function() {
         let id = randomString.generate();
 
         let hero1 = 'hero1';
-        return Promise.all([client.addHero(id, randomString.generate()), client.addHero(id, hero1), client.addHero(id, randomString.generate())])
+        return Promise.all([RedisClient.addHero(id, randomString.generate()), RedisClient.addHero(id, hero1), RedisClient.addHero(id, randomString.generate())])
             .then(() => {
-                return client.removeHero(id, hero1);
+                return RedisClient.removeHero(id, hero1);
             })
             .then(() => {
-                return client.getPlayerHeros(id);
+                return RedisClient.getPlayerHeros(id);
             })
             .then((heros) => {
                 assert.lengthOf(heros, 2);
@@ -80,7 +70,7 @@ describe('removeHero', function() {
 
         let hero1 = 'hero1';
         sinon.spy(logger, 'warn');
-        return client.removeHero(id, hero1)
+        return RedisClient.removeHero(id, hero1)
             .then(() => {
                 assert(logger.warn.calledOnce);
                 logger.warn.restore();
@@ -89,36 +79,31 @@ describe('removeHero', function() {
 });
 
 describe('Player Info', function() {
-    let client;
-
-    before(function () {
-        client = new RedisClient();
-    });
 
     it('should store an object passed', function() {
         let id = randomString.generate();
         let someObj = {
             hello: 'world'
         };
-        return client.addPlayerInfo(id, someObj).then(() => {
-            return client.getPlayerInfo(id);
+        return RedisClient.addPlayerInfo(id, someObj).then(() => {
+            return RedisClient.getPlayerInfo(id);
         }).then((data) => {
             assert.deepEqual(data, someObj);
         });
     });
 
     it('should return null if player does not exist', function() {
-        return client.getPlayerInfo(randomString.generate()).then((data) => {
+        return RedisClient.getPlayerInfo(randomString.generate()).then((data) => {
             assert.isNull(data);
         });
     });
 
     it('should be able to delete player info', function() {
         let id = randomString.generate();
-        return client.addPlayerInfo(id, {hello: 'world'}).then(() => {
-            return client.deletePlayerInfo(id);
+        return RedisClient.addPlayerInfo(id, {hello: 'world'}).then(() => {
+            return RedisClient.deletePlayerInfo(id);
         }).then(() => {
-            return client.getPlayerInfo(id);
+            return RedisClient.getPlayerInfo(id);
         }).then((data) => {
             assert.isNull(data);
         });
