@@ -58,7 +58,14 @@ let addMetaHero = function (rank, region, hero) {
 };
 
 let removeMetaHero = function (rank, region, hero) {
-    return client.srem(`${region}.${rank}.heros`, hero);
+    return new Promise((resolve) => {
+        client.sremAsync(`${region}.${rank}.heros`, hero).then((removed) => {
+            if (!removed) {
+                logger.warn(`Tried to remove non-existant hero: {battleNetId: ${hero.battleNetId}, heroName: ${hero.heroName}} from rank [${rank}] and region [${region}]`);
+            }
+            resolve();
+        });
+    });
 };
 
 let getMetaHeros = function(rank, region) {
