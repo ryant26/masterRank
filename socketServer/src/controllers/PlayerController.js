@@ -1,5 +1,13 @@
 let logger = require('winston');
 
+/**
+ * This module handles player API requests
+ * @param config.socket - Socket
+ * @param config.token - Token
+ * @param config.PlayerClient - Player Client (Hero API)
+ * @param config.RedisClient - Redis Client
+ * @constructor
+ */
 const PlayerController = function(config) {
     let socket = config.socket;
     let token = socket.token;
