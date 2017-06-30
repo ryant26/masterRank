@@ -87,6 +87,71 @@ describe('removePlayerHeroByName', function() {
     });
 });
 
+describe('addMetaHero', function() {
+    let rank;
+    let region;
+
+    beforeEach(function() {
+        rank = randomString.generate();
+        region = randomString.generate();
+    });
+
+    it('should add a hero to the new meta list', function() {
+        let hero = getHeroObject('Mei');
+        return RedisClient.addMetaHero(rank, region, hero).then(() => {
+            return RedisClient.getMetaHeros(rank, region);
+        }).then((heros) => {
+            assert.lengthOf(heros, 1);
+            assert.deepEqual(heros[0], hero);
+        });
+    });
+
+    it('should append heros to the existing meta list', function() {
+        let hero1 = getHeroObject('Mei');
+        let hero2 =getHeroObject('widow');
+        return Promise.all([RedisClient.addMetaHero(rank, region, hero1), RedisClient.addMetaHero(rank, region, hero2)]).then(() => {
+            return RedisClient.getMetaHeros(rank, region);
+        }).then((heros) => {
+            assert.lengthOf(heros, 2);
+        });
+    });
+
+    it('should not append duplicates to existing meta list', function() {
+        let hero = getHeroObject('Mei');
+        return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank, region, hero)]).then(() => {
+            return RedisClient.getMetaHeros(rank, region);
+        }).then((heros) => {
+            assert.lengthOf(heros, 1);
+        });
+    });
+
+    it('should add heros from separate ranks to separate lists', function() {
+        let rank2 = randomString.generate();
+        let hero = getHeroObject('Mei');
+        return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank2, region, hero)]).then(() => {
+            return RedisClient.getMetaHeros(rank, region);
+        }).then((heros) => {
+            assert.lengthOf(heros, 1);
+            return RedisClient.getMetaHeros(rank2, region);
+        }).then((heros) => {
+            assert.lengthOf(heros, 1);
+        });
+    });
+
+    it('should add heros from separate regions to separate lists', function() {
+        let region2 = randomString.generate();
+        let hero = getHeroObject('Mei');
+        return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank, region2, hero)]).then(() => {
+            return RedisClient.getMetaHeros(rank, region);
+        }).then((heros) => {
+            assert.lengthOf(heros, 1);
+            return RedisClient.getMetaHeros(rank, region2);
+        }).then((heros) => {
+            assert.lengthOf(heros, 1);
+        });
+    });
+});
+
 describe('Player Info', function() {
 
     it('should store an object passed', function() {
