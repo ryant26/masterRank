@@ -5,7 +5,6 @@ let logger = require('winston');
 let redis = dependencyResolver.redis;
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
-// bluebird.promisifyAll(redis.Multi.prototype);
 
 
 let redisUrl = config.get('redisUrl');
@@ -62,7 +61,7 @@ let removeMetaHero = function (rank, region, hero) {
     return client.srem(`${region}.${rank}.heros`, hero);
 };
 
-let getMetaHeros = function(battleNetId, rank, region) {
+let getMetaHeros = function(rank, region) {
     return new Promise((resolve) => {
         client.smembersAsync(`${region}.${rank}.heros`)
             .then((data) => {
