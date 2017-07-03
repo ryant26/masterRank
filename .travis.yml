@@ -1,0 +1,15 @@
+notifications:
+  slack: masterrank:iABmZr4oGqMPDJrrBFaSgA15
+branches:
+  only:
+    - master
+matrix:
+  include:
+    - language: node_js
+      node_js: "6"
+      before_script:
+        - cd socketServer/
+        - npm install
+        - npm install -g gulp-cli
+      script: gulp
+
