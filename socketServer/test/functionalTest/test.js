@@ -78,6 +78,7 @@ describe('disconnect', function() {
 
         let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
 
+
         socket2.on('heroRemoved', (hero) => {
             assert.equal(hero.heroName, heroName);
             socket2.close();
