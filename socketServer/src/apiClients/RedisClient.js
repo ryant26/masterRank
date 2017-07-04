@@ -3,6 +3,7 @@ let config = require('config');
 let bluebird = require('bluebird');
 let logger = require('winston');
 let redis = dependencyResolver.redis;
+let _ = require('lodash');
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 
@@ -20,17 +21,25 @@ let addPlayerHero = function (battleNetId, hero) {
     });
 };
 
-let removePlayerHeroByName = function (battleNetId, heroName) {
+let removePlayerHerosByName = function (battleNetId, ...heroNames) {
     return new Promise((resolve) => {
         getPlayerHeros(battleNetId)
             .then((heros) => {
+                let herosToRemove = [];
                 for (let hero of heros) {
-                    if (hero.heroName === heroName) {
-                        return resolve(client.srem(`users.${battleNetId}.heros`, hero));
+                    if (heroNames.indexOf(hero.heroName) > -1) {
+                        herosToRemove.push(hero);
                     }
                 }
-                logger.warn(`Tried to remove nonexistant hero [${heroName}] from player:[${battleNetId}]`);
-                resolve();
+
+                if (heroNames.length != herosToRemove.length) {
+                    _.difference(heroNames, herosToRemove).forEach((heroName) => {
+                        logger.warn(`Tried to remove nonexistant hero [${heroName}] from player:[${battleNetId}]`);
+                    });
+                }
+
+                return resolve(client.srem(`users.${battleNetId}.heros`, ...herosToRemove));
+
             });
     });
 };
@@ -107,7 +116,7 @@ let getPlayerInfo = function (battleNetId) {
 
 module.exports = {
     addPlayerHero,
-    removePlayerHeroByName,
+    removePlayerHerosByName,
     getPlayerHeros,
     addMetaHero,
     removeMetaHero,

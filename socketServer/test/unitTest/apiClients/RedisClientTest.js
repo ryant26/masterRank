@@ -54,7 +54,7 @@ describe('addPlayerHero', function() {
     });
 });
 
-describe('removePlayerHeroByName', function() {
+describe('removePlayerHerosByName', function() {
 
     it('should remove a hero from anywhere in the list', function() {
         let id = randomString.generate();
@@ -64,7 +64,7 @@ describe('removePlayerHeroByName', function() {
             RedisClient.addPlayerHero(id, getHeroObject(randomString.generate())),
             RedisClient.addPlayerHero(id, getHeroObject(randomString.generate()))])
             .then(() => {
-                return RedisClient.removePlayerHeroByName(id, hero1);
+                return RedisClient.removePlayerHerosByName(id, hero1);
             })
             .then(() => {
                 return RedisClient.getPlayerHeros(id);
@@ -74,12 +74,32 @@ describe('removePlayerHeroByName', function() {
             });
     });
 
+    it('should be able to remove multple heros at once', function() {
+        let id = randomString.generate();
+
+        let hero1 = randomString.generate();
+        let hero2 = randomString.generate();
+        let hero3 = randomString.generate();
+        return Promise.all([RedisClient.addPlayerHero(id, getHeroObject(hero1)),
+            RedisClient.addPlayerHero(id, getHeroObject(hero2)),
+            RedisClient.addPlayerHero(id, getHeroObject(hero3))])
+            .then(() => {
+                return RedisClient.removePlayerHerosByName(id, hero1, hero2, hero3);
+            })
+            .then(() => {
+                return RedisClient.getPlayerHeros(id);
+            })
+            .then((heros) => {
+                assert.isEmpty(heros);
+            });
+    });
+
     it('should log a warning for a hero that doesnt exist', function() {
         let id = randomString.generate();
 
         let hero1 = 'hero1';
         sinon.spy(logger, 'warn');
-        return RedisClient.removePlayerHeroByName(id, hero1)
+        return RedisClient.removePlayerHerosByName(id, hero1)
             .then(() => {
                 assert(logger.warn.calledOnce);
                 logger.warn.restore();
