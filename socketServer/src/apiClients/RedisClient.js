@@ -1,4 +1,5 @@
 let dependencyResolver = require('../devUtilities/DepedencyResolver');
+let loggingUtilities = require('../devUtilities/LoggingUtilities');
 let config = require('config');
 let bluebird = require('bluebird');
 let logger = require('winston');
@@ -65,13 +66,12 @@ let addMetaHero = function (rank, region, hero) {
     });
 };
 
-let removeMetaHero = function (rank, region, hero) {
+let removeMetaHeros = function (rank, region, ...heros) {
     return new Promise((resolve) => {
-        client.sremAsync(`${region}.${rank}.heros`, hero).then((removed) => {
-            if (!removed) {
-                logger.warn(`Tried to remove non-existant hero: {battleNetId: ${hero.battleNetId}, heroName: ${hero.heroName}} from rank [${rank}] and region [${region}]`);
-            } else {
-                logger.info(`Removed hero: {battleNetId: ${hero.battleNetId}, heroName: ${hero.heroName}} from rank [${rank}] and region [${region}]`);
+        client.sremAsync(`${region}.${rank}.heros`, ...heros).then((removed) => {
+            let heroNames = loggingUtilities.listOfObjectsToString(heros, 'heroName');
+            if (removed != heros.length) {
+                logger.warn(`Tried to remove one of the following heros that did not exist, {${heroNames}} from rank [${rank}] and region [${region}]`);
             }
             resolve();
         });
@@ -119,7 +119,7 @@ module.exports = {
     removePlayerHerosByName,
     getPlayerHeros,
     addMetaHero,
-    removeMetaHero,
+    removeMetaHeros,
     getMetaHeros,
     addPlayerInfo,
     deletePlayerInfo,

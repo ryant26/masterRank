@@ -41,8 +41,8 @@ const PlayerController = function(config) {
         redisClient.getPlayerHeros(battleNetId).then((heros) => {
             let heroNames = heros.map((hero) => {return hero.heroName;});
             redisClient.removePlayerHerosByName(battleNetId, ...heroNames);
-            heros.forEach((hero) => {
-                redisClient.removeMetaHero(socket.rank, region, hero).then(() => {
+            redisClient.removeMetaHeros(socket.rank, region, ...heros).then(() => {
+                heros.forEach(hero => {
                     namespace.to(socket.rank).emit('heroRemoved', hero);
                 });
             });
