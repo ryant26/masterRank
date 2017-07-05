@@ -17,13 +17,14 @@ const PlayerController = function(config) {
     let playerClient = config.PlayerClient;
     let redisClient = config.RedisClient;
     let namespace = config.namespace;
+    let rank;
 
     playerClient.getPlayerRank(battleNetId, config.region).then((rankObj) => {
+        rank = rankObj.rank;
         redisClient.addPlayerInfo(battleNetId, rankObj);
-        socket.join(rankObj.rank);
-        socket.rank = rankObj.rank;
-        logger.info(`Player [${battleNetId}] joined rank [${rankObj.rank}]`);
-        redisClient.getMetaHeros(rankObj.rank, region).then((heros) => {
+        socket.join(rank);
+        logger.info(`Player [${battleNetId}] joined rank [${rank}]`);
+        redisClient.getMetaHeros(rank, region).then((heros) => {
             socket.emit('initialData', heros);
         });
     });
@@ -32,8 +33,9 @@ const PlayerController = function(config) {
         playerClient.getHeroStats(battleNetId, config.region.name, hero).then((stats) => {
             let heroObj = {heroName: hero, stats, battleNetId: battleNetId};
             redisClient.addPlayerHero(battleNetId, heroObj);
-            redisClient.addMetaHero(socket.rank, region, heroObj);
-            namespace.to(socket.rank).emit('heroAdded', heroObj);
+            redisClient.addMetaHero(rank, region, heroObj);
+            namespace.to(rank).emit('heroAdded', heroObj);
+            logger.info(`Player [${battleNetId}] added hero [${hero}]`);
         });
     });
 
@@ -41,11 +43,12 @@ const PlayerController = function(config) {
         redisClient.getPlayerHeros(battleNetId).then((heros) => {
             let heroNames = heros.map((hero) => {return hero.heroName;});
             redisClient.removePlayerHerosByName(battleNetId, ...heroNames);
-            redisClient.removeMetaHeros(socket.rank, region, ...heros).then(() => {
+            redisClient.removeMetaHeros(rank, region, ...heros).then(() => {
                 heros.forEach(hero => {
-                    namespace.to(socket.rank).emit('heroRemoved', hero);
+                    namespace.to(rank).emit('heroRemoved', hero);
                 });
             });
+            logger.info(`Player [${battleNetId}] left rank [${rank}]`);
         });
     });
 };
