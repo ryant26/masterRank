@@ -46,18 +46,7 @@ let removePlayerHerosByName = function (battleNetId, ...heroNames) {
 };
 
 let getPlayerHeros = function(battleNetId) {
-    return new Promise((resolve) => {
-        client.smembersAsync(`users.${battleNetId}.heros`)
-            .then((data) => {
-                let out = [];
-                if (data) {
-                    out = data.map((hero) => {
-                        return JSON.parse(hero);
-                    });
-                }
-                resolve(out);
-            });
-    });
+    return getJsonList(`users.${battleNetId}.heros`);
 };
 
 let addMetaHero = function (rank, region, hero) {
@@ -79,18 +68,7 @@ let removeMetaHeros = function (rank, region, ...heros) {
 };
 
 let getMetaHeros = function(rank, region) {
-    return new Promise((resolve) => {
-        client.smembersAsync(`${region}.${rank}.heros`)
-            .then((data) => {
-                let out = [];
-                if (data) {
-                    out = data.map((hero) => {
-                        return JSON.parse(hero);
-                    });
-                }
-                resolve(out);
-            });
-    });
+    return getJsonList(`${region}.${rank}.heros`);
 };
 
 let addPlayerInfo = function (battleNetId, information) {
@@ -114,6 +92,77 @@ let getPlayerInfo = function (battleNetId) {
     });
 };
 
+let createNewGroup = function() {
+    return client.incrAsync('groups');
+};
+
+let setGroupLeader = function (groupId, battleNetId) {
+    return client.setAsync(`groups.${groupId}.leader`, battleNetId);
+};
+
+let getGroupLeader = function (groupId) {
+    return client.getAsync(`groups.${groupId}.leader`);
+};
+
+let addHeroToGroupPending = function (groupId, hero) {
+    return client.saddAsync(`groups.${groupId}.pending`, hero);
+};
+
+let removeHeroFromGroupPending = function (groupId, hero) {
+    return client.sremAsync(`groups.${groupId}.pending`, hero);
+};
+
+let getGroupPendingHeros = function (groupId) {
+    return getJsonList(`groups.${groupId}.pending`);
+};
+
+let addHeroToGroupMembers = function (groupId, hero) {
+    return client.saddAsync(`groups.${groupId}.members`, hero);
+};
+
+let removeHeroFromGroupMembers = function (groupId, hero) {
+    return client.sremAsync(`groups.${groupId}.members`, hero);
+};
+
+let getGroupMemberHeros = function (groupId) {
+    return getJsonList(`groups.${groupId}.members`);
+};
+
+let getGroupDetails = function(groupId) {
+    let groupDetails = {};
+
+    let groupLeader = getGroupLeader(groupId).then((leader) => {
+        groupDetails.leader = leader;
+    });
+
+    let groupMembers = getGroupMemberHeros(groupId).then((members) => {
+        groupDetails.members = members;
+    });
+
+    let groupPending = getGroupPendingHeros(groupId).then((pending) => {
+        groupDetails.pending = pending;
+    });
+
+    return Promise.all([groupLeader, groupMembers, groupPending]).then(() => {
+        return groupDetails;
+    });
+};
+
+let getJsonList = function (key) {
+    return new Promise((resolve) => {
+        client.smembersAsync(key)
+            .then((data) => {
+                let out = [];
+                if (data) {
+                    out = data.map((hero) => {
+                        return JSON.parse(hero);
+                    });
+                }
+                resolve(out);
+            });
+    });
+};
+
 module.exports = {
     addPlayerHero,
     removePlayerHerosByName,
@@ -123,5 +172,12 @@ module.exports = {
     getMetaHeros,
     addPlayerInfo,
     deletePlayerInfo,
-    getPlayerInfo
+    getPlayerInfo,
+    createNewGroup,
+    setGroupLeader,
+    addHeroToGroupPending,
+    removeHeroFromGroupPending,
+    addHeroToGroupMembers,
+    removeHeroFromGroupMembers,
+    getGroupDetails
 };
