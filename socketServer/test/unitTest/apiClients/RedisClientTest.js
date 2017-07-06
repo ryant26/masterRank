@@ -172,7 +172,7 @@ describe('addMetaHero', function() {
     });
 });
 
-describe('removeMetaHero', function() {
+describe('removeMetaHeros', function() {
     let rank;
     let region;
 
@@ -184,7 +184,7 @@ describe('removeMetaHero', function() {
     it('should remove a single hero from the list', function() {
         let hero = getHeroObject('Mei');
         return RedisClient.addMetaHero(rank, region, hero).then(() => {
-            return RedisClient.removeMetaHero(rank, region, hero);
+            return RedisClient.removeMetaHeros(rank, region, hero);
         }).then(() => {
             return RedisClient.getMetaHeros(rank, region);
         }).then((heros) => {
@@ -192,11 +192,26 @@ describe('removeMetaHero', function() {
         });
     });
 
+    it('should remove a multiple heros from the list when passed', function() {
+        let hero = getHeroObject(randomString.generate());
+        let hero2 = getHeroObject(randomString.generate());
+        let hero3 = getHeroObject(randomString.generate());
+
+        Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank, region, hero2), RedisClient.addMetaHero(rank, region, hero3)])
+            .then(() => {
+                return RedisClient.removeMetaHeros(rank, region, hero, hero2, hero3);
+            }).then(() => {
+                return RedisClient.getMetaHeros(rank, region);
+            }).then((heros) => {
+                assert.isEmpty(heros);
+            });
+    });
+
     it('should remove hero for only 1 rank and region', function() {
         let rank2 = randomString.generate();
         let hero = getHeroObject('Mei');
         return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank2, region, hero)]).then(() => {
-            return RedisClient.removeMetaHero(rank, region, hero);
+            return RedisClient.removeMetaHeros(rank, region, hero);
         }).then(() => {
             return RedisClient.getMetaHeros(rank, region);
         }).then((heros) => {
@@ -211,7 +226,7 @@ describe('removeMetaHero', function() {
         let hero = getHeroObject('Mei');
         sinon.spy(logger, 'warn');
         return RedisClient.addMetaHero(rank, region, hero).then(() => {
-            return RedisClient.removeMetaHero(rank, region, {battleNetId: randomString.generate(), heroName: 'Genji'});
+            return RedisClient.removeMetaHeros(rank, region, {battleNetId: randomString.generate(), heroName: 'Genji'});
         }).then(() => {
             assert(logger.warn.calledOnce);
             logger.warn.restore();
