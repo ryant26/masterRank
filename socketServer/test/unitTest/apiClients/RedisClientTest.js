@@ -282,3 +282,159 @@ describe('Player Info', function() {
         });
     });
 });
+
+describe('setGroupLeader', function() {
+    let groupId;
+
+    beforeEach(function() {
+        return RedisClient.createNewGroup().then((id) => {
+            groupId = id;
+        });
+    });
+
+    it('should set the group leader', function() {
+        let battleNetId = randomString.generate();
+        return RedisClient.setGroupLeader(groupId, battleNetId).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((groupDetails) => {
+            assert.equal(groupDetails.leader, battleNetId);
+        });
+    });
+
+    it('should overwrite the current leader', function() {
+        let battleNetId = randomString.generate();
+        return RedisClient.setGroupLeader(groupId, randomString.generate()).then(() => {
+            return RedisClient.setGroupLeader(groupId, battleNetId);
+        }).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((groupDetails) => {
+            assert.equal(groupDetails.leader, battleNetId);
+        });
+    });
+});
+
+describe('addHeroToGroupPending', function() {
+
+    let groupId;
+    let hero;
+
+    beforeEach(function() {
+        hero = getHeroObject(randomString.generate());
+        return RedisClient.createNewGroup().then((id) => {
+            groupId = id;
+        });
+    });
+
+    it('should create the pending list if it doesnt exist already', function() {
+        return RedisClient.addHeroToGroupPending(groupId, hero).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            assert.lengthOf(details.pending, 1);
+            assert.deepEqual(details.pending[0], hero);
+        });
+    });
+
+    it('should add a user to the pending list if it already exists', function() {
+        let hero2 = getHeroObject(randomString.generate());
+        let addHero1 = RedisClient.addHeroToGroupPending(groupId, hero);
+        let addHero2 = RedisClient.addHeroToGroupPending(groupId, hero2);
+        return Promise.all([addHero1, addHero2]).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            assert.lengthOf(details.pending, 2);
+        });
+    });
+});
+
+describe('removeHeroFromGroupPending', function() {
+
+    let groupId;
+    let hero;
+
+    beforeEach(function() {
+        hero = getHeroObject(randomString.generate());
+        return RedisClient.createNewGroup().then((id) => {
+            groupId = id;
+        });
+    });
+
+    it('should remove a hero from the list', function() {
+        let hero2 = getHeroObject(randomString.generate());
+        let hero3 = getHeroObject(randomString.generate());
+        let addHero1 = RedisClient.addHeroToGroupPending(groupId, hero);
+        let addHero2 = RedisClient.addHeroToGroupPending(groupId, hero2);
+        let addHero3 = RedisClient.addHeroToGroupPending(groupId, hero3);
+
+        return Promise.all([addHero1, addHero2, addHero3]).then(() => {
+            return RedisClient.removeHeroFromGroupPending(groupId, hero);
+        }).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            assert.lengthOf(details.pending, 2);
+        });
+    });
+});
+
+describe('addHeroToGroupMembers', function() {
+
+    let groupId;
+    let hero;
+
+    beforeEach(function() {
+        hero = getHeroObject(randomString.generate());
+        return RedisClient.createNewGroup().then((id) => {
+            groupId = id;
+        });
+    });
+
+    it('should create the pending list if it doesnt exist already', function() {
+        return RedisClient.addHeroToGroupMembers(groupId, hero).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            assert.lengthOf(details.members, 1);
+            assert.deepEqual(details.members[0], hero);
+        });
+    });
+
+    it('should add a user to the pending list if it already exists', function() {
+        let hero2 = getHeroObject(randomString.generate());
+        let addHero1 = RedisClient.addHeroToGroupMembers(groupId, hero);
+        let addHero2 = RedisClient.addHeroToGroupMembers(groupId, hero2);
+        return Promise.all([addHero1, addHero2]).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            assert.lengthOf(details.members, 2);
+        });
+    });
+});
+
+describe('removeHeroFromGroupPending', function() {
+
+    let groupId;
+    let hero;
+
+    beforeEach(function() {
+        hero = getHeroObject(randomString.generate());
+        return RedisClient.createNewGroup().then((id) => {
+            groupId = id;
+        });
+    });
+
+    it('should remove a hero from the list', function() {
+        let hero2 = getHeroObject(randomString.generate());
+        let hero3 = getHeroObject(randomString.generate());
+        let addHero1 = RedisClient.addHeroToGroupMembers(groupId, hero);
+        let addHero2 = RedisClient.addHeroToGroupMembers(groupId, hero2);
+        let addHero3 = RedisClient.addHeroToGroupMembers(groupId, hero3);
+
+        return Promise.all([addHero1, addHero2, addHero3]).then(() => {
+            return RedisClient.removeHeroFromGroupMembers(groupId, hero);
+        }).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            assert.lengthOf(details.members, 2);
+            assert.notDeepInclude(details.members, hero);
+        });
+    });
+});
+
