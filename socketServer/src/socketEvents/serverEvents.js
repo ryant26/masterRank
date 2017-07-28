@@ -1,4 +1,6 @@
 module.exports = {
+    addHero: 'addHero',
     groupInviteSend: 'groupInviteSend',
-    createGroup: 'createGroup'
+    createGroup: 'createGroup',
+    disconnect: 'disconnect'
 };
