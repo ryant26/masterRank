@@ -1,4 +1,6 @@
 let logger = require('winston');
+let clientEvents = require('../socketEvents/clientEvents');
+let serverEvents = require('../socketEvents/serverEvents');
 
 /**
  * This module handles player API requests
@@ -25,27 +27,27 @@ const PlayerController = function(config) {
         socket.join(rank);
         logger.info(`Player [${battleNetId}] joined rank [${rank}]`);
         redisClient.getMetaHeros(rank, region).then((heros) => {
-            socket.emit('initialData', heros);
+            socket.emit(clientEvents.initialData, heros);
         });
     });
 
-    socket.on('addHero', (hero) => {
+    socket.on(serverEvents.addHero, (hero) => {
         playerClient.getHeroStats(battleNetId, config.region.name, hero).then((stats) => {
             let heroObj = {heroName: hero, stats, battleNetId: battleNetId};
             redisClient.addPlayerHero(battleNetId, heroObj);
             redisClient.addMetaHero(rank, region, heroObj);
-            namespace.to(rank).emit('heroAdded', heroObj);
+            namespace.to(rank).emit(clientEvents.heroAdded, heroObj);
             logger.info(`Player [${battleNetId}] added hero [${hero}]`);
         });
     });
 
-    socket.on('disconnect', () => {
+    socket.on(serverEvents.disconnect, () => {
         redisClient.getPlayerHeros(battleNetId).then((heros) => {
             let heroNames = heros.map((hero) => {return hero.heroName;});
             redisClient.removePlayerHerosByName(battleNetId, ...heroNames);
             redisClient.removeMetaHeros(rank, region, ...heros).then(() => {
                 heros.forEach(hero => {
-                    namespace.to(rank).emit('heroRemoved', hero);
+                    namespace.to(rank).emit(clientEvents.heroRemoved, hero);
                 });
             });
             logger.info(`Player [${battleNetId}] left rank [${rank}]`);
