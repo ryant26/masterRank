@@ -1,6 +1,7 @@
 let logger = require('winston');
 let clientEvents = require('../socketEvents/clientEvents');
 let serverEvents = require('../socketEvents/serverEvents');
+let groupValidators = require('./validators/groupValidators');
 
 /**
  * This object handles websocket events for grouping activities
@@ -44,10 +45,7 @@ let GroupController = function (config) {
         });
     };
 
-    let addSelfToGroup = function(id) {
-        groupId = id;
-        socket.join(getGroupRoom());
-    };
+
 
     /**
      * Invite hero to group
@@ -86,10 +84,36 @@ let GroupController = function (config) {
         });
     };
 
+    let acceptGroupInvite = function (groupId) {
+        RedisClient.getGroupDetails(groupId).then((details) => {
+            groupValidators.idInPending(details, battleNetId);
+            let hero = getHeroFromListById(details.pending, battleNetId);
+
+            return Promise.all([RedisClient.removeHeroFromGroupPending(groupId, hero), RedisClient.addHeroToGroupMembers(groupId, hero)]);
+        }).then(() => {
+            return RedisClient.getGroupDetails(groupId);
+        }).then((details) => {
+            namespace.to(getGroupRoom()).emit(clientEvents.groupInviteAccepted, details);
+        });
+    };
+
+    let addSelfToGroup = function(id) {
+        groupId = id;
+        socket.join(getGroupRoom());
+    };
+
+    let getHeroFromListById = function(list, id) {
+        list.find((element) => {
+            element.battleNetId === id;
+        });
+    };
+
+
     socket.join(getPlayerRoom(battleNetId));
 
     socket.on(serverEvents.groupInviteSend, invitePlayerToGroup);
     socket.on(serverEvents.createGroup, createNewGroup);
+    socket.on(serverEvents.groupInviteAccept, acceptGroupInvite);
 };
 
 module.exports = GroupController;

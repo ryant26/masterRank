@@ -3,5 +3,6 @@ module.exports = {
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
     playerInvited: 'playerInvited',
-    groupInviteReceived: 'groupInviteRecieved'
+    groupInviteReceived: 'groupInviteRecieved',
+    groupInviteAccepted: 'groupInviteAccepted'
 };
