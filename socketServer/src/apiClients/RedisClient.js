@@ -160,7 +160,9 @@ let getGroupMemberHeros = function (groupId) {
 };
 
 let getGroupDetails = function(groupId) {
-    let groupDetails = {};
+    let groupDetails = {
+        groupId
+    };
 
     let groupLeader = getGroupLeader(groupId).then((leader) => {
         groupDetails.leader = leader;

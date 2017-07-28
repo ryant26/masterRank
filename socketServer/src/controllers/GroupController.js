@@ -87,8 +87,8 @@ let GroupController = function (config) {
     let acceptGroupInvite = function (groupId) {
         RedisClient.getGroupDetails(groupId).then((details) => {
             groupValidators.idInPending(details, battleNetId);
+            addSelfToGroup(groupId);
             let hero = getHeroFromListById(details.pending, battleNetId);
-
             return Promise.all([RedisClient.removeHeroFromGroupPending(groupId, hero), RedisClient.addHeroToGroupMembers(groupId, hero)]);
         }).then(() => {
             return RedisClient.getGroupDetails(groupId);
@@ -103,8 +103,8 @@ let GroupController = function (config) {
     };
 
     let getHeroFromListById = function(list, id) {
-        list.find((element) => {
-            element.battleNetId === id;
+        return list.find((element) => {
+            return element.battleNetId === id;
         });
     };
 
