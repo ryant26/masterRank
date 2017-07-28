@@ -312,4 +312,6 @@ describe('InvitePlayerToGroup', function() {
             done();
         });
     });
+
+    
 });
