@@ -34,13 +34,19 @@ let GroupController = function (config) {
      */
     let createNewGroup = function (hero) {
         return RedisClient.createNewGroup().then((id) => {
-            groupId = id;
-            socket.join(getGroupRoom());
-            logger.info(`${battleNetId} created new group ${groupId}`);
+            addSelfToGroup(id);
+            logger.info(`${battleNetId} created new group ${id}`);
             return PlayerClient.getHeroStats(battleNetId, region, hero.heroName);
         }).then((heroStats) => {
             return RedisClient.setGroupLeader(groupId, heroStats);
+        }).catch((err) => {
+            logger.error(`Problem creating group: ${err}`);
         });
+    };
+
+    let addSelfToGroup = function(id) {
+        groupId = id;
+        socket.join(getGroupRoom());
     };
 
     /**
@@ -48,22 +54,35 @@ let GroupController = function (config) {
      * @param player.battleNetId
      */
     let invitePlayerToGroup = function(hero) {
-        RedisClient.getPlayerHeros(hero.battleNetId).then((heros) => {
-            logger.info(`Invited hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
+        let getPlayerHeros = RedisClient.getPlayerHeros(hero.battleNetId);
+        let getGroupDetails = RedisClient.getGroupDetails(groupId);
+        Promise.all([getPlayerHeros, getGroupDetails]).then((results) => {
+            let heros = results[0];
+            let groupDetails = results[1];
+            if (groupDetails.leader.battleNetId === battleNetId) {
+                logger.info(`Invited hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
 
-            if(heros.indexOf(hero.heroName) > -1) {
-                return PlayerClient.getHeroStats(hero.battleNetId, region, hero.heroName);
+                let heroStats = heros.find((element) => {
+                    return element.heroName === hero.heroName;
+                });
+
+                if (heroStats) {
+                    return RedisClient.addHeroToGroupPending(groupId, heroStats);
+                } else {
+                    logger.error(`Tried to invite nonexistant hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
+                    throw 'Invited hero not found';
+                }
             } else {
-                logger.error(`Tried to invite nonexistant hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
-                throw 'Invited hero not found';
+                logger.error('Group member tried to perform invite');
+                throw 'Unauthorized invite';
             }
-        }).then((heroStats) => {
-            return RedisClient.addHeroToGroupPending(groupId, heroStats);
         }).then(() => {
             return RedisClient.getGroupDetails(groupId);
         }).then((groupDetails) => {
             socket.to(getPlayerRoom(hero.battleNetId)).emit(clientEvents.groupInviteReceived, groupDetails);
             namespace.to(getGroupRoom()).emit(clientEvents.playerInvited, groupDetails);
+        }).catch(() => {
+            logger.error(`Problem inviting ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
         });
     };
 

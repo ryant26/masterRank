@@ -123,12 +123,16 @@ let createNewGroup = function() {
     return client.incrAsync(redisKeys.groups);
 };
 
-let setGroupLeader = function (groupId, battleNetId) {
-    return client.setAsync(redisKeys.groupLeader(groupId), battleNetId);
+let setGroupLeader = function (groupId, hero) {
+    return client.setAsync(redisKeys.groupLeader(groupId), JSON.stringify(hero));
 };
 
 let getGroupLeader = function (groupId) {
-    return client.getAsync(redisKeys.groupLeader(groupId));
+    return new Promise((resolve) => {
+        client.getAsync(redisKeys.groupLeader(groupId)).then((leader) => {
+            resolve(JSON.parse(leader));
+        });
+    });
 };
 
 let addHeroToGroupPending = function (groupId, hero) {

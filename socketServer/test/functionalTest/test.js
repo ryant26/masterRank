@@ -3,6 +3,8 @@ let assert = chai.assert;
 let io = require('socket.io-client');
 let config = require('config');
 let randomString = require('randomstring');
+let serverEvents = require('../../src/socketEvents/serverEvents');
+let clientEvents = require('../../src/socketEvents/clientEvents');
 
 // Start the Socket Server
 require('../../src/app');
@@ -266,5 +268,48 @@ describe('addHero', function() {
             socket2.close();
             done();
         }, 100);
+    });
+});
+
+describe('InvitePlayerToGroup', function() {
+    let socket;
+    let leaderHero;
+
+    beforeEach(function() {
+        socket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
+        leaderHero = {
+            battleNetId: battleNetId,
+            heroName: randomString.generate()
+        };
+        socket.emit(serverEvents.createGroup, leaderHero);
+    });
+
+    afterEach(function() {
+        socket.close();
+    });
+
+    it('Should show group details on invite', function(done) {
+        let invitedHero = {
+            battleNetId: randomString.generate(),
+            heroName: randomString.generate()
+        };
+
+        let socket2 = getAuthenticatedSocket(invitedHero.battleNetId, connectionUrlUs);
+
+        socket2.on(clientEvents.initialData, () => {
+            socket2.emit(serverEvents.addHero, invitedHero.heroName);
+        });
+
+        socket.on(clientEvents.heroAdded, () => {
+            socket.emit(serverEvents.groupInviteSend, invitedHero);
+        });
+
+        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
+            assert.equal(groupDetails.leader.battleNetId, leaderHero.battleNetId);
+            assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
+            assert.lengthOf(groupDetails.pending, 1);
+            assert.lengthOf(groupDetails.members, 0);
+            done();
+        });
     });
 });
