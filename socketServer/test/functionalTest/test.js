@@ -312,6 +312,51 @@ describe('InvitePlayerToGroup', function() {
             done();
         });
     });
+});
 
-    
+describe('GroupInviteAccept', function() {
+    let socket;
+    let leaderHero;
+
+    beforeEach(function() {
+        socket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
+        leaderHero = {
+            battleNetId: battleNetId,
+            heroName: randomString.generate()
+        };
+        socket.emit(serverEvents.createGroup, leaderHero);
+    });
+
+    afterEach(function() {
+        socket.close();
+    });
+
+    it('should inform everyone that a new member was added', function(done) {
+        let invitedHero = {
+            battleNetId: randomString.generate(),
+            heroName: randomString.generate()
+        };
+
+        let socket2 = getAuthenticatedSocket(invitedHero.battleNetId, connectionUrlUs);
+
+        socket2.on(clientEvents.initialData, () => {
+            socket2.emit(serverEvents.addHero, invitedHero.heroName);
+        });
+
+        socket.on(clientEvents.heroAdded, () => {
+            socket.emit(serverEvents.groupInviteSend, invitedHero);
+        });
+
+        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
+            socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+        });
+
+        socket.on(clientEvents.groupInviteAccepted, (groupDetails) => {
+            assert.equal(groupDetails.leader.battleNetId, leaderHero.battleNetId);
+            assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
+            assert.lengthOf(groupDetails.pending, 0);
+            assert.lengthOf(groupDetails.members, 1);
+            done();
+        });
+    });
 });

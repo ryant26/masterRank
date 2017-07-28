@@ -2,7 +2,7 @@ let logger = require('winston');
 
 let idInPending = function (details, id) {
     let found = details.pending.find((element) => {
-        element.battleNetId === id;
+        return element.battleNetId === id;
     });
 
     if (!found) {
