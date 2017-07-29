@@ -1,8 +1,8 @@
 let logger = require('winston');
 let clientEvents = require('../socketEvents/clientEvents');
 let serverEvents = require('../socketEvents/serverEvents');
-let groupValidators = require('./validators/groupValidators');
-let playerValidators = require('./validators/playerValidators');
+let groupValidators = require('../validators/groupValidators');
+let playerValidators = require('../validators/playerValidators');
 
 /**
  * This object handles websocket events for grouping activities
