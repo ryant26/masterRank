@@ -11,7 +11,15 @@ let idInPending = function (details, id) {
     }
 };
 
+let idIsLeader = function (details, id) {
+    if (details.leader.battleNetId !== id) {
+        logger.error(`${id} is not the leader of group ${details.groupId}`);
+        throw 'Unauthorized';
+    }
+};
+
 module.exports = {
-    idInPending
+    idInPending,
+    idIsLeader
 };
 
