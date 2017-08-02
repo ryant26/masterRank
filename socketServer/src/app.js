@@ -5,14 +5,13 @@ let logger = require('winston');
 let PlayerController = require('./controllers/PlayerController');
 let GroupController = require('./controllers/GroupController');
 let AuthenticationController = require('./controllers/AuthenticationController');
-let PlayerClient = require('./apiClients/PlayerClient');
-let RedisClient = require('./apiClients/RedisClient');
+
 
 const port = config.get('port');
 
 let onAuthenticated = function (namespace, socket, region) {
-    new PlayerController({namespace, socket, region, PlayerClient, RedisClient});
-    new GroupController({namespace, socket, region, PlayerClient, RedisClient});
+    new PlayerController({namespace, socket, region});
+    new GroupController({namespace, socket, region});
 };
 
 let setupRegion = function(namespace, region) {

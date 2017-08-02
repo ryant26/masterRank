@@ -3,6 +3,8 @@ let clientEvents = require('../socketEvents/clientEvents');
 let serverEvents = require('../socketEvents/serverEvents');
 let groupValidators = require('../validators/groupValidators');
 let playerValidators = require('../validators/playerValidators');
+let PlayerClient = require('../apiClients/PlayerClient');
+let RedisClient = require('../apiClients/RedisClient');
 
 /**
  * This object handles websocket events for grouping activities
@@ -17,8 +19,6 @@ let GroupController = function (config) {
     let socket = config.socket;
     let token = socket.token;
     let battleNetId = token.battleNetId;
-    let RedisClient = config.RedisClient;
-    let PlayerClient = config.PlayerClient;
     let region = config.region;
     let namespace = config.namespace;
     let groupId;
