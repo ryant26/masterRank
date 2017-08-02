@@ -107,6 +107,59 @@ describe('removePlayerHerosByName', function() {
     });
 });
 
+describe('removePlayerHeros', function() {
+
+    it('should remove a hero from anywhere in the list', function() {
+        let id = randomString.generate();
+
+        let hero1 = getHeroObject('hero1');
+        return Promise.all([RedisClient.addPlayerHero(id, hero1),
+            RedisClient.addPlayerHero(id, getHeroObject(randomString.generate())),
+            RedisClient.addPlayerHero(id, getHeroObject(randomString.generate()))])
+            .then(() => {
+                return RedisClient.removePlayerHeros(id, hero1);
+            })
+            .then(() => {
+                return RedisClient.getPlayerHeros(id);
+            })
+            .then((heros) => {
+                assert.lengthOf(heros, 2);
+            });
+    });
+
+    it('should be able to remove multple heros at once', function() {
+        let id = randomString.generate();
+
+        let hero1 = getHeroObject(randomString.generate());
+        let hero2 = getHeroObject(randomString.generate());
+        let hero3 = getHeroObject(randomString.generate());
+        return Promise.all([RedisClient.addPlayerHero(id, hero1),
+            RedisClient.addPlayerHero(id, hero2),
+            RedisClient.addPlayerHero(id, hero3)])
+            .then(() => {
+                return RedisClient.removePlayerHeros(id, hero1, hero2, hero3);
+            })
+            .then(() => {
+                return RedisClient.getPlayerHeros(id);
+            })
+            .then((heros) => {
+                assert.isEmpty(heros);
+            });
+    });
+
+    it('should log a warning for a hero that doesnt exist', function() {
+        let id = randomString.generate();
+
+        let hero1 = getHeroObject(randomString.generate());
+        sinon.spy(logger, 'warn');
+        return RedisClient.removePlayerHeros(id, hero1)
+            .then(() => {
+                assert(logger.warn.calledOnce);
+                logger.warn.restore();
+            });
+    });
+});
+
 describe('addMetaHero', function() {
     let rank;
     let region;
