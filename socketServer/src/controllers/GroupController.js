@@ -1,10 +1,5 @@
-let logger = require('winston');
-let clientEvents = require('../socketEvents/clientEvents');
 let serverEvents = require('../socketEvents/serverEvents');
-let groupValidators = require('../validators/groupValidators');
-let playerValidators = require('../validators/playerValidators');
-let PlayerClient = require('../apiClients/PlayerClient');
-let RedisClient = require('../apiClients/RedisClient');
+let GroupService = require('../services/GroupService');
 
 /**
  * This object handles websocket events for grouping activities
@@ -13,6 +8,7 @@ let RedisClient = require('../apiClients/RedisClient');
  * @param config.RedisClient - RedisClient
  * @param config.PlayerClient - PlayerClient
  * @param config.region - region
+ * @param config.namespace - socket namespace
  * @constructor
  */
 let GroupController = function (config) {
@@ -23,93 +19,22 @@ let GroupController = function (config) {
     let namespace = config.namespace;
     let groupId;
 
-    let getPlayerRoom = function(battleNetId) {
-        return `player.${battleNetId}`;
-    };
 
-    let getGroupRoom = function() {
-        return `group.${groupId}`;
-    };
+    GroupService.addSocketToPlayerRoom(battleNetId, socket);
 
-    /**
-     * Creates a new group with a group leader (hero)
-     */
-    let createNewGroup = function (hero) {
-        return RedisClient.createNewGroup().then((id) => {
-            addSelfToGroup(id);
-            logger.info(`${battleNetId} created new group ${id}`);
-            return PlayerClient.getHeroStats(battleNetId, region, hero.heroName);
-        }).then((heroStats) => {
-            return RedisClient.setGroupLeader(groupId, heroStats);
-        }).catch((err) => {
-            logger.error(`Problem creating group: ${err}`);
+    socket.on(serverEvents.groupInviteSend, (hero) => GroupService.invitePlayerToGroup(battleNetId, groupId, socket, namespace, hero));
+
+    socket.on(serverEvents.createGroup, (hero) => {
+        GroupService.createNewGroup(battleNetId, region, socket, hero).then((id) => {
+            groupId = id;
         });
-    };
+    });
 
-    /**
-     * Invite hero to group
-     * @param player.battleNetId
-     */
-    let invitePlayerToGroup = function(hero) {
-        let getPlayerHeros = RedisClient.getPlayerHeros(hero.battleNetId);
-        let getGroupDetails = RedisClient.getGroupDetails(groupId);
-        Promise.all([getPlayerHeros, getGroupDetails]).then((results) => {
-            let heros = results[0];
-            let groupDetails = results[1];
-
-            groupValidators.idIsLeader(groupDetails, battleNetId);
-            playerValidators.heroExists(heros, hero);
-
-            logger.info(`Invited hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
-
-            let heroStats = heros.find((element) => {
-                return element.heroName === hero.heroName;
-            });
-
-            return RedisClient.addHeroToGroupPending(groupId, heroStats);
-        }).then(() => {
-            return RedisClient.getGroupDetails(groupId);
-        }).then((groupDetails) => {
-            socket.to(getPlayerRoom(hero.battleNetId)).emit(clientEvents.groupInviteReceived, groupDetails);
-            namespace.to(getGroupRoom()).emit(clientEvents.playerInvited, groupDetails);
-        }).catch((err) => {
-            logger.error(`Problem inviting ${hero.battleNetId}:${hero.heroName} to group ${groupId}: ${err}`);
+    socket.on(serverEvents.groupInviteAccept, (id) => {
+        GroupService.acceptGroupInvite(battleNetId, id, socket, namespace).then(() => {
+            groupId = id;
         });
-    };
-
-    let acceptGroupInvite = function (groupId) {
-        RedisClient.getGroupDetails(groupId).then((details) => {
-            groupValidators.idInPending(details, battleNetId);
-
-            addSelfToGroup(groupId);
-            let hero = getHeroFromListById(details.pending, battleNetId);
-            return Promise.all([RedisClient.removeHeroFromGroupPending(groupId, hero), RedisClient.addHeroToGroupMembers(groupId, hero)]);
-        }).then(() => {
-            return RedisClient.getGroupDetails(groupId);
-        }).then((details) => {
-            namespace.to(getGroupRoom()).emit(clientEvents.groupInviteAccepted, details);
-        }).catch((err) => {
-            logger.error(`${battleNetId} encountered a problem accepting invite to ${groupId}: ${err}`);
-        });
-    };
-
-    let addSelfToGroup = function(id) {
-        groupId = id;
-        socket.join(getGroupRoom());
-    };
-
-    let getHeroFromListById = function(list, id) {
-        return list.find((element) => {
-            return element.battleNetId === id;
-        });
-    };
-
-
-    socket.join(getPlayerRoom(battleNetId));
-
-    socket.on(serverEvents.groupInviteSend, invitePlayerToGroup);
-    socket.on(serverEvents.createGroup, createNewGroup);
-    socket.on(serverEvents.groupInviteAccept, acceptGroupInvite);
+    });
 };
 
 module.exports = GroupController;
