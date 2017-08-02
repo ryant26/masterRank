@@ -72,6 +72,17 @@ let removePlayerHerosByName = function (battleNetId, ...heroNames) {
     });
 };
 
+let removePlayerHeros = function(battleNetId, ...heros) {
+    return new Promise((resolve) => {
+        client.sremAsync(redisKeys.userHeros(battleNetId), ...heros).then((removed) => {
+            if (removed !== heros.length) {
+                logger.warn(`Tried to remove [${heros.length}] heros from player:[${battleNetId}], only removed [${removed}]`);
+            }
+            resolve();
+        });
+    });
+};
+
 let getPlayerHeros = function(battleNetId) {
     return getJsonList(redisKeys.userHeros(battleNetId));
 };
@@ -199,6 +210,7 @@ let getJsonList = function (key) {
 module.exports = {
     addPlayerHero,
     removePlayerHerosByName,
+    removePlayerHeros,
     getPlayerHeros,
     addMetaHero,
     removeMetaHeros,
