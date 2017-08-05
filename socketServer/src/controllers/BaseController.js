@@ -7,7 +7,7 @@ module.exports = class BaseController {
         this.config = config;
         this.eventEmitter = new EventEmitter();
         this.socket = config.socket;
-        this.token = config.token;
+        this.token = this.socket.token;
         this.battleNetId = this.token.battleNetId;
         this.region = config.region;
         this.namespace = config.namespace;
@@ -27,7 +27,7 @@ module.exports = class BaseController {
     }
 
     addSocketHandler(event) {
-        if (!this.socket._callbacks[event]) {
+        if (!this.socket._events[event]) {
             this.socket.on(event, (eventData) => {
                 let data = {
                     'config': this.config,

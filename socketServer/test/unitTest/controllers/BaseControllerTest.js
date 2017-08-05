@@ -4,24 +4,14 @@ const randomString = require('randomstring');
 const BaseController = require('../../../src/controllers/BaseController');
 const EventEmitter = require('events');
 
-let constructBaseController = function(socket) {
-    let token = {
-        battleNetId: 'helloWorld#1234'
-    };
-    return new BaseController({
-        socket,
-        token
-    });
-};
-
 describe('BaseController Tests', function() {
     let baseController;
     let socket;
 
     beforeEach(function() {
         socket = new EventEmitter();
-        socket._callbacks = [];
-        baseController = constructBaseController(socket);
+        socket.token = {};
+        baseController = new BaseController({socket});
     });
 
     describe('Before', function() {
@@ -38,7 +28,6 @@ describe('BaseController Tests', function() {
                     beforeCalled = true;
                     resovle();
                 });
-                socket._callbacks[socketEvent] = true;
             });
 
             let onPromise = new Promise((resolve) => {
@@ -66,7 +55,6 @@ describe('BaseController Tests', function() {
                     beforeCalled = true;
                     resovle();
                 });
-                socket._callbacks[socketEvent] = true;
             });
 
             let onPromise = new Promise((resolve) => {
@@ -146,7 +134,6 @@ describe('BaseController Tests', function() {
                     onCalled = true;
                     resovle();
                 });
-                socket._callbacks[socketEvent] = true;
             });
 
             let onPromise = new Promise((resolve) => {
