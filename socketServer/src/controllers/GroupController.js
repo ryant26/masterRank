@@ -1,3 +1,4 @@
+let BaseController = require('./BaseController');
 let serverEvents = require('../socketEvents/serverEvents');
 let GroupService = require('../services/GroupService');
 
@@ -11,30 +12,27 @@ let GroupService = require('../services/GroupService');
  * @param config.namespace - socket namespace
  * @constructor
  */
-let GroupController = function (config) {
-    let socket = config.socket;
-    let token = socket.token;
-    let battleNetId = token.battleNetId;
-    let region = config.region;
-    let namespace = config.namespace;
-    let groupId;
+module.exports = class GroupController extends BaseController {
 
+    constructor (config) {
+        super(config);
 
-    GroupService.addSocketToPlayerRoom(battleNetId, socket);
+        GroupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
 
-    socket.on(serverEvents.groupInviteSend, (hero) => GroupService.invitePlayerToGroup(battleNetId, groupId, socket, namespace, hero));
-
-    socket.on(serverEvents.createGroup, (hero) => {
-        GroupService.createNewGroup(battleNetId, region, socket, hero).then((id) => {
-            groupId = id;
+        this.on(serverEvents.groupInviteSend, (data) => {
+            GroupService.invitePlayerToGroup(this.battleNetId, this.groupId, this.socket, this.namespace, data.eventData);
         });
-    });
 
-    socket.on(serverEvents.groupInviteAccept, (id) => {
-        GroupService.acceptGroupInvite(battleNetId, id, socket, namespace).then(() => {
-            groupId = id;
+        this.on(serverEvents.createGroup, (data) => {
+            GroupService.createNewGroup(this.battleNetId, this.region, this.socket, data.eventData).then((id) => {
+                this.groupId = id;
+            });
         });
-    });
+
+        this.on(serverEvents.groupInviteAccept, (data) => {
+            GroupService.acceptGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace).then(() => {
+                this.groupId = data.eventData;
+            });
+        });
+    }
 };
-
-module.exports = GroupController;
