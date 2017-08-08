@@ -27,7 +27,7 @@ module.exports = class BaseController {
     }
 
     addSocketHandler(event) {
-        if (!this.socket._events[event]) {
+        if (!this.socket._events || !this.socket._events[event]) {
             this.socket.on(event, (eventData) => {
                 let data = {
                     'config': this.config,
