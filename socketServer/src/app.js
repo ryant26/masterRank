@@ -10,6 +10,7 @@ let AuthenticationController = require('./controllers/AuthenticationController')
 const port = config.get('port');
 
 let onAuthenticated = function (namespace, socket, region) {
+    socket.removeAllListeners();
     new PlayerController({namespace, socket, region});
     new GroupController({namespace, socket, region});
 };
