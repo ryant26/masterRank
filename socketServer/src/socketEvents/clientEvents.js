@@ -5,6 +5,7 @@ module.exports = {
     playerInvited: 'playerInvited',
     groupInviteReceived: 'groupInviteRecieved',
     groupInviteAccepted: 'groupInviteAccepted',
+    groupHeroLeft: 'groupHeroLeft',
     error: {
         groupInviteSend: 'error.groupInviteSend',
         groupInviteAccept: 'error.groupInviteAccept'

@@ -49,7 +49,7 @@ let getFilledGroup = function (numberOfGroupMembers) {
 
         let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrlUs);
 
-        memberSocket.on('initialData', () => {
+        memberSocket.on(clientEvents.initialData, () => {
             memberSocket.emit(serverEvents.addHero, member.heroName);
         });
 
@@ -82,7 +82,7 @@ describe('Connection', function() {
     });
 
     it('should call initialData on the client upon connect', function(done) {
-        socket.on('initialData', (data) => {
+        socket.on(clientEvents.initialData, (data) => {
             assert.isArray(data);
             assert.isEmpty(data);
             done();
@@ -102,9 +102,9 @@ describe('disconnect', function() {
     });
 
     it('should remove all heros from the meta list', function(done) {
-        socket.emit('addHero', randomString.generate());
-        socket.emit('addHero', randomString.generate());
-        socket.emit('addHero', randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
 
         setTimeout(function() {
             socket.close();
@@ -114,7 +114,7 @@ describe('disconnect', function() {
         setTimeout(function() {
             let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
 
-            socket2.on('initialData', (data) => {
+            socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
                 socket2.close();
                 done();
@@ -124,7 +124,7 @@ describe('disconnect', function() {
 
     it('should call the removeHero event when a hero is removed', function(done) {
         let heroName = randomString.generate();
-        socket.emit('addHero', heroName);
+        socket.emit(serverEvents.addHero, heroName);
 
         let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
 
@@ -155,13 +155,13 @@ describe('initalData', function() {
 
     it('should return a list of all heros available for grouping', function(done) {
         let heroName = 'Soldier76';
-        socket.emit('addHero', heroName);
+        socket.emit(serverEvents.addHero, heroName);
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
             let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
 
-            socket2.on('initialData', (data) => {
+            socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 1);
                 assert.equal(data[0].heroName, heroName);
                 socket2.close();
@@ -172,13 +172,13 @@ describe('initalData', function() {
 
     it('should not return heros from a different rank', function(done) {
         let heroName = 'Widowmaker';
-        socket.emit('addHero', heroName);
+        socket.emit(serverEvents.addHero, heroName);
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
             let socket2 = getAuthenticatedSocket('goldPlayer#1234', connectionUrlUs);
 
-            socket2.on('initialData', (data) => {
+            socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
                 socket2.close();
                 done();
@@ -188,13 +188,13 @@ describe('initalData', function() {
 
     it('should not return heros from a different region', function(done) {
         let heroName = 'Widowmaker';
-        socket.emit('addHero', heroName);
+        socket.emit(serverEvents.addHero, heroName);
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
             let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlEu);
 
-            socket2.on('initialData', (data) => {
+            socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
                 socket2.close();
                 done();
@@ -208,15 +208,15 @@ describe('initalData', function() {
                 let heroName = randomString.generate();
 
                 let socket1 = getAuthenticatedSocket(randomString.generate(), regionUrl);
-                socket1.on('initialData', function () {
-                    socket1.emit('addHero', heroName);
+                socket1.on(clientEvents.initialData, function () {
+                    socket1.emit(serverEvents.addHero, heroName);
                 });
 
                 // Ensure hero is fully added before we connect the 2nd user
                 setTimeout(function () {
                     let socket2 = getAuthenticatedSocket('testUser3#1234', regionUrl);
 
-                    socket2.on('initialData', (data) => {
+                    socket2.on(clientEvents.initialData, (data) => {
                         assert.lengthOf(data, 1);
                         assert.equal(data[0].heroName, heroName);
                         socket1.close();
@@ -231,7 +231,7 @@ describe('initalData', function() {
     });
 });
 
-describe('addHero', function() {
+describe(serverEvents.addHero, function() {
     let socket;
 
     beforeEach(function () {
@@ -243,15 +243,15 @@ describe('addHero', function() {
     });
 
     it('should handle adding multiple heros for a single player', function(done) {
-        socket.emit('addHero', randomString.generate());
-        socket.emit('addHero', randomString.generate());
-        socket.emit('addHero', randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
             let socket2 = getAuthenticatedSocket('testUser2#1234', connectionUrlUs);
 
-            socket2.on('initialData', (data) => {
+            socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 3);
                 socket2.close();
                 done();
@@ -265,8 +265,8 @@ describe('addHero', function() {
 
         socket2 = getAuthenticatedSocket(randomString.generate(), connectionUrlUs);
 
-        socket2.on('initialData', () => {
-            socket.emit('addHero', heroName);
+        socket2.on(clientEvents.initialData, () => {
+            socket.emit(serverEvents.addHero, heroName);
         });
 
         socket2.on('heroAdded', (hero) => {
@@ -282,8 +282,8 @@ describe('addHero', function() {
 
         socket2 = getAuthenticatedSocket('goldPlayer#1234', connectionUrlUs);
 
-        socket2.on('initialData', () => {
-            socket.emit('addHero', heroName);
+        socket2.on(clientEvents.initialData, () => {
+            socket.emit(serverEvents.addHero, heroName);
         });
 
         socket2.on('heroAdded', () => {
@@ -303,11 +303,133 @@ describe('addHero', function() {
 
         socket2 = getAuthenticatedSocket(randomString.generate(), connectionUrlEu);
 
-        socket2.on('initialData', () => {
-            socket.emit('addHero', heroName);
+        socket2.on(clientEvents.initialData, () => {
+            socket.emit(serverEvents.addHero, heroName);
         });
 
         socket2.on('heroAdded', () => {
+            assert.fail();
+        });
+
+        //Give some time for the handler to be called
+        setTimeout(() => {
+            socket2.close();
+            done();
+        }, 100);
+    });
+});
+
+describe('removeHero', function() {
+    let socket;
+
+    beforeEach(function() {
+        socket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
+    });
+
+    afterEach(function() {
+        socket.close();
+    });
+
+    it('should send out hero removed event', function(done) {
+        let heroName = randomString.generate();
+
+        socket.on(clientEvents.initialData, () => {
+            socket.emit(serverEvents.addHero, heroName);
+        });
+
+        socket.on(clientEvents.heroAdded, () => {
+            socket.emit(serverEvents.removeHero, heroName);
+        });
+
+        socket.on(clientEvents.heroRemoved, (data) => {
+            assert.equal(data.heroName, heroName);
+            done();
+        });
+    });
+
+    it('should remove heros from initalData', function(done) {
+        let heroName = randomString.generate();
+
+        socket.on(clientEvents.initialData, () => {
+            socket.emit(serverEvents.addHero, heroName);
+        });
+
+        socket.on(clientEvents.heroAdded, () => {
+            socket.emit(serverEvents.removeHero, heroName);
+        });
+
+        socket.on(clientEvents.heroRemoved, () => {
+            let socket2 = getAuthenticatedSocket(randomString.generate(), connectionUrlUs);
+
+            socket2.on(clientEvents.initialData, (data) => {
+                assert.lengthOf(data, 0);
+                socket2.close();
+                done();
+            });
+        });
+    });
+
+    it('should call the heroRemoved event on all connected clients', function(done) {
+        let socket2;
+        let heroName = randomString.generate();
+
+        socket2 = getAuthenticatedSocket(randomString.generate(), connectionUrlUs);
+
+        socket2.on(clientEvents.initialData, () => {
+            socket2.emit(serverEvents.addHero, heroName);
+        });
+
+        socket2.on(clientEvents.heroAdded, () => {
+            socket2.emit(serverEvents.removeHero, heroName);
+        });
+
+        socket.on(clientEvents.heroRemoved, (data) => {
+            assert.equal(data.heroName, heroName);
+            socket2.close();
+            done();
+        });
+    });
+
+    it('should not call the heroRemoved event for players in other ranks', function(done) {
+        let socket2;
+        let heroName = randomString.generate();
+
+        socket2 = getAuthenticatedSocket('goldPlayer#1234', connectionUrlUs);
+
+        socket2.on(clientEvents.initialData, () => {
+            socket2.emit(serverEvents.addHero, heroName);
+        });
+
+        socket2.on(clientEvents.heroAdded, () => {
+            socket2.emit(serverEvents.removeHero, heroName);
+        });
+
+        socket.on(clientEvents.heroRemoved, () => {
+            assert.fail();
+        });
+
+        //Give some time for the handler to be called
+        setTimeout(() => {
+            socket2.close();
+            done();
+        }, 100);
+    });
+
+    it('should not call the heroRemoved event for players in other regions', function(done) {
+        let socket2;
+        let heroName = randomString.generate();
+
+        socket2 = getAuthenticatedSocket(randomString.generate(), connectionUrlEu);
+
+        socket2.on(clientEvents.initialData, () => {
+            socket2.emit(serverEvents.addHero, heroName);
+        });
+
+        socket2.on(clientEvents.heroAdded, () => {
+            socket2.emit(clientEvents.heroRemoved, heroName);
+        });
+
+        socket.on(clientEvents.heroRemoved, () => {
             assert.fail();
         });
 
@@ -372,7 +494,7 @@ describe('InvitePlayerToGroup', function() {
 
             let inviteSocket = getAuthenticatedSocket(invite.battleNetId, connectionUrlUs);
 
-            inviteSocket.on('initialData', () => {
+            inviteSocket.on(clientEvents.initialData, () => {
                 inviteSocket.emit(serverEvents.addHero, invite.heroName);
             });
 

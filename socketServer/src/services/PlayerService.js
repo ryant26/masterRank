@@ -2,6 +2,7 @@ let logger = require('winston');
 let clientEvents = require('../socketEvents/clientEvents');
 let PlayerClient = require('../apiClients/PlayerClient');
 let RedisClient = require('../apiClients/RedisClient');
+const _ = require('lodash');
 
 /**
  * Fires the initialData event on the client and provides the hero Meta lists
@@ -54,6 +55,28 @@ let removeAllPlayerHeros = function(battleNetId, rank, region, namespace) {
 };
 
 /**
+ * Removes the specified heros (by name) from the player and meta lists
+ * @param battleNetId
+ * @param rank
+ * @param region
+ * @param namespace
+ * @param names
+ */
+let removePlayerHerosByName = function(battleNetId, rank, region, namespace, ...names) {
+    return RedisClient.getPlayerHeros(battleNetId).then((heros) => {
+        let herosToRemove = heros.filter((hero) => {
+            return _.includes(names, hero.heroName);
+        });
+
+        if(herosToRemove.length !== names.length) {
+            logger.warn(`Tried to remove [${names.length}] heros from player:[${battleNetId}], only removed [${herosToRemove.length}]`);
+        }
+
+        return removePlayerHeros(battleNetId, rank, region, namespace, ...herosToRemove);
+    });
+};
+
+/**
  * Removes the specified heros from the player and the meta lists
  * @param battleNetId
  * @param rank
@@ -80,5 +103,6 @@ module.exports = {
     getPlayerRank,
     addHeroByName,
     removePlayerHeros,
+    removePlayerHerosByName,
     removeAllPlayerHeros
 };
