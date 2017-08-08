@@ -24,6 +24,10 @@ module.exports = class PlayerController extends BaseController{
             PlayerService.addHeroByName(this.battleNetId, this.rank, this.region, this.namespace, data.eventData);
         });
 
+        this.on(serverEvents.removeHero, (data) => {
+            PlayerService.removePlayerHerosByName(this.battleNetId, this.rank, this.region, this.namespace, data.eventData);
+        });
+
         this.on(serverEvents.disconnect, () => {
             PlayerService.removeAllPlayerHeros(this.battleNetId, this.rank, this.region, this.namespace);
         });

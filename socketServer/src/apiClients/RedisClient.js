@@ -4,8 +4,6 @@ let config = require('config');
 let bluebird = require('bluebird');
 let logger = require('winston');
 let redis = dependencyResolver.redis;
-let _ = require('lodash');
-
 bluebird.promisifyAll(redis.RedisClient.prototype);
 
 let redisKeys = {
@@ -46,29 +44,6 @@ let client = redis.createClient({
 let addPlayerHero = function (battleNetId, hero) {
     return new Promise((resolve) => {
         resolve(client.saddAsync(redisKeys.userHeros(battleNetId), JSON.stringify(hero)));
-    });
-};
-
-let removePlayerHerosByName = function (battleNetId, ...heroNames) {
-    return new Promise((resolve) => {
-        getPlayerHeros(battleNetId)
-            .then((heros) => {
-                let herosToRemove = [];
-                for (let hero of heros) {
-                    if (heroNames.indexOf(hero.heroName) > -1) {
-                        herosToRemove.push(hero);
-                    }
-                }
-
-                if (heroNames.length !== herosToRemove.length) {
-                    _.difference(heroNames, herosToRemove).forEach((heroName) => {
-                        logger.warn(`Tried to remove nonexistant hero [${heroName}] from player:[${battleNetId}]`);
-                    });
-                }
-
-                return resolve(client.srem(redisKeys.userHeros(battleNetId), ...herosToRemove));
-
-            });
     });
 };
 
@@ -207,7 +182,6 @@ let getJsonList = function (key) {
 
 module.exports = {
     addPlayerHero,
-    removePlayerHerosByName,
     removePlayerHeros,
     getPlayerHeros,
     addMetaHero,
