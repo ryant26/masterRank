@@ -60,8 +60,6 @@ let invitePlayerToGroup = function(battleNetId, groupId, socket, namespace, hero
  */
 let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        // groupValidators.idInPending(details, battleNetId);
-
         let hero = getHeroFromListById(details.pending, battleNetId);
         return Promise.all([RedisClient.removeHeroFromGroupPending(groupId, hero), RedisClient.addHeroToGroupMembers(groupId, hero)]);
     }).then(() => {
@@ -75,6 +73,12 @@ let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
             err: 'Internal Server Error',
             groupId
         });
+    });
+};
+
+let getGroupMemberHeroById = function(battleNetId, groupId) {
+    return RedisClient.getGroupDetails(groupId).then((details) => {
+        return getHeroFromListById(details.members, battleNetId);
     });
 };
 
@@ -115,5 +119,6 @@ module.exports = {
     addSocketToGroupRoom,
     createNewGroup,
     invitePlayerToGroup,
-    acceptGroupInvite
+    acceptGroupInvite,
+    getGroupMemberHeroById
 };
