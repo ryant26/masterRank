@@ -3,7 +3,7 @@ let io = require('socket.io')(app);
 let config = require('config');
 let logger = require('winston');
 let PlayerController = require('./controllers/PlayerController');
-let GroupController = require('./controllers/GroupController');
+let groupControllerFactory = require('./controllers/factories/groupControllerFactory');
 let AuthenticationController = require('./controllers/AuthenticationController');
 
 
@@ -12,7 +12,7 @@ const port = config.get('port');
 let onAuthenticated = function (namespace, socket, region) {
     socket.removeAllListeners();
     new PlayerController({namespace, socket, region});
-    new GroupController({namespace, socket, region});
+    groupControllerFactory.getGroupController({namespace, socket, region});
 };
 
 let setupRegion = function(namespace, region) {
