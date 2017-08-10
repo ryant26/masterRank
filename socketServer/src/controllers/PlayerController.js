@@ -1,5 +1,5 @@
 let serverEvents = require('../socketEvents/serverEvents');
-let PlayerService = require('../services/PlayerService');
+let PlayerService = require('../services/playerService');
 let BaseController = require('./BaseController');
 
 /**

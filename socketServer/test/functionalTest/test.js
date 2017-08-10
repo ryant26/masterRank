@@ -526,7 +526,7 @@ describe('InvitePlayerToGroup', function() {
     });
 });
 
-describe('GroupInviteAccept', function() {
+describe('groupInviteAccept', function() {
     let socket;
     let leaderHero;
 
@@ -598,6 +598,33 @@ describe('GroupInviteAccept', function() {
 
         socket3.on(clientEvents.error.groupInviteAccept, (error) => {
             assert.equal(error.err, 'Hero not invited to group');
+            done();
+        });
+    });
+
+    it('should fire the heroRemoved event to the rank', function(done) {
+        let invitedHero = {
+            battleNetId: randomString.generate(),
+            heroName: randomString.generate()
+        };
+
+        let socket2 = getAuthenticatedSocket(invitedHero.battleNetId, connectionUrlUs);
+
+        socket2.on(clientEvents.initialData, () => {
+            socket2.emit(serverEvents.addHero, invitedHero.heroName);
+        });
+
+        socket.on(clientEvents.heroAdded, () => {
+            socket.emit(serverEvents.groupInviteSend, invitedHero);
+        });
+
+        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
+            socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+        });
+
+        socket.on(clientEvents.heroRemoved, (hero) => {
+            assert.equal(hero.heroName, invitedHero.heroName);
+            assert.equal(hero.battleNetId, invitedHero.battleNetId);
             done();
         });
     });

@@ -1,6 +1,7 @@
-let BaseController = require('./BaseController');
-let serverEvents = require('../socketEvents/serverEvents');
-let GroupService = require('../services/GroupService');
+const BaseController = require('./BaseController');
+const serverEvents = require('../socketEvents/serverEvents');
+const groupService = require('../services/groupService');
+const playerService = require('../services/playerService');
 
 /**
  * This object handles websocket events for grouping activities
@@ -17,21 +18,28 @@ module.exports = class GroupController extends BaseController {
     constructor (config) {
         super(config);
 
-        GroupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
+        groupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
 
         this.on(serverEvents.groupInviteSend, (data) => {
-            GroupService.invitePlayerToGroup(this.battleNetId, this.groupId, this.socket, this.namespace, data.eventData);
+            return groupService.invitePlayerToGroup(this.battleNetId, this.groupId, this.socket, this.namespace, data.eventData);
+
         });
 
         this.on(serverEvents.createGroup, (data) => {
-            GroupService.createNewGroup(this.battleNetId, this.region, this.socket, data.eventData).then((id) => {
+            return groupService.createNewGroup(this.battleNetId, this.region, this.socket, data.eventData).then((id) => {
                 this.groupId = id;
             });
         });
 
         this.on(serverEvents.groupInviteAccept, (data) => {
-            GroupService.acceptGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace).then(() => {
+            return groupService.acceptGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace).then(() => {
                 this.groupId = data.eventData;
+                return Promise.all([groupService.getGroupMemberHeroById(this.battleNetId, data.eventData),
+                    playerService.getPlayerRank(this.battleNetId, this.region)]);
+            }).then((results) => {
+                let hero = results[0];
+                let rank = results[1].rank;
+                return playerService.removePlayerHeros(this.battleNetId, rank, this.region, this.namespace, hero);
             });
         });
     }
