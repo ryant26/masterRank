@@ -193,18 +193,16 @@ let getGroupDetails = function(groupId) {
 };
 
 let getJsonList = function (key) {
-    return new Promise((resolve) => {
-        client.smembersAsync(key)
-            .then((data) => {
-                let out = [];
-                if (data) {
-                    out = data.map((hero) => {
-                        return JSON.parse(hero);
-                    });
-                }
-                resolve(out);
-            });
-    });
+    return client.smembersAsync(key)
+        .then((data) => {
+            let out = [];
+            if (data) {
+                out = data.map((hero) => {
+                    return JSON.parse(hero);
+                });
+            }
+            return out;
+        });
 };
 
 module.exports = {

@@ -1,5 +1,6 @@
 const logger = require('winston');
-const EventEmitter = require('events');
+const EventEmitter = require('eventemitter2').EventEmitter2;
+const clientEvents = require('../socketEvents/clientEvents');
 
 module.exports = class BaseController {
 
@@ -11,7 +12,6 @@ module.exports = class BaseController {
         this.battleNetId = this.token.battleNetId;
         this.region = config.region;
         this.namespace = config.namespace;
-        this.groupId;
     }
 
     getBeforeEvent(event) {
@@ -34,13 +34,18 @@ module.exports = class BaseController {
                     eventData
                 };
 
-                try {
-                    this.eventEmitter.emit(this.getBeforeEvent(event), data);
-                    this.eventEmitter.emit(this.getOnEvent(event), data);
-                    this.eventEmitter.emit(this.getAfterEvent(event), data);
-                } catch (err) {
-                    logger.error(`There was an error handling event ${event}: ${err}`);
-                }
+                this.eventEmitter.emitAsync(this.getBeforeEvent(event), data).then(() => {
+                    return this.eventEmitter.emit(this.getOnEvent(event), data);
+                }).then(() => {
+                    return this.eventEmitter.emit(this.getAfterEvent(event), data);
+                }).catch((error) => {
+                    logger.error(`Error handling socket event [${event}] for user [${this.battleNetId}]: ${error}`);
+                    if (clientEvents.error[event]) {
+                        this.socket.emit(clientEvents.error[event], {
+                            err: error,
+                        });
+                    }
+                });
             });
         }
     }
