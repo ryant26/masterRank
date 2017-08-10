@@ -9,14 +9,14 @@ let getPlayerRank = function(battleNetId, region) {
     });
 };
 
-let getHeroStats = function(battleNetId, region, hero) {
+let getHeroStats = function(battleNetId, region, heroName) {
     return new Promise((resolve) => {
         resolve({
             eliminations: 10,
             winPercentage: 65,
             battleNetId,
             region,
-            hero
+            heroName
         });
     });
 };
