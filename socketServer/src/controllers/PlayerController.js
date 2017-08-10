@@ -1,4 +1,5 @@
-let logger = require('winston');
+let serverEvents = require('../socketEvents/serverEvents');
+let PlayerService = require('../services/PlayerService');
 
 /**
  * This module handles player API requests
@@ -14,38 +15,20 @@ const PlayerController = function(config) {
     let token = socket.token;
     let region = config.region;
     let battleNetId = token.battleNetId;
-    let playerClient = config.PlayerClient;
-    let redisClient = config.RedisClient;
     let namespace = config.namespace;
+    let rank;
 
-    playerClient.getPlayerRank(battleNetId, config.region).then((rankObj) => {
-        redisClient.addPlayerInfo(battleNetId, rankObj);
-        socket.join(rankObj.rank);
-        socket.rank = rankObj.rank;
-        logger.info(`Player [${battleNetId}] joined rank [${rankObj.rank}]`);
-        redisClient.getMetaHeros(rankObj.rank, region).then((heros) => {
-            socket.emit('initialData', heros);
-        });
+    PlayerService.getPlayerRank(battleNetId, region).then((rankObj) => {
+        rank = rankObj.rank;
+        PlayerService.sendInitialData(battleNetId, rank, region, socket);
     });
 
-    socket.on('addHero', (hero) => {
-        playerClient.getHeroStats(battleNetId, config.region.name, hero).then((stats) => {
-            let heroObj = {heroName: hero, stats, battleNetId: battleNetId};
-            redisClient.addPlayerHero(battleNetId, heroObj);
-            redisClient.addMetaHero(socket.rank, region, heroObj);
-            namespace.to(socket.rank).emit('heroAdded', heroObj);
-        });
+    socket.on(serverEvents.addHero, (hero) => {
+        PlayerService.addHeroByName(battleNetId, rank, region, namespace, hero);
     });
 
-    socket.on('disconnect', () => {
-        redisClient.getPlayerHeros(battleNetId).then((heros) => {
-            heros.forEach((hero) => {
-                redisClient.removePlayerHeroByName(battleNetId, hero.heroName);
-                redisClient.removeMetaHero(socket.rank, region, hero).then(() => {
-                    namespace.to(socket.rank).emit('heroRemoved', hero);
-                });
-            });
-        });
+    socket.on(serverEvents.disconnect, () => {
+        PlayerService.removeAllPlayerHeros(battleNetId, rank, region, namespace);
     });
 };
 
