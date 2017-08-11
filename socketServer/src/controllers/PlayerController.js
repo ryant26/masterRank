@@ -1,5 +1,6 @@
 let serverEvents = require('../socketEvents/serverEvents');
-let PlayerService = require('../services/PlayerService');
+let PlayerService = require('../services/playerService');
+let BaseController = require('./BaseController');
 
 /**
  * This module handles player API requests
@@ -10,26 +11,25 @@ let PlayerService = require('../services/PlayerService');
  * @param config.namespace - Socket Namespace
  * @constructor
  */
-const PlayerController = function(config) {
-    let socket = config.socket;
-    let token = socket.token;
-    let region = config.region;
-    let battleNetId = token.battleNetId;
-    let namespace = config.namespace;
-    let rank;
+module.exports = class PlayerController extends BaseController{
+    constructor (config) {
+        super(config);
 
-    PlayerService.getPlayerRank(battleNetId, region).then((rankObj) => {
-        rank = rankObj.rank;
-        PlayerService.sendInitialData(battleNetId, rank, region, socket);
-    });
+        PlayerService.getPlayerRank(this.battleNetId, this.region).then((rankObj) => {
+            this.rank = rankObj.rank;
+            PlayerService.sendInitialData(this.battleNetId, this.rank, this.region, this.socket);
+        });
 
-    socket.on(serverEvents.addHero, (hero) => {
-        PlayerService.addHeroByName(battleNetId, rank, region, namespace, hero);
-    });
+        this.on(serverEvents.addHero, (data) => {
+            PlayerService.addHeroByName(this.battleNetId, this.rank, this.region, this.namespace, data.eventData);
+        });
 
-    socket.on(serverEvents.disconnect, () => {
-        PlayerService.removeAllPlayerHeros(battleNetId, rank, region, namespace);
-    });
+        this.on(serverEvents.removeHero, (data) => {
+            PlayerService.removePlayerHerosByName(this.battleNetId, this.rank, this.region, this.namespace, data.eventData);
+        });
+
+        this.on(serverEvents.disconnect, () => {
+            PlayerService.removeAllPlayerHeros(this.battleNetId, this.rank, this.region, this.namespace);
+        });
+    }
 };
-
-module.exports = PlayerController;
