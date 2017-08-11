@@ -1,5 +1,7 @@
-let serverEvents = require('../socketEvents/serverEvents');
-let GroupService = require('../services/GroupService');
+const BaseController = require('./BaseController');
+const serverEvents = require('../socketEvents/serverEvents');
+const groupService = require('../services/groupService');
+const playerService = require('../services/playerService');
 
 /**
  * This object handles websocket events for grouping activities
@@ -11,30 +13,34 @@ let GroupService = require('../services/GroupService');
  * @param config.namespace - socket namespace
  * @constructor
  */
-let GroupController = function (config) {
-    let socket = config.socket;
-    let token = socket.token;
-    let battleNetId = token.battleNetId;
-    let region = config.region;
-    let namespace = config.namespace;
-    let groupId;
+module.exports = class GroupController extends BaseController {
 
+    constructor (config) {
+        super(config);
 
-    GroupService.addSocketToPlayerRoom(battleNetId, socket);
+        groupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
 
-    socket.on(serverEvents.groupInviteSend, (hero) => GroupService.invitePlayerToGroup(battleNetId, groupId, socket, namespace, hero));
+        this.on(serverEvents.groupInviteSend, (data) => {
+            return groupService.invitePlayerToGroup(this.battleNetId, this.groupId, this.socket, this.namespace, data.eventData);
 
-    socket.on(serverEvents.createGroup, (hero) => {
-        GroupService.createNewGroup(battleNetId, region, socket, hero).then((id) => {
-            groupId = id;
         });
-    });
 
-    socket.on(serverEvents.groupInviteAccept, (id) => {
-        GroupService.acceptGroupInvite(battleNetId, id, socket, namespace).then(() => {
-            groupId = id;
+        this.on(serverEvents.createGroup, (data) => {
+            return groupService.createNewGroup(this.battleNetId, this.region, this.socket, data.eventData).then((id) => {
+                this.groupId = id;
+            });
         });
-    });
+
+        this.on(serverEvents.groupInviteAccept, (data) => {
+            return groupService.acceptGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace).then(() => {
+                this.groupId = data.eventData;
+                return Promise.all([groupService.getGroupMemberHeroById(this.battleNetId, data.eventData),
+                    playerService.getPlayerRank(this.battleNetId, this.region)]);
+            }).then((results) => {
+                let hero = results[0];
+                let rank = results[1].rank;
+                return playerService.removePlayerHeros(this.battleNetId, rank, this.region, this.namespace, hero);
+            });
+        });
+    }
 };
-
-module.exports = GroupController;
