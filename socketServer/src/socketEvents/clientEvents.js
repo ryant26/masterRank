@@ -6,8 +6,10 @@ module.exports = {
     groupInviteReceived: 'groupInviteRecieved',
     groupInviteAccepted: 'groupInviteAccepted',
     groupHeroLeft: 'groupHeroLeft',
+    groupPromotedLeader: 'groupPromotedLeader',
     error: {
         groupInviteSend: 'error.groupInviteSend',
-        groupInviteAccept: 'error.groupInviteAccept'
+        groupInviteAccept: 'error.groupInviteAccept',
+        groupLeave: 'error.groupLeave'
     }
 };
