@@ -1,6 +1,5 @@
 let chai = require('chai');
 let assert = chai.assert;
-let randomString = require('randomstring');
 let serverEvents = require('../../../src/socketEvents/serverEvents');
 let clientEvents = require('../../../src/socketEvents/clientEvents');
 let commonUtilities = require('../commonUtilities');
@@ -31,6 +30,7 @@ describe(serverEvents.groupLeave, function() {
             group.leaderSocket.emit(serverEvents.groupLeave);
 
             let newLeader = group.memberHeros[0];
+
             group.memberSockets[0].on(clientEvents.groupPromotedLeader, (groupDetails) => {
                 assert.equal(groupDetails.leader.battleNetId, newLeader.battleNetId);
                 assert.equal(groupDetails.leader.heroName, newLeader.heroName);
@@ -41,13 +41,13 @@ describe(serverEvents.groupLeave, function() {
 
     it('should remove the newly promoted leader from the members', function(done) {
         commonUtilities.getFilledGroup(1).then((group) => {
-            group.leaderSocket.emit(serverEvents.groupLeave);
-
             group.memberSockets[0].on(clientEvents.groupHeroLeft, (groupDetails) => {
                 if (groupDetails.members.length === 0) {
                     done();
                 }
             });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
         });
     });
 
@@ -65,12 +65,13 @@ describe(serverEvents.groupLeave, function() {
     });
 
     it('should throw an error when the user is not in a group and tries to leave', function(done) {
-        let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
-        socket2.emit(serverEvents.groupLeave);
+        commonUtilities.getUserWithAddedHero().then((user) => {
+            user.socket.on(clientEvents.error.groupLeave, (error) => {
+                assert.equal(error.err, 'User is not in group');
+                done();
+            });
 
-        socket2.on(clientEvents.error.groupLeave, (error) => {
-            assert.equal(error.err, 'User is not in group');
-            done();
+            user.socket.emit(serverEvents.groupLeave);
         });
     });
 

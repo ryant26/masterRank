@@ -42,13 +42,21 @@ describe('disconnect', function() {
     });
 
     it('should remove all heros from the meta list', function(done) {
-        socket.emit(serverEvents.addHero, randomString.generate());
-        socket.emit(serverEvents.addHero, randomString.generate());
-        socket.emit(serverEvents.addHero, randomString.generate());
-
-        setTimeout(function() {
+        new Promise((resolve) => {
+            let heroCount = 0;
+            socket.on(clientEvents.heroAdded, () => {
+                heroCount++;
+                if(heroCount === 3) {
+                    resolve();
+                }
+            });
+        }).then(() => {
             socket.close();
-        }, 50);
+        });
+
+        socket.emit(serverEvents.addHero, randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
+        socket.emit(serverEvents.addHero, randomString.generate());
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
@@ -62,20 +70,16 @@ describe('disconnect', function() {
     });
 
     it('should call the removeHero event when a hero is removed', function(done) {
-        let heroName = randomString.generate();
-        socket.emit(serverEvents.addHero, heroName);
+        let hero;
 
-        let socket2 = commonUtilities.getAuthenticatedSocket('testUser2#1234', commonUtilities.connectionUrlUs);
-
-
-        socket2.on('heroRemoved', (hero) => {
-            assert.equal(hero.heroName, heroName);
-            done();
+        commonUtilities.getUserWithAddedHero().then((user) => {
+            hero = user.hero;
+            user.socket.close();
         });
 
-        setTimeout(function() {
-            socket.close();
-        }, 50);
-
+        socket.on(clientEvents.heroRemoved, (removedHero) => {
+            assert.equal(removedHero.heroName, hero.heroName);
+            done();
+        });
     });
 });
