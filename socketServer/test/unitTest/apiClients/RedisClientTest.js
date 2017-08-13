@@ -11,6 +11,7 @@ let getHeroObject = function (name) {
         stats:{}
     };
 };
+
 describe('RedisClient Tests', function() {
     describe('addPlayerHero', function() {
         it('should create a new object for new users', function() {
@@ -433,6 +434,48 @@ describe('RedisClient Tests', function() {
             }).then((details) => {
                 assert.lengthOf(details.members, 2);
                 assert.notDeepInclude(details.members, hero);
+            });
+        });
+    });
+
+    describe('deleteGroup', function() {
+        let groupId;
+        let hero;
+
+        beforeEach(function() {
+            hero = getHeroObject(randomString.generate());
+            return RedisClient.createNewGroup().then((id) => {
+                groupId = id;
+            });
+        });
+
+        it('should remove the group leader', function() {
+            return RedisClient.setGroupLeader(groupId, hero).then(() => {
+                return RedisClient.deleteGroup(groupId);
+            }).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                assert.isNull(details.leader);
+            });
+        });
+
+        it('should remove the group members', function() {
+            return RedisClient.addHeroToGroupMembers(groupId, hero).then(() => {
+                return RedisClient.deleteGroup(groupId);
+            }).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                assert.lengthOf(details.members, 0);
+            });
+        });
+
+        it('should remove the group pending', function() {
+            return RedisClient.addHeroToGroupPending(groupId, hero).then(() => {
+                return RedisClient.deleteGroup(groupId);
+            }).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                assert.lengthOf(details.pending, 0);
             });
         });
     });
