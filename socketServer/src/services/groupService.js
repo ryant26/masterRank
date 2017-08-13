@@ -3,6 +3,7 @@ let clientEvents = require('../socketEvents/clientEvents');
 let PlayerClient = require('../apiClients/PlayerClient');
 let RedisClient = require('../apiClients/RedisClient');
 let exceptions = require('../validators/exceptions/exceptions');
+let SocketError = require('../validators/exceptions/SocketError');
 
 /**
  * Creates a new group with a group leader (hero)
@@ -21,6 +22,7 @@ let createNewGroup = function (battleNetId, region, socket, namespace, hero) {
         return groupId;
     }).catch((err) => {
         logger.error(`Problem creating group: ${err}`);
+        throw err;
     });
 };
 
@@ -46,10 +48,7 @@ let invitePlayerToGroup = function(battleNetId, groupId, socket, namespace, hero
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInvited, groupDetails);
     }).catch((err) => {
         logger.error(`Problem inviting ${hero.battleNetId}:${hero.heroName} to group ${groupId}: ${err}`);
-        socket.emit(clientEvents.error.groupInviteSend, {
-            err: 'Internal Server Error',
-            hero
-        });
+        throw err;
     });
 };
 
@@ -72,10 +71,7 @@ let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteAccepted, details);
     }).catch((err) => {
         logger.error(`${battleNetId} encountered a problem accepting invite to ${groupId}: ${err}`);
-        socket.emit(clientEvents.error.groupInviteAccept, {
-            err: 'Internal Server Error',
-            groupId
-        });
+        throw err;
     });
 };
 
@@ -106,15 +102,30 @@ let removePlayerFromGroup = function (battleNetId, groupId, socket, namespace) {
         this.groupId = null;
     }).catch((err) => {
         logger.error(`Encountered a problem removing player [${battleNetId}] from group [${groupId}]: ${err}`);
-        socket.emit(clientEvents.error.groupLeave, {
-            err
-        });
+        throw err;
     });
 };
 
-let getGroupMemberHeroById = function(battleNetId, groupId) {
+/**
+ * This function removes a hero from the group pending list of the passed groupId.
+ * Fires the events: groupInviteDeclined, error.groupInviteDecline
+ * @param battleNetId
+ * @param groupId
+ * @param socket
+ * @param namespace
+ * @returns {Promise}
+ */
+let removePlayerFromGroupPending = function (battleNetId, groupId, socket, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        return getHeroFromListById(details.members, battleNetId);
+        let hero = getHeroFromListById(details.pending, battleNetId);
+        return RedisClient.removeHeroFromGroupPending(groupId, hero);
+    }).then(() => {
+        return RedisClient.getGroupDetails(groupId);
+    }).then((details) => {
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteDeclined, details);
+    }).catch((err) => {
+        logger.error(`Encountered a problem removing player [${battleNetId}] from group [${groupId}]: ${err}`);
+        throw err;
     });
 };
 
@@ -156,7 +167,7 @@ let _replaceGroupLeaderWithMember = function(groupId, namespace) {
                 return _removeHeroFromMembers(groupId, namespace, newLeader);
             });
         } else {
-            throw exceptions.noMemberHerosToPromote;
+            throw new SocketError(exceptions.noMemberHerosToPromote, 'groupId', groupId);
         }
     });
 };
@@ -223,6 +234,12 @@ let getHeroFromListById = function(list, id) {
     });
 };
 
+let getGroupMemberHeroById = function(battleNetId, groupId) {
+    return RedisClient.getGroupDetails(groupId).then((details) => {
+        return getHeroFromListById(details.members, battleNetId);
+    });
+};
+
 let getPlayerRoom = function(battleNetId) {
     return `player.${battleNetId}`;
 };
@@ -238,5 +255,6 @@ module.exports = {
     invitePlayerToGroup,
     acceptGroupInvite,
     getGroupMemberHeroById,
-    removePlayerFromGroup
+    removePlayerFromGroup,
+    removePlayerFromGroupPending
 };

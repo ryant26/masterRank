@@ -4,6 +4,7 @@ const serverEvents = require('../../socketEvents/serverEvents');
 const GroupController = require('../GroupController');
 const RedisClient = require('../../apiClients/RedisClient');
 const exceptions = require('../../validators/exceptions/exceptions');
+const SocketError = require('../../validators/exceptions/SocketError');
 
 /**
  * This function returns a constructed GroupController with access controls and other setup completed
@@ -51,7 +52,7 @@ let configureHeroExistsValidation = function(groupController) {
  * @param groupController
  */
 let configreHeroInGroupPending = function(groupController) {
-    groupController.before(serverEvents.groupInviteAccept, (data) => {
+    groupController.before([serverEvents.groupInviteAccept, serverEvents.groupInviteDecline], (data) => {
         return RedisClient.getGroupDetails(data.eventData).then((groupDetails) => {
             groupValidators.idInPending(groupDetails, groupController.battleNetId);
         });
@@ -65,8 +66,8 @@ let configreHeroInGroupPending = function(groupController) {
  */
 let configureHeroInGroup = function(groupController) {
     groupController.before(serverEvents.groupLeave, () => {
-        return new Promise((resolve, reject) => {
-            if (!groupController.groupId) reject(exceptions.userNotInGroup);
+        return new Promise((resolve) => {
+            if (!groupController.groupId) throw new SocketError(exceptions.userNotInGroup);
             resolve(RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
                 groupValidators.idIsLeaderOrMember(groupDetails, groupController.battleNetId);
             }));
