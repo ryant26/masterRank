@@ -29,7 +29,6 @@ let closeOpenedSockets = function () {
             logger.warn('Failed to close a socket');
         }
     });
-    socketsArray = [];
 };
 
 let getEmptyGroup = function() {

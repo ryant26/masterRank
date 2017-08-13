@@ -8,24 +8,14 @@ let commonUtilities = require('../commonUtilities');
 // Start the Socket Server
 require('../../../src/app');
 
-let battleNetId = 'testUser#1234';
-
 describe(serverEvents.groupInviteSend, function() {
     let socket;
     let leaderHero;
 
     beforeEach(function() {
-        return new Promise((resolve) => {
-            socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
-            leaderHero = {
-                battleNetId: battleNetId,
-                heroName: randomString.generate()
-            };
-            socket.emit(serverEvents.createGroup, leaderHero);
-            socket.on(clientEvents.groupPromotedLeader, (details) => {
-                socket.removeAllListeners(clientEvents.groupPromotedLeader);
-                resolve(details);
-            });
+        return commonUtilities.getEmptyGroup().then((groupDetails) => {
+            socket = groupDetails.leaderSocket;
+            leaderHero = groupDetails.leaderHero;
         });
     });
 
@@ -39,22 +29,16 @@ describe(serverEvents.groupInviteSend, function() {
             heroName: randomString.generate()
         };
 
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.connectionUrlUs);
+        commonUtilities.getUserWithAddedHero(invitedHero.battleNetId, invitedHero.heroName).then((user) => {
+            user.socket.on(clientEvents.groupInviteReceived, (groupDetails) => {
+                assert.equal(groupDetails.leader.battleNetId, leaderHero.battleNetId);
+                assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
+                assert.lengthOf(groupDetails.pending, 1);
+                assert.lengthOf(groupDetails.members, 0);
+                done();
+            });
 
-        socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, invitedHero.heroName);
-        });
-
-        socket.on(clientEvents.heroAdded, () => {
             socket.emit(serverEvents.groupInviteSend, invitedHero);
-        });
-
-        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
-            assert.equal(groupDetails.leader.battleNetId, leaderHero.battleNetId);
-            assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
-            assert.lengthOf(groupDetails.pending, 1);
-            assert.lengthOf(groupDetails.members, 0);
-            done();
         });
     });
 
