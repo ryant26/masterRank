@@ -15,7 +15,8 @@ let getGroupController = function(config) {
     let groupController = new GroupController(config);
     configureLeaderValidation(groupController);
     configureHeroExistsValidation(groupController);
-    configreHeroInGroupPending(groupController);
+    configrePlayersHeroInGroupPending(groupController);
+    configurePassedHeroInGroupPending(groupController);
     configureHeroInGroup(groupController);
     return groupController;
 };
@@ -26,7 +27,7 @@ let getGroupController = function(config) {
  * @param groupController - the controller accepting events
  */
 let configureLeaderValidation = function(groupController) {
-    groupController.before(serverEvents.groupInviteSend, () => {
+    groupController.before([serverEvents.groupInviteSend, serverEvents.groupInviteCancel], () => {
         return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
             groupValidators.idIsLeader(groupDetails, groupController.battleNetId);
         });
@@ -48,13 +49,21 @@ let configureHeroExistsValidation = function(groupController) {
 
 /**
  * This function configures the "id in pending" validator for all socket events
- * that the passed hero must exist in the group's "pending members" array (player was invited)
+ * that the "emitting" player's hero must exist in the group's "pending members" array (player was invited)
  * @param groupController
  */
-let configreHeroInGroupPending = function(groupController) {
+let configrePlayersHeroInGroupPending = function(groupController) {
     groupController.before([serverEvents.groupInviteAccept, serverEvents.groupInviteDecline], (data) => {
         return RedisClient.getGroupDetails(data.eventData).then((groupDetails) => {
             groupValidators.idInPending(groupDetails, groupController.battleNetId);
+        });
+    });
+};
+
+let configurePassedHeroInGroupPending = function(groupController) {
+    groupController.before(serverEvents.groupInviteCancel, (data) => {
+        return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
+            groupValidators.idInPending(groupDetails, data.eventData.battleNetId);
         });
     });
 };

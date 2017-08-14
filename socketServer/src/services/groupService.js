@@ -6,7 +6,14 @@ let exceptions = require('../validators/exceptions/exceptions');
 let SocketError = require('../validators/exceptions/SocketError');
 
 /**
- * Creates a new group with a group leader (hero)
+ * This function creates a new group
+ * Fires Events: groupPromotedLeader
+ * @param battleNetId
+ * @param region
+ * @param socket
+ * @param namespace
+ * @param hero
+ * @returns {Promise.<TResult>}
  */
 let createNewGroup = function (battleNetId, region, socket, namespace, hero) {
     let groupId;
@@ -26,11 +33,15 @@ let createNewGroup = function (battleNetId, region, socket, namespace, hero) {
     });
 };
 
-
-
 /**
- * Invite hero to group
- * @param player.battleNetId
+ * This function invites the passed hero to the group.
+ * Fires Events: groupInviteReceived, playerInvited
+ * @param battleNetId
+ * @param groupId
+ * @param socket
+ * @param namespace
+ * @param hero
+ * @returns {Promise}
  */
 let invitePlayerToGroup = function(battleNetId, groupId, socket, namespace, hero) {
     return RedisClient.getPlayerHeros(hero.battleNetId).then((heros) => {
@@ -53,12 +64,42 @@ let invitePlayerToGroup = function(battleNetId, groupId, socket, namespace, hero
 };
 
 /**
- * Accept an invite to a group
+ * Cancel an invite to the passed hero for the passed group
+ * Fires events: groupInviteCanceled
+ * @param groupId
+ * @param socket
+ * @param namespace
+ * @param hero
+ * @returns {Promise}
+ */
+let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
+    return RedisClient.getGroupDetails(groupId).then((details) => {
+        logger.info(`Canceling hero ${hero.battleNetId}'s invite to group ${groupId}`);
+
+        let heroStats = details.pending.find((element) => {
+            return element.battleNetId === hero.battleNetId;
+        });
+
+        return RedisClient.removeHeroFromGroupPending(groupId, heroStats);
+    }).then(() => {
+        return RedisClient.getGroupDetails(groupId);
+    }).then((details) => {
+        socket.to(getPlayerRoom(hero.battleNetId)).emit(clientEvents.groupInviteCanceled, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteCanceled, details);
+    }).catch((err) => {
+        logger.error(`Problem trying to cancel invite to ${hero.battleNetId} for group ${groupId}: ${err}`);
+        throw err;
+    });
+};
+
+/**
+ * This function accepts a group invite
+ * Fires Events: groupInviteAccepted
  * @param battleNetId
  * @param groupId
  * @param socket
  * @param namespace
- * @returns {Promise.<TResult>}
+ * @returns {Promise}
  */
 let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
@@ -131,6 +172,7 @@ let removePlayerFromGroupPending = function (battleNetId, groupId, socket, names
 
 /**
  * This function sets the group leader and fires the group promoted to leader event
+ * Fires Events: groupHeroPromoted
  * @param groupId
  * @param namespace
  * @param hero
@@ -151,7 +193,7 @@ let _setNewGroupLeader = function(groupId, namespace, hero) {
 
 /**
  * This function removes the current group leader,
- * sets the new leader (fires groupNewLeader event). Removes that hero from the members list.
+ * Fires Events: groupHeroPromoted, groupHeroLEft
  * @param groupId
  * @param namespace
  * @returns {Promise}
@@ -174,6 +216,7 @@ let _replaceGroupLeaderWithMember = function(groupId, namespace) {
 
 /**
  * Removes a hero from the members array, also fires the hero removed event
+ * Fires Events: groupHeroLeft
  * @param groupId
  * @param namespace
  * @param hero
@@ -190,7 +233,7 @@ let _removeHeroFromMembers = function(groupId, namespace, hero) {
 
 /**
  * This function deletes the group and can only be done if there are no members or pending members.
- * Fires the heroRemoved event for the leader that will be removed
+ * Fires Events: groupHeroLeft
  * @param groupId
  * @param namespace
  * @private
@@ -256,5 +299,6 @@ module.exports = {
     acceptGroupInvite,
     getGroupMemberHeroById,
     removePlayerFromGroup,
-    removePlayerFromGroupPending
+    removePlayerFromGroupPending,
+    cancelInviteToGroup
 };
