@@ -5,6 +5,7 @@ module.exports = {
     createGroup: 'createGroup',
     groupInviteAccept: 'groupInviteAccept',
     groupInviteDecline: 'groupInviteDecline',
+    groupInviteCancel: 'groupInviteCancel',
     groupLeave: 'groupLeave',
     disconnect: 'disconnect'
 };
