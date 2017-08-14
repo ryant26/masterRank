@@ -1,4 +1,6 @@
 const logger = require('winston');
+const SocketError = require('./exceptions/SocketError');
+const exceptions = require('./exceptions/exceptions');
 
 let heroExists = function(playerHeros, hero) {
     let heroStats = playerHeros.find((element) => {
@@ -7,7 +9,7 @@ let heroExists = function(playerHeros, hero) {
 
     if (!heroStats) {
         logger.error(`Hero ${hero.battleNetId}:${hero.heroName} does not exist`);
-        throw 'Hero not found';
+        throw new SocketError(exceptions.heroNotFound, 'hero', hero);
     }
 };
 

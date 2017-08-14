@@ -91,9 +91,15 @@ module.exports = class BaseController {
                 }).catch((error) => {
                     logger.error(`Error handling socket event [${event}] for user [${this.battleNetId}]: ${error}`);
                     if (clientEvents.error[event]) {
-                        this.socket.emit(clientEvents.error[event], {
-                            err: error,
-                        });
+                        let errorInfo = {
+                            err: error.message
+                        };
+
+                        if(error.metadata) {
+                            errorInfo[error.metadata.key] = error.metadata.value;
+                        }
+
+                        this.socket.emit(clientEvents.error[event], errorInfo);
                     }
                 });
             });

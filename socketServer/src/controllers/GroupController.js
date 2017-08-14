@@ -26,7 +26,7 @@ module.exports = class GroupController extends BaseController {
         });
 
         this.on(serverEvents.createGroup, (data) => {
-            return groupService.createNewGroup(this.battleNetId, this.region, this.socket, data.eventData).then((id) => {
+            return groupService.createNewGroup(this.battleNetId, this.region, this.socket, this.namespace, data.eventData).then((id) => {
                 this.groupId = id;
             });
         });
@@ -41,6 +41,14 @@ module.exports = class GroupController extends BaseController {
                 let rank = results[1].rank;
                 return playerService.removePlayerHeros(this.battleNetId, rank, this.region, this.namespace, hero);
             });
+        });
+
+        this.on(serverEvents.groupInviteDecline, (data) => {
+            return groupService.removePlayerFromGroupPending(this.battleNetId, data.eventData, this.socket, this.namespace);
+        });
+
+        this.on(serverEvents.groupLeave, () => {
+            return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
         });
     }
 };

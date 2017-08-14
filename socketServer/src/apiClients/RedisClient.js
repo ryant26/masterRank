@@ -121,6 +121,10 @@ let getGroupLeader = function (groupId) {
     });
 };
 
+let deleteGroupLeader = function (groupId) {
+    return client.delAsync(redisKeys.groupLeader(groupId));
+};
+
 let addHeroToGroupPending = function (groupId, hero) {
     return client.saddAsync(redisKeys.groupPending(groupId), hero);
 };
@@ -133,6 +137,10 @@ let getGroupPendingHeros = function (groupId) {
     return getJsonList(redisKeys.groupPending(groupId));
 };
 
+let deleteGroupPending = function (groupId) {
+    return client.delAsync(redisKeys.groupPending(groupId));
+};
+
 let addHeroToGroupMembers = function (groupId, hero) {
     return client.saddAsync(redisKeys.groupMembers(groupId), hero);
 };
@@ -143,6 +151,14 @@ let removeHeroFromGroupMembers = function (groupId, hero) {
 
 let getGroupMemberHeros = function (groupId) {
     return getJsonList(redisKeys.groupMembers(groupId));
+};
+
+let deleteGroupMembers = function (groupId) {
+    return client.delAsync(redisKeys.groupMembers(groupId));
+};
+
+let deleteGroup = function (groupId) {
+    return Promise.all([deleteGroupLeader(groupId), deleteGroupPending(groupId), deleteGroupMembers(groupId)]);
 };
 
 let getGroupDetails = function(groupId) {
@@ -196,5 +212,6 @@ module.exports = {
     removeHeroFromGroupPending,
     addHeroToGroupMembers,
     removeHeroFromGroupMembers,
-    getGroupDetails
+    getGroupDetails,
+    deleteGroup
 };
