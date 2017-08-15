@@ -13,6 +13,7 @@ const SocketError = require('../../validators/exceptions/SocketError');
  */
 let getGroupController = function(config) {
     let groupController = new GroupController(config);
+    configureValidHeroObjectInput(groupController);
     configureLeaderValidation(groupController);
     configureHeroExistsValidation(groupController);
     configrePlayersHeroInGroupPending(groupController);
@@ -80,6 +81,19 @@ let configureHeroInGroup = function(groupController) {
             resolve(RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
                 groupValidators.idIsLeaderOrMember(groupDetails, groupController.battleNetId);
             }));
+        });
+    });
+};
+
+/**
+ * This function configures the "valid hero object validator" for all socket events that accept
+ * a hero object as input
+ * @param groupController
+ */
+let configureValidHeroObjectInput = function(groupController) {
+    groupController.before([serverEvents.groupInviteCancel, serverEvents.groupInviteSend], (data) => {
+        return new Promise((resolve) => {
+            resolve(playerValidators.validHeroObject(data.eventData));
         });
     });
 };

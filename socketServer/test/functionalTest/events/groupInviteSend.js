@@ -4,6 +4,7 @@ let randomString = require('randomstring');
 let serverEvents = require('../../../src/socketEvents/serverEvents');
 let clientEvents = require('../../../src/socketEvents/clientEvents');
 let commonUtilities = require('../commonUtilities');
+let exceptions = require('../../../src/validators/exceptions/exceptions');
 
 // Start the Socket Server
 require('../../../src/app');
@@ -80,6 +81,30 @@ describe(serverEvents.groupInviteSend, function() {
 
         socket.on(clientEvents.error.groupInviteSend, (error) => {
             assert.equal(error.err, 'Hero not found');
+            done();
+        });
+    });
+
+    it('should reject malformed battleNetId', function(done) {
+        socket.emit(serverEvents.groupInviteSend, {
+            battleNetId: 0,
+            heroName: 'hanzo'
+        });
+
+        socket.on(clientEvents.error.groupInviteSend, (error) => {
+            assert.equal(error.err, exceptions.malformedHeroObject);
+            done();
+        });
+    });
+
+    it('should reject malformed heroName', function(done) {
+        socket.emit(serverEvents.groupInviteSend, {
+            battleNetId: 'testing#1234',
+            heroName: 10
+        });
+
+        socket.on(clientEvents.error.groupInviteSend, (error) => {
+            assert.equal(error.err, exceptions.invalidHeroName);
             done();
         });
     });
