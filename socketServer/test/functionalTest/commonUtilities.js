@@ -43,7 +43,7 @@ let getEmptyGroup = function() {
         out.leaderSocket = getAuthenticatedSocket(out.leaderHero.battleNetId, connectionUrlUs);
 
         out.leaderSocket.on(clientEvents.initialData, () => {
-            out.leaderSocket.emit(serverEvents.addHero, out.leaderHero);
+            out.leaderSocket.emit(serverEvents.addHero, out.leaderHero.heroName);
         });
 
         out.leaderSocket.on(clientEvents.heroAdded, () => {

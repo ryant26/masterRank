@@ -35,5 +35,6 @@ let validateHeroName = function (heroName) {
 
 module.exports = {
     heroExists,
-    validHeroObject
+    validHeroObject,
+    validateHeroName
 };
