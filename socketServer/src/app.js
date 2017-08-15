@@ -2,8 +2,8 @@ let app = require('http').createServer();
 let io = require('socket.io')(app);
 let config = require('config');
 let logger = require('winston');
-let PlayerController = require('./controllers/PlayerController');
 let groupControllerFactory = require('./controllers/factories/groupControllerFactory');
+let playerControllerFactory = require('./controllers/factories/playerControllerFactory');
 let AuthenticationController = require('./controllers/AuthenticationController');
 
 
@@ -11,7 +11,7 @@ const port = config.get('port');
 
 let onAuthenticated = function (namespace, socket, region) {
     socket.removeAllListeners();
-    new PlayerController({namespace, socket, region});
+    playerControllerFactory.getPlayerController({namespace, socket, region});
     groupControllerFactory.getGroupController({namespace, socket, region});
 };
 

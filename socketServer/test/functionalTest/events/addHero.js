@@ -4,6 +4,7 @@ let randomString = require('randomstring');
 let serverEvents = require('../../../src/socketEvents/serverEvents');
 let clientEvents = require('../../../src/socketEvents/clientEvents');
 let commonUtilities = require('../commonUtilities');
+let exceptions = require('../../../src/validators/exceptions/exceptions');
 
 let battleNetId = 'testUser#1234';
 
@@ -91,5 +92,14 @@ describe(serverEvents.addHero, function() {
         setTimeout(() => {
             done();
         }, 100);
+    });
+
+    it('should reject invalid heroNames', function(done) {
+        socket.on(clientEvents.error.addHero, (error) => {
+            assert.equal(error.err, exceptions.invalidHeroName);
+            done();
+        });
+
+        socket.emit(serverEvents.addHero, null);
     });
 });
