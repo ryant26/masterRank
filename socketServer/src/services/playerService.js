@@ -1,7 +1,7 @@
-let logger = require('winston');
-let clientEvents = require('../socketEvents/clientEvents');
-let PlayerClient = require('../apiClients/PlayerClient');
-let RedisClient = require('../apiClients/RedisClient');
+const logger = require('winston');
+const clientEvents = require('../socketEvents/clientEvents');
+const PlayerClient = require('../apiClients/PlayerClient');
+const RedisClient = require('../apiClients/RedisClient');
 const _ = require('lodash');
 
 /**

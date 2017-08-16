@@ -1,10 +1,10 @@
-let app = require('http').createServer();
-let io = require('socket.io')(app);
-let config = require('config');
-let logger = require('winston');
-let groupControllerFactory = require('./controllers/factories/groupControllerFactory');
-let playerControllerFactory = require('./controllers/factories/playerControllerFactory');
-let AuthenticationController = require('./controllers/AuthenticationController');
+const app = require('http').createServer();
+const io = require('socket.io')(app);
+const config = require('config');
+const logger = require('winston');
+const groupControllerFactory = require('./controllers/factories/groupControllerFactory');
+const playerControllerFactory = require('./controllers/factories/playerControllerFactory');
+const AuthenticationController = require('./controllers/AuthenticationController');
 
 
 const port = config.get('port');
