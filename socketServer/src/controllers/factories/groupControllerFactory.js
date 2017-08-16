@@ -14,6 +14,7 @@ const SocketError = require('../../validators/exceptions/SocketError');
 let getGroupController = function(config) {
     let groupController = new GroupController(config);
     configureValidHeroObjectInput(groupController);
+    configureValidGroupIdInput(groupController);
     configureLeaderValidation(groupController);
     configureHeroExistsValidation(groupController);
     configrePlayersHeroInGroupPending(groupController);
@@ -86,7 +87,7 @@ let configureHeroInGroup = function(groupController) {
 };
 
 /**
- * This function configures the "valid hero object validator" for all socket events that accept
+ * This function configures the "valid hero object" validator for all socket events that accept
  * a hero object as input
  * @param groupController
  */
@@ -94,6 +95,18 @@ let configureValidHeroObjectInput = function(groupController) {
     groupController.before([serverEvents.groupInviteCancel, serverEvents.groupInviteSend], (data) => {
         return new Promise((resolve) => {
             resolve(playerValidators.validHeroObject(data.eventData));
+        });
+    });
+};
+
+/**
+ * This function configues the "valid group ID" validator for all socket events that accept a group ID as input
+ * @param groupController
+ */
+let configureValidGroupIdInput = function(groupController) {
+    groupController.before([serverEvents.groupInviteAccept, serverEvents.groupInviteDecline], (data) => {
+        return new Promise((resolve) => {
+            resolve(groupValidators.groupIdIsValid(data.eventData));
         });
     });
 };

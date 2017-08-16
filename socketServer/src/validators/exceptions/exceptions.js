@@ -5,6 +5,7 @@ module.exports = {
     noMemberHerosToPromote: 'No member heros to promote',
     groupNotEmpty: 'Group is not empty',
     heroNotFound: 'Hero not found',
-    malformedHeroObject: 'malformedHeroObject',
-    invalidHeroName: 'invalidHeroName'
+    malformedHeroObject: 'Malformed Hero Object',
+    invalidHeroName: 'Invalid Hero Name',
+    invalidGroupId: 'Invalid group ID'
 };

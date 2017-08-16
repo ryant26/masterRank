@@ -43,9 +43,23 @@ let idIsLeaderOrMember = function(details, id) {
     }
 };
 
+/**
+ * This function checks that the passed ID is a "number"
+ * @param groupId
+ * @returns {boolean}
+ */
+let groupIdIsValid = function(groupId) {
+    if (typeof groupId === 'number') {
+        return true;
+    }
+
+    throw new SocketError(exceptions.invalidGroupId, 'groupId', groupId);
+};
+
 module.exports = {
     idInPending,
     idIsLeader,
-    idIsLeaderOrMember
+    idIsLeaderOrMember,
+    groupIdIsValid
 };
 
