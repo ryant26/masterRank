@@ -47,6 +47,10 @@ module.exports = class GroupController extends BaseController {
             return groupService.removePlayerFromGroupPending(this.battleNetId, data.eventData, this.socket, this.namespace);
         });
 
+        this.on(serverEvents.groupInviteCancel, (data) => {
+            return groupService.cancelInviteToGroup(this.groupId, this.socket, this.namespace, data.eventData);
+        });
+
         this.on(serverEvents.groupLeave, () => {
             return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
         });
