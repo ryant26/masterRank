@@ -37,6 +37,7 @@ gulp.task('unittest', () => {
 });
 
 gulp.task('multinodetest', () => {
+    process.env.NODE_ENV = 'multiNodeTest';
     let server1, server2;
     return new Promise((resolve) => {
         server1 = exec('node src/app.js --NODE_CONFIG=\'{"port":3000,"url":"http://localhost","redisUrl":"http://localhost"}\'', (err, stdout, stderr) => {
