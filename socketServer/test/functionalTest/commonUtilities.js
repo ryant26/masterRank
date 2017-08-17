@@ -1,14 +1,14 @@
-let io = require('socket.io-client');
-let config = require('config');
-let randomString = require('randomstring');
-let serverEvents = require('../../src/socketEvents/serverEvents');
-let clientEvents = require('../../src/socketEvents/clientEvents');
-let logger = require('winston');
+const io = require('socket.io-client');
+const config = require('config');
+const randomString = require('randomstring');
+const serverEvents = require('../../src/socketEvents/serverEvents');
+const clientEvents = require('../../src/socketEvents/clientEvents');
+const logger = require('winston');
 
-let connectionUrl = `${config.get('url')}:${config.get('port')}`;
-let connectionUrlUs = `${connectionUrl}/us`;
-let connectionUrlEu = `${connectionUrl}/eu`;
-let connectionUrlAs = `${connectionUrl}/as`;
+const connectionUrl = `${config.get('url')}:${config.get('port')}`;
+const connectionUrlUs = `${connectionUrl}/us`;
+const connectionUrlEu = `${connectionUrl}/eu`;
+const connectionUrlAs = `${connectionUrl}/as`;
 
 let battleNetId = 'testUser#1234';
 
@@ -43,7 +43,7 @@ let getEmptyGroup = function() {
         out.leaderSocket = getAuthenticatedSocket(out.leaderHero.battleNetId, connectionUrlUs);
 
         out.leaderSocket.on(clientEvents.initialData, () => {
-            out.leaderSocket.emit(serverEvents.addHero, out.leaderHero);
+            out.leaderSocket.emit(serverEvents.addHero, out.leaderHero.heroName);
         });
 
         out.leaderSocket.on(clientEvents.heroAdded, () => {

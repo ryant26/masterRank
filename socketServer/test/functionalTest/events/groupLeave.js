@@ -1,8 +1,8 @@
-let chai = require('chai');
-let assert = chai.assert;
-let serverEvents = require('../../../src/socketEvents/serverEvents');
-let clientEvents = require('../../../src/socketEvents/clientEvents');
-let commonUtilities = require('../commonUtilities');
+const chai = require('chai');
+const assert = chai.assert;
+const serverEvents = require('../../../src/socketEvents/serverEvents');
+const clientEvents = require('../../../src/socketEvents/clientEvents');
+const commonUtilities = require('../commonUtilities');
 
 // Start the Socket Server
 require('../../../src/app');

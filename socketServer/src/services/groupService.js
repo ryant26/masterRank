@@ -1,9 +1,9 @@
-let logger = require('winston');
-let clientEvents = require('../socketEvents/clientEvents');
-let PlayerClient = require('../apiClients/PlayerClient');
-let RedisClient = require('../apiClients/RedisClient');
-let exceptions = require('../validators/exceptions/exceptions');
-let SocketError = require('../validators/exceptions/SocketError');
+const logger = require('winston');
+const clientEvents = require('../socketEvents/clientEvents');
+const PlayerClient = require('../apiClients/PlayerClient');
+const RedisClient = require('../apiClients/RedisClient');
+const exceptions = require('../validators/exceptions/exceptions');
+const SocketError = require('../validators/exceptions/SocketError');
 
 /**
  * This function creates a new group

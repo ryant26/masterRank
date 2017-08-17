@@ -1,6 +1,6 @@
-let serverEvents = require('../socketEvents/serverEvents');
-let PlayerService = require('../services/playerService');
-let BaseController = require('./BaseController');
+const serverEvents = require('../socketEvents/serverEvents');
+const PlayerService = require('../services/playerService');
+const BaseController = require('./BaseController');
 
 /**
  * This module handles player API requests

@@ -1,9 +1,9 @@
-let dependencyResolver = require('../devUtilities/DepedencyResolver');
-let loggingUtilities = require('../devUtilities/LoggingUtilities');
-let config = require('config');
-let bluebird = require('bluebird');
-let logger = require('winston');
-let redis = dependencyResolver.redis;
+const dependencyResolver = require('../devUtilities/DepedencyResolver');
+const loggingUtilities = require('../devUtilities/LoggingUtilities');
+const config = require('config');
+const bluebird = require('bluebird');
+const logger = require('winston');
+const redis = dependencyResolver.redis;
 bluebird.promisifyAll(redis.RedisClient.prototype);
 
 let redisKeys = {

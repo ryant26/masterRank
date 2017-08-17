@@ -1,9 +1,9 @@
-let chai = require('chai');
-let assert = chai.assert;
-let randomString = require('randomstring');
-let logger = require('winston');
-let sinon = require('sinon');
-let RedisClient = require('../../../src/apiClients/RedisClient');
+const chai = require('chai');
+const assert = chai.assert;
+const randomString = require('randomstring');
+const logger = require('winston');
+const sinon = require('sinon');
+const RedisClient = require('../../../src/apiClients/RedisClient');
 
 let getHeroObject = function (name) {
     return {
