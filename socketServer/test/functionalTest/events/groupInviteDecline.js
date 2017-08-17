@@ -1,9 +1,9 @@
-let chai = require('chai');
-let assert = chai.assert;
-let serverEvents = require('../../../src/socketEvents/serverEvents');
-let clientEvents = require('../../../src/socketEvents/clientEvents');
-let commonUtilities = require('../commonUtilities');
-let exceptions = require('../../../src/validators/exceptions/exceptions');
+const chai = require('chai');
+const assert = chai.assert;
+const serverEvents = require('../../../src/socketEvents/serverEvents');
+const clientEvents = require('../../../src/socketEvents/clientEvents');
+const commonUtilities = require('../commonUtilities');
+const exceptions = require('../../../src/validators/exceptions/exceptions');
 
 // Start the Socket Server
 require('../../../src/app');
@@ -43,6 +43,17 @@ describe(serverEvents.groupInviteDecline, function() {
             });
 
             user.socket.emit(serverEvents.groupInviteDecline, groupId);
+        });
+    });
+
+    it('should throw an exception for malformed groupID', function(done) {
+        commonUtilities.getUserWithAddedHero().then((user) => {
+            user.socket.on(clientEvents.error.groupInviteDecline, (error) => {
+                assert.equal(error.err, exceptions.invalidGroupId);
+                done();
+            });
+
+            user.socket.emit(serverEvents.groupInviteDecline, null);
         });
     });
 });

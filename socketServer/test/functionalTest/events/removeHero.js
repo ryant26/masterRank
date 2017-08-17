@@ -1,9 +1,10 @@
-let chai = require('chai');
-let assert = chai.assert;
-let randomString = require('randomstring');
-let serverEvents = require('../../../src/socketEvents/serverEvents');
-let clientEvents = require('../../../src/socketEvents/clientEvents');
-let commonUtilities = require('../commonUtilities');
+const chai = require('chai');
+const assert = chai.assert;
+const randomString = require('randomstring');
+const serverEvents = require('../../../src/socketEvents/serverEvents');
+const clientEvents = require('../../../src/socketEvents/clientEvents');
+const commonUtilities = require('../commonUtilities');
+const exceptions = require('../../../src/validators/exceptions/exceptions');
 
 // Start the Socket Server
 require('../../../src/app');
@@ -125,5 +126,14 @@ describe(serverEvents.removeHero, function() {
         setTimeout(() => {
             done();
         }, 100);
+    });
+
+    it('should reject invalid heroNames', function(done) {
+        socket.on(clientEvents.error.removeHero, (error) => {
+            assert.equal(error.err, exceptions.invalidHeroName);
+            done();
+        });
+
+        socket.emit(serverEvents.removeHero, null);
     });
 });

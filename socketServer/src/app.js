@@ -1,17 +1,17 @@
-let app = require('http').createServer();
-let io = require('socket.io')(app);
-let config = require('config');
-let logger = require('winston');
-let PlayerController = require('./controllers/PlayerController');
-let groupControllerFactory = require('./controllers/factories/groupControllerFactory');
-let AuthenticationController = require('./controllers/AuthenticationController');
+const app = require('http').createServer();
+const io = require('socket.io')(app);
+const config = require('config');
+const logger = require('winston');
+const groupControllerFactory = require('./controllers/factories/groupControllerFactory');
+const playerControllerFactory = require('./controllers/factories/playerControllerFactory');
+const AuthenticationController = require('./controllers/AuthenticationController');
 
 
 const port = config.get('port');
 
 let onAuthenticated = function (namespace, socket, region) {
     socket.removeAllListeners();
-    new PlayerController({namespace, socket, region});
+    playerControllerFactory.getPlayerController({namespace, socket, region});
     groupControllerFactory.getGroupController({namespace, socket, region});
 };
 

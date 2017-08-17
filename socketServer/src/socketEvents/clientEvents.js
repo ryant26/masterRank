@@ -10,6 +10,8 @@ module.exports = {
     groupHeroLeft: 'groupHeroLeft',
     groupPromotedLeader: 'groupPromotedLeader',
     error: {
+        addHero: 'error.addHero',
+        removeHero: 'error.removeHero',
         groupInviteSend: 'error.groupInviteSend',
         groupInviteAccept: 'error.groupInviteAccept',
         groupInviteDecline: 'error.groupInviteDecline',
