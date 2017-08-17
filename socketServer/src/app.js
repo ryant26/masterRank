@@ -1,5 +1,6 @@
 const app = require('http').createServer();
 const io = require('socket.io')(app);
+const redisAdapter = require('socket.io-redis');
 const config = require('config');
 const logger = require('winston');
 const groupControllerFactory = require('./controllers/factories/groupControllerFactory');
@@ -26,6 +27,7 @@ let setupRegion = function(namespace, region) {
     });
 };
 
+io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 app.listen(port, () => {
     logger.info(`listening on port ${port}`);
 });
