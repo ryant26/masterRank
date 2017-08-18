@@ -54,5 +54,9 @@ module.exports = class GroupController extends BaseController {
         this.on(serverEvents.groupLeave, () => {
             return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
         });
+
+        this.on(serverEvents.disconnect, () => {
+            return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
+        });
     }
 };

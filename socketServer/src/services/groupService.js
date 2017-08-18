@@ -232,7 +232,7 @@ let _removeHeroFromMembers = function(groupId, namespace, hero) {
 };
 
 /**
- * This function deletes the group and can only be done if there are no members or pending members.
+ * This function deletes the group and can only be done if there are no members.
  * Fires Events: groupHeroLeft
  * @param groupId
  * @param namespace
@@ -240,8 +240,7 @@ let _removeHeroFromMembers = function(groupId, namespace, hero) {
  */
 let _deleteGroup = function(groupId, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        if (details.members.length === 0
-        && details.pending.length === 0) {
+        if (details.members.length === 0) {
             return RedisClient.deleteGroup(groupId);
         } else {
             throw exceptions.groupNotEmpty;

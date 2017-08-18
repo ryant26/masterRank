@@ -49,7 +49,7 @@ let addHeroByName = function(battleNetId, rank, region, namespace, heroName) {
  * @param namespace
  */
 let removeAllPlayerHeros = function(battleNetId, rank, region, namespace) {
-    RedisClient.getPlayerHeros(battleNetId).then((heros) => {
+    return RedisClient.getPlayerHeros(battleNetId).then((heros) => {
         return removePlayerHeros(battleNetId, rank, region, namespace, ...heros);
     });
 };
@@ -85,13 +85,23 @@ let removePlayerHerosByName = function(battleNetId, rank, region, namespace, ...
  * @param heros
  */
 let removePlayerHeros = function(battleNetId, rank, region, namespace, ...heros) {
-    RedisClient.removePlayerHeros(battleNetId, ...heros);
-    RedisClient.removeMetaHeros(rank, region, ...heros).then(() => {
-        heros.forEach(hero => {
-            namespace.to(rank).emit(clientEvents.heroRemoved, hero);
-        });
+    return new Promise((resolve) => {
+        if (heros.length){
+            resolve(Promise.all([RedisClient.removePlayerHeros(battleNetId, ...heros),
+                RedisClient.removeMetaHeros(rank, region, ...heros)]).then(() => {
+                heros.forEach(hero => {
+                    namespace.to(rank).emit(clientEvents.heroRemoved, hero);
+                });
+                logger.info(`Player [${battleNetId}] left rank [${rank}]`);
+            }));
+        } else {
+            resolve();
+        }
     });
-    logger.info(`Player [${battleNetId}] left rank [${rank}]`);
+};
+
+let removePlayerInfo = function(battleNetId) {
+    return RedisClient.deletePlayerInfo(battleNetId);
 };
 
 let getPlayerRank = function (battleNetId, region) {
@@ -104,5 +114,6 @@ module.exports = {
     addHeroByName,
     removePlayerHeros,
     removePlayerHerosByName,
-    removeAllPlayerHeros
+    removeAllPlayerHeros,
+    removePlayerInfo
 };
