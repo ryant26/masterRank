@@ -1,10 +1,10 @@
-const dependencyResolver = require('../devUtilities/DepedencyResolver');
 const loggingUtilities = require('../devUtilities/LoggingUtilities');
 const config = require('config');
 const bluebird = require('bluebird');
 const logger = require('winston');
-const redis = dependencyResolver.redis;
+const redis = require('redis');
 bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 let redisKeys = {
     userHeros: function(battleNetId) {
@@ -52,7 +52,7 @@ let removePlayerHeros = function(battleNetId, ...heros) {
         let heroStrings = heros.map((hero) => {
             return JSON.stringify(hero);
         });
-        client.sremAsync(redisKeys.userHeros(battleNetId), heroStrings).then((removed) => {
+        client.sremAsync(redisKeys.userHeros(battleNetId), ...heroStrings).then((removed) => {
             if (removed !== heros.length) {
                 logger.warn(`Tried to remove [${heros.length}] heros from player:[${battleNetId}], only removed [${removed}]`);
             }
@@ -76,7 +76,7 @@ let removeMetaHeros = function (rank, region, ...heros) {
         let heroStrings = heros.map((hero) => {
             return JSON.stringify(hero);
         });
-        client.sremAsync(redisKeys.rankHeros(region, rank), heroStrings).then((removed) => {
+        client.sremAsync(redisKeys.rankHeros(region, rank), ...heroStrings).then((removed) => {
             let heroNames = loggingUtilities.listOfObjectsToString(heros, 'heroName');
             if (removed != heros.length) {
                 logger.warn(`Tried to remove one of the following heros that did not exist, {${heroNames}} from rank [${rank}] and region [${region}]`);
@@ -167,6 +167,17 @@ let deleteGroup = function (groupId) {
     return Promise.all([deleteGroupLeader(groupId), deleteGroupPending(groupId), deleteGroupMembers(groupId)]);
 };
 
+let replaceGroupLeaderWithMember = function (groupId) {
+    return client.watchAsync(redisKeys.groupMembers(groupId)).then(() => {
+        return getGroupDetails(groupId);
+    }).then((details) => {
+        let newLeader = JSON.stringify(details.members[0]);
+        return client.multi().set(redisKeys.groupLeader(groupId), newLeader)
+            .srem(redisKeys.groupMembers(groupId), newLeader)
+            .execAsync();
+    });
+};
+
 let getGroupDetails = function(groupId) {
     let groupDetails = {
         groupId
@@ -219,5 +230,6 @@ module.exports = {
     addHeroToGroupMembers,
     removeHeroFromGroupMembers,
     getGroupDetails,
-    deleteGroup
+    deleteGroup,
+    replaceGroupLeaderWithMember
 };
