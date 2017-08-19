@@ -85,4 +85,22 @@ describe(serverEvents.groupLeave, function() {
             details.leaderSocket.emit(serverEvents.groupLeave);
         });
     });
+
+    it('should cancel group invites when the last player leaves', function(done) {
+        let groupDetails;
+        commonUtilities.getEmptyGroup().then((details) => {
+            groupDetails = details;
+            return commonUtilities.getUserWithAddedHero();
+        }).then((user) => {
+            user.socket.on(clientEvents.groupInviteCanceled, () => {
+                done();
+            });
+
+            groupDetails.leaderSocket.on(clientEvents.playerInvited, () => {
+                groupDetails.leaderSocket.emit(serverEvents.groupLeave);
+            });
+
+            groupDetails.leaderSocket.emit(serverEvents.groupInviteSend, user.hero);
+        });
+    });
 });
