@@ -514,4 +514,26 @@ describe('RedisClient Tests', function(done) {
             });
         });
     });
+
+    describe('moveHeroFromPendingToMembers', function() {
+        let groupId;
+
+        beforeEach(function() {
+            groupId = RedisClient.createNewGroup();
+        });
+
+        it('should move a hero from pending to members', function (done) {
+            let member = getHeroObject(randomString.generate());
+
+            RedisClient.addHeroToGroupPending(groupId, member).then(() => {
+                return RedisClient.moveHeroFromPendingToMembers(groupId, member);
+            }).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                assert.isEmpty(details.pending);
+                assert.deepEqual(details.members[0], member);
+                done();
+            });
+        });
+    });
 });

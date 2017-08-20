@@ -102,10 +102,7 @@ let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
  * @returns {Promise}
  */
 let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
-    return RedisClient.getGroupDetails(groupId).then((details) => {
-        let hero = getHeroFromListById(details.pending, battleNetId);
-        return Promise.all([RedisClient.removeHeroFromGroupPending(groupId, hero), RedisClient.addHeroToGroupMembers(groupId, hero)]);
-    }).then(() => {
+    return _acceptGroupInviteWithRetry(battleNetId, groupId, 3).then(() => {
         addSocketToGroupRoom(groupId, socket);
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
@@ -209,6 +206,33 @@ let _removePlayerFromGroupWithRetry = function (battleNetId, groupId, socket, na
             } else {
                 let hero = getHeroFromListById(groupDetails.members, battleNetId);
                 resolve(_removeHeroFromMembers(groupId, namespace, hero));
+            }
+        });
+    });
+};
+
+/**
+ * This function moves a hero from the pending list into the members list
+ * and accepts a retry parameter.
+ * @param battleNetId
+ * @param groupId
+ * @param retriesRemaining
+ * @returns {Promise}
+ * @private
+ */
+let _acceptGroupInviteWithRetry = function (battleNetId, groupId, retriesRemaining) {
+    return new Promise((resolve, reject) => {
+        RedisClient.getGroupDetails(groupId).then((details) => {
+            let hero = getHeroFromListById(details.pending, battleNetId);
+            if(!hero) reject(exceptions.heroNotInvitedToGroup);
+            return  RedisClient.moveHeroFromPendingToMembers(groupId, hero);
+        }).then(() => {
+            resolve();
+        }).catch((err) => {
+            if(retriesRemaining > 0) {
+                resolve(_acceptGroupInviteWithRetry(battleNetId, groupId, --retriesRemaining));
+            } else {
+                reject(err);
             }
         });
     });
