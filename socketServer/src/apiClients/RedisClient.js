@@ -147,6 +147,15 @@ let deleteGroupPending = function (groupId) {
     return client.delAsync(redisKeys.groupPending(groupId));
 };
 
+let moveHeroFromPendingToMembers = function (groupId, hero) {
+    return client.watchAsync(redisKeys.groupLeader(groupId)).then(() => {
+        let heroString = JSON.stringify(hero);
+        return client.multi().srem(redisKeys.groupPending(groupId), heroString)
+            .sadd(redisKeys.groupMembers(groupId), heroString)
+            .execAsync();
+    });
+};
+
 let addHeroToGroupMembers = function (groupId, hero) {
     return client.saddAsync(redisKeys.groupMembers(groupId), JSON.stringify(hero));
 };
@@ -227,6 +236,7 @@ module.exports = {
     setGroupLeader,
     addHeroToGroupPending,
     removeHeroFromGroupPending,
+    moveHeroFromPendingToMembers,
     addHeroToGroupMembers,
     removeHeroFromGroupMembers,
     getGroupDetails,
