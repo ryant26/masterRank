@@ -3,8 +3,7 @@ const runSequence = require('run-sequence');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const nodemon = require('gulp-nodemon');
-const {exec} = require('child_process');
-const logger = require('winston');
+const exec = require('child_process').exec;
 
 let paths = {
     functionaltests: 'test/functionalTest/**/*.js',
@@ -14,7 +13,7 @@ let paths = {
 };
 
 gulp.task('default', () => {
-    return runSequence('lint', 'unittest', 'functionaltest');
+    return runSequence('lint', 'unittest', 'functionaltest', 'multinodetest');
 });
 
 gulp.task('lint', () => {
@@ -38,23 +37,8 @@ gulp.task('unittest', () => {
 
 gulp.task('multinodetest', () => {
     process.env.NODE_ENV = 'multiNodeTest';
-    let server1, server2;
-    return new Promise((resolve) => {
-        server1 = exec('node src/app.js --NODE_CONFIG=\'{"port":3000,"url":"http://localhost","redisUrl":"http://localhost"}\'', (err, stdout, stderr) => {
-            logger.info(stdout);
-            logger.info(stderr);
-        });
-        server2 = exec('node src/app.js --NODE_CONFIG=\'{"port":3001,"url":"http://localhost","redisUrl":"http://localhost"}\'', (err, stdout, stderr) => {
-            logger.info(stdout);
-            logger.info(stderr);
-        });
-
-        resolve(gulp.src(paths.multinodetests)
-            .pipe(mocha()));
-    }).then(() => {
-        server1.kill('SIGINT');
-        server2.kill('SIGINT');
-    });
+    return gulp.src(paths.multinodetests)
+        .pipe(mocha());
 });
 
 gulp.task('serve', () => {
