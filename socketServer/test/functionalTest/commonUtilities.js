@@ -60,13 +60,13 @@ let getEmptyGroup = function(connectionUrl) {
     });
 };
 
-let getFilledGroup = function (numberOfGroupMembers) {
+let getFilledGroup = function (numberOfGroupMembers, connectionUrl) {
     let out = {
         memberSockets: [],
         memberHeros: []
     };
 
-    out.leaderSocket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
+    out.leaderSocket = getAuthenticatedSocket(battleNetId, connectionUrl || connectionUrlUs);
 
     out.leaderHero = {
         battleNetId: randomString.generate(),
@@ -88,7 +88,7 @@ let getFilledGroup = function (numberOfGroupMembers) {
             };
 
 
-            let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrlUs);
+            let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrl || connectionUrlUs);
 
             memberSocket.on(clientEvents.initialData, () => {
                 memberSocket.emit(serverEvents.addHero, member.heroName);
