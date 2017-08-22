@@ -124,7 +124,6 @@ let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
 let removePlayerFromGroup = function (battleNetId, groupId, socket, namespace) {
     return _removePlayerFromGroupWithRetry(battleNetId, groupId, socket, namespace, 5).then(() => {
         socket.leave(getGroupRoom(groupId));
-        this.groupId = null;
     }).catch((err) => {
         logger.error(`Encountered a problem removing player [${battleNetId}] from group [${groupId}]: ${err}`);
         throw err;
