@@ -1,17 +1,19 @@
-let gulp = require('gulp');
-let runSequence = require('run-sequence');
-let eslint = require('gulp-eslint');
-let mocha = require('gulp-mocha');
-let nodemon = require('gulp-nodemon');
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
+const eslint = require('gulp-eslint');
+const mocha = require('gulp-mocha');
+const nodemon = require('gulp-nodemon');
+const exec = require('child_process').exec;
 
 let paths = {
     functionaltests: 'test/functionalTest/**/*.js',
     unittests: 'test/unitTest/**/*.js',
+    multinodetests: 'test/multiNode/**/*.js',
     src: 'src/**/*.js'
 };
 
 gulp.task('default', () => {
-    return runSequence('lint', 'unittest', 'functionaltest');
+    return runSequence('lint', 'unittest', 'functionaltest', 'multinodetest');
 });
 
 gulp.task('lint', () => {
@@ -30,6 +32,12 @@ gulp.task('functionaltest', () => {
 gulp.task('unittest', () => {
     process.env.NODE_ENV = 'unitTest';
     return gulp.src(paths.unittests)
+        .pipe(mocha());
+});
+
+gulp.task('multinodetest', () => {
+    process.env.NODE_ENV = 'multiNodeTest';
+    return gulp.src(paths.multinodetests)
         .pipe(mocha());
 });
 

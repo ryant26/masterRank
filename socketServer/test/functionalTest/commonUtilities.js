@@ -31,7 +31,7 @@ let closeOpenedSockets = function () {
     });
 };
 
-let getEmptyGroup = function() {
+let getEmptyGroup = function(connectionUrl) {
     return new Promise((resolve) => {
         let out = {
             leaderHero: {
@@ -40,7 +40,7 @@ let getEmptyGroup = function() {
             }
         };
 
-        out.leaderSocket = getAuthenticatedSocket(out.leaderHero.battleNetId, connectionUrlUs);
+        out.leaderSocket = getAuthenticatedSocket(out.leaderHero.battleNetId, connectionUrl || connectionUrlUs);
 
         out.leaderSocket.on(clientEvents.initialData, () => {
             out.leaderSocket.emit(serverEvents.addHero, out.leaderHero.heroName);
@@ -60,13 +60,13 @@ let getEmptyGroup = function() {
     });
 };
 
-let getFilledGroup = function (numberOfGroupMembers) {
+let getFilledGroup = function (numberOfGroupMembers, connectionUrl) {
     let out = {
         memberSockets: [],
         memberHeros: []
     };
 
-    out.leaderSocket = getAuthenticatedSocket(battleNetId, connectionUrlUs);
+    out.leaderSocket = getAuthenticatedSocket(battleNetId, connectionUrl || connectionUrlUs);
 
     out.leaderHero = {
         battleNetId: randomString.generate(),
@@ -88,7 +88,7 @@ let getFilledGroup = function (numberOfGroupMembers) {
             };
 
 
-            let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrlUs);
+            let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrl || connectionUrlUs);
 
             memberSocket.on(clientEvents.initialData, () => {
                 memberSocket.emit(serverEvents.addHero, member.heroName);
@@ -115,14 +115,14 @@ let getFilledGroup = function (numberOfGroupMembers) {
     });
 };
 
-let getUserWithAddedHero = function(battleNetId, heroName) {
+let getUserWithAddedHero = function(battleNetId, heroName, connectionUrl) {
     return new Promise((resolve) => {
         let hero =  {
             battleNetId: battleNetId || randomString.generate(),
             heroName: heroName || randomString.generate()
         };
 
-        let socket = getAuthenticatedSocket(hero.battleNetId, connectionUrlUs);
+        let socket = getAuthenticatedSocket(hero.battleNetId, connectionUrl || connectionUrlUs);
 
         socket.on(clientEvents.initialData, () => {
             socket.emit(serverEvents.addHero, hero.heroName);
