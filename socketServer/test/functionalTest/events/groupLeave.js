@@ -53,14 +53,14 @@ describe(serverEvents.groupLeave, function() {
 
     it('should fire the groupHeroLeft event for the leader that left', function(done) {
         commonUtilities.getFilledGroup(1).then((group) => {
-            group.leaderSocket.emit(serverEvents.groupLeave);
-
             let newLeader = group.memberHeros[0];
             group.memberSockets[0].on(clientEvents.groupHeroLeft, (groupDetails) => {
                 if (groupDetails.leader.battleNetId === newLeader.battleNetId) {
                     done();
                 }
             });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
         });
     });
 
