@@ -23,15 +23,15 @@ describe(clientEvents.initialData, function() {
 
     it('should return a list of all heros available for grouping', function(done) {
         let heroName = 'Soldier76';
-        socket.emit(serverEvents.addHero, heroName);
 
-        // Ensure hero is fully added before we connect the 2nd user
-        socket.on(clientEvents.heroAdded, () => {
+        commonUtilities.getUserWithAddedHero(null, heroName).then((user) => {
             let socket2 = commonUtilities.getAuthenticatedSocket('testUser2#1234', commonUtilities.connectionUrlUs);
 
             socket2.on(clientEvents.initialData, (data) => {
-                assert.lengthOf(data, 1);
-                assert.equal(data[0].heroName, heroName);
+                let hero = data.find((element) => {
+                    return element.heroName === heroName && element.battleNetId === user.hero.battleNetId;
+                });
+                assert.isDefined(hero);
                 done();
             });
         });
