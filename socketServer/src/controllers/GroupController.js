@@ -52,7 +52,11 @@ module.exports = class GroupController extends BaseController {
         });
 
         this.on(serverEvents.groupLeave, () => {
-            return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
+            return new Promise((resolve) => {
+                resolve(groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace));
+            }).then(() => {
+                this.groupId = null;
+            });
         });
 
         this.on(serverEvents.disconnect, () => {
