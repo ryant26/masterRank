@@ -1,10 +1,10 @@
-const dependencyResolver = require('../devUtilities/DepedencyResolver');
 const loggingUtilities = require('../devUtilities/LoggingUtilities');
 const config = require('config');
 const bluebird = require('bluebird');
 const logger = require('winston');
-const redis = dependencyResolver.redis;
+const redis = require('redis');
 bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 let redisKeys = {
     userHeros: function(battleNetId) {
@@ -49,7 +49,10 @@ let addPlayerHero = function (battleNetId, hero) {
 
 let removePlayerHeros = function(battleNetId, ...heros) {
     return new Promise((resolve) => {
-        client.sremAsync(redisKeys.userHeros(battleNetId), ...heros).then((removed) => {
+        let heroStrings = heros.map((hero) => {
+            return JSON.stringify(hero);
+        });
+        client.sremAsync(redisKeys.userHeros(battleNetId), ...heroStrings).then((removed) => {
             if (removed !== heros.length) {
                 logger.warn(`Tried to remove [${heros.length}] heros from player:[${battleNetId}], only removed [${removed}]`);
             }
@@ -70,7 +73,10 @@ let addMetaHero = function (rank, region, hero) {
 
 let removeMetaHeros = function (rank, region, ...heros) {
     return new Promise((resolve) => {
-        client.sremAsync(redisKeys.rankHeros(region, rank), ...heros).then((removed) => {
+        let heroStrings = heros.map((hero) => {
+            return JSON.stringify(hero);
+        });
+        client.sremAsync(redisKeys.rankHeros(region, rank), ...heroStrings).then((removed) => {
             let heroNames = loggingUtilities.listOfObjectsToString(heros, 'heroName');
             if (removed != heros.length) {
                 logger.warn(`Tried to remove one of the following heros that did not exist, {${heroNames}} from rank [${rank}] and region [${region}]`);
@@ -126,11 +132,11 @@ let deleteGroupLeader = function (groupId) {
 };
 
 let addHeroToGroupPending = function (groupId, hero) {
-    return client.saddAsync(redisKeys.groupPending(groupId), hero);
+    return client.saddAsync(redisKeys.groupPending(groupId), JSON.stringify(hero));
 };
 
 let removeHeroFromGroupPending = function (groupId, hero) {
-    return client.sremAsync(redisKeys.groupPending(groupId), hero);
+    return client.sremAsync(redisKeys.groupPending(groupId), JSON.stringify(hero));
 };
 
 let getGroupPendingHeros = function (groupId) {
@@ -141,12 +147,21 @@ let deleteGroupPending = function (groupId) {
     return client.delAsync(redisKeys.groupPending(groupId));
 };
 
+let moveHeroFromPendingToMembers = function (groupId, hero) {
+    return client.watchAsync(redisKeys.groupLeader(groupId)).then(() => {
+        let heroString = JSON.stringify(hero);
+        return client.multi().srem(redisKeys.groupPending(groupId), heroString)
+            .sadd(redisKeys.groupMembers(groupId), heroString)
+            .execAsync();
+    });
+};
+
 let addHeroToGroupMembers = function (groupId, hero) {
-    return client.saddAsync(redisKeys.groupMembers(groupId), hero);
+    return client.saddAsync(redisKeys.groupMembers(groupId), JSON.stringify(hero));
 };
 
 let removeHeroFromGroupMembers = function (groupId, hero) {
-    return client.sremAsync(redisKeys.groupMembers(groupId), hero);
+    return client.sremAsync(redisKeys.groupMembers(groupId), JSON.stringify(hero));
 };
 
 let getGroupMemberHeros = function (groupId) {
@@ -159,6 +174,17 @@ let deleteGroupMembers = function (groupId) {
 
 let deleteGroup = function (groupId) {
     return Promise.all([deleteGroupLeader(groupId), deleteGroupPending(groupId), deleteGroupMembers(groupId)]);
+};
+
+let replaceGroupLeaderWithMember = function (groupId) {
+    return client.watchAsync(redisKeys.groupMembers(groupId)).then(() => {
+        return getGroupDetails(groupId);
+    }).then((details) => {
+        let newLeader = JSON.stringify(details.members[0]);
+        return client.multi().set(redisKeys.groupLeader(groupId), newLeader)
+            .srem(redisKeys.groupMembers(groupId), newLeader)
+            .execAsync();
+    });
 };
 
 let getGroupDetails = function(groupId) {
@@ -210,8 +236,10 @@ module.exports = {
     setGroupLeader,
     addHeroToGroupPending,
     removeHeroFromGroupPending,
+    moveHeroFromPendingToMembers,
     addHeroToGroupMembers,
     removeHeroFromGroupMembers,
     getGroupDetails,
-    deleteGroup
+    deleteGroup,
+    replaceGroupLeaderWithMember
 };

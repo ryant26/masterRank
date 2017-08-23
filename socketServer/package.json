@@ -26,7 +26,6 @@
     "gulp-nodemon": "^2.2.1",
     "mocha": "^3.4.2",
     "randomstring": "^1.1.5",
-    "redis-mock": "^0.17.0",
     "run-sequence": "^1.2.2",
     "sinon": "^2.3.6"
   }
