@@ -102,10 +102,7 @@ let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
  * @returns {Promise}
  */
 let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
-    return RedisClient.getGroupDetails(groupId).then((details) => {
-        let hero = getHeroFromListById(details.pending, battleNetId);
-        return Promise.all([RedisClient.removeHeroFromGroupPending(groupId, hero), RedisClient.addHeroToGroupMembers(groupId, hero)]);
-    }).then(() => {
+    return _acceptGroupInviteWithRetry(battleNetId, groupId, 3).then(() => {
         addSocketToGroupRoom(groupId, socket);
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
@@ -125,20 +122,7 @@ let acceptGroupInvite = function (battleNetId, groupId, socket, namespace) {
  * @returns {Promise}
  */
 let removePlayerFromGroup = function (battleNetId, groupId, socket, namespace) {
-    return new Promise((resolve) => {
-        RedisClient.getGroupDetails(groupId).then((groupDetails) => {
-            if (groupDetails.leader.battleNetId === battleNetId) {
-                if (groupDetails.members.length > 0) {
-                    resolve(_replaceGroupLeaderWithMember(groupId, namespace));
-                } else {
-                    resolve(_deleteGroup(groupId, namespace));
-                }
-            } else {
-                let hero = getHeroFromListById(groupDetails.members, battleNetId);
-                resolve(_removeHeroFromMembers(groupId, namespace, hero));
-            }
-        });
-    }).then(() => {
+    return _removePlayerFromGroupWithRetry(battleNetId, groupId, socket, namespace, 5).then(() => {
         socket.leave(getGroupRoom(groupId));
         this.groupId = null;
     }).catch((err) => {
@@ -156,7 +140,7 @@ let removePlayerFromGroup = function (battleNetId, groupId, socket, namespace) {
  * @param namespace
  * @returns {Promise}
  */
-let removePlayerFromGroupPending = function (battleNetId, groupId, socket, namespace) {
+let declineGroupInvite = function (battleNetId, groupId, socket, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
         let hero = getHeroFromListById(details.pending, battleNetId);
         return RedisClient.removeHeroFromGroupPending(groupId, hero);
@@ -192,7 +176,70 @@ let _setNewGroupLeader = function(groupId, namespace, hero) {
 };
 
 /**
- * This function removes the current group leader,
+ * This function removes a hero from the group and accepts a retry parameter. This function is necessary
+ * because of the race condition in _replaceGroupLeaderWithMember.
+ * @param battleNetId
+ * @param groupId
+ * @param socket
+ * @param namespace
+ * @param retriesRemaining
+ * @returns {Promise}
+ * @private
+ */
+let _removePlayerFromGroupWithRetry = function (battleNetId, groupId, socket, namespace, retriesRemaining) {
+    return new Promise((resolve, reject) => {
+        RedisClient.getGroupDetails(groupId).then((groupDetails) => {
+            if (groupDetails.leader.battleNetId === battleNetId) {
+                if (groupDetails.members.length > 0) {
+                    _replaceGroupLeaderWithMember(groupId, namespace).then(() => {
+                        resolve();
+                    }).catch((err) => {
+                        if (retriesRemaining > 0) {
+                            resolve(_removePlayerFromGroupWithRetry(battleNetId, groupId, socket, namespace, --retriesRemaining));
+                        } else {
+                            reject(err);
+                        }
+                    });
+                } else {
+                    resolve(_deleteGroup(groupId, namespace));
+                }
+            } else {
+                let hero = getHeroFromListById(groupDetails.members, battleNetId);
+                resolve(_removeHeroFromMembers(groupId, namespace, hero));
+            }
+        });
+    });
+};
+
+/**
+ * This function moves a hero from the pending list into the members list
+ * and accepts a retry parameter.
+ * @param battleNetId
+ * @param groupId
+ * @param retriesRemaining
+ * @returns {Promise}
+ * @private
+ */
+let _acceptGroupInviteWithRetry = function (battleNetId, groupId, retriesRemaining) {
+    return new Promise((resolve, reject) => {
+        RedisClient.getGroupDetails(groupId).then((details) => {
+            let hero = getHeroFromListById(details.pending, battleNetId);
+            if(!hero) reject(exceptions.heroNotInvitedToGroup);
+            return  RedisClient.moveHeroFromPendingToMembers(groupId, hero);
+        }).then(() => {
+            resolve();
+        }).catch((err) => {
+            if(retriesRemaining > 0) {
+                resolve(_acceptGroupInviteWithRetry(battleNetId, groupId, --retriesRemaining));
+            } else {
+                reject(err);
+            }
+        });
+    });
+};
+
+/**
+ * This function removes the current group leader, will reject on race condition (group members altered)
  * Fires Events: groupHeroPromoted, groupHeroLEft
  * @param groupId
  * @param namespace
@@ -200,17 +247,17 @@ let _setNewGroupLeader = function(groupId, namespace, hero) {
  * @private
  */
 let _replaceGroupLeaderWithMember = function(groupId, namespace) {
-    let newLeader;
-    return RedisClient.getGroupDetails(groupId).then((details) => {
-        if(details.members.length > 0) {
-            newLeader = details.members[0];
-            return _setNewGroupLeader(groupId, namespace, details.members[0]).then((newLeaderDetails) => {
-                namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, newLeaderDetails);
-                return _removeHeroFromMembers(groupId, namespace, newLeader);
-            });
+    return RedisClient.getGroupDetails(groupId).then((detailsOld) => {
+        if(detailsOld.members.length > 0) {
+            return RedisClient.replaceGroupLeaderWithMember(groupId);
         } else {
             throw new SocketError(exceptions.noMemberHerosToPromote, 'groupId', groupId);
         }
+    }).then(() => {
+        return RedisClient.getGroupDetails(groupId);
+    }).then((details) => {
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupPromotedLeader, details);
     });
 };
 
@@ -232,7 +279,7 @@ let _removeHeroFromMembers = function(groupId, namespace, hero) {
 };
 
 /**
- * This function deletes the group and can only be done if there are no members or pending members.
+ * This function deletes the group and can only be done if there are no members.
  * Fires Events: groupHeroLeft
  * @param groupId
  * @param namespace
@@ -240,9 +287,12 @@ let _removeHeroFromMembers = function(groupId, namespace, hero) {
  */
 let _deleteGroup = function(groupId, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        if (details.members.length === 0
-        && details.pending.length === 0) {
-            return RedisClient.deleteGroup(groupId);
+        if (details.members.length === 0) {
+            return RedisClient.deleteGroup(groupId).then(() => {
+                details.pending.forEach((pendingHero) => {
+                    namespace.to(getPlayerRoom(pendingHero.battleNetId)).emit(clientEvents.groupInviteCanceled, details);
+                });
+            });
         } else {
             throw exceptions.groupNotEmpty;
         }
@@ -299,6 +349,6 @@ module.exports = {
     acceptGroupInvite,
     getGroupMemberHeroById,
     removePlayerFromGroup,
-    removePlayerFromGroupPending,
+    declineGroupInvite,
     cancelInviteToGroup
 };

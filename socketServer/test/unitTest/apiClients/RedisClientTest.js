@@ -4,6 +4,7 @@ const randomString = require('randomstring');
 const logger = require('winston');
 const sinon = require('sinon');
 const RedisClient = require('../../../src/apiClients/RedisClient');
+const redis = require('redis');
 
 let getHeroObject = function (name) {
     return {
@@ -12,7 +13,17 @@ let getHeroObject = function (name) {
     };
 };
 
-describe('RedisClient Tests', function() {
+describe('RedisClient Tests', function(done) {
+
+    after(function() {
+        redis.createClient().flushall((err) => {
+            if(err) {
+                logger.error(err);
+            }
+            done();
+        });
+    });
+
     describe('addPlayerHero', function() {
         it('should create a new object for new users', function() {
             let id = '1234';
@@ -476,6 +487,52 @@ describe('RedisClient Tests', function() {
                 return RedisClient.getGroupDetails(groupId);
             }).then((details) => {
                 assert.lengthOf(details.pending, 0);
+            });
+        });
+    });
+
+    describe('replaceGroupLeaderWithMember', function() {
+        let groupId;
+
+        beforeEach(function() {
+            groupId = RedisClient.createNewGroup();
+        });
+
+        it('should replace the group leader with the first member', function() {
+            let leader = getHeroObject(randomString.generate());
+            let member = getHeroObject(randomString.generate());
+
+            return RedisClient.setGroupLeader(groupId, leader).then(() => {
+                return RedisClient.addHeroToGroupMembers(groupId, member);
+            }).then(() => {
+                return RedisClient.replaceGroupLeaderWithMember(groupId);
+            }).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                assert.isEmpty(details.members);
+                assert.deepEqual(details.leader, member);
+            });
+        });
+    });
+
+    describe('moveHeroFromPendingToMembers', function() {
+        let groupId;
+
+        beforeEach(function() {
+            groupId = RedisClient.createNewGroup();
+        });
+
+        it('should move a hero from pending to members', function (done) {
+            let member = getHeroObject(randomString.generate());
+
+            RedisClient.addHeroToGroupPending(groupId, member).then(() => {
+                return RedisClient.moveHeroFromPendingToMembers(groupId, member);
+            }).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                assert.isEmpty(details.pending);
+                assert.deepEqual(details.members[0], member);
+                done();
             });
         });
     });

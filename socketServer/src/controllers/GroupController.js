@@ -44,7 +44,7 @@ module.exports = class GroupController extends BaseController {
         });
 
         this.on(serverEvents.groupInviteDecline, (data) => {
-            return groupService.removePlayerFromGroupPending(this.battleNetId, data.eventData, this.socket, this.namespace);
+            return groupService.declineGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace);
         });
 
         this.on(serverEvents.groupInviteCancel, (data) => {
@@ -53,6 +53,12 @@ module.exports = class GroupController extends BaseController {
 
         this.on(serverEvents.groupLeave, () => {
             return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
+        });
+
+        this.on(serverEvents.disconnect, () => {
+            if (this.groupId) {
+                return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
+            }
         });
     }
 };

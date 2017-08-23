@@ -12,6 +12,7 @@ module.exports = class BaseController {
         this.battleNetId = this.token.battleNetId;
         this.region = config.region;
         this.namespace = config.namespace;
+        this._socketEvents = {};
     }
 
     /**
@@ -77,7 +78,8 @@ module.exports = class BaseController {
      * @private
      */
     _addSocketHandler(event) {
-        if (!this.socket._events || !this.socket._events[event]) {
+        if (!this._socketEvents[event]) {
+            this._socketEvents[event] = true;
             this.socket.on(event, (eventData) => {
                 let data = {
                     'config': this.config,
