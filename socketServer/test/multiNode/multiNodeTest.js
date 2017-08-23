@@ -21,6 +21,7 @@ let startServer = function (port) {
 
 describe('Multi-Node Tests', function() {
     let server1, server2;
+    this.timeout(5000);
 
     before(function () {
         server1 = startServer(3000);
