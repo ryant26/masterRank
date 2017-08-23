@@ -12,14 +12,14 @@ const _ = require('lodash');
  * @param socket
  */
 let sendInitialData = function (battleNetId, rank, region, socket) {
-    PlayerClient.getPlayerRank(battleNetId, region).then((rankObj) => {
+    return PlayerClient.getPlayerRank(battleNetId, region).then((rankObj) => {
         let rank = rankObj.rank;
         RedisClient.addPlayerInfo(battleNetId, rankObj);
         socket.join(rank);
         logger.info(`Player [${battleNetId}] joined rank [${rank}]`);
-        RedisClient.getMetaHeros(rank, region).then((heros) => {
-            socket.emit(clientEvents.initialData, heros);
-        });
+        return RedisClient.getMetaHeros(rank, region);
+    }).then((heros) => {
+        socket.emit(clientEvents.initialData, heros);
     });
 };
 
@@ -32,10 +32,12 @@ let sendInitialData = function (battleNetId, rank, region, socket) {
  * @param heroName
  */
 let addHeroByName = function(battleNetId, rank, region, namespace, heroName) {
-    PlayerClient.getHeroStats(battleNetId, region.name, heroName).then((stats) => {
-        let heroObj = {heroName: heroName, stats, battleNetId: battleNetId};
-        RedisClient.addPlayerHero(battleNetId, heroObj);
-        RedisClient.addMetaHero(rank, region, heroObj);
+    let heroObj;
+    return PlayerClient.getHeroStats(battleNetId, region.name, heroName).then((stats) => {
+        heroObj = {heroName: heroName, stats, battleNetId: battleNetId};
+        return Promise.all([RedisClient.addPlayerHero(battleNetId, heroObj),
+            RedisClient.addMetaHero(rank, region, heroObj)]);
+    }).then(() => {
         namespace.to(rank).emit(clientEvents.heroAdded, heroObj);
         logger.info(`Player [${battleNetId}] added hero [${heroName}]`);
     });
