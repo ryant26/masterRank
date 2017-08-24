@@ -99,7 +99,7 @@ describe(serverEvents.groupInviteSend, function() {
 
     it('should reject malformed heroName', function(done) {
         socket.emit(serverEvents.groupInviteSend, {
-            battleNetId: 'testing#1234',
+            battleNetId: randomString.generate(),
             heroName: 10
         });
 
