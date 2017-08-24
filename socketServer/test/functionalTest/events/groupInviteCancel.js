@@ -46,13 +46,13 @@ describe(serverEvents.groupInviteCancel, function() {
         commonUtilities.getFilledGroup(2).then((groupSockets) => {
             let memberSocket = groupSockets.memberSockets[0];
 
-            memberSocket.on(clientEvents.playerInvited, (details) => {
-                memberSocket.emit(serverEvents.groupInviteCancel, details.pending[0]);
-            });
-
             memberSocket.on(clientEvents.error.groupInviteCancel, (error) => {
                 assert.equal(error.err, 'Unauthorized');
                 done();
+            });
+
+            memberSocket.on(clientEvents.playerInvited, (details) => {
+                memberSocket.emit(serverEvents.groupInviteCancel, details.pending[0]);
             });
 
             commonUtilities.getUserWithAddedHero().then((user) => {
