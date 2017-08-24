@@ -15,10 +15,27 @@ const playerService = require('../services/playerService');
  */
 module.exports = class GroupController extends BaseController {
 
+    set groupId(id) {
+        if (id) {
+            groupService.setGroupId(this.battleNetId, id);
+        } else {
+            groupService.deleteGroupId(this.battleNetId);
+        }
+        this._groupId = id;
+    }
+
+    get groupId() {
+        return this._groupId;
+    }
+
     constructor (config) {
         super(config);
 
         groupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
+
+        groupService.getGroupId(this.battleNetId).then((id) => {
+            this.groupId = id;
+        });
 
         this.on(serverEvents.groupInviteSend, (data) => {
             return groupService.invitePlayerToGroup(this.battleNetId, this.groupId, this.socket, this.namespace, data.eventData);
@@ -61,7 +78,9 @@ module.exports = class GroupController extends BaseController {
 
         this.on(serverEvents.disconnect, () => {
             if (this.groupId) {
-                return groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace);
+                let groupId = this.groupId;
+                this.groupId = null;
+                return groupService.removePlayerFromGroup(this.battleNetId, groupId, this.socket, this.namespace);
             }
         });
     }

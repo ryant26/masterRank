@@ -4,7 +4,6 @@ const randomString = require('randomstring');
 const logger = require('winston');
 const sinon = require('sinon');
 const RedisClient = require('../../../src/apiClients/RedisClient');
-const redis = require('redis');
 
 let getHeroObject = function (name) {
     return {
@@ -13,16 +12,7 @@ let getHeroObject = function (name) {
     };
 };
 
-describe('RedisClient Tests', function(done) {
-
-    after(function() {
-        redis.createClient().flushall((err) => {
-            if(err) {
-                logger.error(err);
-            }
-            done();
-        });
-    });
+describe('RedisClient Tests', function() {
 
     describe('addPlayerHero', function() {
         it('should create a new object for new users', function() {
@@ -538,7 +528,7 @@ describe('RedisClient Tests', function(done) {
     });
 
     describe('groupId', function() {
-        
+
         it('should be able to set a groupID', function(done) {
             let groupId = 10;
             let battleNetId = randomString.generate();
