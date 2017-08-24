@@ -19,9 +19,13 @@ describe('Cleanup Tests', function() {
     });
 
     it('Should leave no keys in the redis DB after all tests run', function() {
-        return client.keysAsync('*').then((keys) => {
-            // the "groups" key will always be there, this is fine
-            assert.lengthOf(keys, 1, 'There are keys in the redis DB after the tests run');
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(client.keysAsync('*').then((keys) => {
+                    // the "groups" key will always be there, this is fine
+                    assert.lengthOf(keys, 1, 'There are keys in the redis DB after the tests run');
+                }));
+            }, 300);
         });
     });
 });

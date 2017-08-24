@@ -25,7 +25,7 @@ describe(clientEvents.initialData, function() {
         let heroName = 'Soldier76';
 
         commonUtilities.getUserWithAddedHero(null, heroName).then((user) => {
-            let socket2 = commonUtilities.getAuthenticatedSocket('testUser2#1234', commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
 
             socket2.on(clientEvents.initialData, (data) => {
                 let hero = data.find((element) => {
@@ -58,7 +58,7 @@ describe(clientEvents.initialData, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket('testUser2#1234', commonUtilities.connectionUrlEu);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlEu);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
@@ -79,7 +79,7 @@ describe(clientEvents.initialData, function() {
 
                 // Ensure hero is fully added before we connect the 2nd user
                 setTimeout(function () {
-                    let socket2 = commonUtilities.getAuthenticatedSocket('testUser3#1234', regionUrl);
+                    let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl);
 
                     socket2.on(clientEvents.initialData, (data) => {
                         assert.lengthOf(data, 1);

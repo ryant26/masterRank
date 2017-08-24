@@ -6,7 +6,7 @@ const clientEvents = require('../../../src/socketEvents/clientEvents');
 const commonUtilities = require('../commonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
 
-let battleNetId = 'testUser#1234';
+let battleNetId;
 
 // Start the Socket Server
 require('../../../src/app');
@@ -15,6 +15,7 @@ describe(serverEvents.addHero, function() {
     let socket;
 
     beforeEach(function () {
+        battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
     });
 
@@ -29,7 +30,7 @@ describe(serverEvents.addHero, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket('testUser2#1234', commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 3);
