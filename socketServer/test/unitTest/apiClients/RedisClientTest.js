@@ -536,4 +536,31 @@ describe('RedisClient Tests', function(done) {
             });
         });
     });
+
+    describe('groupId', function() {
+        
+        it('should be able to set a groupID', function(done) {
+            let groupId = 10;
+            let battleNetId = randomString.generate();
+            RedisClient.setGroupId(battleNetId, groupId).then(() => {
+                return RedisClient.getGroupId(battleNetId);
+            }).then((id) => {
+                assert.equal(id, groupId);
+                done();
+            });
+        });
+
+        it('should be able to delete a groupId', function(done) {
+            let groupId = 10;
+            let battleNetId = randomString.generate();
+            RedisClient.setGroupId(battleNetId, groupId).then(() => {
+                return RedisClient.deleteGroupId(battleNetId);
+            }).then(() => {
+                return RedisClient.getGroupId(battleNetId);
+            }).then((id) => {
+                assert.isNull(id);
+                done();
+            });
+        });
+    });
 });
