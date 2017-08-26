@@ -25,7 +25,7 @@ describe('Cleanup Tests', function() {
                     // the "groups" key will always be there, this is fine
                     assert.lengthOf(keys, 1, 'There are keys in the redis DB after the tests run');
                 }));
-            }, 300);
+            }, 1000);
         });
     });
 });
