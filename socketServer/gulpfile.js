@@ -3,7 +3,6 @@ const runSequence = require('run-sequence');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const nodemon = require('gulp-nodemon');
-const exec = require('child_process').exec;
 
 let paths = {
     functionaltests: 'test/functionalTest/**/*.js',
@@ -43,7 +42,7 @@ gulp.task('multinodetest', () => {
 
 gulp.task('serve', () => {
     return nodemon({
-        script: 'src/app.js',
+        script: 'src/src.js',
         env: { 'NODE_ENV': 'develop' }
     });
 });

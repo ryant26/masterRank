@@ -224,7 +224,7 @@ You would need to install an ESLint plugin for your editor first. Then, add a fi
 
 ```js
 {
-  "extends": "react-app"
+  "extends": src
 }
 ```
 
@@ -1648,7 +1648,7 @@ For more information see [Add Firebase to your JavaScript Project](https://fireb
 Open your `package.json` and add a `homepage` field:
 
 ```js
-  "homepage": "https://myusername.github.io/my-app",
+  "homepage": src,
 ```
 
 Create React App uses the `homepage` field to determine the root URL in the built HTML file.
