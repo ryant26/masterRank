@@ -38,6 +38,8 @@ let redisKeys = {
     }
 };
 
+let timeToLive = config.get('keyExpiry');
+
 let redisUrl = config.get('redisUrl');
 logger.info(`Opening new connection to redis [${redisUrl}]`);
 
@@ -47,7 +49,8 @@ let client = redis.createClient({
 
 let addPlayerHero = function (battleNetId, hero) {
     return new Promise((resolve) => {
-        resolve(client.saddAsync(redisKeys.userHeros(battleNetId), JSON.stringify(hero)));
+        let key = redisKeys.userHeros(battleNetId);
+        resolve(client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync());
     });
 };
 
@@ -71,7 +74,8 @@ let getPlayerHeros = function(battleNetId) {
 
 let addMetaHero = function (rank, region, hero) {
     return new Promise((resolve) => {
-        resolve(client.saddAsync(redisKeys.rankHeros(region, rank), JSON.stringify(hero)));
+        let key = redisKeys.rankHeros(region, rank);
+        resolve(client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync());
     });
 };
 
@@ -95,7 +99,7 @@ let getMetaHeros = function(rank, region) {
 };
 
 let addPlayerInfo = function (battleNetId, information) {
-    return client.setAsync(redisKeys.playerInfo(battleNetId), JSON.stringify(information));
+    return client.setexAsync(redisKeys.playerInfo(battleNetId), timeToLive, JSON.stringify(information));
 };
 
 let deletePlayerInfo = function (battleNetId) {
@@ -124,7 +128,7 @@ let getGroupId = function(battleNetId) {
 };
 
 let setGroupId = function (battleNetId, groupId) {
-    return client.setAsync(redisKeys.groupId(battleNetId), groupId);
+    return client.setexAsync(redisKeys.groupId(battleNetId), timeToLive, groupId);
 };
 
 let deleteGroupId = function(battleNetId) {
@@ -132,7 +136,7 @@ let deleteGroupId = function(battleNetId) {
 };
 
 let setGroupLeader = function (groupId, hero) {
-    return client.setAsync(redisKeys.groupLeader(groupId), JSON.stringify(hero));
+    return client.setexAsync(redisKeys.groupLeader(groupId), timeToLive, JSON.stringify(hero));
 };
 
 let getGroupLeader = function (groupId) {
@@ -148,7 +152,8 @@ let deleteGroupLeader = function (groupId) {
 };
 
 let addHeroToGroupPending = function (groupId, hero) {
-    return client.saddAsync(redisKeys.groupPending(groupId), JSON.stringify(hero));
+    let key = redisKeys.groupPending(groupId);
+    return client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync();
 };
 
 let removeHeroFromGroupPending = function (groupId, hero) {
@@ -168,12 +173,14 @@ let moveHeroFromPendingToMembers = function (groupId, hero) {
         let heroString = JSON.stringify(hero);
         return client.multi().srem(redisKeys.groupPending(groupId), heroString)
             .sadd(redisKeys.groupMembers(groupId), heroString)
+            .expire(redisKeys.groupMembers(groupId), timeToLive)
             .execAsync();
     });
 };
 
 let addHeroToGroupMembers = function (groupId, hero) {
-    return client.saddAsync(redisKeys.groupMembers(groupId), JSON.stringify(hero));
+    let key = redisKeys.groupMembers(groupId);
+    return client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync();
 };
 
 let removeHeroFromGroupMembers = function (groupId, hero) {
@@ -197,7 +204,7 @@ let replaceGroupLeaderWithMember = function (groupId) {
         return getGroupDetails(groupId);
     }).then((details) => {
         let newLeader = JSON.stringify(details.members[0]);
-        return client.multi().set(redisKeys.groupLeader(groupId), newLeader)
+        return client.multi().setex(redisKeys.groupLeader(groupId), timeToLive, newLeader)
             .srem(redisKeys.groupMembers(groupId), newLeader)
             .execAsync();
     });
