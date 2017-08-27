@@ -14,7 +14,7 @@ let idInPending = function (details, id) {
     });
 
     if (!found) {
-        logger.error(`Did not find ${id} in group pending`);
+        logger.error(`Did not find ${id} in group pending: groupId ${details.groupId}`);
         throw new SocketError(exceptions.heroNotInvitedToGroup, 'groupId', details.groupId);
     }
 };

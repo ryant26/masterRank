@@ -34,6 +34,31 @@ let createNewGroup = function (battleNetId, region, socket, namespace, hero) {
 };
 
 /**
+ * This function gets the stored groupId for the passed player
+ * @param battleNetId
+ */
+let getGroupId = function(battleNetId) {
+    return RedisClient.getGroupId(battleNetId);
+};
+
+/**
+ * This functions sets the stored groupId for the passed player
+ * @param battleNetId
+ * @param groupId
+ */
+let setGroupId = function(battleNetId, groupId) {
+    return RedisClient.setGroupId(battleNetId, groupId);
+};
+
+/**
+ * This function deletes the stored groupId for the passed player
+ * @param battleNetId
+ */
+let deleteGroupId = function(battleNetId) {
+    return RedisClient.deleteGroupId(battleNetId);
+};
+
+/**
  * This function invites the passed hero to the group.
  * Fires Events: groupInviteReceived, playerInvited
  * @param battleNetId
@@ -344,6 +369,9 @@ module.exports = {
     addSocketToPlayerRoom,
     addSocketToGroupRoom,
     createNewGroup,
+    getGroupId,
+    setGroupId,
+    deleteGroupId,
     invitePlayerToGroup,
     acceptGroupInvite,
     getGroupMemberHeroById,

@@ -10,8 +10,6 @@ const connectionUrlUs = `${connectionUrl}/us`;
 const connectionUrlEu = `${connectionUrl}/eu`;
 const connectionUrlAs = `${connectionUrl}/as`;
 
-let battleNetId = 'testUser#1234';
-
 let socketsArray = [];
 
 let getAuthenticatedSocket = function (battleNetId, socketUrl) {
@@ -66,51 +64,50 @@ let getFilledGroup = function (numberOfGroupMembers, connectionUrl) {
         memberHeros: []
     };
 
-    out.leaderSocket = getAuthenticatedSocket(battleNetId, connectionUrl || connectionUrlUs);
+    return out.leaderSocket = getUserWithAddedHero(null, null, connectionUrl || connectionUrlUs).then((leader) => {
+        out.leaderHero = leader.hero;
+        out.leaderSocket = leader.socket;
 
-    out.leaderHero = {
-        battleNetId: randomString.generate(),
-        heroName: randomString.generate()
-    };
+        out.leaderSocket.emit(serverEvents.createGroup, out.leaderHero);
 
-    out.leaderSocket.emit(serverEvents.createGroup, out.leaderHero);
+        out.leaderSocket.on(clientEvents.heroAdded, (hero) => {
+            out.memberHeros.push(hero);
+            out.leaderSocket.emit(serverEvents.groupInviteSend, hero);
+        });
 
-    out.leaderSocket.on(clientEvents.heroAdded, (hero) => {
-        out.memberHeros.push(hero);
-        out.leaderSocket.emit(serverEvents.groupInviteSend, hero);
-    });
-
-    out.leaderSocket.on(clientEvents.groupPromotedLeader, () => {
-        for (let i = 0; i < numberOfGroupMembers; i++) {
-            let member = {
-                battleNetId: randomString.generate(),
-                heroName: randomString.generate()
-            };
+        out.leaderSocket.on(clientEvents.groupPromotedLeader, () => {
+            for (let i = 0; i < numberOfGroupMembers; i++) {
+                let member = {
+                    battleNetId: randomString.generate(),
+                    heroName: randomString.generate()
+                };
 
 
-            let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrl || connectionUrlUs);
+                let memberSocket = getAuthenticatedSocket(member.battleNetId, connectionUrl || connectionUrlUs);
 
-            memberSocket.on(clientEvents.initialData, () => {
-                memberSocket.emit(serverEvents.addHero, member.heroName);
-            });
+                memberSocket.on(clientEvents.initialData, () => {
+                    memberSocket.emit(serverEvents.addHero, member.heroName);
+                });
 
-            memberSocket.on(clientEvents.groupInviteReceived, (group) => {
-                memberSocket.emit(serverEvents.groupInviteAccept, group.groupId);
-                memberSocket.removeAllListeners(clientEvents.groupInviteReceived);
-                memberSocket.removeAllListeners(clientEvents.initialData);
-            });
+                memberSocket.on(clientEvents.groupInviteReceived, (group) => {
+                    memberSocket.emit(serverEvents.groupInviteAccept, group.groupId);
+                    memberSocket.removeAllListeners(clientEvents.groupInviteReceived);
+                    memberSocket.removeAllListeners(clientEvents.initialData);
+                });
 
-            out.memberSockets.push(memberSocket);
-        }
-    });
-
-    return new Promise((resolve) => {
-        out.leaderSocket.on(clientEvents.groupInviteAccepted, (groupDetails) => {
-            if(groupDetails.members.length === numberOfGroupMembers){
-                out.leaderSocket.removeAllListeners(clientEvents.groupInviteAccepted);
-                out.leaderSocket.removeAllListeners(clientEvents.heroAdded);
-                resolve(out);
+                out.memberSockets.push(memberSocket);
             }
+        });
+
+        return new Promise((resolve) => {
+            out.leaderSocket.on(clientEvents.groupInviteAccepted, (groupDetails) => {
+                if(groupDetails.members.length === numberOfGroupMembers){
+                    out.leaderSocket.removeAllListeners(clientEvents.groupInviteAccepted);
+                    out.leaderSocket.removeAllListeners(clientEvents.heroAdded);
+                    out.leaderSocket.removeAllListeners(clientEvents.groupPromotedLeader);
+                    resolve(out);
+                }
+            });
         });
     });
 };
@@ -124,17 +121,19 @@ let getUserWithAddedHero = function(battleNetId, heroName, connectionUrl) {
 
         let socket = getAuthenticatedSocket(hero.battleNetId, connectionUrl || connectionUrlUs);
 
-        socket.on(clientEvents.initialData, () => {
-            socket.emit(serverEvents.addHero, hero.heroName);
+        socket.on(clientEvents.heroAdded, (addedHero) => {
+            if (addedHero.battleNetId === hero.battleNetId) {
+                socket.removeAllListeners(clientEvents.initialData);
+                socket.removeAllListeners(clientEvents.heroAdded);
+                resolve({
+                    hero,
+                    socket
+                });
+            }
         });
 
-        socket.on(clientEvents.heroAdded, () => {
-            socket.removeAllListeners(clientEvents.initialData);
-            socket.removeAllListeners(clientEvents.heroAdded);
-            resolve({
-                hero,
-                socket
-            });
+        socket.on(clientEvents.initialData, () => {
+            socket.emit(serverEvents.addHero, hero.heroName);
         });
     });
 };

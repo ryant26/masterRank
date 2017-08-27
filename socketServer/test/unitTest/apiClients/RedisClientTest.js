@@ -4,7 +4,6 @@ const randomString = require('randomstring');
 const logger = require('winston');
 const sinon = require('sinon');
 const RedisClient = require('../../../src/apiClients/RedisClient');
-const redis = require('redis');
 
 let getHeroObject = function (name) {
     return {
@@ -13,16 +12,7 @@ let getHeroObject = function (name) {
     };
 };
 
-describe('RedisClient Tests', function(done) {
-
-    after(function() {
-        redis.createClient().flushall((err) => {
-            if(err) {
-                logger.error(err);
-            }
-            done();
-        });
-    });
+describe('RedisClient Tests', function() {
 
     describe('addPlayerHero', function() {
         it('should create a new object for new users', function() {
@@ -532,6 +522,33 @@ describe('RedisClient Tests', function(done) {
             }).then((details) => {
                 assert.isEmpty(details.pending);
                 assert.deepEqual(details.members[0], member);
+                done();
+            });
+        });
+    });
+
+    describe('groupId', function() {
+
+        it('should be able to set a groupID', function(done) {
+            let groupId = 10;
+            let battleNetId = randomString.generate();
+            RedisClient.setGroupId(battleNetId, groupId).then(() => {
+                return RedisClient.getGroupId(battleNetId);
+            }).then((id) => {
+                assert.equal(id, groupId);
+                done();
+            });
+        });
+
+        it('should be able to delete a groupId', function(done) {
+            let groupId = 10;
+            let battleNetId = randomString.generate();
+            RedisClient.setGroupId(battleNetId, groupId).then(() => {
+                return RedisClient.deleteGroupId(battleNetId);
+            }).then(() => {
+                return RedisClient.getGroupId(battleNetId);
+            }).then((id) => {
+                assert.isNull(id);
                 done();
             });
         });
