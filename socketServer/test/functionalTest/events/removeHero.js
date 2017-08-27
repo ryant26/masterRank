@@ -9,12 +9,13 @@ const exceptions = require('../../../src/validators/exceptions/exceptions');
 // Start the Socket Server
 require('../../../src/app');
 
-let battleNetId = 'testUser#1234';
+let battleNetId;
 
 describe(serverEvents.removeHero, function() {
     let socket;
 
     beforeEach(function() {
+        battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
     });
 

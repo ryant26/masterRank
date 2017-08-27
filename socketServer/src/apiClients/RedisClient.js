@@ -31,6 +31,10 @@ let redisKeys = {
 
     groupMembers: function(groupId) {
         return `groups.${groupId}.members`;
+    },
+
+    groupId: function(battleNetId) {
+        return `groups.${battleNetId}.groupId`;
     }
 };
 
@@ -113,6 +117,18 @@ let getPlayerInfo = function (battleNetId) {
 
 let createNewGroup = function() {
     return client.incrAsync(redisKeys.groups);
+};
+
+let getGroupId = function(battleNetId) {
+    return client.getAsync(redisKeys.groupId(battleNetId));
+};
+
+let setGroupId = function (battleNetId, groupId) {
+    return client.setAsync(redisKeys.groupId(battleNetId), groupId);
+};
+
+let deleteGroupId = function(battleNetId) {
+    return client.delAsync(redisKeys.groupId(battleNetId));
 };
 
 let setGroupLeader = function (groupId, hero) {
@@ -233,6 +249,9 @@ module.exports = {
     deletePlayerInfo,
     getPlayerInfo,
     createNewGroup,
+    getGroupId,
+    setGroupId,
+    deleteGroupId,
     setGroupLeader,
     addHeroToGroupPending,
     removeHeroFromGroupPending,
