@@ -1,24 +1,31 @@
 const express = require('express');
-const config = require('./../config/config');
 const glob = require('glob');
 const mongoose = require('mongoose');
 const logger = require('winston');
+const config =require('config');
+const path = require('path');
+const rootPath = path.normalize(__dirname + '/..');
 
-mongoose.connect(config.db);
+const dbPath = config.get('db');
+const port = config.get('port');
+
+mongoose.connect(dbPath);
 let db = mongoose.connection;
+
 db.on('error', function () {
-    throw new Error('unable to connect to database at ' + config.db);
+    throw new Error('unable to connect to database at ' + dbPath);
 });
 
-let models = glob.sync(config.root + '/src/models/*.js');
+let models = glob.sync(rootPath + '/src/models/*.js');
 models.forEach(function (model) {
     require(model);
 });
+
 let app = express();
 
-module.exports = require('./../config/express')(app, config);
+module.exports = require('./../config/express')(app);
 
-app.listen(config.port, function () {
-    logger.info('Express server listening on port ' + config.port);
+app.listen(port, function () {
+    logger.info('Express server listening on port ' + port);
 });
 

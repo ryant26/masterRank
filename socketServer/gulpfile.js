@@ -42,7 +42,7 @@ gulp.task('multinodetest', () => {
 
 gulp.task('serve', () => {
     return nodemon({
-        script: 'src/src.js',
+        script: 'src/app.js',
         env: { 'NODE_ENV': 'develop' }
     });
 });
