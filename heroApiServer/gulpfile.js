@@ -35,6 +35,7 @@ gulp.task('functionaltest', () => {
 });
 
 gulp.task('serve', function () {
+    process.env.NODE_ENV = 'develop';
     livereload.listen();
     nodemon({
         script: 'src/app.js',
