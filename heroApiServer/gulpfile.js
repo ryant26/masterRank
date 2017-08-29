@@ -1,18 +1,18 @@
 const gulp = require('gulp');
+const nodemon = require('gulp-nodemon');
+const livereload = require('gulp-livereload');
 const runSequence = require('run-sequence');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
-const nodemon = require('gulp-nodemon');
 
 let paths = {
     functionaltests: 'test/functionalTest/**/*.js',
     unittests: 'test/unitTest/**/*.js',
-    multinodetests: 'test/multiNode/**/*.js',
     src: 'src/**/*.js'
 };
 
 gulp.task('default', () => {
-    return runSequence('lint', 'unittest', 'functionaltest', 'multinodetest');
+    return runSequence('lint', 'unittest', 'functionaltest');
 });
 
 gulp.task('lint', () => {
@@ -22,27 +22,33 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('functionaltest', () => {
-    process.env.NODE_ENV = 'functionalTest';
-    return gulp.src(paths.functionaltests)
-        .pipe(mocha());
-});
-
 gulp.task('unittest', () => {
     process.env.NODE_ENV = 'unitTest';
     return gulp.src(paths.unittests)
         .pipe(mocha());
 });
 
-gulp.task('multinodetest', () => {
-    process.env.NODE_ENV = 'multiNodeTest';
-    return gulp.src(paths.multinodetests)
+gulp.task('functionaltest', () => {
+    process.env.NODE_ENV = 'functionalTest';
+    return gulp.src(paths.functionaltests)
         .pipe(mocha());
 });
 
-gulp.task('serve', () => {
-    return nodemon({
+gulp.task('serve', function () {
+    process.env.NODE_ENV = 'develop';
+    livereload.listen();
+    nodemon({
         script: 'src/app.js',
-        env: { 'NODE_ENV': 'develop' }
+        stdout: false
+    }).on('readable', function () {
+        this.stdout.on('data', function (chunk) {
+            if(/^Express server listening on port/.test(chunk)){
+                livereload.changed(__dirname);
+            }
+        });
+        this.stdout.pipe(process.stdout);
+        this.stderr.pipe(process.stderr);
     });
 });
+
+
