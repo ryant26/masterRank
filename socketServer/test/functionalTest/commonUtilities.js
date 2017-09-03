@@ -6,9 +6,9 @@ const clientEvents = require('../../src/socketEvents/clientEvents');
 const logger = require('winston');
 
 const connectionUrl = `${config.get('url')}:${config.get('port')}`;
-const connectionUrlUs = `${connectionUrl}/us`;
-const connectionUrlEu = `${connectionUrl}/eu`;
-const connectionUrlAs = `${connectionUrl}/as`;
+const connectionUrlUs = `${connectionUrl}/us/pc`;
+const connectionUrlEu = `${connectionUrl}/eu/pc`;
+const connectionUrlAs = `${connectionUrl}/as/pc`;
 
 let socketsArray = [];
 
