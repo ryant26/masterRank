@@ -7,16 +7,16 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
 let redisKeys = {
-    userHeros: function(battleNetId) {
-        return `users.${battleNetId}.heros`;
+    userHeros: function(battleNetId, platform) {
+        return `users.${platform}.${battleNetId}.heros`;
     },
 
-    rankHeros: function(region, rank) {
-        return `${region}.${rank}.heros`;
+    rankHeros: function(region, platform, rank) {
+        return `${region}.${platform}.${rank}.heros`;
     },
 
-    playerInfo: function(battleNetId) {
-        return `users.${battleNetId}.info`;
+    playerInfo: function(battleNetId, platform) {
+        return `users.${battleNetId}.${platform}.info`;
     },
 
     groups: 'groups',
@@ -33,8 +33,8 @@ let redisKeys = {
         return `groups.${groupId}.members`;
     },
 
-    groupId: function(battleNetId) {
-        return `groups.${battleNetId}.groupId`;
+    groupId: function(battleNetId, platform) {
+        return `groups.${battleNetId}.${platform}.groupId`;
     }
 };
 
@@ -47,19 +47,19 @@ let client = redis.createClient({
     url: redisUrl
 });
 
-let addPlayerHero = function (battleNetId, hero) {
+let addPlayerHero = function (battleNetId, platform, hero) {
     return new Promise((resolve) => {
-        let key = redisKeys.userHeros(battleNetId);
+        let key = redisKeys.userHeros(battleNetId, platform);
         resolve(client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync());
     });
 };
 
-let removePlayerHeros = function(battleNetId, ...heros) {
+let removePlayerHeros = function(battleNetId, platform, ...heros) {
     return new Promise((resolve) => {
         let heroStrings = heros.map((hero) => {
             return JSON.stringify(hero);
         });
-        client.sremAsync(redisKeys.userHeros(battleNetId), ...heroStrings).then((removed) => {
+        client.sremAsync(redisKeys.userHeros(battleNetId, platform), ...heroStrings).then((removed) => {
             if (removed !== heros.length) {
                 logger.warn(`Tried to remove [${heros.length}] heros from player:[${battleNetId}], only removed [${removed}]`);
             }
@@ -68,25 +68,25 @@ let removePlayerHeros = function(battleNetId, ...heros) {
     });
 };
 
-let getPlayerHeros = function(battleNetId) {
-    return getJsonList(redisKeys.userHeros(battleNetId));
+let getPlayerHeros = function(battleNetId, platform) {
+    return getJsonList(redisKeys.userHeros(battleNetId, platform));
 };
 
-let addMetaHero = function (rank, region, hero) {
+let addMetaHero = function (rank, region, platform, hero) {
     return new Promise((resolve) => {
-        let key = redisKeys.rankHeros(region, rank);
+        let key = redisKeys.rankHeros(region, platform, rank);
         resolve(client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync());
     });
 };
 
-let removeMetaHeros = function (rank, region, ...heros) {
+let removeMetaHeros = function (rank, platform, region, ...heros) {
     return new Promise((resolve) => {
         let heroStrings = heros.map((hero) => {
             return JSON.stringify(hero);
         });
-        client.sremAsync(redisKeys.rankHeros(region, rank), ...heroStrings).then((removed) => {
+        client.sremAsync(redisKeys.rankHeros(region, platform, rank), ...heroStrings).then((removed) => {
             let heroNames = loggingUtilities.listOfObjectsToString(heros, 'heroName');
-            if (removed != heros.length) {
+            if (removed !== heros.length) {
                 logger.warn(`Tried to remove one of the following heros that did not exist, {${heroNames}} from rank [${rank}] and region [${region}]`);
             }
             resolve();
@@ -94,19 +94,19 @@ let removeMetaHeros = function (rank, region, ...heros) {
     });
 };
 
-let getMetaHeros = function(rank, region) {
-    return getJsonList(redisKeys.rankHeros(region, rank));
+let getMetaHeros = function(rank, platorm, region) {
+    return getJsonList(redisKeys.rankHeros(region, platorm, rank));
 };
 
-let addPlayerInfo = function (battleNetId, information) {
-    return client.setexAsync(redisKeys.playerInfo(battleNetId), timeToLive, JSON.stringify(information));
+let addPlayerInfo = function (battleNetId, platform, information) {
+    return client.setexAsync(redisKeys.playerInfo(battleNetId, platform), timeToLive, JSON.stringify(information));
 };
 
-let deletePlayerInfo = function (battleNetId) {
+let deletePlayerInfo = function (battleNetId, platform) {
     return client.delAsync(redisKeys.playerInfo(battleNetId));
 };
 
-let getPlayerInfo = function (battleNetId) {
+let getPlayerInfo = function (battleNetId, platform) {
     return new Promise((resolve) => {
         client.getAsync(redisKeys.playerInfo(battleNetId))
             .then((data) => {
@@ -123,16 +123,16 @@ let createNewGroup = function() {
     return client.incrAsync(redisKeys.groups);
 };
 
-let getGroupId = function(battleNetId) {
-    return client.getAsync(redisKeys.groupId(battleNetId));
+let getGroupId = function(battleNetId, platform) {
+    return client.getAsync(redisKeys.groupId(battleNetId, platform));
 };
 
-let setGroupId = function (battleNetId, groupId) {
-    return client.setexAsync(redisKeys.groupId(battleNetId), timeToLive, groupId);
+let setGroupId = function (battleNetId, platform, groupId) {
+    return client.setexAsync(redisKeys.groupId(battleNetId, platform), timeToLive, groupId);
 };
 
-let deleteGroupId = function(battleNetId) {
-    return client.delAsync(redisKeys.groupId(battleNetId));
+let deleteGroupId = function(battleNetId, platform) {
+    return client.delAsync(redisKeys.groupId(battleNetId, platform));
 };
 
 let setGroupLeader = function (groupId, hero) {
