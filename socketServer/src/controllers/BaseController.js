@@ -8,10 +8,11 @@ module.exports = class BaseController {
         this.config = config;
         this.eventEmitter = new EventEmitter();
         this.socket = config.socket;
-        this.token = this.socket.token;
-        this.battleNetId = this.token.battleNetId;
-        this.region = config.region;
         this.namespace = config.namespace;
+        this.token = config.token;
+        this.battleNetId = this.token.battleNetId;
+        this.region = this.token.region;
+        this.platform = this.token.platform;
         this._socketEvents = {};
     }
 

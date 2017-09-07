@@ -8,17 +8,16 @@ const BaseController = require('./BaseController');
  */
 module.exports = class AuthenticationController extends BaseController {
     constructor (config) {
-        config.socket.token = {};
         super(config);
 
         this.on('authenticate', (data) => {
             // TODO Authenticate token here!!
-            this.socket.token = data.eventData;
+            this.token = data.eventData;
         });
 
         this.after('authenticate', () => {
             this.socket.emit('authenticated');
-            config.authenticatedCallback(config.socket);
+            config.authenticatedCallback(this.token);
         });
     }
 };
