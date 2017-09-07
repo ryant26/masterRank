@@ -15,22 +15,31 @@ module.exports = class PlayerController extends BaseController{
     constructor (config) {
         super(config);
 
-        playerService.getPlayerRank(this.battleNetId, this.region).then((rankObj) => {
+        this.player = {
+            battleNetId: this.battleNetId,
+            rank: this.rank,
+            region: this.region,
+            platform: this.platform,
+            socket: this.socket,
+            namespace: this.namespace
+        };
+
+        playerService.getPlayerRank(this.player).then((rankObj) => {
             this.rank = rankObj.rank;
-            return playerService.sendInitialData(this.battleNetId, this.rank, this.region, this.socket);
+            return playerService.sendInitialData(this.player);
         });
 
         this.on(serverEvents.addHero, (data) => {
-            return playerService.addHeroByName(this.battleNetId, this.rank, this.region, this.namespace, data.eventData);
+            return playerService.addHeroByName(this.player, data.eventData);
         });
 
         this.on(serverEvents.removeHero, (data) => {
-            return playerService.removePlayerHerosByName(this.battleNetId, this.rank, this.region, this.namespace, data.eventData);
+            return playerService.removePlayerHerosByName(this.player, data.eventData);
         });
 
         this.on(serverEvents.disconnect, () => {
-            return playerService.removeAllPlayerHeros(this.battleNetId, this.rank, this.region, this.namespace).then(() => {
-                return playerService.removePlayerInfo(this.battleNetId);
+            return playerService.removeAllPlayerHeros(this.player).then(() => {
+                return playerService.removePlayerInfo(this.player);
             });
         });
     }

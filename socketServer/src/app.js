@@ -12,18 +12,18 @@ const port = config.get('port');
 const regionNamespaces = ['us', 'eu', 'as'];
 const platformNamespaces = ['pc', 'ps', 'xb'];
 
-let onAuthenticated = function (namespace, socket, region, platform) {
+let onAuthenticated = function (namespace, socket, token) {
     socket.removeAllListeners();
-    playerControllerFactory.getPlayerController({namespace, socket, region, platform});
-    groupControllerFactory.getGroupController({namespace, socket, region, platform});
+    playerControllerFactory.getPlayerController({namespace, socket, token});
+    groupControllerFactory.getGroupController({namespace, socket, token});
 };
 
-let setupRegion = function(namespace, region, platform) {
+let setupRegion = function(namespace) {
     namespace.on('connection', (socket) => {
         new AuthenticationController({
             socket,
-            authenticatedCallback: () => {
-                onAuthenticated(namespace, socket, region, platform);
+            authenticatedCallback: (token) => {
+                onAuthenticated(namespace, socket, token);
             }
         });
     });
@@ -37,6 +37,6 @@ app.listen(port, () => {
 regionNamespaces.forEach((region) => {
     platformNamespaces.forEach((platform) => {
         let namespace = io.of(`/${region}/${platform}`);
-        setupRegion(namespace, region, platform);
+        setupRegion(namespace);
     });
 });
