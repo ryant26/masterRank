@@ -72,7 +72,7 @@ let getPlayerHeros = function(battleNetId, platform) {
     return getJsonList(redisKeys.userHeros(battleNetId, platform));
 };
 
-let addMetaHero = function (rank, region, platform, hero) {
+let addMetaHero = function (rank, platform, region, hero) {
     return new Promise((resolve) => {
         let key = redisKeys.rankHeros(region, platform, rank);
         resolve(client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync());
@@ -94,8 +94,8 @@ let removeMetaHeros = function (rank, platform, region, ...heros) {
     });
 };
 
-let getMetaHeros = function(rank, platorm, region) {
-    return getJsonList(redisKeys.rankHeros(region, platorm, rank));
+let getMetaHeros = function(rank, platform, region) {
+    return getJsonList(redisKeys.rankHeros(region, platform, rank));
 };
 
 let addPlayerInfo = function (battleNetId, platform, information) {
@@ -103,12 +103,12 @@ let addPlayerInfo = function (battleNetId, platform, information) {
 };
 
 let deletePlayerInfo = function (battleNetId, platform) {
-    return client.delAsync(redisKeys.playerInfo(battleNetId));
+    return client.delAsync(redisKeys.playerInfo(battleNetId, platform));
 };
 
 let getPlayerInfo = function (battleNetId, platform) {
     return new Promise((resolve) => {
-        client.getAsync(redisKeys.playerInfo(battleNetId))
+        client.getAsync(redisKeys.playerInfo(battleNetId, platform))
             .then((data) => {
                 let out = null;
                 if(data) {
