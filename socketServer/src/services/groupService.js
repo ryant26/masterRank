@@ -37,8 +37,8 @@ let createNewGroup = function (battleNetId, region, socket, namespace, hero) {
  * This function gets the stored groupId for the passed player
  * @param battleNetId
  */
-let getGroupId = function(battleNetId) {
-    return RedisClient.getGroupId(battleNetId);
+let getGroupId = function(battleNetId, platform) {
+    return RedisClient.getGroupId(battleNetId, platform);
 };
 
 /**
@@ -46,16 +46,16 @@ let getGroupId = function(battleNetId) {
  * @param battleNetId
  * @param groupId
  */
-let setGroupId = function(battleNetId, groupId) {
-    return RedisClient.setGroupId(battleNetId, groupId);
+let setGroupId = function(battleNetId, platform, groupId) {
+    return RedisClient.setGroupId(battleNetId, platform, groupId);
 };
 
 /**
  * This function deletes the stored groupId for the passed player
  * @param battleNetId
  */
-let deleteGroupId = function(battleNetId) {
-    return RedisClient.deleteGroupId(battleNetId);
+let deleteGroupId = function(battleNetId, platform) {
+    return RedisClient.deleteGroupId(battleNetId, platform);
 };
 
 /**

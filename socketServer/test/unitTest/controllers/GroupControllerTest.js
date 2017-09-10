@@ -11,11 +11,14 @@ let groupService = require('../../../src/services/groupService');
 
 describe('GroupController Tests', function() {
     let socket;
+    let token;
 
     beforeEach(function() {
         socket = new EventEmitter();
-        socket.token = {
-            battleNetId: randomString.generate()
+        token = {
+            battleNetId: randomString.generate(),
+            region: randomString.generate(),
+            platform: 'pc'
         };
         socket.join = function(){};
     });
@@ -33,9 +36,9 @@ describe('GroupController Tests', function() {
     describe('groupId', function() {
         it('should attempt to retrieve the groupID on construction', function() {
             sinon.spy(groupService, 'getGroupId');
-            new GroupController({socket});
+            new GroupController({socket, token});
 
-            assert(groupService.getGroupId.calledWith(socket.token.battleNetId));
+            assert(groupService.getGroupId.calledWith(token.battleNetId, token.platform));
 
             groupService.getGroupId.restore();
         });
@@ -43,17 +46,17 @@ describe('GroupController Tests', function() {
         it('should attempt to set the groupID in redis when the property is set', function() {
             let groupId = 10;
             sinon.spy(groupService, 'setGroupId');
-            let controller = new GroupController({socket});
+            let controller = new GroupController({socket, token});
             controller.groupId = groupId;
 
-            assert(groupService.setGroupId.calledWith(socket.token.battleNetId, groupId));
+            assert(groupService.setGroupId.calledWith(token.battleNetId, token.platform, groupId));
 
             groupService.setGroupId.restore();
         });
 
         it('should attempt to delete the groupID in redis when the property is set to null', function() {
             sinon.spy(groupService, 'deleteGroupId');
-            let controller = new GroupController({socket});
+            let controller = new GroupController({socket, token});
             controller.groupId = null;
 
             assert(groupService.deleteGroupId.calledOnce);
