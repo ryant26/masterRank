@@ -17,9 +17,9 @@ module.exports = class GroupController extends BaseController {
 
     set groupId(id) {
         if (id) {
-            groupService.setGroupId(this.battleNetId, id);
+            groupService.setGroupId(this.battleNetId, this.platform, id);
         } else {
-            groupService.deleteGroupId(this.battleNetId);
+            groupService.deleteGroupId(this.battleNetId, this.platform);
         }
         this._groupId = id;
     }
@@ -33,7 +33,7 @@ module.exports = class GroupController extends BaseController {
 
         groupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
 
-        groupService.getGroupId(this.battleNetId).then((id) => {
+        groupService.getGroupId(this.battleNetId, this.platform).then((id) => {
             if(id) this._groupId = id;
         });
 
