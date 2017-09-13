@@ -36,7 +36,7 @@ describe(serverEvents.addHero, function() {
                 assert.lengthOf(data, 3);
                 done();
             });
-        }, 50);
+        }, 150);
     });
 
     it('should call the heroAdded event on all connected clients', function(done) {

@@ -38,7 +38,7 @@ describe('GroupController Tests', function() {
             sinon.spy(groupService, 'getGroupId');
             new GroupController({socket, token});
 
-            assert(groupService.getGroupId.calledWith(token.battleNetId, token.platform));
+            assert(groupService.getGroupId.calledWith(token));
 
             groupService.getGroupId.restore();
         });
@@ -49,7 +49,7 @@ describe('GroupController Tests', function() {
             let controller = new GroupController({socket, token});
             controller.groupId = groupId;
 
-            assert(groupService.setGroupId.calledWith(token.battleNetId, token.platform, groupId));
+            assert(groupService.setGroupId.calledWith(token, groupId));
 
             groupService.setGroupId.restore();
         });

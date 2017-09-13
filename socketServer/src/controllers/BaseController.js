@@ -10,9 +10,6 @@ module.exports = class BaseController {
         this.socket = config.socket;
         this.namespace = config.namespace;
         this.token = config.token;
-        this.battleNetId = this.token.battleNetId;
-        this.region = this.token.region;
-        this.platform = this.token.platform;
         this._socketEvents = {};
     }
 
@@ -88,11 +85,11 @@ module.exports = class BaseController {
                 };
 
                 this.eventEmitter.emitAsync(this._getBeforeEvent(event), data).then(() => {
-                    return this.eventEmitter.emit(this._getOnEvent(event), data);
+                    return this.eventEmitter.emitAsync(this._getOnEvent(event), data);
                 }).then(() => {
-                    return this.eventEmitter.emit(this._getAfterEvent(event), data);
+                    return this.eventEmitter.emitAsync(this._getAfterEvent(event), data);
                 }).catch((error) => {
-                    logger.error(`Error handling socket event [${event}] for user [${this.battleNetId}]: ${error}`);
+                    logger.error(`Error handling socket event [${event}] for user [${this.token.battleNetId}]: ${error}`);
                     if (clientEvents.error[event]) {
                         let errorInfo = {
                             err: error.message
