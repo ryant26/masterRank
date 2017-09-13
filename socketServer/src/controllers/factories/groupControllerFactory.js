@@ -43,7 +43,7 @@ let configureLeaderValidation = function(groupController) {
  */
 let configureHeroExistsValidation = function(groupController) {
     groupController.before(serverEvents.groupInviteSend, (data) => {
-        return RedisClient.getPlayerHeros(data.eventData.battleNetId).then((heros) => {
+        return RedisClient.getPlayerHeros(data.eventData.battleNetId, groupController.token.platform).then((heros) => {
             playerValidators.heroExists(heros, data.eventData);
         });
     });

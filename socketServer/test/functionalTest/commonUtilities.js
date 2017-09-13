@@ -12,9 +12,9 @@ const connectionUrlAs = `${connectionUrl}/as/pc`;
 
 let socketsArray = [];
 
-let getAuthenticatedSocket = function (battleNetId, socketUrl) {
+let getAuthenticatedSocket = function (battleNetId, socketUrl, platform ='pc', region = 'us') {
     let outSocket = io(socketUrl, {forceNew: true});
-    outSocket.emit('authenticate', {battleNetId: battleNetId});
+    outSocket.emit('authenticate', {battleNetId: battleNetId, region, platform});
     socketsArray.push(outSocket);
     return outSocket;
 };
