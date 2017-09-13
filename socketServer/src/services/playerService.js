@@ -84,7 +84,7 @@ let removePlayerHeros = function(token, rank, namespace, ...heros) {
     return new Promise((resolve) => {
         if (heros.length){
             resolve(Promise.all([RedisClient.removePlayerHeros(token.battleNetId, token.platform, ...heros),
-                RedisClient.removeMetaHeros(rank, token.region, ...heros)]).then(() => {
+                RedisClient.removeMetaHeros(rank, token.platform, token.region, ...heros)]).then(() => {
                 heros.forEach(hero => {
                     namespace.to(rank).emit(clientEvents.heroRemoved, hero);
                 });
