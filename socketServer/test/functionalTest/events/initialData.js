@@ -58,7 +58,7 @@ describe(clientEvents.initialData, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlEu);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlEu, 'pc', 'eu');
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
@@ -68,18 +68,18 @@ describe(clientEvents.initialData, function() {
     });
 
     it('should work in all regions', function() {
-        let test = function(regionUrl) {
+        let test = function(regionUrl, region) {
             return new Promise((resolve) => {
                 let heroName = randomString.generate();
 
-                let socket1 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl);
+                let socket1 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl, 'pc', region);
                 socket1.on(clientEvents.initialData, function () {
                     socket1.emit(serverEvents.addHero, heroName);
                 });
 
                 // Ensure hero is fully added before we connect the 2nd user
                 setTimeout(function () {
-                    let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl);
+                    let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl, 'pc', region);
 
                     socket2.on(clientEvents.initialData, (data) => {
                         assert.lengthOf(data, 1);
@@ -90,6 +90,6 @@ describe(clientEvents.initialData, function() {
             });
         };
 
-        return Promise.all([test(commonUtilities.connectionUrlUs), test(commonUtilities.connectionUrlEu), test(commonUtilities.connectionUrlAs)]);
+        return Promise.all([test(commonUtilities.connectionUrlUs, 'us'), test(commonUtilities.connectionUrlEu, 'eu'), test(commonUtilities.connectionUrlAs, 'as')]);
     });
 });
