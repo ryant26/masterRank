@@ -32,7 +32,7 @@ describe(serverEvents.groupInviteAccept, function() {
 
         let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.connectionUrlUs);
 
-        socket.on(clientEvents.heroAdded, () => {
+        socket.on(clientEvents.heroAdded, (hero) => {
             socket.emit(serverEvents.groupInviteSend, invitedHero);
         });
 

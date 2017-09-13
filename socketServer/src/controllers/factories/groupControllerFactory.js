@@ -31,7 +31,7 @@ let getGroupController = function(config) {
 let configureLeaderValidation = function(groupController) {
     groupController.before([serverEvents.groupInviteSend, serverEvents.groupInviteCancel], () => {
         return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-            groupValidators.idIsLeader(groupDetails, groupController.battleNetId);
+            groupValidators.idIsLeader(groupDetails, groupController.token.battleNetId);
         });
     });
 };
@@ -57,7 +57,7 @@ let configureHeroExistsValidation = function(groupController) {
 let configrePlayersHeroInGroupPending = function(groupController) {
     groupController.before([serverEvents.groupInviteAccept, serverEvents.groupInviteDecline], (data) => {
         return RedisClient.getGroupDetails(data.eventData).then((groupDetails) => {
-            groupValidators.idInPending(groupDetails, groupController.battleNetId);
+            groupValidators.idInPending(groupDetails, groupController.token.battleNetId);
         });
     });
 };
@@ -65,7 +65,7 @@ let configrePlayersHeroInGroupPending = function(groupController) {
 let configurePassedHeroInGroupPending = function(groupController) {
     groupController.before(serverEvents.groupInviteCancel, (data) => {
         return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-            groupValidators.idInPending(groupDetails, data.eventData.battleNetId);
+            groupValidators.idInPending(groupDetails, data.eventData.token.battleNetId);
         });
     });
 };
@@ -80,7 +80,7 @@ let configureHeroInGroup = function(groupController) {
         return new Promise((resolve) => {
             if (!groupController.groupId) throw new SocketError(exceptions.userNotInGroup);
             resolve(RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-                groupValidators.idIsLeaderOrMember(groupDetails, groupController.battleNetId);
+                groupValidators.idIsLeaderOrMember(groupDetails, groupController.token.battleNetId);
             }));
         });
     });

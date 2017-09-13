@@ -51,8 +51,6 @@ let addPlayerHero = function (battleNetId, platform, hero) {
     return new Promise((resolve) => {
         let key = redisKeys.userHeros(battleNetId, platform);
         resolve(client.multi().sadd(key, JSON.stringify(hero)).expire(key, timeToLive).execAsync());
-    }).catch((err) => {
-        logger.error(err);
     });
 };
 
