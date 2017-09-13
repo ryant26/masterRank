@@ -65,7 +65,7 @@ let configrePlayersHeroInGroupPending = function(groupController) {
 let configurePassedHeroInGroupPending = function(groupController) {
     groupController.before(serverEvents.groupInviteCancel, (data) => {
         return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-            groupValidators.idInPending(groupDetails, data.eventData.token.battleNetId);
+            groupValidators.idInPending(groupDetails, data.eventData.battleNetId);
         });
     });
 };
