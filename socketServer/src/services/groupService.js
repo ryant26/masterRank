@@ -68,7 +68,7 @@ let deleteGroupId = function(token) {
  * @returns {Promise}
  */
 let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
-    return RedisClient.getPlayerHeros(hero.battleNetId, hero.platform).then((heros) => {
+    return RedisClient.getPlayerHeros(hero.battleNetId, token.platform).then((heros) => {
         logger.info(`Invited hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
 
         let heroStats = heros.find((element) => {
@@ -79,7 +79,7 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((groupDetails) => {
-        socket.to(getPlayerRoom(hero)).emit(clientEvents.groupInviteReceived, groupDetails);
+        socket.to(getPlayerRoom({battleNetId: hero.battleNetId, platform: token.platform})).emit(clientEvents.groupInviteReceived, groupDetails);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInvited, groupDetails);
     }).catch((err) => {
         logger.error(`Problem inviting ${hero.battleNetId}:${hero.heroName} to group ${groupId}: ${err}`);
