@@ -3,7 +3,9 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../commonUtilities');
+
+let commonUtilities = new CommonUtilities();
 
 let battleNetId = 'testUser#1234';
 
@@ -14,7 +16,7 @@ describe(clientEvents.initialData, function() {
     let socket;
 
     beforeEach(function () {
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
+        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     afterEach(function() {
@@ -25,7 +27,7 @@ describe(clientEvents.initialData, function() {
         let heroName = 'Soldier76';
 
         commonUtilities.getUserWithAddedHero(null, heroName).then((user) => {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
             socket2.on(clientEvents.initialData, (data) => {
                 let hero = data.find((element) => {
@@ -43,7 +45,7 @@ describe(clientEvents.initialData, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
@@ -58,7 +60,7 @@ describe(clientEvents.initialData, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlEu, 'pc', 'eu');
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.eu);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);
@@ -68,18 +70,18 @@ describe(clientEvents.initialData, function() {
     });
 
     it('should work in all regions', function() {
-        let test = function(regionUrl, region) {
+        let test = function(region) {
             return new Promise((resolve) => {
                 let heroName = randomString.generate();
 
-                let socket1 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl, 'pc', region);
+                let socket1 = commonUtilities.getAuthenticatedSocket(randomString.generate(), region);
                 socket1.on(clientEvents.initialData, function () {
                     socket1.emit(serverEvents.addHero, heroName);
                 });
 
                 // Ensure hero is fully added before we connect the 2nd user
                 setTimeout(function () {
-                    let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), regionUrl, 'pc', region);
+                    let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), region);
 
                     socket2.on(clientEvents.initialData, (data) => {
                         assert.lengthOf(data, 1);
@@ -90,6 +92,6 @@ describe(clientEvents.initialData, function() {
             });
         };
 
-        return Promise.all([test(commonUtilities.connectionUrlUs, 'us'), test(commonUtilities.connectionUrlEu, 'eu'), test(commonUtilities.connectionUrlAs, 'as')]);
+        return Promise.all([test(commonUtilities.regions.us), test(commonUtilities.regions.eu), test(commonUtilities.regions.as)]);
     });
 });
