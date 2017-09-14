@@ -3,8 +3,10 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../commonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
+
+let commonUtilities = new CommonUtilities();
 
 // Start the Socket Server
 require('../../../src/app');
@@ -30,9 +32,9 @@ describe(serverEvents.groupInviteAccept, function() {
             heroName: randomString.generate()
         };
 
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.connectionUrlUs);
+        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
 
-        socket.on(clientEvents.heroAdded, (hero) => {
+        socket.on(clientEvents.heroAdded, () => {
             socket.emit(serverEvents.groupInviteSend, invitedHero);
         });
 
@@ -61,8 +63,8 @@ describe(serverEvents.groupInviteAccept, function() {
             heroName: randomString.generate()
         };
 
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.connectionUrlUs);
-        let socket3 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
+        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
+        let socket3 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
             socket2.emit(serverEvents.addHero, invitedHero.heroName);
@@ -95,7 +97,7 @@ describe(serverEvents.groupInviteAccept, function() {
             done();
         });
 
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.connectionUrlUs);
+        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
             socket2.emit(serverEvents.addHero, invitedHero.heroName);

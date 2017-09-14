@@ -2,8 +2,10 @@ const chai = require('chai');
 const assert = chai.assert;
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../commonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
+
+let commonUtilities = new CommonUtilities();
 
 // Start the Socket Server
 require('../../../src/app');

@@ -3,20 +3,21 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../commonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
 
 // Start the Socket Server
 require('../../../src/app');
 
 let battleNetId;
+let commonUtilities = new CommonUtilities();
 
 describe(serverEvents.removeHero, function() {
     let socket;
 
     beforeEach(function() {
         battleNetId = randomString.generate();
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
+        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     afterEach(function() {
@@ -52,7 +53,7 @@ describe(serverEvents.removeHero, function() {
         });
 
         socket.on(clientEvents.heroRemoved, () => {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 0);
@@ -85,7 +86,7 @@ describe(serverEvents.removeHero, function() {
         let socket2;
         let heroName = randomString.generate();
 
-        socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.connectionUrlUs);
+        socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
             socket2.emit(serverEvents.addHero, heroName);
@@ -109,7 +110,7 @@ describe(serverEvents.removeHero, function() {
         let socket2;
         let heroName = randomString.generate();
 
-        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlEu);
+        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
             socket2.emit(serverEvents.addHero, heroName);
