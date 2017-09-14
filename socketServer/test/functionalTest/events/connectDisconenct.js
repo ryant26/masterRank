@@ -3,7 +3,7 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const CommonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../CommonUtilities');
 
 let battleNetId;
 let commonUtilities = new CommonUtilities();
