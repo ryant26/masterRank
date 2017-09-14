@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const CommonUtilities = require('../functionalTest/commonUtilities');
+const CommonUtilities = require('../functionalTest/CommonUtilities');
 const config = require('config');
 const randomString = require('randomstring');
 const clientEvents = require('../../src/socketEvents/clientEvents');

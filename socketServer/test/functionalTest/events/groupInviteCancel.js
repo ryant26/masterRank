@@ -3,7 +3,7 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const CommonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../CommonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
 
 let commonUtilities = new CommonUtilities();
