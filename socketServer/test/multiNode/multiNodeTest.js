@@ -9,8 +9,8 @@ const exec = require('child_process').exec;
 
 const port1 = 3000;
 const port2 = 3001;
-const server1Url = `${config.get('url')}:${port1}/us/pc`;
-const server2Url = `${config.get('url')}:${port2}/us/pc`;
+const server1Url = `${config.get('url')}:${port1}`;
+const server2Url = `${config.get('url')}:${port2}`;
 
 let server1Utilities = new CommonUtilities({
     url: server1Url
@@ -21,7 +21,7 @@ let server2Utilities = new CommonUtilities({
 });
 
 let startServer = function (port) {
-    return exec(`node src/app.js --NODE_CONFIG='{"port":${port},"url":"http://localhost","redisUrl":"redis://localhost"}'`, (err, stdout, stderr) => {
+    return exec(`node src/app.js --NODE_CONFIG='{"port":${port}}'`, (err, stdout, stderr) => {
         logger.info(stdout);
         logger.info(stderr);
     });
