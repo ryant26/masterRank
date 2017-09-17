@@ -3,8 +3,10 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../CommonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
+
+let commonUtilities = new CommonUtilities();
 
 // Start the Socket Server
 require('../../../src/app');
@@ -52,7 +54,7 @@ describe(serverEvents.groupInviteSend, function() {
 
             let memberSocket = groupSockets.memberSockets[0];
 
-            let inviteSocket = commonUtilities.getAuthenticatedSocket(invite.battleNetId, commonUtilities.connectionUrlUs);
+            let inviteSocket = commonUtilities.getAuthenticatedSocket(invite.battleNetId, commonUtilities.regions.us);
 
             inviteSocket.on(clientEvents.initialData, () => {
                 inviteSocket.emit(serverEvents.addHero, invite.heroName);

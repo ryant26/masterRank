@@ -12,14 +12,16 @@ let getHeroObject = function (name) {
     };
 };
 
+let platform = 'pc';
+
 describe('RedisClient Tests', function() {
 
     describe('addPlayerHero', function() {
         it('should create a new object for new users', function() {
             let id = '1234';
-            return RedisClient.addPlayerHero(id, getHeroObject('hero'))
+            return RedisClient.addPlayerHero(id, platform, getHeroObject('hero'))
                 .then(() => {
-                    return RedisClient.getPlayerHeros(id);
+                    return RedisClient.getPlayerHeros(id, platform);
                 })
                 .then((heros) => {
                     assert.lengthOf(heros, 1);
@@ -32,9 +34,9 @@ describe('RedisClient Tests', function() {
 
             let hero1 = 'hero1';
             let hero2 = 'hero2';
-            return Promise.all([RedisClient.addPlayerHero(id, getHeroObject(hero1)), RedisClient.addPlayerHero(id, getHeroObject(hero2))])
+            return Promise.all([RedisClient.addPlayerHero(id, platform, getHeroObject(hero1)), RedisClient.addPlayerHero(id, platform, getHeroObject(hero2))])
                 .then(() => {
-                    return RedisClient.getPlayerHeros(id);
+                    return RedisClient.getPlayerHeros(id, platform);
                 })
                 .then((heros) => {
                     assert.lengthOf(heros, 2);
@@ -45,9 +47,9 @@ describe('RedisClient Tests', function() {
             let id = randomString.generate();
 
             let hero1 = 'hero1';
-            return Promise.all([RedisClient.addPlayerHero(id, getHeroObject(hero1)), RedisClient.addPlayerHero(id, getHeroObject(hero1))])
+            return Promise.all([RedisClient.addPlayerHero(id, platform, getHeroObject(hero1)), RedisClient.addPlayerHero(id, platform, getHeroObject(hero1))])
                 .then(() => {
-                    return RedisClient.getPlayerHeros(id);
+                    return RedisClient.getPlayerHeros(id, platform);
                 })
                 .then((heros) => {
                     assert.lengthOf(heros, 1);
@@ -61,14 +63,14 @@ describe('RedisClient Tests', function() {
             let id = randomString.generate();
 
             let hero1 = getHeroObject('hero1');
-            return Promise.all([RedisClient.addPlayerHero(id, hero1),
-                RedisClient.addPlayerHero(id, getHeroObject(randomString.generate())),
-                RedisClient.addPlayerHero(id, getHeroObject(randomString.generate()))])
+            return Promise.all([RedisClient.addPlayerHero(id, platform, hero1),
+                RedisClient.addPlayerHero(id, platform, getHeroObject(randomString.generate())),
+                RedisClient.addPlayerHero(id, platform, getHeroObject(randomString.generate()))])
                 .then(() => {
-                    return RedisClient.removePlayerHeros(id, hero1);
+                    return RedisClient.removePlayerHeros(id, platform, hero1);
                 })
                 .then(() => {
-                    return RedisClient.getPlayerHeros(id);
+                    return RedisClient.getPlayerHeros(id, platform);
                 })
                 .then((heros) => {
                     assert.lengthOf(heros, 2);
@@ -81,14 +83,14 @@ describe('RedisClient Tests', function() {
             let hero1 = getHeroObject(randomString.generate());
             let hero2 = getHeroObject(randomString.generate());
             let hero3 = getHeroObject(randomString.generate());
-            return Promise.all([RedisClient.addPlayerHero(id, hero1),
-                RedisClient.addPlayerHero(id, hero2),
-                RedisClient.addPlayerHero(id, hero3)])
+            return Promise.all([RedisClient.addPlayerHero(id, platform, hero1),
+                RedisClient.addPlayerHero(id, platform, hero2),
+                RedisClient.addPlayerHero(id, platform, hero3)])
                 .then(() => {
-                    return RedisClient.removePlayerHeros(id, hero1, hero2, hero3);
+                    return RedisClient.removePlayerHeros(id, platform, hero1, hero2, hero3);
                 })
                 .then(() => {
-                    return RedisClient.getPlayerHeros(id);
+                    return RedisClient.getPlayerHeros(id, platform);
                 })
                 .then((heros) => {
                     assert.isEmpty(heros);
@@ -100,7 +102,7 @@ describe('RedisClient Tests', function() {
 
             let hero1 = getHeroObject(randomString.generate());
             sinon.spy(logger, 'warn');
-            return RedisClient.removePlayerHeros(id, hero1)
+            return RedisClient.removePlayerHeros(id, platform, hero1)
                 .then(() => {
                     assert(logger.warn.calledOnce);
                     logger.warn.restore();
@@ -119,8 +121,8 @@ describe('RedisClient Tests', function() {
 
         it('should add a hero to the new meta list', function() {
             let hero = getHeroObject('Mei');
-            return RedisClient.addMetaHero(rank, region, hero).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+            return RedisClient.addMetaHero(rank, platform, region, hero).then(() => {
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
                 assert.deepEqual(heros[0], hero);
@@ -130,8 +132,8 @@ describe('RedisClient Tests', function() {
         it('should append heros to the existing meta list', function() {
             let hero1 = getHeroObject('Mei');
             let hero2 =getHeroObject('widow');
-            return Promise.all([RedisClient.addMetaHero(rank, region, hero1), RedisClient.addMetaHero(rank, region, hero2)]).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+            return Promise.all([RedisClient.addMetaHero(rank, platform, region, hero1), RedisClient.addMetaHero(rank, platform, region, hero2)]).then(() => {
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 2);
             });
@@ -139,8 +141,8 @@ describe('RedisClient Tests', function() {
 
         it('should not append duplicates to existing meta list', function() {
             let hero = getHeroObject('Mei');
-            return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank, region, hero)]).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+            return Promise.all([RedisClient.addMetaHero(rank, platform, region, hero), RedisClient.addMetaHero(rank, platform, region, hero)]).then(() => {
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
             });
@@ -149,11 +151,11 @@ describe('RedisClient Tests', function() {
         it('should add heros from separate ranks to separate lists', function() {
             let rank2 = randomString.generate();
             let hero = getHeroObject('Mei');
-            return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank2, region, hero)]).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+            return Promise.all([RedisClient.addMetaHero(rank, platform, region, hero), RedisClient.addMetaHero(rank2, platform, region, hero)]).then(() => {
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
-                return RedisClient.getMetaHeros(rank2, region);
+                return RedisClient.getMetaHeros(rank2, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
             });
@@ -162,11 +164,11 @@ describe('RedisClient Tests', function() {
         it('should add heros from separate regions to separate lists', function() {
             let region2 = randomString.generate();
             let hero = getHeroObject('Mei');
-            return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank, region2, hero)]).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+            return Promise.all([RedisClient.addMetaHero(rank, platform, region, hero), RedisClient.addMetaHero(rank, platform, region2, hero)]).then(() => {
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
-                return RedisClient.getMetaHeros(rank, region2);
+                return RedisClient.getMetaHeros(rank, platform, region2);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
             });
@@ -184,10 +186,10 @@ describe('RedisClient Tests', function() {
 
         it('should remove a single hero from the list', function() {
             let hero = getHeroObject('Mei');
-            return RedisClient.addMetaHero(rank, region, hero).then(() => {
-                return RedisClient.removeMetaHeros(rank, region, hero);
+            return RedisClient.addMetaHero(rank, platform, region, hero).then(() => {
+                return RedisClient.removeMetaHeros(rank, platform, region, hero);
             }).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.isEmpty(heros);
             });
@@ -198,11 +200,11 @@ describe('RedisClient Tests', function() {
             let hero2 = getHeroObject(randomString.generate());
             let hero3 = getHeroObject(randomString.generate());
 
-            Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank, region, hero2), RedisClient.addMetaHero(rank, region, hero3)])
+            Promise.all([RedisClient.addMetaHero(rank, platform, region, hero), RedisClient.addMetaHero(rank, platform, region, hero2), RedisClient.addMetaHero(rank, platform, region, hero3)])
                 .then(() => {
-                    return RedisClient.removeMetaHeros(rank, region, hero, hero2, hero3);
+                    return RedisClient.removeMetaHeros(rank, platform, region, hero, hero2, hero3);
                 }).then(() => {
-                    return RedisClient.getMetaHeros(rank, region);
+                    return RedisClient.getMetaHeros(rank, platform, region);
                 }).then((heros) => {
                     assert.isEmpty(heros);
                 });
@@ -211,13 +213,13 @@ describe('RedisClient Tests', function() {
         it('should remove hero for only 1 rank and region', function() {
             let rank2 = randomString.generate();
             let hero = getHeroObject('Mei');
-            return Promise.all([RedisClient.addMetaHero(rank, region, hero), RedisClient.addMetaHero(rank2, region, hero)]).then(() => {
-                return RedisClient.removeMetaHeros(rank, region, hero);
+            return Promise.all([RedisClient.addMetaHero(rank, platform, region, hero), RedisClient.addMetaHero(rank2, platform, region, hero)]).then(() => {
+                return RedisClient.removeMetaHeros(rank, platform, region, hero);
             }).then(() => {
-                return RedisClient.getMetaHeros(rank, region);
+                return RedisClient.getMetaHeros(rank, platform, region);
             }).then((heros) => {
                 assert.isEmpty(heros);
-                return RedisClient.getMetaHeros(rank2, region);
+                return RedisClient.getMetaHeros(rank2, platform, region);
             }).then((heros) => {
                 assert.lengthOf(heros, 1);
             });
@@ -226,8 +228,8 @@ describe('RedisClient Tests', function() {
         it('should log a warning when trying to remove a hero that does not exist', function() {
             let hero = getHeroObject('Mei');
             sinon.spy(logger, 'warn');
-            return RedisClient.addMetaHero(rank, region, hero).then(() => {
-                return RedisClient.removeMetaHeros(rank, region, {battleNetId: randomString.generate(), heroName: 'Genji'});
+            return RedisClient.addMetaHero(rank, platform, region, hero).then(() => {
+                return RedisClient.removeMetaHeros(rank, platform, region, {battleNetId: randomString.generate(), heroName: 'Genji'});
             }).then(() => {
                 assert(logger.warn.calledOnce);
                 logger.warn.restore();
@@ -259,8 +261,8 @@ describe('RedisClient Tests', function() {
             let someObj = {
                 hello: 'world'
             };
-            return RedisClient.addPlayerInfo(id, someObj).then(() => {
-                return RedisClient.getPlayerInfo(id);
+            return RedisClient.addPlayerInfo(id, platform, someObj).then(() => {
+                return RedisClient.getPlayerInfo(id, platform);
             }).then((data) => {
                 assert.deepEqual(data, someObj);
             });
@@ -274,10 +276,10 @@ describe('RedisClient Tests', function() {
 
         it('should be able to delete player info', function() {
             let id = randomString.generate();
-            return RedisClient.addPlayerInfo(id, {hello: 'world'}).then(() => {
-                return RedisClient.deletePlayerInfo(id);
+            return RedisClient.addPlayerInfo(id, platform, {hello: 'world'}).then(() => {
+                return RedisClient.deletePlayerInfo(id, platform);
             }).then(() => {
-                return RedisClient.getPlayerInfo(id);
+                return RedisClient.getPlayerInfo(id, platform);
             }).then((data) => {
                 assert.isNull(data);
             });
@@ -532,8 +534,8 @@ describe('RedisClient Tests', function() {
         it('should be able to set a groupID', function(done) {
             let groupId = 10;
             let battleNetId = randomString.generate();
-            RedisClient.setGroupId(battleNetId, groupId).then(() => {
-                return RedisClient.getGroupId(battleNetId);
+            RedisClient.setGroupId(battleNetId, platform, groupId).then(() => {
+                return RedisClient.getGroupId(battleNetId, platform);
             }).then((id) => {
                 assert.equal(id, groupId);
                 done();
@@ -543,10 +545,10 @@ describe('RedisClient Tests', function() {
         it('should be able to delete a groupId', function(done) {
             let groupId = 10;
             let battleNetId = randomString.generate();
-            RedisClient.setGroupId(battleNetId, groupId).then(() => {
-                return RedisClient.deleteGroupId(battleNetId);
+            RedisClient.setGroupId(battleNetId, platform, groupId).then(() => {
+                return RedisClient.deleteGroupId(battleNetId, platform);
             }).then(() => {
-                return RedisClient.getGroupId(battleNetId);
+                return RedisClient.getGroupId(battleNetId, platform);
             }).then((id) => {
                 assert.isNull(id);
                 done();

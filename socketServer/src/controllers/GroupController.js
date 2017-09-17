@@ -17,9 +17,9 @@ module.exports = class GroupController extends BaseController {
 
     set groupId(id) {
         if (id) {
-            groupService.setGroupId(this.battleNetId, id);
+            groupService.setGroupId(this.token, id);
         } else {
-            groupService.deleteGroupId(this.battleNetId);
+            groupService.deleteGroupId(this.token);
         }
         this._groupId = id;
     }
@@ -31,37 +31,37 @@ module.exports = class GroupController extends BaseController {
     constructor (config) {
         super(config);
 
-        groupService.addSocketToPlayerRoom(this.battleNetId, this.socket);
+        groupService.addSocketToPlayerRoom(this.token, this.socket);
 
-        groupService.getGroupId(this.battleNetId).then((id) => {
+        groupService.getGroupId(this.token).then((id) => {
             if(id) this._groupId = id;
         });
 
         this.on(serverEvents.groupInviteSend, (data) => {
-            return groupService.invitePlayerToGroup(this.battleNetId, this.groupId, this.socket, this.namespace, data.eventData);
+            return groupService.invitePlayerToGroup(this.token, this.groupId, this.socket, this.namespace, data.eventData);
 
         });
 
         this.on(serverEvents.createGroup, (data) => {
-            return groupService.createNewGroup(this.battleNetId, this.region, this.socket, this.namespace, data.eventData).then((id) => {
+            return groupService.createNewGroup(this.token, this.socket, this.namespace, data.eventData).then((id) => {
                 this.groupId = id;
             });
         });
 
         this.on(serverEvents.groupInviteAccept, (data) => {
-            return groupService.acceptGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace).then(() => {
+            return groupService.acceptGroupInvite(this.token, data.eventData, this.socket, this.namespace).then(() => {
                 this.groupId = data.eventData;
-                return Promise.all([groupService.getGroupMemberHeroById(this.battleNetId, data.eventData),
-                    playerService.getPlayerRank(this.battleNetId, this.region)]);
+                return Promise.all([groupService.getGroupMemberHeroById(this.token, data.eventData),
+                    playerService.getPlayerRank(this.token, this.region)]);
             }).then((results) => {
                 let hero = results[0];
                 let rank = results[1].rank;
-                return playerService.removePlayerHeros(this.battleNetId, rank, this.region, this.namespace, hero);
+                return playerService.removePlayerHeros(this.token, rank, this.namespace, hero);
             });
         });
 
         this.on(serverEvents.groupInviteDecline, (data) => {
-            return groupService.declineGroupInvite(this.battleNetId, data.eventData, this.socket, this.namespace);
+            return groupService.declineGroupInvite(this.token, data.eventData, this.socket, this.namespace);
         });
 
         this.on(serverEvents.groupInviteCancel, (data) => {
@@ -70,7 +70,7 @@ module.exports = class GroupController extends BaseController {
 
         this.on(serverEvents.groupLeave, () => {
             return new Promise((resolve) => {
-                resolve(groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace));
+                resolve(groupService.removePlayerFromGroup(this.token, this.groupId, this.socket, this.namespace));
             }).then(() => {
                 this.groupId = null;
             });
@@ -78,8 +78,8 @@ module.exports = class GroupController extends BaseController {
 
         this.on(serverEvents.disconnect, () => {
             if (this.groupId) {
-                return Promise.all([groupService.removePlayerFromGroup(this.battleNetId, this.groupId, this.socket, this.namespace),
-                    groupService.deleteGroupId(this.battleNetId)]);
+                return Promise.all([groupService.removePlayerFromGroup(this.token, this.groupId, this.socket, this.namespace),
+                    groupService.deleteGroupId(this.token)]);
             }
         });
     }

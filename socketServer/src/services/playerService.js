@@ -6,18 +6,17 @@ const _ = require('lodash');
 
 /**
  * Fires the initialData event on the client and provides the hero Meta lists
- * @param battleNetId
+ * @param token
  * @param rank
- * @param region
  * @param socket
  */
-let sendInitialData = function (battleNetId, rank, region, socket) {
-    return PlayerClient.getPlayerRank(battleNetId, region).then((rankObj) => {
+let sendInitialData = function (token, rank, socket) {
+    return PlayerClient.getPlayerRank(token.battleNetId, token.region, token.platform).then((rankObj) => {
         let rank = rankObj.rank;
-        RedisClient.addPlayerInfo(battleNetId, rankObj);
+        RedisClient.addPlayerInfo(token.battleNetId, token.platform, rankObj);
         socket.join(rank);
-        logger.info(`Player [${battleNetId}] joined rank [${rank}]`);
-        return RedisClient.getMetaHeros(rank, region);
+        logger.info(`Player [${token.battleNetId}] joined rank [${rank}]`);
+        return RedisClient.getMetaHeros(rank, token.platform, token.region);
     }).then((heros) => {
         socket.emit(clientEvents.initialData, heros);
     });
@@ -25,76 +24,71 @@ let sendInitialData = function (battleNetId, rank, region, socket) {
 
 /**
  * Adds a hero to a player and the Meta lists by name (looks up stats)
- * @param battleNetId
+ * @param token
  * @param rank
- * @param region
  * @param namespace
  * @param heroName
  */
-let addHeroByName = function(battleNetId, rank, region, namespace, heroName) {
-    let heroObj;
-    return PlayerClient.getHeroStats(battleNetId, region.name, heroName).then((stats) => {
-        heroObj = {heroName: heroName, stats, battleNetId: battleNetId};
-        return Promise.all([RedisClient.addPlayerHero(battleNetId, heroObj),
-            RedisClient.addMetaHero(rank, region, heroObj)]);
+let addHeroByName = function(token, rank, namespace, heroName) {
+    let heroStats;
+    return PlayerClient.getHeroStats(token.battleNetId, token.region, token.platform, heroName).then((stats) => {
+        heroStats = stats;
+        return Promise.all([RedisClient.addPlayerHero(token.battleNetId, token.platform, heroStats),
+            RedisClient.addMetaHero(rank, token.platform, token.region, heroStats)]);
     }).then(() => {
-        namespace.to(rank).emit(clientEvents.heroAdded, heroObj);
-        logger.info(`Player [${battleNetId}] added hero [${heroName}]`);
+        namespace.to(rank).emit(clientEvents.heroAdded, heroStats);
+        logger.info(`Player [${token.battleNetId}] added hero [${heroName}]`);
     });
 };
 
 /**
  * Removes all heros that a player has added from meta lists and player
- * @param battleNetId
+ * @param token
  * @param rank
- * @param region
  * @param namespace
  */
-let removeAllPlayerHeros = function(battleNetId, rank, region, namespace) {
-    return RedisClient.getPlayerHeros(battleNetId).then((heros) => {
-        return removePlayerHeros(battleNetId, rank, region, namespace, ...heros);
+let removeAllPlayerHeros = function(token, rank, namespace) {
+    return RedisClient.getPlayerHeros(token.battleNetId, token.platform).then((heros) => {
+        return removePlayerHeros(token, rank, namespace, ...heros);
     });
 };
 
 /**
  * Removes the specified heros (by name) from the player and meta lists
- * @param battleNetId
  * @param rank
- * @param region
  * @param namespace
  * @param names
  */
-let removePlayerHerosByName = function(battleNetId, rank, region, namespace, ...names) {
-    return RedisClient.getPlayerHeros(battleNetId).then((heros) => {
+let removePlayerHerosByName = function(token, rank, namespace, ...names) {
+    return RedisClient.getPlayerHeros(token.battleNetId, token.platform).then((heros) => {
         let herosToRemove = heros.filter((hero) => {
             return _.includes(names, hero.heroName);
         });
 
         if(herosToRemove.length !== names.length) {
-            logger.warn(`Tried to remove [${names.length}] heros from player:[${battleNetId}], only removed [${herosToRemove.length}]`);
+            logger.warn(`Tried to remove [${names.length}] heros from player:[${token.battleNetId}], only removed [${herosToRemove.length}]`);
         }
 
-        return removePlayerHeros(battleNetId, rank, region, namespace, ...herosToRemove);
+        return removePlayerHeros(token, rank, namespace, ...herosToRemove);
     });
 };
 
 /**
  * Removes the specified heros from the player and the meta lists
- * @param battleNetId
+ * @param token
  * @param rank
- * @param region
  * @param namespace
  * @param heros
  */
-let removePlayerHeros = function(battleNetId, rank, region, namespace, ...heros) {
+let removePlayerHeros = function(token, rank, namespace, ...heros) {
     return new Promise((resolve) => {
         if (heros.length){
-            resolve(Promise.all([RedisClient.removePlayerHeros(battleNetId, ...heros),
-                RedisClient.removeMetaHeros(rank, region, ...heros)]).then(() => {
+            resolve(Promise.all([RedisClient.removePlayerHeros(token.battleNetId, token.platform, ...heros),
+                RedisClient.removeMetaHeros(rank, token.platform, token.region, ...heros)]).then(() => {
                 heros.forEach(hero => {
                     namespace.to(rank).emit(clientEvents.heroRemoved, hero);
                 });
-                logger.info(`Player [${battleNetId}] left rank [${rank}]`);
+                logger.info(`Player [${token.battleNetId}] left rank [${rank}]`);
             }));
         } else {
             resolve();
@@ -102,12 +96,12 @@ let removePlayerHeros = function(battleNetId, rank, region, namespace, ...heros)
     });
 };
 
-let removePlayerInfo = function(battleNetId) {
-    return RedisClient.deletePlayerInfo(battleNetId);
+let removePlayerInfo = function(token) {
+    return RedisClient.deletePlayerInfo(token.battleNetId, token.platform);
 };
 
-let getPlayerRank = function (battleNetId, region) {
-    return PlayerClient.getPlayerRank(battleNetId, region);
+let getPlayerRank = function (token) {
+    return PlayerClient.getPlayerRank(token.battleNetId, token.region, token.platform);
 };
 
 module.exports = {
