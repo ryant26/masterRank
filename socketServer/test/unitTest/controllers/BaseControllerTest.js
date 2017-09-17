@@ -7,11 +7,16 @@ const EventEmitter = require('events');
 describe('BaseController Tests', function() {
     let baseController;
     let socket;
+    let token;
 
     beforeEach(function() {
         socket = new EventEmitter();
-        socket.token = {};
-        baseController = new BaseController({socket});
+        token = {
+            battleNetId: randomString.generate(),
+            region: randomString.generate(),
+            platform: 'pc'
+        };
+        baseController = new BaseController({socket, token});
     });
 
     describe('Before', function() {

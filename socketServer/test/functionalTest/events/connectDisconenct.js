@@ -3,9 +3,10 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../CommonUtilities');
 
 let battleNetId;
+let commonUtilities = new CommonUtilities();
 
 // Start the Socket Server
 require('../../../src/app');
@@ -15,7 +16,7 @@ describe('Connection', function() {
 
     before(function () {
         battleNetId = randomString.generate();
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
+        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     after(function() {
@@ -35,7 +36,7 @@ describe('disconnect', function() {
     let socket;
 
     beforeEach(function () {
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
+        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     afterEach(function() {
@@ -61,7 +62,7 @@ describe('disconnect', function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.isEmpty(data);

@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const commonUtilities = require('../functionalTest/commonUtilities');
+const CommonUtilities = require('../functionalTest/CommonUtilities');
 const config = require('config');
 const randomString = require('randomstring');
 const clientEvents = require('../../src/socketEvents/clientEvents');
@@ -9,11 +9,19 @@ const exec = require('child_process').exec;
 
 const port1 = 3000;
 const port2 = 3001;
-const server1Url = `${config.get('url')}:${port1}/us`;
-const server2Url = `${config.get('url')}:${port2}/us`;
+const server1Url = `${config.get('url')}:${port1}`;
+const server2Url = `${config.get('url')}:${port2}`;
+
+let server1Utilities = new CommonUtilities({
+    url: server1Url
+});
+
+let server2Utilities = new CommonUtilities({
+    url: server2Url
+});
 
 let startServer = function (port) {
-    return exec(`node src/app.js --NODE_CONFIG='{"port":${port},"url":"http://localhost","redisUrl":"redis://localhost"}'`, (err, stdout, stderr) => {
+    return exec(`node src/app.js --NODE_CONFIG='{"port":${port}}'`, (err, stdout, stderr) => {
         logger.info(stdout);
         logger.info(stderr);
     });
@@ -38,7 +46,8 @@ describe('Multi-Node Tests', function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        server1Utilities.closeOpenedSockets();
+        server2Utilities.closeOpenedSockets();
     });
 
     it('should be able to see added heros from other nodes', function(done) {
@@ -47,8 +56,8 @@ describe('Multi-Node Tests', function() {
             heroName: randomString.generate()
         };
 
-        commonUtilities.getUserWithAddedHero(serv1Hero.battleNetId, serv1Hero.heroName, server1Url).then(() => {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), server2Url);
+        server1Utilities.getUserWithAddedHero(serv1Hero.battleNetId, serv1Hero.heroName).then(() => {
+            let socket2 = server2Utilities.getAuthenticatedSocket(randomString.generate());
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 1);
@@ -66,10 +75,10 @@ describe('Multi-Node Tests', function() {
 
         let leadersocket, leaderHero, user2;
 
-        commonUtilities.getEmptyGroup(server1Url).then((group) => {
+        server1Utilities.getEmptyGroup().then((group) => {
             leadersocket = group.leaderSocket;
             leaderHero = group.leaderHero;
-            return commonUtilities.getUserWithAddedHero(serv2Hero.battleNetId, serv2Hero.heroName, server2Url);
+            return server2Utilities.getUserWithAddedHero(serv2Hero.battleNetId, serv2Hero.heroName);
         }).then((serv2User) => {
             user2 = serv2User;
 
@@ -91,9 +100,9 @@ describe('Multi-Node Tests', function() {
 
         let groupDetails;
 
-        commonUtilities.getFilledGroup(2, server1Url).then((details) => {
+        server1Utilities.getFilledGroup(2).then((details) => {
             groupDetails = details;
-            return commonUtilities.getUserWithAddedHero(invitee.battleNetId, invitee.heroName, server2Url);
+            return server2Utilities.getUserWithAddedHero(invitee.battleNetId, invitee.heroName);
         }).then((user) => {
             groupDetails.memberSockets[0].on(clientEvents.groupInviteAccepted, (details) => {
                 let invitedHero = details.members.find((hero) => {
@@ -113,14 +122,14 @@ describe('Multi-Node Tests', function() {
 
     it('should be able to decline an invite from another server', function(done) {
         let groupDetails;
-        commonUtilities.getFilledGroup(2, server1Url).then((details) => {
+        server1Utilities.getFilledGroup(2).then((details) => {
             groupDetails = details;
             details.memberSockets[1].on(clientEvents.groupInviteDeclined, (declineDetails) => {
                 assert.lengthOf(declineDetails.pending, 0);
                 done();
             });
 
-            return commonUtilities.getUserWithAddedHero(null, null, server2Url);
+            return server2Utilities.getUserWithAddedHero();
         }).then((user) => {
             user.socket.on(clientEvents.groupInviteReceived, (inviteDetails) => {
                 user.socket.emit(serverEvents.groupInviteDecline, inviteDetails.groupId);
@@ -136,7 +145,7 @@ describe('Multi-Node Tests', function() {
             heroName: randomString.generate()
         };
 
-        commonUtilities.getEmptyGroup(server1Url).then((groupDetails) => {
+        server1Utilities.getEmptyGroup().then((groupDetails) => {
             let socket = groupDetails.leaderSocket;
 
             socket.on(clientEvents.groupInviteCanceled, (details) => {
@@ -144,7 +153,7 @@ describe('Multi-Node Tests', function() {
                 done();
             });
 
-            commonUtilities.getUserWithAddedHero(invitedHero.battleNetId, invitedHero.heroName, server2Url).then((user) => {
+            server2Utilities.getUserWithAddedHero(invitedHero.battleNetId, invitedHero.heroName).then((user) => {
                 user.socket.on(clientEvents.groupInviteReceived, () => {
                     socket.emit(serverEvents.groupInviteCancel, invitedHero);
                 });

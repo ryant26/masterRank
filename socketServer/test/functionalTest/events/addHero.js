@@ -3,10 +3,11 @@ const assert = chai.assert;
 const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
-const commonUtilities = require('../commonUtilities');
+const CommonUtilities = require('../CommonUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
 
 let battleNetId;
+let commonUtilities = new CommonUtilities();
 
 // Start the Socket Server
 require('../../../src/app');
@@ -16,7 +17,7 @@ describe(serverEvents.addHero, function() {
 
     beforeEach(function () {
         battleNetId = randomString.generate();
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.connectionUrlUs);
+        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     afterEach(function() {
@@ -30,20 +31,20 @@ describe(serverEvents.addHero, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
+            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 3);
                 done();
             });
-        }, 50);
+        }, 150);
     });
 
     it('should call the heroAdded event on all connected clients', function(done) {
         let socket2;
         let heroName = randomString.generate();
 
-        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
+        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
             socket.emit(serverEvents.addHero, heroName);
@@ -59,7 +60,7 @@ describe(serverEvents.addHero, function() {
         let socket2;
         let heroName = randomString.generate();
 
-        socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.connectionUrlUs);
+        socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
             socket.emit(serverEvents.addHero, heroName);
@@ -79,7 +80,7 @@ describe(serverEvents.addHero, function() {
         let socket2;
         let heroName = randomString.generate();
 
-        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlEu);
+        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.eu);
 
         socket2.on(clientEvents.initialData, () => {
             socket.emit(serverEvents.addHero, heroName);
