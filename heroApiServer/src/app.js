@@ -9,6 +9,7 @@ const rootPath = path.normalize(__dirname + '/..');
 const dbPath = config.get('db');
 const port = config.get('port');
 
+
 mongoose.connect(dbPath);
 let db = mongoose.connection;
 
@@ -28,4 +29,3 @@ module.exports = require('./../config/express')(app);
 app.listen(port, function () {
     logger.info('Express server listening on port ' + port);
 });
-

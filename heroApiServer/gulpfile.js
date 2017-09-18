@@ -4,6 +4,7 @@ const livereload = require('gulp-livereload');
 const runSequence = require('run-sequence');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
+const proxy = require('./devTools/proxy');
 
 let paths = {
     functionaltests: 'test/functionalTest/**/*.js',
@@ -36,6 +37,7 @@ gulp.task('functionaltest', () => {
 
 gulp.task('serve', function () {
     process.env.NODE_ENV = 'develop';
+    proxy();
     livereload.listen();
     nodemon({
         script: 'src/app.js',
