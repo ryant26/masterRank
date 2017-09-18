@@ -27,9 +27,13 @@ gulp
 
 Start the server (Development mode)
 ```
-sudo gulp serve
+gulp serve
 ```
-**Note: sudo required for the https -> http proxy (devTools/Proxy.js)**
+
+Access the application from postman or your browser
+```
+https://localhost:3000
+```
 
 ## Configuration
 Configuration files is managed by [config.js](https://www.npmjs.com/package/config).
