@@ -7,7 +7,7 @@ const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
 
 const dbPath = config.get('db');
-const port = config.get('port');
+const port = config.get('app.port');
 
 
 mongoose.connect(dbPath);

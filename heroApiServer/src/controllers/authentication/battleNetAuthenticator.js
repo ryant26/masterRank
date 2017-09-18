@@ -6,11 +6,12 @@ const router = express.Router();
 const tokenService = require('../../services/tokenService');
 
 const bnetRegions = ['us', 'eu', 'apac'];
-
+const port = config.get('proxy.port') ? `:${config.get('proxy.port')}` : '';
+const domainName = config.get('app.hostname') + port;
 
 let generateAuthHandler = function(region) {
     return function (accessToken, refreshToken, profile, done) {
-        done(null, tokenService.getToken(profile.batteltag, region, 'pc'));
+        done(null, tokenService.getToken(profile.battletag, region, 'pc'));
     };
 };
 
@@ -19,7 +20,7 @@ bnetRegions.forEach((region) => {
     passport.use(`bnet-${region}`, new BnetStrategy({
         clientID: config.get('bnet.id'),
         clientSecret: config.get('bnet.secret'),
-        callbackURL: `https://localhost/auth/bnet/callback?region=${region}`,
+        callbackURL: `https://${domainName}/auth/bnet/callback?region=${region}`,
         region: `${region}`
     }, generateAuthHandler(region)));
 });
