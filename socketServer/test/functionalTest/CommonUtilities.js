@@ -18,7 +18,7 @@ module.exports = class CommonUtilities {
         this.regions = {
             us: 'us',
             eu: 'eu',
-            as: 'as'
+            as: 'apac'
         };
     }
 
