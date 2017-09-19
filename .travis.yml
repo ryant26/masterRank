@@ -5,6 +5,7 @@ branches:
     - master
 services:
   - redis-server
+  - mongodb
 matrix:
   include:
     - language: node_js
