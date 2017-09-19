@@ -30,7 +30,7 @@ gulp.task('unittest', () => {
 });
 
 gulp.task('functionaltest', () => {
-    process.env.NODE_ENV = 'functionalTest';
+    process.env.NODE_ENV = 'develop';
     return gulp.src(paths.functionaltests)
         .pipe(mocha());
 });

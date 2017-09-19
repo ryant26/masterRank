@@ -34,7 +34,7 @@ router.get('/bnet/callback', function (req, res, next) {
         failureRedirect: '/',
         session: false
     })(req, res, next);
-}, function(req, res, next) {
+}, function(req, res) {
     res.redirect(`/?access_token=${req.user}`);
 });
 
