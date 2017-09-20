@@ -8,7 +8,7 @@
 const express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
-    Article = mongoose.model('Article');
+    Article = mongoose.model('Player');
 
 router.get('/', function (req, res, next) {
     Article.find(function (err, articles) {

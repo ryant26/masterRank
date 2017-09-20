@@ -21,7 +21,9 @@
     "jsonwebtoken": "^8.0.1",
     "method-override": "^2.3.0",
     "mongoose": "^4.1.2",
+    "mongoose-findorcreate": "^2.0.0",
     "morgan": "^1.6.1",
+    "oversmash": "^1.2.2",
     "passport": "^0.4.0",
     "serve-favicon": "^2.3.0",
     "winston": "^2.3.1"
