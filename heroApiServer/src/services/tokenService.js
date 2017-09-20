@@ -8,6 +8,11 @@ let getToken = function(battleNetId, region, platform) {
     return jwt.sign({battleNetId, region, platform, exp: tokenExpiry}, tokenSecret);
 };
 
+let verifyToken = function(token) {
+    return jwt.verify(token, tokenSecret);
+};
+
 module.exports = {
-    getToken
+    getToken,
+    verifyToken
 };
