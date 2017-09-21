@@ -24,7 +24,7 @@ gulp.task('lint', () => {
 });
 
 gulp.task('unittest', () => {
-    process.env.NODE_ENV = 'unitTest';
+    process.env.NODE_ENV = 'unittest';
     return gulp.src(paths.unittests)
         .pipe(mocha());
 });

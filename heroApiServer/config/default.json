@@ -1,0 +1,20 @@
+{
+  "app": {
+    "name": "heroapiserver",
+    "hostname": "localhost",
+    "port": 3001
+  },
+  "proxy": {
+    "port": 3000
+  },
+  "db": "mongodb://localhost/heroapiserver",
+  "loggingLevel": "dev",
+  "bnet": {
+    "id": "dzj5pnpqax32dxm4bcqnhsmg3dcuhavd",
+    "secret": "f8naukGxtrDS9jrqJ5wtyyKR69a2d5Bp"
+  },
+  "token": {
+    "secret": "d4RJ2A42Vqhe/RXY2wcYpmiMCTjvhUkmEy7INcTayss=",
+    "expiry": 604800
+  }
+}

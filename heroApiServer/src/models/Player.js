@@ -19,7 +19,7 @@ let requiredNumber = function() {
 
 let requiredDate = function() {
     return {
-        type: Number,
+        type: Date,
         required: true
     };
 };
