@@ -1,10 +1,17 @@
 const assert = require('chai').assert;
 const db = require('../commonUtils/dbHelpers');
 const Player = require('../../../src/models/Player');
-const playerService = require('../../../src/services/PlayerService');
-const ow = require('../../../src/apiClients/overwatch');
-const owMock = require('../commonUtils/mockOverwatchApi');
-const sinon = require('sinon');
+const playerService = require('../../../src/services/playerService');
+const mockData = require('../commonUtils/mockOverwatchData');
+const mockHelpers = require('../commonUtils/mockingHelpers');
+
+let queryForPlayer = function(token) {
+    return Player.findOne({
+        platformDisplayName: token.battleNetId,
+        platform: token.platform,
+        region: token.region
+    });
+};
 
 describe('Player Service Tests', function() {
     const token = {
@@ -15,8 +22,7 @@ describe('Player Service Tests', function() {
 
     before(function() {
         db.connect();
-        sinon.stub(ow, 'getPlayerStats').resolves(owMock.getPlayerStats);
-        sinon.stub(ow, 'getPlayerDetails').resolves(owMock.getPlayerDetails);
+        mockHelpers.stubOverwatchAPI();
     });
 
     beforeEach(function() {
@@ -24,8 +30,8 @@ describe('Player Service Tests', function() {
     });
 
     after(function() {
-        ow.getPlayerStats.restore();
-        ow.getPlayerDetails.restore();
+        mockHelpers.restoreAllStubs();
+        return Player.remove({});
     });
 
     describe('findOrCreatePlayer', function() {
@@ -34,10 +40,7 @@ describe('Player Service Tests', function() {
             return playerService.findOrCreatePlayer(token).then((player) => {
                 assert.equal(player.platformDisplayName, token.battleNetId);
             }).then(() => {
-                return Player.findOne({
-                    platformDisplayName: token.battleNetId,
-                    platform: token.platform,
-                    region: token.region});
+                return queryForPlayer(token);
             }).then((player) => {
                 assert.equal(player.platformDisplayName, token.battleNetId);
             });
@@ -92,9 +95,9 @@ describe('Player Service Tests', function() {
             return new Player(playerConfig).save().then(() => {
                 return playerService.findAndUpdatePlayer(token2);
             }).then((player) => {
-                assert.equal(player.level, owMock.getPlayerDetails.level);
+                assert.equal(player.level, mockData.playerDetails.level);
                 assert.notEqual(player.level, playerConfig.level);
-                assert.equal(player.portrait, owMock.getPlayerDetails.portrait);
+                assert.equal(player.portrait, mockData.playerDetails.portrait);
             });
         });
 
@@ -119,7 +122,7 @@ describe('Player Service Tests', function() {
                 return playerService.findAndUpdatePlayer(token2);
             }).then((player) => {
                 assert.equal(player.level, playerConfig.level);
-                assert.notEqual(player.level, owMock.level);
+                assert.notEqual(player.level, mockData.level);
                 assert.equal(player.portrait, playerConfig.portrait);
             });
         });

@@ -16,7 +16,7 @@ let findOrCreatePlayer = function(token) {
 let findAndUpdatePlayer = function(token) {
     return Player.findOne({platformDisplayName: token.battleNetId, platform: token.platform}).then((result) => {
         if (result) {
-            if (new Date().setHours(result.lastUpdated.getHours() + 6) < Date.now()) {
+            if (new Date(result.lastUpdated).setHours(result.lastUpdated.getHours() + 6) < new Date()) {
                 return updatePlayer(token);
             }
             return result;
