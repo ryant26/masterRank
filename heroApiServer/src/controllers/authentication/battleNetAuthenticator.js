@@ -3,15 +3,15 @@ const config = require('config');
 const BnetStrategy = require('passport-bnet').Strategy;
 const express = require('express');
 const router = express.Router();
-const tokenService = require('../../services/tokenService');
+const authenticationService = require('../../services/authenticationService');
 
 const bnetRegions = ['us', 'eu', 'apac'];
-const port = config.get('proxy.port') ? `:${config.get('proxy.port')}` : '';
+const port = config.has('proxy.port') ? `:${config.get('proxy.port')}` : '';
 const domainName = config.get('app.hostname') + port;
 
 let generateAuthHandler = function(region) {
     return function (accessToken, refreshToken, profile, done) {
-        done(null, tokenService.getToken(profile.battletag, region, 'pc'));
+        done(null, {battleNetId: profile.battletag, region, platform: 'pc'});
     };
 };
 
@@ -34,8 +34,6 @@ router.get('/bnet/callback', function (req, res, next) {
         failureRedirect: '/',
         session: false
     })(req, res, next);
-}, function(req, res) {
-    res.redirect(`/?access_token=${req.user}`);
-});
+}, authenticationService.serializeUser, authenticationService.generateToken, authenticationService.respond);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 module.exports = {
-    getPlayerDetails: {
+    playerDetails: {
         level: 188,
         portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x025000000000115A.png',
         displayName: 'PwNShoPP#1662',
@@ -7,7 +7,7 @@ module.exports = {
         region: 'us'
     },
 
-    getPlayerStats: {
+    playerStats: {
         stats: {
             competitiveRank: NaN
         }
