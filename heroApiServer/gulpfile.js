@@ -38,19 +38,19 @@ gulp.task('functionaltest', () => {
 gulp.task('serve', function () {
     process.env.NODE_ENV = 'develop';
     proxy();
-    // livereload.listen();
-    // nodemon({
-    //     script: 'src/app.js',
-    //     stdout: false
-    // }).on('readable', function () {
-    //     this.stdout.on('data', function (chunk) {
-    //         if(/^Express server listening on port/.test(chunk)){
-    //             livereload.changed(__dirname);
-    //         }
-    //     });
-    //     this.stdout.pipe(process.stdout);
-    //     this.stderr.pipe(process.stderr);
-    // });
+    livereload.listen();
+    nodemon({
+        script: 'src/app.js',
+        stdout: false
+    }).on('readable', function () {
+        this.stdout.on('data', function (chunk) {
+            if(/^Express server listening on port/.test(chunk)){
+                livereload.changed(__dirname);
+            }
+        });
+        this.stdout.pipe(process.stdout);
+        this.stderr.pipe(process.stderr);
+    });
 });
 
 
