@@ -16,7 +16,11 @@ let findOrCreatePlayer = function(token) {
 let findAndUpdatePlayer = function(token) {
     return Player.findOne({platformDisplayName: token.battleNetId, platform: token.platform}).then((result) => {
         if (result) {
-            return updatePlayer(token);
+            let adjustedDate = new Date()
+            if (new Date().setHours(result.lastUpdated.getHours() + 6) < Date.now()) {
+                return updatePlayer(token);
+            }
+            return result;
         } else {
             return null;
         }
@@ -49,11 +53,11 @@ let _getPlayerConfigFromOw = function (token) {
         return {
             platformDisplayName: token.battleNetId,
             platform: token.platform,
-            lastUpdated: Date.now(),
+            lastUpdated: new Date(),
             level: playerDetails.level,
             portrait: playerDetails.portrait,
             region: token.region,
-            skillRating: heroDetails.stats.competitiveRank
+            skillRating: isNaN(heroDetails.stats.competitiveRank) ? 0 : heroDetails.stats.competitiveRank
         };
     });
 };
