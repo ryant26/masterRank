@@ -3,7 +3,7 @@ let ow = require('oversmash').default();
 let getPlayerDetails = function(token) {
     let playerId = _normalizeId(token.battleNetId);
     return ow.player(playerId).then((result) => {
-        return result.accounts.find((element) => {return element.region === token.region && element.platform === token.platform});
+        return result.accounts.find((element) => {return element.region === token.region && element.platform === token.platform;});
     });
 };
 
