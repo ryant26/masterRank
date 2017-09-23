@@ -1,8 +1,6 @@
 {
-  "app": {
-    "name": "heroapiserver"
+  "proxy": {
+    "port": 3000
   },
-  "port": 3000,
-  "db": "mongodb://localhost/heroapiserver-development",
-  "loggingLevel": "dev"
+  "db": "mongodb://localhost/heroapiserver-development"
 }

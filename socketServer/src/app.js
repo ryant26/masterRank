@@ -9,7 +9,7 @@ const AuthenticationController = require('./controllers/AuthenticationController
 
 
 const port = config.get('port');
-const regionNamespaces = ['us', 'eu', 'as'];
+const regionNamespaces = ['us', 'eu', 'apac'];
 const platformNamespaces = ['pc', 'ps', 'xb'];
 
 let onAuthenticated = function (namespace, socket, token) {

@@ -3,13 +3,21 @@ const logger = require('morgan');
 const config = require('config');
 const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
+const passport = require('passport');
 
 module.exports = function(app) {
     app.use(logger(config.get('loggingLevel')));
 
-    let controllers = glob.sync(rootPath + '/src/controllers/*.js');
-    controllers.forEach(function (controller) {
-        require(controller)(app);
+    app.use(passport.initialize());
+
+    let apiControllers = glob.sync(rootPath + '/src/controllers/api/*.js');
+    apiControllers.forEach(function (controller) {
+        app.use('/api', require(controller));
+    });
+
+    let authenticationControllers = glob.sync(rootPath + '/src/controllers/authentication/*.js');
+    authenticationControllers.forEach(function (controller) {
+        app.use('/auth', require(controller));
     });
 
     app.use(function (req, res, next) {
@@ -19,7 +27,7 @@ module.exports = function(app) {
     });
 
     if(app.get('env') === 'develop'){
-        app.use(function (err, req, res, next) {
+        app.use(function (err, req, res) {
             res.status(err.status || 500);
             res.render('error', {
                 message: err.message,
@@ -29,7 +37,7 @@ module.exports = function(app) {
         });
     }
 
-    app.use(function (err, req, res, next) {
+    app.use(function (err, req, res) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
