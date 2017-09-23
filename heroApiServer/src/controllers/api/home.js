@@ -8,11 +8,7 @@
 const express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
-    Article = mongoose.model('Article');
-
-module.exports = function (app) {
-    app.use('/', router);
-};
+    Article = mongoose.model('Player');
 
 router.get('/', function (req, res, next) {
     Article.find(function (err, articles) {
@@ -20,3 +16,5 @@ router.get('/', function (req, res, next) {
         res.json(articles);
     });
 });
+
+module.exports = router;

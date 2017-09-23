@@ -18,14 +18,20 @@
     "express": "^4.13.3",
     "glob": "^6.0.4",
     "jade": "^1.11.0",
+    "jsonwebtoken": "^8.0.1",
     "method-override": "^2.3.0",
     "mongoose": "^4.1.2",
+    "mongoose-findorcreate": "^2.0.0",
     "morgan": "^1.6.1",
+    "oversmash": "^1.2.2",
+    "passport": "^0.4.0",
+    "passport-bnet": "^1.2.1",
     "serve-favicon": "^2.3.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "debug": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-eslint": "^4.0.0",
@@ -33,9 +39,11 @@
     "gulp-mocha": "^4.3.1",
     "gulp-nodemon": "^2.0.2",
     "gulp-plumber": "^1.0.0",
+    "http-proxy": "^1.16.2",
     "mocha": "^3.0.2",
     "nyc": "^10.0.0",
     "run-sequence": "^2.1.0",
+    "sinon": "^3.3.0",
     "supertest": "^2.0.0"
   }
 }

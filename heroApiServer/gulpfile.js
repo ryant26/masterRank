@@ -4,6 +4,7 @@ const livereload = require('gulp-livereload');
 const runSequence = require('run-sequence');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
+const proxy = require('./devTools/proxy');
 
 let paths = {
     functionaltests: 'test/functionalTest/**/*.js',
@@ -23,19 +24,20 @@ gulp.task('lint', () => {
 });
 
 gulp.task('unittest', () => {
-    process.env.NODE_ENV = 'unitTest';
+    process.env.NODE_ENV = 'unittest';
     return gulp.src(paths.unittests)
         .pipe(mocha());
 });
 
 gulp.task('functionaltest', () => {
-    process.env.NODE_ENV = 'functionalTest';
+    process.env.NODE_ENV = 'develop';
     return gulp.src(paths.functionaltests)
         .pipe(mocha());
 });
 
 gulp.task('serve', function () {
     process.env.NODE_ENV = 'develop';
+    proxy();
     livereload.listen();
     nodemon({
         script: 'src/app.js',
