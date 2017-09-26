@@ -26,7 +26,8 @@ let makeAuthenticationRequest = function() {
         .catch((err) => {
             let response = err.response;
             assert.equal(err.response.status, 302);
-            assert.isTrue(err.response.headers.location.startsWith('/?access_token='));
+            assert.equal(err.response.headers.location, '/');
+            assert.isTrue(err.response.headers['set-cookie'][0].startsWith('access_token='));
             return response;
         });
 };

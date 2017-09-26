@@ -13,7 +13,8 @@ let generateToken = function(req, res, next) {
 };
 
 let respond = function(req, res) {
-    res.redirect(`/?access_token=${req.token}`);
+    res.setHeader('set-cookie', `access_token=${req.token}`);
+    res.redirect('/');
 };
 
 module.exports = {
