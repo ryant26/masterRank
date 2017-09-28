@@ -17,6 +17,8 @@ let token = {
     platform: 'pc'
 };
 
+let bnetFailureCode = 'failure';
+
 let stubOverwatchAPI = function(playerStats = mockData.playerStats, playerDetails = mockData.playerDetails) {
     sandbox.stub(ow, 'getPlayerStats').resolves(playerStats);
     sandbox.stub(ow, 'getPlayerDetails').resolves(playerDetails);
@@ -36,7 +38,8 @@ module.exports = {
     stubOverwatchAPI,
     stubBnetAuth,
     restoreAllStubs,
-    token
+    token,
+    bnetFailureCode
 };
 
 
