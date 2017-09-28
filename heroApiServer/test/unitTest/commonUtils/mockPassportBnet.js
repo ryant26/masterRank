@@ -10,8 +10,8 @@ function StrategyMock(options, verify) {
 
 util.inherits(StrategyMock, passport.Strategy);
 
-StrategyMock.prototype.authenticate = function authenticate() {
-    if (this.passAuthentication) {
+StrategyMock.prototype.authenticate = function authenticate(req) {
+    if (this.passAuthentication && req.query.accessCode !== 'failure') {
         let profile = {
             battletag: this.battletag
         };
