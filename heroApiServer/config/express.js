@@ -30,9 +30,9 @@ module.exports = function(app) {
     });
 
     if(app.get('env') === 'develop'){
-        app.use(function (err, req, res) {
+        app.use(function (err, req, res, next) {
             res.status(err.status || 500);
-            res.render('error', {
+            res.json({
                 message: err.message,
                 error: err,
                 title: 'error'
@@ -40,9 +40,9 @@ module.exports = function(app) {
         });
     }
 
-    app.use(function (err, req, res) {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.json({
             message: err.message,
             error: {},
             title: 'error'
