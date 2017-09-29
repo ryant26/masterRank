@@ -34,6 +34,8 @@ let PlayerSchema = new Schema({
     skillRating: requiredNumber()
 });
 
+PlayerSchema.index({platformDisplayName: 1});
+PlayerSchema.index({platformDisplayName: 'text'});
 PlayerSchema.plugin(findOrCreate);
 module.exports = mongoose.model('Player', PlayerSchema);
 
