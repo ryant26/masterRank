@@ -4,11 +4,14 @@ const config = require('config');
 const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 module.exports = function(app) {
     app.use(logger(config.get('loggingLevel')));
 
     app.use(passport.initialize());
+
+    app.use(bodyParser.json());
 
     let apiControllers = glob.sync(rootPath + '/src/controllers/api/*.js');
     apiControllers.forEach(function (controller) {

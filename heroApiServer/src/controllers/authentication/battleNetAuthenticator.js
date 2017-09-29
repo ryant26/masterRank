@@ -4,6 +4,7 @@ const BnetStrategy = require('passport-bnet').Strategy;
 const express = require('express');
 const router = express.Router();
 const authenticationService = require('../../services/authenticationService');
+const localAuthenticator = require('./common/localAuthenticator');
 
 const bnetRegions = ['us', 'eu', 'apac'];
 const port = config.has('proxy.port') ? `:${config.get('proxy.port')}` : '';
@@ -31,7 +32,7 @@ router.get('/bnet', function (req, res, next) {
 
 router.get('/bnet/callback', function (req, res, next) {
     passport.authenticate(`bnet-${req.query.region}`, {
-        failureRedirect: '/',
+        failureRedirect: localAuthenticator.failureRedirect,
         session: false
     })(req, res, next);
 }, authenticationService.serializeUser, authenticationService.generateToken, authenticationService.respond);
