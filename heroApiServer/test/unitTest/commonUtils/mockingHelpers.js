@@ -20,8 +20,21 @@ let token = {
 let bnetFailureCode = 'failure';
 
 let stubOverwatchAPI = function(playerStats = mockData.playerStats, playerDetails = mockData.playerDetails) {
-    sandbox.stub(ow, 'getPlayerStats').resolves(playerStats);
-    sandbox.stub(ow, 'getPlayerDetails').resolves(playerDetails);
+    stubOwGetPlayerStats(playerStats);
+    stubOwGetPlayerDetails(playerDetails);
+    stubOwSearchForPlayer([playerDetails]);
+};
+
+let stubOwGetPlayerStats = function(playerStats) {
+    _reStub(ow, 'getPlayerStats').resolves(playerStats);
+};
+
+let stubOwGetPlayerDetails = function(playerDetails) {
+    _reStub(ow, 'getPlayerDetails').resolves(playerDetails);
+};
+
+let stubOwSearchForPlayer = function(output) {
+    _reStub(ow, 'searchForPlayer').resolves(output);
 };
 
 let stubBnetAuth = function (battleNetId = token.battleNetId, region = token.region) {
@@ -34,9 +47,19 @@ let restoreAllStubs = function() {
     sandbox.restore();
 };
 
+let _reStub = function (obj, func) {
+    if (obj[func].restore) {
+        obj[func].restore();
+    }
+    return sandbox.stub(obj, func);
+};
+
 module.exports = {
     stubOverwatchAPI,
     stubBnetAuth,
+    stubOwGetPlayerStats,
+    stubOwGetPlayerDetails,
+    stubOwSearchForPlayer,
     restoreAllStubs,
     token,
     bnetFailureCode
