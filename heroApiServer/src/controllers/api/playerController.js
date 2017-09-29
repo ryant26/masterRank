@@ -1,12 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const Player = mongoose.model('Player');
+const playerService = require('../../services/playerService');
 
-router.get('/search/players', function (req, res, next) {
-    Player.find(function (err, articles) {
-        if (err) return next(err);
-        res.json(articles);
+router.get('/search/players', function(req, res, next) {
+    if(!req.query.platformDisplayName) {
+        let error = new Error('Missing or malformed query parameter');
+        error.status = 400;
+        next(error);
+    }
+    next();
+});
+
+router.get('/search/players', function (req, res) {
+    return playerService.searchForPlayer({
+        battleNetId: req.query.platformDisplayName,
+        platform: req.query.platform,
+        region: req.query.region
+    }).then((players) => {
+        res.json(players);
     });
 });
 
