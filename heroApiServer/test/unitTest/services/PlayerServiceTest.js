@@ -216,7 +216,7 @@ describe('Player Service Tests', function() {
 
         it('shoud call the Overwatch API when not found in db', function() {
             mockHelpers.stubOwSearchForPlayer([]);
-            return playerService.searchForPlayer({battleNetId: 'someID'}).then((players) => {
+            return playerService.searchForPlayer({battleNetId: 'someID'}).then(() => {
                 assert.isTrue(ow.searchForPlayer.calledOnce);
             });
         });
