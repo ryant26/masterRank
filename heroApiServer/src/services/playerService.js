@@ -3,6 +3,31 @@ const Player = mongoose.model('Player');
 const logger = require('winston');
 const ow = require('../apiClients/overwatch');
 
+let searchForPlayer = function(token) {
+    let queryCriteria = {
+        $text: {$search: token.battleNetId},
+    };
+
+    if (token.platform) {
+        queryCriteria.platform = token.platform;
+    }
+
+    if (token.region) {
+        queryCriteria.region = token.region;
+    }
+
+    return Player.find(queryCriteria).then((players) => {
+        if (players && players.length === 0) {
+            return ow.searchForPlayer(token);
+        }
+
+        return players;
+    }).catch((err) => {
+        logger.error(`Error searching for player ${token.battleNetId}: ${err}`);
+        throw err;
+    });
+};
+
 let findOrCreatePlayer = function(token) {
     return findAndUpdatePlayer(token).then((player) => {
         if (!player) {
@@ -25,6 +50,7 @@ let findAndUpdatePlayer = function(token) {
         }
     }).catch((err) => {
         logger.error(`Error finding / updating [${token.platformDisplayName}] on [${token.platform}]: ${err}`);
+        return null;
     });
 };
 
@@ -63,5 +89,6 @@ let _getPlayerConfigFromOw = function (token) {
 
 module.exports = {
     findAndUpdatePlayer,
-    findOrCreatePlayer
+    findOrCreatePlayer,
+    searchForPlayer
 };
