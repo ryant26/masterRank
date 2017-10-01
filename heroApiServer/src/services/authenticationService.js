@@ -17,8 +17,11 @@ let respond = function(req, res) {
     res.redirect('/');
 };
 
+let authenticateWithToken = tokenService.verifyToken;
+
 module.exports = {
     serializeUser,
     generateToken,
-    respond
+    respond,
+    authenticateWithToken
 };
