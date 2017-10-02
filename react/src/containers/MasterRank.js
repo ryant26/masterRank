@@ -9,9 +9,9 @@ import * as HeroActions from '../actions/hero.js';
 import HeroSelector from '../components/HeroSelector.js'
 import HeroCard from '../components/HeroCard.js';
 
-class MasterRank extends Component {
+export class MasterRank extends Component {
   render() {
-    const { dispatch, heroes } = this.props;
+    const { dispatch, heroes = []} = this.props;
     const addHero = bindActionCreators(HeroActions.addHero, dispatch)
 
     const heroCardComponents = heroes.map(hero => {
