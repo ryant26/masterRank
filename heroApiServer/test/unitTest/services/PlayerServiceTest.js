@@ -36,7 +36,7 @@ let getTokenFromConfig = function(playerConfig) {
     };
 };
 
-describe('Player Service Tests', function() {
+describe('playerService', function() {
     const token = {
         battleNetId: 'PwNShoPP-1662',
         region: 'us',
