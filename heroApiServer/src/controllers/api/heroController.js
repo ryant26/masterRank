@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const heroService = require('../../services/heroService');
+const stringValidator = require('../../validators/stringValidator').allValidators;
+
 
 router.get('/heros/:heroName', function(req, res, next) {
-    if(!req.query.platformDisplayName || !req.query.region || !req.query.platform) {
+    if(!stringValidator(req.query.platformDisplayName)
+        || !stringValidator(req.query.region)
+        || !stringValidator(req.query.platform)) {
         let error = new Error('Missing or malformed query parameter');
         error.status = 400;
         next(error);
+    } else {
+        next();
     }
-    next();
 });
 
 router.get('/heros/:heroName', function (req, res, next) {
