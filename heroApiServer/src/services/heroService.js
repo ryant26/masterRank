@@ -10,7 +10,10 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
         }
 
         if (_isDateOlderThan(result.lastModified, 6)) {
-            return _updateHero(token, heroName);
+            return _updateHero(token, heroName).catch((err) => {
+                logger.error(`Found hero [${token.battleNetId}:${heroName}], but could not update: ${err.message}`);
+                return result;
+            });
         }
 
         return result;
@@ -19,7 +22,9 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
 
 
 let _updateHero = function(token, heroName) {
-    return Hero.findOneAndUpdate(_getQueryCriteria(token, heroName), _getUpdatedHeroConfigObject(token, heroName));
+    return _getUpdatedHeroConfigObject(token, heroName).then((updatedInfo) => {
+        return Hero.findOneAndUpdate(_getQueryCriteria(token, heroName), updatedInfo, {new: true});
+    });
 };
 
 let _getQueryCriteria = function(token, heroName) {
@@ -33,8 +38,17 @@ let _getQueryCriteria = function(token, heroName) {
 
 
 let _createHero = function (token, heroName) {
-    return _getUpdatedHeroConfigObject(token, heroName).then((heroConfig) => {
-        return new Hero(heroConfig).save();
+    return _getUpdatedHeroConfigObject(token, heroName).catch((err) => {
+        if (err.statusCode && err.statusCode === 404) {
+            logger.error(`Error creating hero [${token.battleNetId}:${heroName}]: could not be found`);
+            return null;
+        }
+    }).then((heroConfig) => {
+        if (heroConfig) {
+            return new Hero(heroConfig).save();
+        }
+
+        return null;
     });
 };
 
@@ -123,7 +137,7 @@ let _getPercentiles = function (heroName, stats) {
 };
 
 let _isDateOlderThan = function(date, hours) {
-    return Date(date).setHours(date.getHours() + hours) < new Date();
+    return new Date(date).setHours(date.getHours() + hours) < new Date();
 };
 
 let _getCompetitveStatsFromOw = function(token) {

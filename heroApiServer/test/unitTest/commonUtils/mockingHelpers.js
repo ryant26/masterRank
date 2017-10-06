@@ -19,10 +19,14 @@ let token = {
 
 let bnetFailureCode = 'failure';
 
-let stubOverwatchAPI = function(playerStats = mockData.playerStats, playerDetails = mockData.playerDetails) {
+let stubOverwatchAPI = function(playerStats = mockData.emptyPlayerStats, playerDetails = mockData.playerDetails) {
     stubOwGetPlayerStats(playerStats);
     stubOwGetPlayerDetails(playerDetails);
     stubOwSearchForPlayer([playerDetails]);
+};
+
+let rejectOwGetPlayerStats = function() {
+    _reStub(ow, 'getPlayerStats').rejects({statusCode: 404});
 };
 
 let stubOwGetPlayerStats = function(playerStats) {
@@ -60,6 +64,7 @@ module.exports = {
     stubOwGetPlayerStats,
     stubOwGetPlayerDetails,
     stubOwSearchForPlayer,
+    rejectOwGetPlayerStats,
     restoreAllStubs,
     token,
     bnetFailureCode
