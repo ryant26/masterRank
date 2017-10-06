@@ -26,11 +26,19 @@ let stubOverwatchAPI = function(playerStats = mockData.emptyPlayerStats, playerD
 };
 
 let rejectOwGetPlayerStats = function() {
-    _reStub(ow, 'getPlayerStats').rejects({statusCode: 404});
+    let error = new Error('Player not found');
+    error.statusCode = 404;
+    _reStub(ow, 'getPlayerStats').rejects(error);
 };
 
 let stubOwGetPlayerStats = function(playerStats) {
     _reStub(ow, 'getPlayerStats').resolves(playerStats);
+};
+
+let rejectOwGetPlayerDetails = function() {
+    let error = new Error('Hero not found');
+    error.statusCode = 404;
+    _reStub(ow, 'getPlayerDetails').rejects(error);
 };
 
 let stubOwGetPlayerDetails = function(playerDetails) {
@@ -64,6 +72,7 @@ module.exports = {
     stubOwGetPlayerStats,
     stubOwGetPlayerDetails,
     stubOwSearchForPlayer,
+    rejectOwGetPlayerDetails,
     rejectOwGetPlayerStats,
     restoreAllStubs,
     token,

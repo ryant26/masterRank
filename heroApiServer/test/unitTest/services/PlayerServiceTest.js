@@ -45,15 +45,18 @@ describe('playerService', function() {
 
     before(function() {
         db.connect();
-        mockHelpers.stubOverwatchAPI();
     });
 
     beforeEach(function() {
+        mockHelpers.stubOverwatchAPI();
         return Player.remove({});
     });
 
-    after(function() {
+    afterEach(function() {
         mockHelpers.restoreAllStubs();
+    });
+
+    after(function() {
         return Player.remove({});
     });
 
@@ -76,6 +79,13 @@ describe('playerService', function() {
                 return playerService.findOrCreatePlayer(token);
             }).then((player) => {
                 assert(player._id.equals(createdPlayer._id));
+            });
+        });
+
+        it('should return null if the player cannot be found', function () {
+            mockHelpers.rejectOwGetPlayerDetails();
+            return playerService.findAndUpdatePlayer(token).then((player) => {
+                assert.isNull(player);
             });
         });
     });
@@ -115,6 +125,26 @@ describe('playerService', function() {
 
         it('should not update players less than 6 hours old', function() {
             let playerConfig = getPlayerConfig();
+            let token2 = getTokenFromConfig(playerConfig);
+
+            return new Player(playerConfig).save().then(() => {
+                return playerService.findAndUpdatePlayer(token2);
+            }).then((player) => {
+                assert.equal(player.level, playerConfig.level);
+                assert.notEqual(player.level, mockData.level);
+                assert.equal(player.portrait, playerConfig.portrait);
+            });
+        });
+
+        it('should return the outdated player if the api cannot be reached', function() {
+            mockHelpers.rejectOwGetPlayerDetails();
+
+            let date = new Date();
+            date.setHours(date.getHours() - 7);
+
+            let playerConfig = getPlayerConfig();
+            playerConfig.lastUpdated = date;
+
             let token2 = getTokenFromConfig(playerConfig);
 
             return new Player(playerConfig).save().then(() => {
