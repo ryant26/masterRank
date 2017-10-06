@@ -35,6 +35,9 @@ let findOrCreatePlayer = function(token) {
         }
 
         return player;
+    }).catch((err) => {
+        logger.error(`Error creating player [${token.battleNetId}]: ${err}`);
+        return null;
     });
 };
 
@@ -42,7 +45,10 @@ let findAndUpdatePlayer = function(token) {
     return Player.findOne({platformDisplayName: token.battleNetId, platform: token.platform}).then((result) => {
         if (result) {
             if (new Date(result.lastUpdated).setHours(result.lastUpdated.getHours() + 6) < new Date()) {
-                return updatePlayer(token);
+                return updatePlayer(token).catch((err) => {
+                    logger.error(`Found player ${token.battleNetId} but failed to update: ${err}`);
+                    return result;
+                });
             }
             return result;
         } else {

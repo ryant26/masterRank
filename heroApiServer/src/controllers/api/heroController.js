@@ -22,7 +22,13 @@ router.get('/heros/:heroName', function (req, res, next) {
         region: req.query.region,
         platform: req.query.platform
     }, req.params.heroName).then((player) => {
-        res.json(player);
+        if(player === null) {
+            let error = new Error('Hero could not be found');
+            error.status = 404;
+            next(error);
+        } else {
+            res.json(player);
+        }
     }).catch((err) => {
         next(err);
     });
