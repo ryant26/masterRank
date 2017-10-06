@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const heroService = require('../../services/heroService');
 const stringValidator = require('../../validators/stringValidator').allValidators;
+const authenticationService = require('../../services/authenticationService');
 
-
-router.get('/heros/:heroName', function(req, res, next) {
+router.get('/heros/:heroName', authenticationService.authenticateWithToken, function(req, res, next) {
     if(!stringValidator(req.query.platformDisplayName)
         || !stringValidator(req.query.region)
         || !stringValidator(req.query.platform)) {
