@@ -196,5 +196,39 @@ module.exports = {
                 }
             }
         }
+    },
+
+    mockPlayer: {
+        name: 'testPlayer#1234',
+        region: 'us',
+        platform: 'pc',
+        stats: {
+            competitive: {
+                soldier76: {
+                    name: 'soldier76',
+                    hero: {
+                        damage_blocked: 180
+                    },
+                    combat: {
+                        all_damage_done: 180,
+                        objective_kills: 3,
+                        eliminations_per_life: 3,
+                        weapon_accuracy: 3
+                    },
+                    game: {
+                        time_played: 1,
+                        objective_time: '00:00:03',
+                        games_played: 1,
+                        games_won: 3
+                    },
+                    misc: {
+                        games_lost: 3
+                    },
+                    assists: {
+                        healing_done: 180
+                    }
+                }
+            }
+        }
     }
 };

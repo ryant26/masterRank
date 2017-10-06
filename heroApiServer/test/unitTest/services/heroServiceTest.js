@@ -133,5 +133,30 @@ describe('heroService', function () {
                 assert.isNull(result);
             });
         });
+
+        it('should calculate percentiles correclty', function () {
+            mockHelpers.stubOwGetPlayerStats(mockData.mockPlayer);
+            let mockPlayer = mockData.mockPlayer;
+            let seedPlayers = mockHelpers.getSeedUsers(4, 'soldier76');
+
+            return Promise.all(seedPlayers.map((config) => {
+                return new Hero(config).save();
+            })).then(() => {
+                return heroService.findAndUpdateOrCreateHero({
+                    battleNetId: mockPlayer.name,
+                    region: mockPlayer.region,
+                    platform: mockPlayer.platform
+                }, 'soldier76');
+            }).then((hero) => {
+                assert.equal(hero.pKdRatio, 0.5);
+                assert.equal(hero.pAccuracy, 0.5);
+                assert.equal(hero.pBlockedPerMin, 0.5);
+                assert.equal(hero.pHealingPerMin, 0.5);
+                assert.equal(hero.pDamagePerMin, 0.5);
+                assert.equal(hero.pAvgObjElims, 0.5);
+                assert.equal(hero.pAvgObjTime, 0.5);
+
+            });
+        });
     });
 });
