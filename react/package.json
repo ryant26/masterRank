@@ -35,6 +35,7 @@
     "jest": "20.0.4",
     "jest-cli": "20.0.4",
     "enzyme": "3.0.0",
+    "opn-cli": "3.1.0",
     "enzyme-adapter-react-16": "1.0.0",
     "react-test-renderer": "16.0.0",
     "npm-run-all": "4.0.2",
@@ -69,7 +70,7 @@
     "open:dist": "babel-node tools/distServer.js",
     "remove-dist": "rimraf ./dist",
     "test:cover": "npm run test -- --coverage",
-    "open:cover": "npm run test:cover && open ./coverage/lcov-report/index.html"
+    "open:cover": "npm run test:cover && opn ./coverage/lcov-report/index.html"
   },
   "jest": {
     "moduleNameMapper": {
