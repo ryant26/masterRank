@@ -47,14 +47,20 @@
     "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "2.18.2",
     "webpack-md5-hash": "0.0.5",
-    "react-hot-loader": "3.0.0-beta.6"
+    "react-hot-loader": "3.0.0-beta.6",
+    "chalk": "2.0.1",
+    "rimraf": "2.6.1",
+    "extract-text-webpack-plugin": "3.0.0-rc.2",
+    "html-webpack-plugin": "2.29.0"
   },
   "scripts": {
     "start": "npm-run-all --parallel open:src",
     "open:src": "babel-node ./tools/srcServer.js",
-    "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "build": "babel-node tools/build.js && npm run open:dist",
+    "open:dist": "babel-node tools/distServer.js",
+    "clean-dist": "npm run remove-dist && mkdir dist",
+    "remove-dist": "rimraf ./dist",
+    "test": "jest"
   },
   "jest": {
     "moduleNameMapper": {
