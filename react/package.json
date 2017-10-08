@@ -67,7 +67,9 @@
     "build": "babel-node tools/build.js && npm run open:dist",
     "open:src": "babel-node ./tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
-    "remove-dist": "rimraf ./dist"
+    "remove-dist": "rimraf ./dist",
+    "test:cover": "npm run test -- --coverage",
+    "open:cover": "npm run test:cover && open ./coverage/lcov-report/index.html"
   },
   "jest": {
     "moduleNameMapper": {

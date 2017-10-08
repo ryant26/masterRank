@@ -9,3 +9,4 @@ node_modules
 
 #Frontend
 dist/
+coverage/
