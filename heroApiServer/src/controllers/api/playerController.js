@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const playerService = require('../../services/playerService');
+const stringValidator = require('../../validators/stringValidator').allValidators;
 
 router.get('/search/players', function(req, res, next) {
-    if(!req.query.platformDisplayName) {
+    if(!stringValidator(req.query.platformDisplayName)) {
         let error = new Error('Missing or malformed query parameter');
         error.status = 400;
         next(error);
     }
+
     next();
 });
 
