@@ -3,13 +3,27 @@ notifications:
 branches:
   only:
     - master
+services:
+  - redis-server
+  - mongodb
 matrix:
   include:
     - language: node_js
-      node_js: "6"
+      node_js: "7.5.0"
       before_script:
         - cd socketServer/
         - npm install
         - npm install -g gulp-cli
       script: gulp
+      after_script:
+        - cd ..
+    - language: node_js
+      node_js: "7.5.0"
+      before_script:
+        - cd heroApiServer/
+        - npm install
+        - npm install -g gulp-cli
+      script: gulp
+      after_script:
+        - cd ..
 

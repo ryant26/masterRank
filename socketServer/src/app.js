@@ -1,37 +1,42 @@
-let app = require('http').createServer();
-let io = require('socket.io')(app);
-let config = require('config');
-let logger = require('winston');
-let PlayerController = require('./controllers/PlayerController');
-let AuthenticationController = require('./controllers/AuthenticationController');
-let PlayerClient = require('./apiClients/PlayerClient');
-let RedisClient = require('./apiClients/RedisClient');
+const app = require('http').createServer();
+const io = require('socket.io')(app);
+const redisAdapter = require('socket.io-redis');
+const config = require('config');
+const logger = require('winston');
+const groupControllerFactory = require('./controllers/factories/groupControllerFactory');
+const playerControllerFactory = require('./controllers/factories/playerControllerFactory');
+const AuthenticationController = require('./controllers/AuthenticationController');
+
 
 const port = config.get('port');
+const regionNamespaces = ['us', 'eu', 'apac'];
+const platformNamespaces = ['pc', 'ps', 'xb'];
 
-let onAuthenticated = function (namespace, socket, region) {
-    new PlayerController({namespace, socket, region, PlayerClient, RedisClient});
+let onAuthenticated = function (namespace, socket, token) {
+    socket.removeAllListeners();
+    playerControllerFactory.getPlayerController({namespace, socket, token});
+    groupControllerFactory.getGroupController({namespace, socket, token});
 };
 
-let setupRegion = function(namespace, region) {
+let setupRegion = function(namespace) {
     namespace.on('connection', (socket) => {
         new AuthenticationController({
             socket,
-            authenticatedCallback: () => {
-                onAuthenticated(namespace, socket, region);
+            authenticatedCallback: (token) => {
+                onAuthenticated(namespace, socket, token);
             }
         });
     });
 };
 
+io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 app.listen(port, () => {
     logger.info(`listening on port ${port}`);
 });
 
-let usRegion = io.of('/us');
-let euRegion = io.of('/eu');
-let asRegion = io.of('/as');
-
-setupRegion(usRegion, 'us');
-setupRegion(euRegion, 'eu');
-setupRegion(asRegion, 'as');
+regionNamespaces.forEach((region) => {
+    platformNamespaces.forEach((platform) => {
+        let namespace = io.of(`/${region}/${platform}`);
+        setupRegion(namespace);
+    });
+});
