@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
 const ow = require('../apiClients/overwatch');
+const owValidators = require('../validators/owApiValidator');
 const logger = require('winston');
 
 let findAndUpdateOrCreateHero = function(token, heroName) {
@@ -49,6 +50,9 @@ let _createHero = function (token, heroName) {
         }
 
         return null;
+    }).catch((err) => {
+        logger.error(`Error saving new hero object: ${err.message}`);
+        return null;
     });
 };
 
@@ -59,6 +63,7 @@ let _getUpdatedHeroConfigObject = function(token, heroName) {
 
     return _getCompetitveStatsFromOw(token).then((result) => {
         let heroStats = result[heroName];
+        owValidators.heroValidator(heroStats);
         nonNormalizingStats = _getStatsNotRequiringPercentiles(token, heroName, heroStats);
         statsToBeNormalized = _getStatsRequiringPercentiles(heroStats);
 

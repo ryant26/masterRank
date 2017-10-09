@@ -11,6 +11,13 @@ module.exports = {
         region
     },
 
+    playerDetailsNoLevel: {
+        portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x025000000000115A.png',
+        displayName: battleNetId,
+        platform,
+        region
+    },
+
     emptyPlayerStats: {
         stats: {
             competitiveRank: NaN
@@ -230,5 +237,25 @@ module.exports = {
                 }
             }
         }
+    },
+
+    mockPlayerMissingHeroAttributes: {
+        name: 'testPlayer#1234',
+        region: 'us',
+        platform: 'pc',
+        stats: {
+            competitive: {
+                soldier76: {
+                    name: 'soldier76',
+                }
+            }
+        }
+    },
+
+
+    playerNoStatsObj: {
+        name: 'doesntMAtter',
+        region: 'us',
+        platform: 'pc'
     }
 };

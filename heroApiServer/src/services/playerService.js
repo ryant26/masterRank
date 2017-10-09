@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Player = mongoose.model('Player');
 const logger = require('winston');
 const ow = require('../apiClients/overwatch');
+const owValidator = require('../validators/owApiValidator');
 
 let searchForPlayer = function(token) {
     let queryCriteria = {
@@ -31,12 +32,15 @@ let searchForPlayer = function(token) {
 let findOrCreatePlayer = function(token) {
     return findAndUpdatePlayer(token).then((player) => {
         if (!player) {
-            return createPlayer(token);
+            return createPlayer(token).catch((err) => {
+                logger.error(`Error creating player [${token.battleNetId}]: ${err}`);
+                return null;
+            });
         }
 
         return player;
     }).catch((err) => {
-        logger.error(`Error creating player [${token.battleNetId}]: ${err}`);
+        logger.error(`Error finding/updating player [${token.battleNetId}]: ${err}`);
         return null;
     });
 };
@@ -80,6 +84,9 @@ let _getPlayerConfigFromOw = function (token) {
     return Promise.all([ow.getPlayerDetails(token), ow.getPlayerStats(token)]).then((results) => {
         let playerDetails = results[0];
         let heroDetails = results[1];
+
+        owValidator.playerValidator(playerDetails);
+        owValidator.careerValidator(heroDetails);
 
         return {
             platformDisplayName: token.battleNetId,

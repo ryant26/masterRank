@@ -158,5 +158,12 @@ describe('heroService', function () {
 
             });
         });
+
+        it('should handle malformed reply from ow API', function () {
+            mockHelpers.stubOwGetPlayerStats(mockData.mockPlayerMissingHeroAttributes);
+            return heroService.findAndUpdateOrCreateHero(token, heroName).then((hero) => {
+                assert.isNull(hero);
+            });
+        });
     });
 });

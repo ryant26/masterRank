@@ -88,6 +88,20 @@ describe('playerService', function() {
                 assert.isNull(player);
             });
         });
+
+        it('should handle malformed hero stats API response', function() {
+            mockHelpers.stubOwGetPlayerStats(mockData.playerNoStatsObj);
+            return playerService.findOrCreatePlayer(token).then((player) => {
+                assert.isNull(player);
+            });
+        });
+
+        it('should handle malformed player details API response', function() {
+            mockHelpers.stubOwGetPlayerDetails(mockData.playerDetailsNoLevel);
+            return playerService.findOrCreatePlayer(token).then((player) => {
+                assert.equal(player.level, 0);
+            });
+        });
     });
 
     describe('findAndUpdatePlayer', function() {
@@ -153,6 +167,42 @@ describe('playerService', function() {
                 assert.equal(player.level, playerConfig.level);
                 assert.notEqual(player.level, mockData.level);
                 assert.equal(player.portrait, playerConfig.portrait);
+            });
+        });
+
+        it('should handle malformed career details return from OW API', function() {
+            mockHelpers.stubOwGetPlayerStats(mockData.playerNoStatsObj);
+            let date = new Date();
+            date.setHours(date.getHours() - 7);
+
+            let playerConfig = getPlayerConfig();
+            playerConfig.lastUpdated = date;
+
+            let token2 = getTokenFromConfig(playerConfig);
+
+            return new Player(playerConfig).save().then(() => {
+                return playerService.findAndUpdatePlayer(token2);
+            }).then((player) => {
+                assert.equal(player.level, playerConfig.level);
+                assert.notEqual(player.level, mockData.playerDetails.level);
+                assert.equal(player.portrait, playerConfig.portrait);
+            });
+        });
+
+        it('should handle malformed player details return from OW API', function() {
+            mockHelpers.stubOwGetPlayerDetails(mockData.playerDetailsNoLevel);
+            let date = new Date();
+            date.setHours(date.getHours() - 7);
+
+            let playerConfig = getPlayerConfig();
+            playerConfig.lastUpdated = date;
+
+            let token2 = getTokenFromConfig(playerConfig);
+
+            return new Player(playerConfig).save().then(() => {
+                return playerService.findAndUpdatePlayer(token2);
+            }).then((player) => {
+                assert.equal(player.level, 0);
             });
         });
     });
