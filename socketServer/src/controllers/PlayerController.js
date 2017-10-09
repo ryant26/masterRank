@@ -1,4 +1,6 @@
-let logger = require('winston');
+const serverEvents = require('../socketEvents/serverEvents');
+const playerService = require('../services/playerService');
+const BaseController = require('./BaseController');
 
 /**
  * This module handles player API requests
@@ -9,44 +11,27 @@ let logger = require('winston');
  * @param config.namespace - Socket Namespace
  * @constructor
  */
-const PlayerController = function(config) {
-    let socket = config.socket;
-    let token = socket.token;
-    let region = config.region;
-    let battleNetId = token.battleNetId;
-    let playerClient = config.PlayerClient;
-    let redisClient = config.RedisClient;
-    let namespace = config.namespace;
+module.exports = class PlayerController extends BaseController{
+    constructor (config) {
+        super(config);
 
-    playerClient.getPlayerRank(battleNetId, config.region).then((rankObj) => {
-        redisClient.addPlayerInfo(battleNetId, rankObj);
-        socket.join(rankObj.rank);
-        socket.rank = rankObj.rank;
-        logger.info(`Player [${battleNetId}] joined rank [${rankObj.rank}]`);
-        redisClient.getMetaHeros(rankObj.rank, region).then((heros) => {
-            socket.emit('initialData', heros);
+        playerService.getPlayerRank(this.token).then((rankObj) => {
+            this.rank = rankObj.rank;
+            return playerService.sendInitialData(this.token, this.rank, this.socket);
         });
-    });
 
-    socket.on('addHero', (hero) => {
-        playerClient.getHeroStats(battleNetId, config.region.name, hero).then((stats) => {
-            let heroObj = {heroName: hero, stats, battleNetId: battleNetId};
-            redisClient.addPlayerHero(battleNetId, heroObj);
-            redisClient.addMetaHero(socket.rank, region, heroObj);
-            namespace.to(socket.rank).emit('heroAdded', heroObj);
+        this.on(serverEvents.addHero, (data) => {
+            return playerService.addHeroByName(this.token, this.rank, this.namespace, data.eventData);
         });
-    });
 
-    socket.on('disconnect', () => {
-        redisClient.getPlayerHeros(battleNetId).then((heros) => {
-            heros.forEach((hero) => {
-                redisClient.removePlayerHeroByName(battleNetId, hero.heroName);
-                redisClient.removeMetaHero(socket.rank, region, hero).then(() => {
-                    namespace.to(socket.rank).emit('heroRemoved', hero);
-                });
+        this.on(serverEvents.removeHero, (data) => {
+            return playerService.removePlayerHerosByName(this.token, this.rank, this.namespace, data.eventData);
+        });
+
+        this.on(serverEvents.disconnect, () => {
+            return playerService.removeAllPlayerHeros(this.token, this.rank, this.namespace).then(() => {
+                return playerService.removePlayerInfo(this.token);
             });
         });
-    });
+    }
 };
-
-module.exports = PlayerController;

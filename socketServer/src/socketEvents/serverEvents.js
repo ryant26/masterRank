@@ -1,0 +1,11 @@
+module.exports = {
+    addHero: 'addHero',
+    removeHero: 'removeHero',
+    groupInviteSend: 'groupInviteSend',
+    createGroup: 'createGroup',
+    groupInviteAccept: 'groupInviteAccept',
+    groupInviteDecline: 'groupInviteDecline',
+    groupInviteCancel: 'groupInviteCancel',
+    groupLeave: 'groupLeave',
+    disconnect: 'disconnect'
+};

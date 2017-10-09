@@ -11,8 +11,11 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "config": "^1.26.1",
+    "eventemitter2": "^4.1.2",
+    "lodash": "^4.17.4",
     "redis": "^2.7.1",
     "socket.io": "^2.0.3",
+    "socket.io-redis": "^5.1.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {
@@ -24,7 +27,6 @@
     "gulp-nodemon": "^2.2.1",
     "mocha": "^3.4.2",
     "randomstring": "^1.1.5",
-    "redis-mock": "^0.17.0",
     "run-sequence": "^1.2.2",
     "sinon": "^2.3.6"
   }
