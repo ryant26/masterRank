@@ -11,7 +11,16 @@ let getToken = function(battleNetId, region, platform) {
 
 let verifyToken = expressJwt({secret: tokenSecret});
 
+let verifyBodyToken = expressJwt({secret: tokenSecret, getToken: function fromBody(req) {
+    if (req.body && req.body.token) {
+        return req.body.token;
+    }
+
+    return null;
+}});
+
 module.exports = {
     getToken,
-    verifyToken
+    verifyToken,
+    verifyBodyToken
 };
