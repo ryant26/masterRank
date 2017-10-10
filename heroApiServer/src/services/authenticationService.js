@@ -23,9 +23,12 @@ let respond = function(req, res) {
 
 let authenticateWithToken = tokenService.verifyToken;
 
+let validateTokenFromBody = tokenService.verifyBodyToken;
+
 module.exports = {
     serializeUser,
     generateToken,
     respond,
-    authenticateWithToken
+    authenticateWithToken,
+    validateTokenFromBody
 };
