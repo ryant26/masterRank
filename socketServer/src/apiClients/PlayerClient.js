@@ -7,22 +7,13 @@ const playerUrl = config.get('playerApi.url');
 const token = config.get('heroApi.token');
 
 let getPlayerRank = function(battleNetId, region, platform) {
-    // TODO query playerAPI
-    return request(playerUrl).qs({platformDisplayName: battleNetId, region, platform})
-        .headers({
-            Authorization: `Bearer ${token}`
-        })
+    return request({url: playerUrl,
+        qs: {platformDisplayName: battleNetId, region, platform},
+        headers: {Authorization: `Bearer ${token}`}})
         .then((result) => {
-            return {rank: mapSrToRank(result.skillRating), region, platform};
+            let player = JSON.parse(result);
+            return {rank: mapSrToRank(player.skillRating), region, platform};
         });
-
-    let rank = 'diamond';
-
-    if(battleNetId === 'goldPlayer#1234') rank = 'gold';
-    if(battleNetId === 'silverPlayer#1234') rank = 'silver';
-    return new Promise((resolve) => {
-        resolve({rank, region, platform});
-    });
 };
 
 let getHeroStats = function(battleNetId, region, platform, heroName) {
