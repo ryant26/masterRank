@@ -16,6 +16,7 @@ describe(serverEvents.groupInviteSend, function() {
     let leaderHero;
 
     beforeEach(function() {
+        commonUtilities.mockPlayerApi();
         return commonUtilities.getEmptyGroup().then((groupDetails) => {
             socket = groupDetails.leaderSocket;
             leaderHero = groupDetails.leaderHero;
@@ -24,6 +25,8 @@ describe(serverEvents.groupInviteSend, function() {
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
+
     });
 
     it('Should show group details on invite', function(done) {

@@ -16,11 +16,13 @@ describe(clientEvents.initialData, function() {
     let socket;
 
     beforeEach(function () {
+        commonUtilities.mockPlayerApi();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
     });
 
     it('should return a list of all heros available for grouping', function(done) {

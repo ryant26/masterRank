@@ -16,6 +16,7 @@ describe(serverEvents.groupInviteAccept, function() {
     let leaderHero;
 
     beforeEach(function() {
+        commonUtilities.mockPlayerApi();
         return commonUtilities.getEmptyGroup().then((group) => {
             socket = group.leaderSocket;
             leaderHero = group.leaderHero;
@@ -24,6 +25,8 @@ describe(serverEvents.groupInviteAccept, function() {
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
+
     });
 
     it('should inform everyone that a new member was added', function(done) {

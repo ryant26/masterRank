@@ -18,10 +18,12 @@ describe(serverEvents.removeHero, function() {
     beforeEach(function() {
         battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        commonUtilities.mockPlayerApi();
     });
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
     });
 
     it('should send out hero removed event', function(done) {

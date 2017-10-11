@@ -11,7 +11,12 @@ require('../../../src/app');
 
 describe(serverEvents.groupLeave, function() {
 
+    beforeEach(function() {
+        commonUtilities.mockPlayerApi();
+    });
+
     afterEach(function() {
+        commonUtilities.restorePlayerApi();
         commonUtilities.closeOpenedSockets();
     });
 
