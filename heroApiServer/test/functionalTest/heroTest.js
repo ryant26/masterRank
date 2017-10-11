@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const chaiHttp = require('chai-http');
-const tokenUtil = require('../unitTest/commonUtils/tokenHelpers');
+const tokenUtil = require('../../devTools/tokenHelpers');
 
 const platformDisplayName = 'PwNShoPP#1662';
 const region = 'us';

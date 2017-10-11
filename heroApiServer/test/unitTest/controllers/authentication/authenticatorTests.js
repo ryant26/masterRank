@@ -3,7 +3,7 @@ const assert = chai.assert;
 const chaiHttp = require('chai-http');
 const mockHelpers = require('../../commonUtils/mockingHelpers');
 const mockData = require('../../commonUtils/mockOverwatchData');
-const tokenGenerator = require('../../commonUtils/tokenHelpers');
+const tokenGenerator = require('../../../../devTools/tokenHelpers');
 
 const server = require('../../../../src/app');
 const Player = require('../../../../src/models/Player');
