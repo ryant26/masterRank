@@ -17,10 +17,12 @@ describe('Connection', function() {
     before(function () {
         battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        commonUtilities.mockPlayerApi();
     });
 
     after(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
     });
 
     it('should call initialData on the client upon connect', function(done) {
@@ -37,10 +39,12 @@ describe('disconnect', function() {
 
     beforeEach(function () {
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        commonUtilities.mockPlayerApi();
     });
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
     });
 
     it('should remove all heros from the meta list', function(done) {

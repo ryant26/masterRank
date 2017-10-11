@@ -18,10 +18,12 @@ describe(serverEvents.addHero, function() {
     beforeEach(function () {
         battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        commonUtilities.mockPlayerApi();
     });
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        commonUtilities.restorePlayerApi();
     });
 
     it('should handle adding multiple heros for a single player', function(done) {

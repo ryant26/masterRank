@@ -15,12 +15,14 @@ describe(serverEvents.groupInviteCancel, function() {
     let socket;
 
     beforeEach(function() {
+        commonUtilities.mockPlayerApi();
         return commonUtilities.getEmptyGroup().then((groupDetails) => {
             socket = groupDetails.leaderSocket;
         });
     });
 
     afterEach(function() {
+        commonUtilities.restorePlayerApi();
         commonUtilities.closeOpenedSockets();
     });
 
