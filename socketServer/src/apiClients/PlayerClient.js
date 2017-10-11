@@ -2,7 +2,7 @@ const request = require('request-promise');
 const config = require('config');
 
 
-const heroUrl = config.get('heroApi.url');
+// const heroUrl = config.get('heroApi.url');
 const playerUrl = config.get('playerApi.url');
 const token = config.get('heroApi.token');
 
