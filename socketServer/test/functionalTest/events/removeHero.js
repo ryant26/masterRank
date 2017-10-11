@@ -16,9 +16,9 @@ describe(serverEvents.removeHero, function() {
     let socket;
 
     beforeEach(function() {
+        commonUtilities.mockPlayerApi();
         battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
-        commonUtilities.mockPlayerApi();
     });
 
     afterEach(function() {
