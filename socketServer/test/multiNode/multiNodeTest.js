@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const CommonUtilities = require('../functionalTest/CommonUtilities');
+const CommonUtilities = require('../unitTest/CommonUtilities');
 const config = require('config');
 const randomString = require('randomstring');
 const clientEvents = require('../../src/socketEvents/clientEvents');
@@ -21,7 +21,7 @@ let server2Utilities = new CommonUtilities({
 });
 
 let startServer = function (port) {
-    return exec(`node src/app.js --NODE_CONFIG='{"port":${port}}'`, (err, stdout, stderr) => {
+    return exec(`NODE_ENV=multiNodeTest node src/app.js --NODE_CONFIG='{"port":${port}}'`, (err, stdout, stderr) => {
         logger.info(stdout);
         logger.info(stderr);
     });

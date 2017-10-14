@@ -4,9 +4,6 @@ const randomString = require('randomstring');
 const serverEvents = require('../../src/socketEvents/serverEvents');
 const clientEvents = require('../../src/socketEvents/clientEvents');
 const logger = require('winston');
-const ow = require('../../src/apiClients/PlayerClient');
-
-let owPlayerApi;
 
 module.exports = class CommonUtilities {
 
@@ -152,23 +149,5 @@ module.exports = class CommonUtilities {
                 socket.emit(serverEvents.addHero, hero.heroName);
             });
         });
-    }
-
-    mockPlayerApi() {
-        owPlayerApi = ow.getPlayerRank;
-
-        ow.getPlayerRank = function(battleNetId, region, platform) {
-            let rank = 'diamond';
-
-            if(battleNetId === 'goldPlayer#1234') rank = 'gold';
-            if(battleNetId === 'silverPlayer#1234') rank = 'silver';
-            return new Promise((resolve) => {
-                resolve({rank, region, platform});
-            });
-        };
-    }
-
-    restorePlayerApi() {
-        ow.getPlayerRank = owPlayerApi;
     }
 };

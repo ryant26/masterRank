@@ -16,14 +16,12 @@ describe(serverEvents.addHero, function() {
     let socket;
 
     beforeEach(function () {
-        commonUtilities.mockPlayerApi();
         battleNetId = randomString.generate();
         socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
     });
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
-        commonUtilities.restorePlayerApi();
     });
 
     it('should handle adding multiple heros for a single player', function(done) {
@@ -105,10 +103,5 @@ describe(serverEvents.addHero, function() {
         });
 
         socket.emit(serverEvents.addHero, null);
-    });
-
-    it('should work without mocked Player API', function() {
-        commonUtilities.restorePlayerApi();
-        commonUtilities.getUserWithAddedHero();
     });
 });

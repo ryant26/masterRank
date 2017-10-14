@@ -13,13 +13,10 @@ require('../../../src/app');
 describe(serverEvents.groupInviteDecline, function() {
 
     beforeEach(function() {
-        commonUtilities.mockPlayerApi();
     });
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
-        commonUtilities.restorePlayerApi();
-
     });
 
     it('should inform everyone that an invite was declined', function(done) {
