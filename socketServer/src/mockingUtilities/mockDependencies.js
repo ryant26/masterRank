@@ -3,6 +3,7 @@ const environment = process.env.NODE_ENV;
 const mockedEnvrionments = ['unitTest', 'develop', 'multiNodeTest'];
 
 let owPlayerApi;
+let owHeroApi;
 
 let out  = {
     mockPlayerApi: function() {
@@ -19,16 +20,35 @@ let out  = {
         };
     },
 
+    mockHeroApi: function() {
+        owHeroApi = ow.getHeroStats;
+
+        ow.getHeroStats = function(battleNetId, region, platform, heroName) {
+            return new Promise((resolve) => {
+                resolve({
+                    eliminations: 10,
+                    winPercentage: 65,
+                    battleNetId,
+                    region,
+                    platform,
+                    heroName
+                });
+            });
+        };
+    },
+
     mockAllDependenciesForEnvironment: function() {
         if(mockedEnvrionments.find((element) => {
             return element === environment;
         })) {
             out.mockPlayerApi();
+            out.mockHeroApi();
         }
     },
 
     restorePlayerApi: function() {
         ow.getPlayerRank = owPlayerApi;
+        ow.getHeroStats = owHeroApi;
     }
 };
 

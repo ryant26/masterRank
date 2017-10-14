@@ -4,11 +4,12 @@ const config = require('config');
 
 // const heroUrl = config.get('heroApi.url');
 const playerUrl = `${config.get('playerApi.baseUrl')}:${config.get('playerApi.port')}${config.get('playerApi.endpoint')}`;
+const heroUrl = `${config.get('heroApi.baseUrl')}:${config.get('heroApi.port')}${config.get('heroApi.endpoint')}`;
 const token = config.get('heroApi.token');
 
-let getPlayerRank = function(battleNetId, region, platform) {
+let getPlayerRank = function(platformDisplayName, region, platform) {
     return request({url: playerUrl,
-        qs: {platformDisplayName: battleNetId, region, platform},
+        qs: {platformDisplayName, region, platform},
         headers: {Authorization: `Bearer ${token}`}})
         .then((result) => {
             let player = JSON.parse(result);
@@ -16,17 +17,14 @@ let getPlayerRank = function(battleNetId, region, platform) {
         });
 };
 
-let getHeroStats = function(battleNetId, region, platform, heroName) {
-    return new Promise((resolve) => {
-        resolve({
-            eliminations: 10,
-            winPercentage: 65,
-            battleNetId,
-            region,
-            platform,
-            heroName
+let getHeroStats = function(platformDisplayName, region, platform, heroName) {
+    return request({
+        url: `${heroUrl}/${heroName}`,
+        qs: {platformDisplayName, region, platform},
+        headers: {Authorization: `Bearer ${token}`}})
+        .then((result) => {
+            return JSON.parse(result);
         });
-    });
 };
 
 let mapSrToRank = function(sr) {
