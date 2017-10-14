@@ -5,6 +5,7 @@ const battleNetId = 'luckybomb#1470';
 const region = 'us';
 const platform = 'pc';
 const config = require('config');
+const mockingUtility = require('../../../src/mockingUtilities/mockDependencies');
 
 const playerUrl = `${config.get('playerApi.baseUrl')}:${config.get('playerApi.port')}`;
 const findPlayerPath = config.get('playerApi.endpoint');
@@ -19,6 +20,13 @@ describe('PlayerClient', function() {
 
     before(function() {
         nock.disableNetConnect();
+        mockingUtility.restorePlayerApi();
+    });
+
+    after(function() {
+        nock.cleanAll();
+        nock.restore();
+        mockingUtility.mockAllDependenciesForEnvironment();
     });
 
     describe('getPlayerRank', function() {
