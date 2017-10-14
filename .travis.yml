@@ -11,7 +11,9 @@ matrix:
     - language: node_js
       node_js: "7.5.0"
       before_script:
-        - cd socketServer/
+        - cd heroApiServer/
+        - npm install
+        - cd ../socketServer/
         - npm install
         - npm install -g gulp-cli
       script: gulp
