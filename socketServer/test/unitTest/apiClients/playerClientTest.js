@@ -6,8 +6,8 @@ const region = 'us';
 const platform = 'pc';
 const config = require('config');
 
-const playerUrl = config.get('playerApi.baseUrl');
-const findPlayerPath = config.get('playerApi.findPlayerPath');
+const playerUrl = `${config.get('playerApi.baseUrl')}:${config.get('playerApi.port')}`;
+const findPlayerPath = config.get('playerApi.endpoint');
 
 describe('PlayerClient', function() {
     let setPlayerResponse = function(response) {

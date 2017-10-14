@@ -13,7 +13,7 @@ describe('PlayerClient', function() {
     let startHeroApiServer = function() {
         let cwd = __dirname + '/../../../../heroApiServer';
 
-        return exec('node src/app.js', {cwd, env: Object.assign({}, process.env, {NODE_ENV: 'develop'})},
+        return exec('node src/app.js', {cwd, env: Object.assign({}, process.env, {NODE_ENV: 'functionaltest'})},
             (err, stdout, stderr) => {
                 logger.info(stdout);
                 logger.error(stderr);
@@ -30,8 +30,15 @@ describe('PlayerClient', function() {
         });
 
         after(function(done) {
-            heroApiServer.kill('SIGINT');
-            setTimeout(done, 3000);
+            heroApiServer.on('exit', () => {
+                done();
+            });
+
+            heroApiServer.on('error', (err) => {
+                logger.error(err);
+                done(err);
+            });
+            heroApiServer.kill('SIGTERM');
         });
 
         it('should return a valid object for a valid input', function() {

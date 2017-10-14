@@ -8,7 +8,9 @@
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IlRlc3RVc2VyIzEyMzQiLCJyZWdpb24iOiJ1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MDc2ODMyNTI3NTAsImlhdCI6MTUwNzY4MjI1Mn0.8EL5jfTA8TUSZnEjFbyBS1UlvCySq9EcQDMnYvqYoDA"
   },
   "playerApi": {
-    "url" : "http://localhost:3001/api/players",
+    "baseUrl" : "http://localhost",
+    "port" : 3002,
+    "endpoint": "/api/players",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IlRlc3RVc2VyIzEyMzQiLCJyZWdpb24iOiJ1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MDc2ODMyNTI3NTAsImlhdCI6MTUwNzY4MjI1Mn0.8EL5jfTA8TUSZnEjFbyBS1UlvCySq9EcQDMnYvqYoDA"
   }
 }

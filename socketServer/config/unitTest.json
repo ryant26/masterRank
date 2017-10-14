@@ -1,6 +1,5 @@
 {
     "playerApi": {
-        "baseUrl": "http://localhost:3001",
-        "findPlayerPath": "/api/players"
+        "port" : 3002
     }
 }
