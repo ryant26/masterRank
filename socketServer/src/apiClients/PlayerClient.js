@@ -3,7 +3,7 @@ const config = require('config');
 
 
 // const heroUrl = config.get('heroApi.url');
-const playerUrl = config.get('playerApi.url');
+const playerUrl = `${config.get('playerApi.baseUrl')}:${config.get('playerApi.port')}${config.get('playerApi.endpoint')}`;
 const token = config.get('heroApi.token');
 
 let getPlayerRank = function(battleNetId, region, platform) {

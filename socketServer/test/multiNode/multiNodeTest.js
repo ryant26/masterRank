@@ -34,6 +34,7 @@ describe('Multi-Node Tests', function() {
     before(function () {
         server1 = startServer(3000);
         server2 = startServer(3001);
+        //TODO Start a mockHeroApi server
     });
 
     after(function (done) {
