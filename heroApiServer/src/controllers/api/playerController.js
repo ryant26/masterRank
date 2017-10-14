@@ -13,12 +13,18 @@ router.get('/players', function(req, res, next) {
     next();
 });
 
-router.get('/players', function (req, res) {
-    return playerService.findAndUpdatePlayer({battleNetId: req.query.platformDisplayName,
+router.get('/players', function (req, res, next) {
+    return playerService.findOrCreatePlayer({battleNetId: req.query.platformDisplayName,
         region: req.query.region,
         platform: req.query.platform})
         .then((player) => {
-            res.json(player);
+            if(player === null){
+                let error = new Error('Player could not be found');
+                error.status = 404;
+                next(error);
+            } else {
+                res.json(player);
+            }
         });
 });
 

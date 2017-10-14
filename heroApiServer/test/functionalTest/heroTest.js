@@ -56,31 +56,5 @@ describe('Hero Tests', function() {
                     assert.equal(result.body.platformDisplayName, platformDisplayName);
                 });
         });
-
-        it('should filter by region', function() {
-            return chai.request(server)
-                .get(`/api/heros/${heroName}`)
-                .set('authorization', authHeader)
-                .query({platformDisplayName, region: 'apac',  platform})
-                .then(() => {
-                    throw new Error('Hero should not have been found');
-                }).catch((err) => {
-                    assert.equal(err.status, 404);
-                    assert.equal(err.response.body.message, 'Hero could not be found');
-                });
-        });
-
-        it('should filter by platform', function() {
-            return chai.request(server)
-                .get(`/api/heros/${heroName}`)
-                .set('authorization', authHeader)
-                .query({platformDisplayName, region,  platform: 'xbl'})
-                .then(() => {
-                    throw new Error('Hero should not have been found');
-                }).catch((err) => {
-                    assert.equal(err.status, 404);
-                    assert.equal(err.response.body.message, 'Hero could not be found');
-                });
-        });
     });
 });

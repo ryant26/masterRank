@@ -1,6 +1,6 @@
 let ow = require('oversmash').default();
 
-ow.playerStats('fsdkljfslkdjfs#2211', 'us', 'pc').then((result) => {
+ow.playerStats('luckybomb-1470', 'us', 'pc').then((result) => {
     return result.stats;
 }).catch((err) => {
     console.log(err);
