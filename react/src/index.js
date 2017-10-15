@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
 import HeroReducer from './reducers/HeroReducer.js';
-import MasterRank from './containers/MasterRank.js';
+import FireTeam from './containers/FireTeam.js';
 
 const store = createStore(
   HeroReducer
@@ -14,7 +14,7 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <MasterRank />
+    <FireTeam />
   </Provider>,
   document.getElementById('root')
 );
