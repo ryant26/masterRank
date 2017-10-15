@@ -35,5 +35,5 @@ export default class StatBox extends Component {
         <div>{this.props.label}</div>
       </div>
     )
-  };
+  }
 }
