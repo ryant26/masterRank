@@ -24,6 +24,7 @@ describe(serverEvents.groupInviteAccept, function() {
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+
     });
 
     it('should inform everyone that a new member was added', function(done) {

@@ -1,0 +1,6 @@
+{
+    "app": {
+        "port": 3002
+    },
+    "db": "mongodb://localhost/heroapiserver-functionaltest"
+}

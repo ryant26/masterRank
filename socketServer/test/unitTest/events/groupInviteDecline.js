@@ -12,6 +12,9 @@ require('../../../src/app');
 
 describe(serverEvents.groupInviteDecline, function() {
 
+    beforeEach(function() {
+    });
+
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
     });

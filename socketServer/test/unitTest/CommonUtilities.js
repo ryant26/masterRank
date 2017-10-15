@@ -5,7 +5,6 @@ const serverEvents = require('../../src/socketEvents/serverEvents');
 const clientEvents = require('../../src/socketEvents/clientEvents');
 const logger = require('winston');
 
-
 module.exports = class CommonUtilities {
 
     constructor(opts) {

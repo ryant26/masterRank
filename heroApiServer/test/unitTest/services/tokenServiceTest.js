@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const tokenService = require('../../../src/services/tokenService');
-const tokenHelpers = require('../commonUtils/tokenHelpers');
+const tokenHelpers = require('../../../devTools/tokenHelpers');
 const randomString = require('randomstring');
 
 describe('tokenService', function() {

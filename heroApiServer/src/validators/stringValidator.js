@@ -9,12 +9,14 @@ let validators = {
 };
 
 
-let allValidators = function(arg) {
+let allValidators = function(...args) {
     let result = true;
 
     for (let keyVal of Object.entries(validators)) {
         let validator = keyVal[1];
-        result = result && validator(arg);
+        args.forEach((arg) => {
+            result = result && validator(arg);
+        });
     }
 
     return result;
