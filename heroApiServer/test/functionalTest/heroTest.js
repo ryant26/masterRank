@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const chaiHttp = require('chai-http');
-const tokenUtil = require('../unitTest/commonUtils/tokenHelpers');
+const tokenUtil = require('../../devTools/tokenHelpers');
 
 const platformDisplayName = 'PwNShoPP#1662';
 const region = 'us';
@@ -54,32 +54,6 @@ describe('Hero Tests', function() {
                     assert.equal(result.body.platform, platform);
                     assert.equal(result.body.region, region);
                     assert.equal(result.body.platformDisplayName, platformDisplayName);
-                });
-        });
-
-        it('should filter by region', function() {
-            return chai.request(server)
-                .get(`/api/heros/${heroName}`)
-                .set('authorization', authHeader)
-                .query({platformDisplayName, region: 'apac',  platform})
-                .then(() => {
-                    throw new Error('Hero should not have been found');
-                }).catch((err) => {
-                    assert.equal(err.status, 404);
-                    assert.equal(err.response.body.message, 'Hero could not be found');
-                });
-        });
-
-        it('should filter by platform', function() {
-            return chai.request(server)
-                .get(`/api/heros/${heroName}`)
-                .set('authorization', authHeader)
-                .query({platformDisplayName, region,  platform: 'xbl'})
-                .then(() => {
-                    throw new Error('Hero should not have been found');
-                }).catch((err) => {
-                    assert.equal(err.status, 404);
-                    assert.equal(err.response.body.message, 'Hero could not be found');
                 });
         });
     });

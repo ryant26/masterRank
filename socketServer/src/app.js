@@ -6,11 +6,13 @@ const logger = require('winston');
 const groupControllerFactory = require('./controllers/factories/groupControllerFactory');
 const playerControllerFactory = require('./controllers/factories/playerControllerFactory');
 const AuthenticationController = require('./controllers/AuthenticationController');
-
+const dependencyMocker = require('./mockingUtilities/mockDependencies');
 
 const port = config.get('port');
 const regionNamespaces = ['us', 'eu', 'apac'];
 const platformNamespaces = ['pc', 'ps', 'xb'];
+
+dependencyMocker.mockAllDependenciesForEnvironment();
 
 let onAuthenticated = function (namespace, socket, token) {
     socket.removeAllListeners();
