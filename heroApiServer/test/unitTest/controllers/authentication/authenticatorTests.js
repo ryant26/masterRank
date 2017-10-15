@@ -3,6 +3,7 @@ const assert = chai.assert;
 const chaiHttp = require('chai-http');
 const mockHelpers = require('../../commonUtils/mockingHelpers');
 const mockData = require('../../commonUtils/mockOverwatchData');
+const tokenGenerator = require('../../../../devTools/tokenHelpers');
 
 const server = require('../../../../src/app');
 const Player = require('../../../../src/models/Player');
@@ -199,5 +200,61 @@ describe('psnAuthenticator', function() {
 
     it('should redirect with query param on failure', function() {
         return verifyFailureResponse(chai.request(server).post('/auth/psn/callback'));
+    });
+});
+
+describe('tokenAuthenticator', function() {
+    let battleNetId = 'testUser#1234';
+    let region = 'us';
+    let platform = 'pc';
+
+    it('should reject expired tokens', function() {
+        let expiredToken = tokenGenerator.getExpiredToken(battleNetId, region, platform);
+        return chai.request(server)
+            .post('/auth/token/validate')
+            .send({token: expiredToken})
+            .then(() => {
+                throw new Error('Should be unauthorized');
+            })
+            .catch((err) => {
+                assert.equal(err.status, 401);
+                assert.equal(err.message, 'Unauthorized');
+            });
+    });
+
+    it('should reject invalid requests', function() {
+        return chai.request(server)
+            .post('/auth/token/validate')
+            .then(() => {
+                throw new Error('Should be bad request');
+            })
+            .catch((err) => {
+                assert.equal(err.status, 400);
+                assert.equal(err.message, 'Bad Request');
+            });
+    });
+
+    it('should reject tokens signed with the wrong secret', function() {
+        let badToken = tokenGenerator.getTokenSignedWithOldSecret(battleNetId, region, platform);
+        return chai.request(server)
+            .post('/auth/token/validate')
+            .send({token: badToken})
+            .then(() => {
+                throw new Error('Should be unauthorized');
+            })
+            .catch((err) => {
+                assert.equal(err.status, 401);
+                assert.equal(err.message, 'Unauthorized');
+            });
+    });
+
+    it('should accept valid tokens', function() {
+        let badToken = tokenGenerator.getValidToken(battleNetId, region, platform);
+        return chai.request(server)
+            .post('/auth/token/validate')
+            .send({token: badToken})
+            .then((res) => {
+                assert.equal(res.status, 200);
+            });
     });
 });

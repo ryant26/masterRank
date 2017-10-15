@@ -24,6 +24,7 @@ describe(serverEvents.groupInviteSend, function() {
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+
     });
 
     it('Should show group details on invite', function(done) {
