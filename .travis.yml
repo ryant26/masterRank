@@ -28,4 +28,11 @@ matrix:
       script: gulp
       after_script:
         - cd ..
-
+    - language: node_js
+      node_js: "7.4.0"
+      before_script:
+        - cd react/
+        - npm install 
+      script: npm run test
+      after_script:
+        - cd ..
