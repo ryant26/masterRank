@@ -11,6 +11,11 @@ let searchForPlayer = function(token) {
     return ow.player(_normalizeId(token.battleNetId)).then((result) => {
         result = result.accounts;
 
+        result.forEach((account) => {
+            account.platformDisplayName = account.displayName;
+            delete account.displayName;
+        });
+
         if (token.platform) {
             result = result.filter((element) => {
                 return element.platform === token.platform;
