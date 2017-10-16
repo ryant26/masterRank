@@ -119,7 +119,7 @@ export default {
         test: /\.(jpe?g|png|gif|ico)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
               name: '[name].[ext]'
             }
