@@ -1,6 +1,7 @@
 const logger = require('winston');
 const SocketError = require('./exceptions/SocketError');
 const exceptions = require('./exceptions/exceptions');
+const stringValidator = require('./stringValidators').runAllValidators;
 
 let heroExists = function(playerHeros, hero) {
     let heroStats = playerHeros.find((element) => {
@@ -25,8 +26,7 @@ let validHeroObject = function (hero) {
 };
 
 let validateHeroName = function (heroName) {
-    if (typeof heroName === 'string'
-        && heroName.length > 0) {
+    if (stringValidator(heroName)) {
         return true;
     }
     logger.error(`Received invalid hero name [${heroName}]`);
