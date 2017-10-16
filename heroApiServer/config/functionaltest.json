@@ -2,5 +2,9 @@
     "app": {
         "port": 3002
     },
+    "token": {
+        "secret": "issaSecret",
+        "expiry": 604800
+    },
     "db": "mongodb://localhost/heroapiserver-functionaltest"
 }
