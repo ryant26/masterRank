@@ -1,4 +1,5 @@
 module.exports = {
+    authenticated: 'authenticated',
     initialData: 'initialData',
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
@@ -11,6 +12,7 @@ module.exports = {
     groupPromotedLeader: 'groupPromotedLeader',
     error: {
         addHero: 'error.addHero',
+        authenticate: 'error.authenticate',
         removeHero: 'error.removeHero',
         groupInviteSend: 'error.groupInviteSend',
         groupInviteAccept: 'error.groupInviteAccept',

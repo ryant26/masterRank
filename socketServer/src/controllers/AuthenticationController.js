@@ -1,4 +1,7 @@
 const BaseController = require('./BaseController');
+const serverEvents = require('../socketEvents/serverEvents');
+const clientEvents = require('../socketEvents/clientEvents');
+const authenticationService = require('../services/authenticationService');
 
 /**
  * This class handles validating tokens against the auth server
@@ -10,13 +13,14 @@ module.exports = class AuthenticationController extends BaseController {
     constructor (config) {
         super(config);
 
-        this.on('authenticate', (data) => {
-            // TODO Authenticate token here!!
-            this.token = data.eventData;
+        this.on(serverEvents.authenticate, (data) => {
+            return authenticationService.authenticate(data.eventData, this.socket).then((token) => {
+                this.token = token;
+            });
         });
 
-        this.after('authenticate', () => {
-            this.socket.emit('authenticated');
+        this.after(serverEvents.authenticate, () => {
+            this.socket.emit(clientEvents.authenticated);
             config.authenticatedCallback(this.token);
         });
     }

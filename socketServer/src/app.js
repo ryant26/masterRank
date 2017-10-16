@@ -5,8 +5,9 @@ const config = require('config');
 const logger = require('winston');
 const groupControllerFactory = require('./controllers/factories/groupControllerFactory');
 const playerControllerFactory = require('./controllers/factories/playerControllerFactory');
-const AuthenticationController = require('./controllers/AuthenticationController');
+const authenticationControllerFactory = require('./controllers/factories/authenticationControllerFactory');
 const dependencyMocker = require('./mockingUtilities/mockDependencies');
+const serverEvents = require('./socketEvents/serverEvents');
 
 const port = config.get('port');
 const regionNamespaces = ['us', 'eu', 'apac'];
@@ -21,8 +22,8 @@ let onAuthenticated = function (namespace, socket, token) {
 };
 
 let setupRegion = function(namespace) {
-    namespace.on('connection', (socket) => {
-        new AuthenticationController({
+    namespace.on(serverEvents.connection, (socket) => {
+        authenticationControllerFactory.getAuthenticationController({
             socket,
             authenticatedCallback: (token) => {
                 onAuthenticated(namespace, socket, token);

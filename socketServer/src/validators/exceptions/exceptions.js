@@ -7,5 +7,6 @@ module.exports = {
     heroNotFound: 'Hero not found',
     malformedHeroObject: 'Malformed Hero Object',
     invalidHeroName: 'Invalid Hero Name',
-    invalidGroupId: 'Invalid group ID'
+    invalidGroupId: 'Invalid group ID',
+    malformedToken: 'Malformed Token'
 };
