@@ -3,6 +3,7 @@ const config = require('config');
 const randomString = require('randomstring');
 const serverEvents = require('../../src/socketEvents/serverEvents');
 const clientEvents = require('../../src/socketEvents/clientEvents');
+const jwt = require('jsonwebtoken');
 const logger = require('winston');
 
 module.exports = class CommonUtilities {
@@ -27,7 +28,7 @@ module.exports = class CommonUtilities {
 
     getAuthenticatedSocket(battleNetId, region = this.regions.us, platform = 'pc') {
         let outSocket = io(this.getSocketUrl(region, platform), {forceNew: true});
-        outSocket.emit('authenticate', {battleNetId: battleNetId, region, platform});
+        outSocket.emit(serverEvents.authenticate, jwt.sign({battleNetId: battleNetId, region, platform}, 'secret'));
         this.socketsArray.push(outSocket);
         return outSocket;
     }
