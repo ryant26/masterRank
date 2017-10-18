@@ -1,4 +1,6 @@
 module.exports = {
+    connection: 'connection',
+    authenticate: 'authenticate',
     addHero: 'addHero',
     removeHero: 'removeHero',
     groupInviteSend: 'groupInviteSend',

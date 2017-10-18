@@ -1,9 +1,15 @@
 {
     "heroApi": {
-        "url": "http://localhost:3001/heros/",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IlRlc3RVc2VyIzEyMzQiLCJyZWdpb24iOiJ1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MDc2ODMyNTI3NTAsImlhdCI6MTUwNzY4MjI1Mn0.8EL5jfTA8TUSZnEjFbyBS1UlvCySq9EcQDMnYvqYoDA"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IlRlc3RVc2VyIzEyMzQiLCJyZWdpb24iOiJ1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MDgyMDgwMTgyMjYsImlhdCI6MTUwODIwNzAxOH0.aWT6J2ecsVQI5Q-7dCnIyS9J0QpzqoQLxk37OOOgF_0"
     },
     "playerApi": {
         "port" : 3002
+    },
+    "authenticationApi": {
+        "port": 3002
+    },
+    "token": {
+        "secret": "issaSecret",
+        "expiry": 604800
     }
 }

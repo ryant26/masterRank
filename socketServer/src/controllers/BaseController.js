@@ -9,7 +9,7 @@ module.exports = class BaseController {
         this.eventEmitter = new EventEmitter();
         this.socket = config.socket;
         this.namespace = config.namespace;
-        this.token = config.token;
+        this.token = config.token || {};
         this._socketEvents = {};
     }
 
