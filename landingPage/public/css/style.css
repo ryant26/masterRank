@@ -1,8 +1,143 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  margin: 0px;
+  background-color: #14152E;
+  font-stretch: Industry;
 }
 
-a {
-  color: #00B7FF;
+.section {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.flex-column-spread {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.column-item-centered {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.end-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex: 1;
+}
+
+.background-clan {
+  background: url(/images/clanBackground.jpg) no-repeat center center scroll;
+}
+
+.background-rein {
+  background: url(/images/reinBackground.jpg) no-repeat center center scroll;
+}
+
+.background-img {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.background-color {
+  background-color: #14152E;
+}
+
+.title {
+  font-size: 3vw;
+  color: white;
+}
+
+.sub-title {
+  font-size: 1em;
+  color: white;
+  text-align: center;
+}
+
+.sub-title-yellow {
+  color: #EFBF49;
+}
+
+.input-text-box {
+  flex: 4;
+}
+
+.input-button {
+  flex: 1;
+  color: white;
+  font-size: 1em;
+}
+
+.input-component {
+  display:flex;
+  flex: 1;
+  background-color: gray;
+}
+
+.input-component input {
+  margin-left: 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.input-component input[type='text'] {
+  flex: 5;
+}
+
+.input-component input[type='button'] {
+  flex: 1;
+  background-color: #EFBF49;
+  margin-right: 4px;
+}
+
+.container-md {
+  width: 35%;
+}
+
+.svg-container {
+  width: 100%;
+}
+
+.svg-container svg {
+  width: 100%;
+}
+
+.stretch {
+  flex: 1;
+}
+
+#scrollButton1 {
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  .title {
+    font-size: 3em;
+  }
+
+  .container-md {
+    width: 80%
+  }
 }
