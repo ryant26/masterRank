@@ -2,22 +2,18 @@ import React, {
   Component
 } from 'react';
 import Helmet from 'react-helmet';
-// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-// import * as HeroActions from '../actions/hero.js';
-import HeroSelector from '../components/HeroSelector.js'
+import HeroSelector from '../components/HeroSelector.js';
 import HeroCard from '../components/HeroCard.js';
+import HeroRoles from '../components/HeroRoles.js';
 
 export class FireTeam extends Component {
   render() {
-    const {heroes = []} = this.props;
-    // add dispatch to object above for bind
-    // const addHero = bindActionCreators(HeroActions.addHero, dispatch)
 
-    const heroCardComponents = heroes.map(hero => {
-      return <HeroCard hero={hero} key={hero.name} />
-    })
+    const roleStyle = {
+      'display':'flex',
+      'flexDirection':'row',
+    }
 
     return (
         <div className="App">
@@ -35,8 +31,11 @@ export class FireTeam extends Component {
 
           <HeroSelector />
 
-          <div className="HeroCard">
-              { heroCardComponents }
+          <div className="HeroRoles" style={roleStyle}>
+              <HeroRoles role='offense' key='offense'/>
+              <HeroRoles role='defense' key='defense'/>
+              <HeroRoles role='tank' key='tank'/>
+              <HeroRoles role='support' key='support'/>
           </div>
         </div>
     );
