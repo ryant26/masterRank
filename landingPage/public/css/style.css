@@ -10,6 +10,11 @@ body {
   min-width: 100vw;
 }
 
+.flex-around {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 
 .flex-column {
   display: flex;
@@ -18,13 +23,25 @@ body {
   justify-content: center;
 }
 
+.center {
+  align-self: center;
+}
+
 .flex-column-spread {
+   display: flex;
+   flex: 1;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.flex-column-end {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
+
 
 .column-item-centered {
   display: flex;
@@ -39,11 +56,23 @@ body {
   flex: 1;
 }
 
+.center-conten-no-stretch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .end-content {
   display: flex;
   justify-content: center;
   align-items: flex-end;
   flex: 1;
+}
+
+.end-content-no-stretch {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .start-content {
@@ -85,7 +114,7 @@ h2 {
 
 .sub-title {
   font-size: 1em;
-  color: white;
+  color: #EAEEF4;
   text-align: center;
 }
 
@@ -159,6 +188,30 @@ h2 {
 
 .scroll-button {
   margin-bottom: 20px;
+}
+
+.pull-bottom {
+  margin-top: auto;
+}
+
+.copyright-box {
+  width: 90%;
+  border-top: 1px solid #2E2F51;
+  color: #7C7D9F;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.oversized-number {
+  font-size: 72px;
+  color: #525373;
+}
+
+.oversized-sub-heading {
+  margin-bottom: -1em;
+  margin-left: -1em;
+  font-size: 24px;
+  color: #EAEEF4;
 }
 
 @media screen and (max-width: 1024px) {
