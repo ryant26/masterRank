@@ -35,13 +35,11 @@ export default class HeroCard extends Component {
     const containerStyle = {
       'display': 'flex',
       'backgroundColor': '#66ccff',
-      'width': '720px',
       'margin': '10px',
     }
 
     const statsStyle = {
       'display': 'flex',
-      'width': '660px',
     }
 
     const componentStyle = {
@@ -63,6 +61,8 @@ export default class HeroCard extends Component {
             ? <InvitePlayerButton />
             : <HeroImage heroName={this.props.hero.name}/>
           }
+
+          <div> Username </div>
 
           <div style={statsStyle} onClick={this.toggleStats}>
             <div style={componentStyle} >
