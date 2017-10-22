@@ -2,7 +2,7 @@ body {
   overflow-x: hidden;
   margin: 0px;
   background-color: #14152E;
-  font-stretch: Industry;
+  font-family: 'Roboto', sans-serif;
 }
 
 .section {
@@ -46,6 +46,12 @@ body {
   flex: 1;
 }
 
+.start-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .background-clan {
   background: url(/images/clanBackground.jpg) no-repeat center center scroll;
 }
@@ -65,9 +71,16 @@ body {
   background-color: #14152E;
 }
 
-.title {
+h1 {
   font-size: 3vw;
-  color: white;
+  color: #EAEEF4;
+}
+
+h2 {
+  font-size: 24px;
+  color: #EAEEF4;
+  letter-spacing: 0;
+  font-weight: lighter;
 }
 
 .sub-title {
@@ -79,6 +92,7 @@ body {
 .sub-title-yellow {
   color: #EFBF49;
 }
+
 
 .input-text-box {
   flex: 4;
@@ -116,6 +130,21 @@ body {
   width: 35%;
 }
 
+.container-offset {
+  width: 30%;
+  min-height: 200px;
+  margin-right: -40%;
+  padding: 30px;
+}
+
+.top-border-gradient {
+  /* gradient shining border */
+  border-style: solid;
+  border-width: 3px;
+  border-image: linear-gradient(90deg, #338BF6 0%, #14152E 98%)
+  100% 0 0 0/2px 0 0 0 stretch;
+}
+
 .svg-container {
   width: 100%;
 }
@@ -128,16 +157,31 @@ body {
   flex: 1;
 }
 
-#scrollButton1 {
+.scroll-button {
   margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1024px) {
-  .title {
+  h1 {
     font-size: 3em;
   }
 
   .container-md {
     width: 80%
+  }
+
+  .container-offset {
+    width: 50%;
+    min-height: 250px;
+    margin-right: -20%;
+  }
+
+}
+
+@media only screen and (max-width: 412px) {
+  .container-offset {
+    width: 90%;
+    min-height: 250px;
+    margin-right: 0;
   }
 }
