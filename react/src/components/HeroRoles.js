@@ -4,7 +4,6 @@ import React, {
 
 import { connect } from 'react-redux';
 import HeroCard from './HeroCard.js';
-import { names } from '../resources/allHeroNames.js';
 
 export class HeroRoles extends Component {
 
@@ -39,7 +38,6 @@ export class HeroRoles extends Component {
         const role = this.props.role;  
         
         const hasRole = function(obj, heroName) {
-            let nms = names;
             let roles = Object.keys(obj);
             let returnVal = false;
 
