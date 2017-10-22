@@ -12,19 +12,19 @@ export default class StatBox extends Component {
       'height': '46px',
       'width': '120px',
       'textAlign': 'left',
-    }
+    };
 
     const indicator = {
       'backgroundColor': 'lightgrey',
       'height': '5px',
       'width': '90px',
-    }
+    };
 
     const indicatorLevel = {
       'backgroundColor': 'blue',
       'height': '5px',
       'width': this.props.percentile,
-    }
+    };
 
     return (
       <div style={container}>
@@ -34,6 +34,6 @@ export default class StatBox extends Component {
         </div>
         <div>{this.props.label}</div>
       </div>
-    )
+    );
   }
 }

@@ -1,10 +1,10 @@
 import * as HeroActionTypes from '../actiontypes/hero';
 
-import HEROES from '../resources/heroes.js';
+import HEROES from '../resources/heroes';
 
 const initialState = {
   heroes: HEROES
-}
+};
 
 export default function HeroReducer(state=initialState, action) {
 
@@ -18,7 +18,7 @@ export default function HeroReducer(state=initialState, action) {
             hero: {}
           }
         ]
-      }
+      };
 
     default:
       return state;

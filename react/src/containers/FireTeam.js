@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import HeroSelector from '../components/HeroSelector.js';
-import HeroRoles from '../components/HeroRoles.js';
+import HeroSelector from '../components/HeroSelector';
+import HeroRoles from '../components/HeroRoles';
 
 export class FireTeam extends Component {
   render() {
@@ -12,7 +12,7 @@ export class FireTeam extends Component {
     const roleStyle = {
       'display':'flex',
       'flexDirection':'row',
-    }
+    };
 
     return (
         <div className="App">
@@ -31,10 +31,10 @@ export class FireTeam extends Component {
           <HeroSelector />
 
           <div className="HeroRoles" style={roleStyle}>
-              <HeroRoles role='offense' key='offense'/>
-              <HeroRoles role='defense' key='defense'/>
-              <HeroRoles role='tank' key='tank'/>
-              <HeroRoles role='support' key='support'/>
+              <HeroRoles role="offense" key="offense"/>
+              <HeroRoles role="defense" key="defense"/>
+              <HeroRoles role="tank" key="tank"/>
+              <HeroRoles role="support" key="support"/>
           </div>
         </div>
     );

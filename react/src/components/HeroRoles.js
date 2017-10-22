@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 
 import { connect } from 'react-redux';
-import HeroCard from './HeroCard.js';
+import HeroCard from './HeroCard';
 
 export class HeroRoles extends Component {
 
@@ -50,11 +50,11 @@ export class HeroRoles extends Component {
             });
 
             return returnVal;
-        }
+        };
         
         const heroCardComponents = heroes.map(hero => {
             if (hasRole(roles, hero)) {
-                return <HeroCard hero={hero} key={Math.random().toString()} />
+                return <HeroCard hero={hero} key={Math.random().toString()} />;
             }
         });
 

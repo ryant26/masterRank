@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 
-import StatBox from './StatBox.js';
+import StatBox from './StatBox';
 
 export default class HeroCardStats extends Component {
 
@@ -12,7 +12,7 @@ export default class HeroCardStats extends Component {
     const row = {
       'height': '56px',
       'padding': '15px',
-    }
+    };
 
     return (
       <div>

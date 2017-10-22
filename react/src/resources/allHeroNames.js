@@ -23,4 +23,4 @@ export const names = [
   'winston',
   'zarya',
   'zenyatta'
-]
+];

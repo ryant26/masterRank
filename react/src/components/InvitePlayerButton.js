@@ -1,8 +1,8 @@
 import React, {
   Component
-} from 'react'
+} from 'react';
 
-import FontAwesome from 'react-fontawesome'
+import FontAwesome from 'react-fontawesome';
 
 export default class InvitePlayerButton extends Component {
 
@@ -24,11 +24,11 @@ export default class InvitePlayerButton extends Component {
       'width': '60px',
       'float': 'left',
       'fontSize': '48px',
-    }
+    };
 
     return (
       <button style={buttonStyle} onClick={this.invitePlayer}>
-        <FontAwesome name='plus' />
+        <FontAwesome name="plus" />
       </button>
     );
   }

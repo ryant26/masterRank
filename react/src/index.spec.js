@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { FireTeam } from './containers/FireTeam.js';
-import HeroReducer from './reducers/HeroReducer.js';
+import { FireTeam } from './containers/FireTeam';
+import HeroReducer from './reducers/HeroReducer';
 
 it('renders without crashing', () => {
   const store = createStore(

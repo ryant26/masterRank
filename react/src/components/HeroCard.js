@@ -2,9 +2,9 @@ import React, {
   Component
 } from 'react';
 
-import HeroCardStats from './HeroCardStats.js'
-import HeroImage from './HeroImage.js'
-import InvitePlayerButton from './InvitePlayerButton.js'
+import HeroCardStats from './HeroCardStats';
+import HeroImage from './HeroImage';
+import InvitePlayerButton from './InvitePlayerButton';
 
 export default class HeroCard extends Component {
 
@@ -22,13 +22,13 @@ export default class HeroCard extends Component {
   toggleStats() {
     this.setState(prevState => ({
       isStatsToggleOn: !prevState.isStatsToggleOn
-    }))
+    }));
   }
 
   toggleInvitePlayerButton() {
     this.setState(prevState => ({
       isHovering: !prevState.isHovering
-    }))
+    }));
   }
 
   render() {
@@ -36,17 +36,17 @@ export default class HeroCard extends Component {
       'display': 'flex',
       'backgroundColor': '#66ccff',
       'margin': '10px',
-    }
+    };
 
     const statsStyle = {
       'display': 'flex',
-    }
+    };
 
     const componentStyle = {
       'textAlign': 'center',
       'height': '60px',
       'width': '33%',
-    }
+    };
 
     let winPercentage = parseFloat(this.props.hero.general_stats.win_percentage * 100.0).toFixed(1);
 

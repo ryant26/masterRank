@@ -4,5 +4,5 @@ export const addHero = (hero) => {
   return {
     type: HeroActionTypes.ADD_HERO,
     hero
-  }
-}
+  };
+};

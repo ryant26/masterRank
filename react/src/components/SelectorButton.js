@@ -1,8 +1,8 @@
 import React, {
   Component
-} from 'react'
+} from 'react';
 
-import HeroImage from './HeroImage.js'
+import HeroImage from './HeroImage';
 
 export default class SelectorButton extends Component {
 
@@ -37,7 +37,7 @@ export default class SelectorButton extends Component {
       'backgroundColor': this.state.backgroundColor,
       'padding': '5px',
       'margin': '10px',
-    }
+    };
 
     return (
       <div style={selectorStyle} onClick={this.addCards}>
