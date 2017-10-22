@@ -1,8 +1,8 @@
 import React, {
   Component
-} from 'react'
+} from 'react';
 
-export default class InvitePlayerButton extends Component {
+export default class HeroImage extends Component {
 
   render() {
     const heroImageStyle = {
@@ -10,7 +10,7 @@ export default class InvitePlayerButton extends Component {
       'height': '60px',
       'width': '60px',
       'float': 'left',
-    }
+    };
 
     return (
       <img style={heroImageStyle}

@@ -1,4 +1,4 @@
-var HEROES = [
+const HEROES = [
   {
     name: "reinhardt",
     average_stats: {
@@ -368,6 +368,6 @@ var HEROES = [
       "solo_kills_most_in_game": 4
     }
   }
-]
+];
 
-export default HEROES
+export default HEROES;

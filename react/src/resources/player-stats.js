@@ -1424,4 +1424,4 @@
       "defensive_assists": 3
     }
   }
-]
+];
