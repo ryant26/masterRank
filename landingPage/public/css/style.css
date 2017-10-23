@@ -5,6 +5,18 @@ body {
   font-family: 'Industry', 'Roboto', sans-serif;
 }
 
+.flex {
+  display: flex;
+}
+
+.padding-bottom-large {
+  padding-bottom: 20px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
 .section {
   min-height: 100vh;
   min-width: 100vw;
@@ -40,13 +52,6 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-}
-
-
-.column-item-centered {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 20px;
 }
 
 .center-content {
@@ -241,11 +246,11 @@ h2 {
 .oversized-number {
   font-size: 72px;
   color: #525373;
+  margin-right: -10%;
 }
 
 .oversized-sub-heading {
   margin-bottom: -1em;
-  margin-left: -1em;
   font-size: 24px;
   color: #EAEEF4;
 }
