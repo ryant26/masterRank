@@ -155,6 +155,7 @@ h2 {
   background-image: linear-gradient(-180deg, #FFC029 0%, #F7981C 100%);
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.30);
   border-radius: 3px;
+  padding: 4px;
 }
 
 .input-component {
@@ -274,6 +275,10 @@ h2 {
     margin-right: -20%;
   }
 
+  .input-button {
+    font-size: 0.8em;
+  }
+
 }
 
 @media only screen and (max-width: 412px) {
@@ -282,4 +287,5 @@ h2 {
     min-height: 250px;
     margin-right: 0;
   }
+
 }
