@@ -164,6 +164,18 @@ h2 {
   padding: 4px;
 }
 
+.input-button:hover {
+  background: #FFC029;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.50);
+}
+
+.input-button:active {
+  background: #F7981C;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.30);
+  margin-bottom: 3px;
+  margin-top: 5px;
+}
+
 .input-component {
   display: flex;
   flex: 1;
@@ -171,6 +183,10 @@ h2 {
   box-shadow: 0 5px 10px 0 rgba(0,0,0,0.10);
   border-radius: 3px;
   height: 40px;
+}
+
+.input-button:focus {
+  outline: none;
 }
 
 .input-container {
@@ -192,19 +208,19 @@ h2 {
   margin-right: 4px;
 }
 
-.input-component input[type='text'] {
+.input-component input[type='email'] {
   background: none;
   border: none;
   font-size: 14px;
   color: black;
 }
 
-.input-component input[type='text']::-webkit-input-placeholder {
+.input-component input[type='email']::-webkit-input-placeholder {
   color: #999FA8;
   font-family: 'Roboto', sans-serif;
 }
 
-.input-component input[type='text']:focus {
+.input-component input[type='email']:focus {
   outline: none !important;
 }
 
