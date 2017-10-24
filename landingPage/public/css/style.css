@@ -127,6 +127,12 @@ h2 {
   color: #EFBF49;
 }
 
+.footer-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  color: #EAEEF4;
+  text-align: center;
+}
 
 .input-text-box {
   flex: 4;
@@ -195,6 +201,7 @@ h2 {
 
 .input-component input[type='text']::-webkit-input-placeholder {
   color: #999FA8;
+  font-family: 'Roboto', sans-serif;
 }
 
 .input-component input[type='text']:focus {
@@ -246,6 +253,7 @@ h2 {
   color: #7C7D9F;
   padding-top: 10px;
   text-align: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .oversized-number {
