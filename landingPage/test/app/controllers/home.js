@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var home = require('../../../app/controllers/home');
+var home = require('../.././controllers/home');
 
 describe('home routes', function() {
   it('should load', function() {
