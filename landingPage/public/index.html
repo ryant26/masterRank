@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-  <div class="section background-clan background-img flex-column">
+  <div id="section1" class="section background-clan background-img flex-column">
     <div class="end-content">
       <div class="container-md flex-column">
         <div class="flex justify-center">
@@ -56,7 +56,7 @@
       <img id="scrollButton1" class="scroll-button" src="/images/scroll-icon.png">
     </div>
   </div>
-  <div class="section background-rein background-img flex-column">
+  <div id="section2" class="section background-rein background-img flex-column">
     <div class="end-content" style="visibility: hidden">
       <img class="scroll-button" src="/images/scroll-icon.png">
     </div>
@@ -95,7 +95,7 @@
       <img id="scrollButton2" class="scroll-button" src="/images/scroll-icon.png">
     </div>
   </div>
-  <div class="section background-color flex-column">
+  <div id="section3" class="section background-color flex-column">
     <div class="flex-around stretch wrap">
       <div class="center-conten-no-stretch">
         <div class="oversized-number">1</div>
@@ -117,7 +117,7 @@
 
           </div>
         </div>
-        <div class="sub-title flex justify-center padding-bottom-large">
+        <div class="footer-title flex justify-center padding-bottom-large">
           Sign up below to be notified when we launch our beta site!
         </div>
         <div class="flex justify-center padding-bottom-large">
@@ -132,7 +132,7 @@
         </div>
         <div class="flex justify-center padding-bottom-large stretch">
           <div class="end-content">
-            <div class="copyright-box">
+            <div class="copyxx  right-box">
               <div class="flex-column">
                 <div class="center">
                   Copyright &copy; Fireteam.gg 2017. All Rights Reserved.
@@ -149,6 +149,17 @@
 <script type="text/javascript">
   function autorun()
   {
+    let setupScrollSpy = function() {
+      for(let i = 1; i < 3; i++) {
+        $("#scrollButton" + i).click(function() {
+          $('html, body').animate({
+            scrollTop: $("#section" + (i+1)).offset().top
+          }, 600);
+        });
+      }
+    };
+
+    setupScrollSpy();
 
   }
   if (document.addEventListener) document.addEventListener("DOMContentLoaded", autorun, false);
