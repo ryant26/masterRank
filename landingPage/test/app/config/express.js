@@ -9,7 +9,7 @@ describe('configure express', function() {
     expect(configure).to.be.a('function');
   });
 
-  it('should return the app', function() {
+  it('should return the src', function() {
     var app = express();
 
     expect(configure(app, {})).to.eql(app);

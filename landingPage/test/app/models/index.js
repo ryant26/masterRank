@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var model = require('../../../app/models/index');
+var model = require('../.././models/index');
 
 describe('model', function() {
   it('should load', function() {

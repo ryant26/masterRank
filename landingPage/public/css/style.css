@@ -241,6 +241,7 @@ h2 {
 
 .scroll-button {
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .pull-bottom {

@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var article = require('../../../app/models/article');
+var article = require('../.././models/article');
 
 describe('article', function() {
   it('should load', function() {
