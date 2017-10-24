@@ -4,6 +4,7 @@ import React, {
 
 import { connect } from 'react-redux';
 import HeroCard from './HeroCard';
+import PropTypes from 'prop-types';
 
 export class HeroRoles extends Component {
 
@@ -41,8 +42,8 @@ export class HeroRoles extends Component {
             let roles = Object.keys(obj);
             let returnVal = false;
 
-            roles.map((roleage) => {
-                obj[roleage].map((hero) => {
+            roles.forEach((roleage) => {
+                obj[roleage].forEach((hero) => {
                     if (heroName.name === hero && roleage === role) {
                         returnVal = true;
                     }
@@ -70,6 +71,11 @@ export class HeroRoles extends Component {
         );
     }
 }
+
+HeroRoles.propTypes = {
+    heroes: PropTypes.array.isRequired,
+    role: PropTypes.string.isRequired
+};
 
 const mapStateToProps = (state) => (
     {
