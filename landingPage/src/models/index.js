@@ -1,15 +1,15 @@
-var fs = require('fs'),
-  path = require('path'),
-  Sequelize = require('sequelize'),
-  config = require('../../config/config'),
-  db = {};
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const config = require('config');
+let db = {};
 
-var sequelize = new Sequelize(config.db);
+let sequelize = new Sequelize(config.get('db'));
 
 fs.readdirSync(__dirname).filter(function (file) {
   return (file.indexOf('.') !== 0) && (file !== 'index.js');
 }).forEach(function (file) {
-  var model = sequelize['import'](path.join(__dirname, file));
+  let model = sequelize['import'](path.join(__dirname, file));
   db[model.name] = model;
 });
 

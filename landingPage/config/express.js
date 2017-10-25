@@ -1,30 +1,20 @@
-var express = require('express');
-var glob = require('glob');
+const express = require('express');
+const glob = require('glob');
 
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var compress = require('compression');
-var methodOverride = require('method-override');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const config = require('config');
+const path = require('path');
 
-module.exports = function(app, config) {
-  var env = process.env.NODE_ENV || 'development';
-  app.locals.ENV = env;
-  app.locals.ENV_DEVELOPMENT = env == 'development';
 
-  // src.use(favicon(config.root + '/public/img/favicon.ico'));
-  app.use(logger('dev'));
+const rootPath = path.normalize(__dirname + '/../');
+
+module.exports = function(app) {
+  app.use(logger(config.get('loggingLevel')));
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-  app.use(cookieParser());
-  app.use(compress());
-  app.use(express.static(config.root + '/public'));
-  app.use(methodOverride());
 
-  var controllers = glob.sync(config.root + '/src/controllers/*.js');
+  let controllers = glob.sync(rootPath + '/src/controllers/*.js');
   controllers.forEach(function (controller) {
     require(controller)(app);
   });
@@ -38,7 +28,7 @@ module.exports = function(app, config) {
   if(app.get('env') === 'development'){
     app.use(function (err, req, res, next) {
       res.status(err.status || 500);
-      res.render('error', {
+      res.json({
         message: err.message,
         error: err,
         title: 'error'
@@ -48,7 +38,7 @@ module.exports = function(app, config) {
 
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-      res.render('error', {
+      res.json({
         message: err.message,
         error: {},
         title: 'error'
