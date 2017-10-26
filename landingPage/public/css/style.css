@@ -24,7 +24,7 @@ body {
 
 .flex-around {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
 }
 
@@ -33,6 +33,13 @@ body {
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .center {
@@ -45,6 +52,13 @@ body {
    flex-direction: column;
    justify-content: space-between;
    align-items: center;
+}
+
+.flex-column-start {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .flex-column-end {
@@ -117,6 +131,13 @@ h2 {
   font-weight: lighter;
 }
 
+p {
+    font-size: 16px;
+    color: #7C7D9F;
+    line-height: 21px;
+    letter-spacing: 0;
+}
+
 .sub-title {
   font-size: 1em;
   color: #EAEEF4;
@@ -185,6 +206,11 @@ h2 {
   height: 40px;
 }
 
+.input-component form {
+    display: flex;
+    flex: 1;
+}
+
 .input-button:focus {
   outline: none;
 }
@@ -235,6 +261,10 @@ h2 {
   padding: 30px;
 }
 
+.quarter-width {
+    width: 25%;
+}
+
 .top-border-gradient {
   /* gradient shining border */
   border-style: solid;
@@ -276,13 +306,14 @@ h2 {
 .oversized-number {
   font-size: 72px;
   color: #525373;
-  margin-right: -10%;
+  margin-left: -90%;
 }
 
 .oversized-sub-heading {
   margin-bottom: -1em;
   font-size: 24px;
   color: #EAEEF4;
+  z-index: 2;
 }
 
 @media screen and (max-width: 1024px) {
@@ -306,11 +337,22 @@ h2 {
 
 }
 
+@media only screen and (max-width: 650px) {
+    .quarter-width {
+        width: 90%;
+    }
+
+}
+
 @media only screen and (max-width: 412px) {
   .container-offset {
     width: 90%;
     min-height: 250px;
     margin-right: 0;
+  }
+
+  .quarter-width {
+      width: 90%;
   }
 
 }
