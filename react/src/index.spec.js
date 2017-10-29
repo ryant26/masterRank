@@ -11,6 +11,6 @@ it('renders without crashing', () => {
   );
   const div = document.createElement('div');
   ReactDOM.render(<Provider store={store}>
-                  <FireTeam />
+                    <FireTeam />
                   </Provider>, div);
 });
