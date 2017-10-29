@@ -55,13 +55,13 @@ export class HeroRoles extends Component {
         
         const heroCardComponents = heroes.map(hero => {
             if (hasRole(roles, hero)) {
-                return <HeroCard hero={ hero } key={Math.random().toString()} />;
+                return <HeroCard hero={hero} key={Math.random().toString()} />;
             }
         });
 
         return (
             <div className="HeroRoles">
-                <div className="RoleCard" style={ roleCardStyle }>
+                <div className="RoleCard" style={roleCardStyle}>
                     { role }
                 </div>
                 <div className="CardContainer" style={cardContainerStyle}>

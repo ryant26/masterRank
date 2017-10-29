@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { createRenderer } from 'react-test-renderer/shallow';
@@ -27,8 +26,8 @@ const setup = propOverrides => {
     return {
         props: props,
         output: output
-    }
-}
+    };
+};
 
 describe('HeroRoles Component', () => {
     it('should render without exploding', () => {
@@ -38,7 +37,7 @@ describe('HeroRoles Component', () => {
         
         const wrapper = mount(
 			<Provider store={store}>
-                <HeroRoles heroes={[{name:'orisa', average_stats: 'just doing my job'}]} role='defense'/>
+                <HeroRoles heroes={[{name:'orisa', average_stats: 'just doing my job'}]} role="defense"/>
             </Provider>
         );
         
