@@ -9,8 +9,8 @@ import HeroCard from '../components/HeroCard';
 
 const setup = propOverrides => {
     const props = Object.assign({
-        heroes: [{name:'orisa', average_stats: 'just doing my job'}],
-        role: 'defense'
+        role: 'tank',        
+        heroes: [{name:'orisa', average_stats: 'just doing my job'}]
     }, propOverrides);
 
     const store = createStore(
@@ -18,7 +18,7 @@ const setup = propOverrides => {
     );
 
     const renderer = createRenderer();
-    renderer.render(<Provider store={store}>
+    renderer.render(<Provider store = {store}> 
                         <HeroRoles {...props}/>
                     </Provider>);
     const output = renderer.getRenderOutput();
@@ -36,11 +36,11 @@ describe('HeroRoles Component', () => {
         );
         
         const wrapper = mount(
-			<Provider store={store}>
-                <HeroRoles heroes={[{name:'orisa', average_stats: 'just doing my job'}]} role="defense"/>
+            <Provider store ={store}> 
+                <HeroRoles heroes={store.getState().heroes} role="tank"/>
             </Provider>
         );
-        
+
         const HeroRolesComponent = wrapper.find(HeroRoles);
         const HeroCardComponent = HeroRolesComponent.find(HeroCard);
 
@@ -50,7 +50,7 @@ describe('HeroRoles Component', () => {
 
     it('should render container with one hero with correct role', () => {
         const { output } = setup();
-        expect(output.props.role).toBe('defense');
+        expect(output.props.role).toBe('tank');
     });
 
     it('should render container with one hero with correct name', () => {
