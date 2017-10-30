@@ -6,6 +6,7 @@
   },
   "db": "mongodb://localhost/heroapiserver",
   "loggingLevel": "dev",
+  "reloadThreshold": 6,
   "bnet": {
     "id": "dzj5pnpqax32dxm4bcqnhsmg3dcuhavd",
     "secret": "f8naukGxtrDS9jrqJ5wtyyKR69a2d5Bp"
