@@ -4,15 +4,10 @@ import React, {
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector';
-import HeroRoles from '../components/HeroRoles';
+import HeroRolesContainer from './HeroRolesContainer';
 
 export class FireTeam extends Component {
   render() {
-
-    const roleStyle = {
-      'display':'flex',
-      'flexDirection':'row',
-    };
 
     return (
         <div className="App">
@@ -29,13 +24,7 @@ export class FireTeam extends Component {
           </div>
 
           <HeroSelector />
-
-          <div className="HeroRoles" style={roleStyle}>
-              <HeroRoles role="offense" key="offense"/>
-              <HeroRoles role="defense" key="defense"/>
-              <HeroRoles role="tank" key="tank"/>
-              <HeroRoles role="support" key="support"/>
-          </div>
+          <HeroRolesContainer />
         </div>
     );
   }
