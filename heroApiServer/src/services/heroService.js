@@ -3,6 +3,9 @@ const Hero = mongoose.model('Hero');
 const ow = require('../apiClients/overwatch');
 const owValidators = require('../validators/owApiValidator');
 const logger = require('winston');
+const config = require('config');
+
+const reloadThreshold = config.get('reloadThreshold');
 
 let findAndUpdateOrCreateHero = function(token, heroName) {
     return Hero.findOne(_getQueryCriteria(token, heroName)).then((result) => {
@@ -10,7 +13,7 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
             return _createHero(token, heroName);
         }
 
-        if (_isDateOlderThan(result.lastModified, 6)) {
+        if (_isDateOlderThan(result.lastModified, reloadThreshold)) {
             return _updateHero(token, heroName).catch((err) => {
                 logger.error(`Found hero [${token.battleNetId}:${heroName}], but could not update: ${err.message}`);
                 return result;
