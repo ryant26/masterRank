@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 
 import StatBox from './StatBox';
+import PropTypes from 'prop-types';
 
 export default class HeroCardStats extends Component {
 
@@ -73,3 +74,9 @@ export default class HeroCardStats extends Component {
     );
   }
 }
+
+HeroCardStats.propTypes = {
+  hero: PropTypes.shape({
+    average_stats: PropTypes.object.isRequired
+  })
+};

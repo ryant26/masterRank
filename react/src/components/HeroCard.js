@@ -5,6 +5,7 @@ import React, {
 import HeroCardStats from './HeroCardStats';
 import HeroImage from './HeroImage';
 import InvitePlayerButton from './InvitePlayerButton';
+import PropTypes from 'prop-types';
 
 export default class HeroCard extends Component {
 
@@ -91,3 +92,10 @@ export default class HeroCard extends Component {
     );
   }
 }
+
+HeroCard.propTypes = {
+  hero: PropTypes.shape({
+    general_stats: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired
+  })
+};

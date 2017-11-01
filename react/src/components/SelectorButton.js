@@ -1,7 +1,7 @@
 import React, {
   Component
 } from 'react';
-
+import PropTypes from 'prop-types';
 import HeroImage from './HeroImage';
 
 export default class SelectorButton extends Component {
@@ -46,3 +46,7 @@ export default class SelectorButton extends Component {
     );
   }
 }
+
+SelectorButton.propTypes = {
+  heroName: PropTypes.string.isRequired
+};

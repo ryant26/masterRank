@@ -1,6 +1,7 @@
 import React, {
   Component
 } from 'react';
+import PropTypes from 'prop-types';
 
 export default class HeroImage extends Component {
 
@@ -20,3 +21,7 @@ export default class HeroImage extends Component {
     );
   }
 }
+
+HeroImage.propTypes = {
+  heroName: PropTypes.string.isRequired
+};
