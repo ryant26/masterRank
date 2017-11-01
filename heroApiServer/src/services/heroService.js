@@ -14,7 +14,7 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
         }
 
         if (_isDateOlderThan(result.lastModified, reloadThreshold)) {
-            return _updateHero(token, heroName).catch((err) => {
+            return _updateHero(token, heroName, result).catch((err) => {
                 logger.error(`Found hero [${token.battleNetId}:${heroName}], but could not update: ${err.message}`);
                 return result;
             });
@@ -25,8 +25,14 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
 };
 
 
-let _updateHero = function(token, heroName) {
+let _updateHero = function(token, heroName, oldStats) {
     return _getUpdatedHeroConfigObject(token, heroName).then((updatedInfo) => {
+        Object.keys(updatedInfo).forEach((key) => {
+            if (!updatedInfo[key] && oldStats[key]) {
+                _deleteStatAndPercentile(updatedInfo, key);
+            }
+        });
+        
         return Hero.findOneAndUpdate(_getQueryCriteria(token, heroName), updatedInfo, {new: true});
     });
 };
@@ -134,8 +140,8 @@ let _getPercentiles = function (heroName, stats) {
                 }
             });
 
-            let camelCaseKey = key.charAt(0).toUpperCase() + key.slice(1);
-            percentiles[`p${camelCaseKey}`] = numberOfDocumentsLessThan / totalDocuments;
+            let camelCaseKey = _getPercentileKey(key);
+            percentiles[camelCaseKey] = numberOfDocumentsLessThan / totalDocuments;
         });
 
         return percentiles;
@@ -159,6 +165,20 @@ let _getPlayerStatsFromOw = function(token) {
         return stats.stats;
     });
 };
+
+let _deleteStatAndPercentile = function(obj, key) {
+    if (key.startsWith('p')) {
+        return;
+    }
+
+    delete obj[key];
+    return delete obj[_getPercentileKey(key)];
+};
+
+let _getPercentileKey = function(key) {
+    return 'p' + key.charAt(0).toUpperCase() + key.slice(1);
+};
+
 
 module.exports = {
     findAndUpdateOrCreateHero

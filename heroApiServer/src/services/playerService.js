@@ -33,7 +33,8 @@ let findOrCreatePlayer = function(token) {
     return findAndUpdatePlayer(token).then((player) => {
         if (!player) {
             return createPlayer(token).catch((err) => {
-                logger.error(`Error creating player [${token.battleNetId}]: ${err}`);
+                let error = err.statusCode || err;
+                logger.error(`Error creating player [${token.battleNetId}]: ${error}`);
                 return null;
             });
         }
