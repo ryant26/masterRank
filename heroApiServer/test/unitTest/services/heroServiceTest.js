@@ -47,10 +47,10 @@ describe('heroService', function () {
 
     before(function () {
         db.connect();
-        mockHelpers.stubOverwatchAPI(mockData.playerStats);
     });
 
     beforeEach(function () {
+        mockHelpers.stubOverwatchAPI(mockData.playerStats);
         return Hero.remove({});
     });
 
@@ -85,7 +85,29 @@ describe('heroService', function () {
             });
         });
 
-        it('should update a player if it is more than 6 hours old', function () {
+        it('should not update hero stats that have retrieved with zero, NaN or null', function () {
+            let date = new Date();
+            date.setHours(date.getHours() - 7);
+
+            let heroConfig = getHeroConfig(token, heroName);
+            heroConfig.lastModified = date;
+
+            let partialData = JSON.parse(JSON.stringify(mockData.playerStats));
+
+            partialData.stats.competitive.soldier76.combat.weapon_accuracy = 0;
+
+            mockHelpers.stubOverwatchAPI(partialData);
+
+            return new Hero(heroConfig).save().then(() => {
+                return heroService.findAndUpdateOrCreateHero(token, heroName);
+            }).then((hero) => {
+                assert.equal(hero.accuracy, heroConfig.accuracy);
+                assert.equal(hero.pAccuracy, heroConfig.pAccuracy);
+                assert.notEqual(hero.accuracy, 0);
+            });
+        });
+
+        it('should update hero if it is more than 6 hours old', function () {
             let date = new Date();
             date.setHours(date.getHours() - 7);
 
@@ -97,6 +119,7 @@ describe('heroService', function () {
             }).then((hero) => {
                 assert.equal(hero.accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
                 assert.notEqual(hero.accuracy, heroConfig.accuracy);
+                assert.notEqual(hero.pAccuracy, heroConfig.pAccuracy);
             });
         });
 
