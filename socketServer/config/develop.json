@@ -1,0 +1,12 @@
+{
+  "port": 3002,
+  "heroApi": {
+    "port" : 3001
+  },
+  "playerApi": {
+    "port" : 3001
+  },
+  "authenticationApi": {
+    "port" : 3001
+  }
+}
