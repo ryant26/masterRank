@@ -1,6 +1,7 @@
 import React, {
   Component
 } from 'react';
+import PropTypes from 'prop-types';
 
 export default class StatBox extends Component {
 
@@ -37,3 +38,9 @@ export default class StatBox extends Component {
     );
   }
 }
+
+StatBox.propTypes = {
+  percentile: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired
+};
