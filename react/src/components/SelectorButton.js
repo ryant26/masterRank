@@ -17,7 +17,6 @@ export default class SelectorButton extends Component {
   }
 
   addCards() {
-    // this.props.addMenuItem(this.props.name);
     this.setState(prevState => (
       prevState.isSelected
       ? {
