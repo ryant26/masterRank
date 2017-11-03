@@ -10,7 +10,7 @@ describe('HeroSelector Component',()=> {
         );
 
         const HeroSelectorComponent = wrapper.find(HeroSelector);
-        const SelectorButtonComponent = wrapper.find(HeroSelectorComponent);
+        const SelectorButtonComponent = HeroSelectorComponent.find(SelectorButton);
         expect(HeroSelectorComponent).toBeTruthy();
         expect(SelectorButtonComponent).toBeTruthy();
     });
