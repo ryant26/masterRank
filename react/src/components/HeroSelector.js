@@ -11,7 +11,6 @@ export default class HeroSelector extends Component {
     const selectorStyle = {
       'display': 'flex',
       'flexWrap': 'wrap',
-      // 'width': '1100px',
     };
 
     return (
