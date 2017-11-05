@@ -22,7 +22,7 @@ const setup = propOverrides => {
 describe('HeroImage Component',()=> {
     it('should render without exploding', () => {
         const wrapper = mount(
-            <HeroImage heroName="orisia" /> 
+            <HeroImage heroName="orisa" /> 
         );
 
         const HeroImageComponent = wrapper.find(HeroImage);
