@@ -13,7 +13,7 @@ export default class InvitePlayerButton extends Component {
   }
 
   invitePlayer() {
-    console.log("invite player");
+    // do invite thing
   }
 
   render() {
