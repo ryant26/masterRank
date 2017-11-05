@@ -41,6 +41,6 @@ export default class StatBox extends Component {
 
 StatBox.propTypes = {
   percentile: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired
 };
