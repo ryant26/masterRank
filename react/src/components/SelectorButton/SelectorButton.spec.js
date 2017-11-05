@@ -1,7 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
+
 import SelectorButton from './SelectorButton';
-import HeroImage from './HeroImage';
+import HeroImage from '../HeroImage/HeroImage';
 
 describe('SelectorButton Component',()=> {
     it('should render without exploding', () => {

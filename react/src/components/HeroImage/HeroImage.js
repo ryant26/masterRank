@@ -15,7 +15,7 @@ export default class HeroImage extends Component {
 
     return (
       <img style={heroImageStyle}
-        src={require(`../assets/${this.props.heroName}-icon.png`)}
+        src={require(`../../assets/${this.props.heroName}-icon.png`)}
         alt = {this.props.heroName+' icon'}
       />
     );

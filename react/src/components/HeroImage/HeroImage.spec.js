@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { createRenderer } from 'react-test-renderer/shallow';
+
 import HeroImage from './HeroImage';
 
 
