@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import HeroSelector from '../components/HeroSelector';
+import HeroSelector from '../components/HeroSelector/HeroSelector';
 import HeroRolesContainer from './HeroRolesContainer';
 
 export class FireTeam extends Component {

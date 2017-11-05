@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 
-import StatBox from './StatBox';
+import StatBox from '../StatBox/StatBox';
 import PropTypes from 'prop-types';
 
 export default class HeroCardStats extends Component {

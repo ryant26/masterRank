@@ -2,9 +2,9 @@ import React, {
   Component
 } from 'react';
 
-import HeroCardStats from './HeroCardStats';
-import HeroImage from './HeroImage';
-import InvitePlayerButton from './InvitePlayerButton';
+import HeroCardStats from '../HeroCardStats/HeroCardStats';
+import HeroImage from '../HeroImage/HeroImage';
+import InvitePlayerButton from '../InvitePlayerButton/InvitePlayerButton';
 import PropTypes from 'prop-types';
 
 export default class HeroCard extends Component {

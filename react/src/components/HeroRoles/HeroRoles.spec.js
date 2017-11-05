@@ -3,9 +3,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { mount } from 'enzyme';
-import HeroRoles from '../components/HeroRoles';
-import HeroReducer from '../reducers/HeroReducer';
-import HeroCard from '../components/HeroCard';
+
+import HeroRoles from './HeroRoles';
+import HeroCard from '../HeroCard/HeroCard';
+import HeroReducer from '../../reducers/HeroReducer';
 
 const setup = propOverrides => {
     const props = Object.assign({

@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import PropTypes from 'prop-types';
-import HeroImage from './HeroImage';
+import HeroImage from '../HeroImage/HeroImage';
 
 export default class SelectorButton extends Component {
 

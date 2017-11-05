@@ -2,8 +2,8 @@ import React, {
   Component
 } from 'react';
 
-import * as AllHeroes from '../resources/allHeroNames';
-import SelectorButton from './SelectorButton';
+import * as AllHeroes from '../../resources/allHeroNames';
+import SelectorButton from '../SelectorButton/SelectorButton';
 
 export default class HeroSelector extends Component {
 
