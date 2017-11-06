@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Player = mongoose.model('Player');
-const logger = require('winston');
+const logger = require('./logger').sysLogger;
 const ow = require('../apiClients/overwatch');
 const owValidator = require('../validators/owApiValidator');
 
