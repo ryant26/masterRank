@@ -1,5 +1,6 @@
 const glob = require('glob');
 const logger = require('morgan');
+const logAggregator = require('../src/services/logger').apacheLogger;
 const config = require('config');
 const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
@@ -7,7 +8,8 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 
 module.exports = function(app) {
-    app.use(logger(config.get('loggingLevel')));
+
+    app.use(logger(config.get('loggingLevel'), {stream: logAggregator.stream}));
 
     app.use(passport.initialize());
 
