@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
 const ow = require('../apiClients/overwatch');
 const owValidators = require('../validators/owApiValidator');
-const logger = require('winston');
+const logger = require('./logger').sysLogger;
 const config = require('config');
 
 const reloadThreshold = config.get('reloadThreshold');

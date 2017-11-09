@@ -5,8 +5,13 @@
     "port": 3002
   },
   "db": "mongodb://localhost/heroapiserver",
-  "loggingLevel": "dev",
+  "loggingLevel": "combined",
   "reloadThreshold": 6,
+  "logstash": {
+    "host": "127.0.0.1",
+    "systemPort": 28778,
+    "apachePort": 28777
+  },
   "bnet": {
     "id": "dzj5pnpqax32dxm4bcqnhsmg3dcuhavd",
     "secret": "f8naukGxtrDS9jrqJ5wtyyKR69a2d5Bp"

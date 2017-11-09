@@ -1,4 +1,4 @@
-const logger = require('winston');
+const logger = require('../services/logger').sysLogger;
 
 let playerValidator = function(player) {
     if (!player.level) {
