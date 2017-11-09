@@ -1,7 +1,7 @@
 const express = require('express');
 const glob = require('glob');
 const mongoose = require('mongoose');
-const logger = require('winston');
+const logger = require('./services/logger').sysLogger;
 const config =require('config');
 const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
