@@ -18,7 +18,7 @@ describe('Hero Reducer', () => {
         })).toEqual({
             heroes: [
                 ...initialState.heroes,
-                { hero: {name:"orisa", stat: "just doing my job"} }
+                { name:"orisa", stat: "just doing my job" }
             ]
         });
     });
