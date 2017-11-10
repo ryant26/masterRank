@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const randomString = require('randomstring');
-const logger = require('winston');
+const systemLogger = require('../../../src/services/logger').sysLogger;
 const sinon = require('sinon');
 const RedisClient = require('../../../src/apiClients/RedisClient');
 
@@ -101,11 +101,11 @@ describe('RedisClient Tests', function() {
             let id = randomString.generate();
 
             let hero1 = getHeroObject(randomString.generate());
-            sinon.spy(logger, 'warn');
+            sinon.spy(systemLogger, 'warn');
             return RedisClient.removePlayerHeros(id, platform, hero1)
                 .then(() => {
-                    assert(logger.warn.calledOnce);
-                    logger.warn.restore();
+                    assert(systemLogger.warn.calledOnce);
+                    systemLogger.warn.restore();
                 });
         });
     });
@@ -227,12 +227,12 @@ describe('RedisClient Tests', function() {
 
         it('should log a warning when trying to remove a hero that does not exist', function() {
             let hero = getHeroObject('Mei');
-            sinon.spy(logger, 'warn');
+            sinon.spy(systemLogger, 'warn');
             return RedisClient.addMetaHero(rank, platform, region, hero).then(() => {
                 return RedisClient.removeMetaHeros(rank, platform, region, {battleNetId: randomString.generate(), heroName: 'Genji'});
             }).then(() => {
-                assert(logger.warn.calledOnce);
-                logger.warn.restore();
+                assert(systemLogger.warn.calledOnce);
+                systemLogger.warn.restore();
             });
         });
     });

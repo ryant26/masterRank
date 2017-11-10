@@ -1,4 +1,4 @@
-const logger = require('winston');
+const logger = require('../services/logger').sysLogger;
 const exceptions = require('./exceptions/exceptions');
 const SocketError = require('./exceptions/SocketError');
 
