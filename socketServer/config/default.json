@@ -3,6 +3,10 @@
   "url": "http://localhost",
   "redisUrl": "redis://localhost",
   "keyExpiry": 7200,
+  "logstash": {
+    "host": "127.0.0.1",
+    "systemPort": 28778
+  },
   "heroApi": {
     "baseUrl" : "http://localhost",
     "port" : 3002,
