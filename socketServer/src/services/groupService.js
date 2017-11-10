@@ -1,4 +1,4 @@
-const logger = require('winston');
+const logger = require('./logger').sysLogger;
 const clientEvents = require('../socketEvents/clientEvents');
 const PlayerClient = require('../apiClients/PlayerClient');
 const RedisClient = require('../apiClients/RedisClient');
