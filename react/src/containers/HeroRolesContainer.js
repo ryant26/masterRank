@@ -28,15 +28,12 @@ export class HeroRolesContainer extends Component {
         const { heroes = [] } = this.props;
         
         const hasRole = function(role, obj, heroName) {
-            let roles = Object.keys(obj);
             let returnVal = false;
 
-            roles.forEach((roleage) => {
-                obj[roleage].forEach((hero) => {
-                    if (heroName.name === hero && roleage === role) {
-                        returnVal = true;
-                    }
-                });
+            obj[role].forEach((hero) => {
+                if (heroName.name === hero) {
+                    returnVal = true;
+                }
             });
 
             return returnVal;
