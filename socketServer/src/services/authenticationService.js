@@ -1,5 +1,5 @@
 const authenticationApi = require('../apiClients/authenticationClient');
-const logger = require('winston');
+const logger = require('./logger').sysLogger;
 const SocketError = require('../validators/exceptions/SocketError');
 const exceptions = require('../validators/exceptions/exceptions');
 

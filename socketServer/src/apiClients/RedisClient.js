@@ -1,7 +1,7 @@
 const loggingUtilities = require('../devUtilities/LoggingUtilities');
 const config = require('config');
 const bluebird = require('bluebird');
-const logger = require('winston');
+const logger = require('../services/logger').sysLogger;
 const redis = require('redis');
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);

@@ -1,4 +1,4 @@
-const logger = require('winston');
+const logger = require('../services/logger').sysLogger;
 const EventEmitter = require('eventemitter2').EventEmitter2;
 const clientEvents = require('../socketEvents/clientEvents');
 
