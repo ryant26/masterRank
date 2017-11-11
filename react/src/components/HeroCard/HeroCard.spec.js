@@ -10,7 +10,7 @@ describe('HeroCard Component',()=> {
                 general_stats: {
                     win_percentage: 'mock_percentage%'
                 },
-                name: 'orisa'
+                heroName: 'orisa'
             }}/>
         );
 
