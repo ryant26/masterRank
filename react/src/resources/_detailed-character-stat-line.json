@@ -1,4 +1,4 @@
-[
+{
   "reinhardt": {
     "average_stats": {
       "objective_time_average": 0.024722222222222222,
@@ -1424,4 +1424,4 @@
       "defensive_assists": 3
     }
   }
-];
+}
