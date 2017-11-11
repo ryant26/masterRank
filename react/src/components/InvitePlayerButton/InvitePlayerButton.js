@@ -24,6 +24,7 @@ export default class InvitePlayerButton extends Component {
       'width': '60px',
       'float': 'left',
       'fontSize': '48px',
+      'cursor': 'pointer'
     };
 
     return (
