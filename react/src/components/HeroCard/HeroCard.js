@@ -49,7 +49,9 @@ export default class HeroCard extends Component {
       'width': '33%',
     };
 
-    let winPercentage = parseFloat(this.props.hero.general_stats.win_percentage * 100.0).toFixed(1);
+    let wins = this.props.hero.wins;
+    let losses = this.props.hero.losses;
+    let winPercentage = parseFloat(wins/(wins+losses) * 100.0).toFixed(1);
 
     return (
       <div>
@@ -60,10 +62,12 @@ export default class HeroCard extends Component {
           {
             this.state.isHovering
             ? <InvitePlayerButton />
-            : <HeroImage heroName={this.props.hero.name}/>
+            : <HeroImage heroName={this.props.hero.heroName}/>
           }
 
-          <div> Username </div>
+          <div>
+            <div>{this.props.hero.platformDisplayName}</div>
+          </div>
 
           <div style={statsStyle} onClick={this.toggleStats}>
             <div style={componentStyle} >
@@ -72,8 +76,8 @@ export default class HeroCard extends Component {
             </div>
 
             <div style={componentStyle}>
-              <div>Games Played</div>
-              <div>{this.props.hero.general_stats.games_played}</div>
+              <div>Hours Played</div>
+              <div>{this.props.hero.hoursPlayed}</div>
             </div>
 
             <div style={componentStyle}>
@@ -95,7 +99,6 @@ export default class HeroCard extends Component {
 
 HeroCard.propTypes = {
   hero: PropTypes.shape({
-    general_stats: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired
+    heroName: PropTypes.string.isRequired
   })
 };

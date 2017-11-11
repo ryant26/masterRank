@@ -10,26 +10,11 @@ describe('Hero Roles Container', () => {
     beforeEach(() => {
         const testState = {
             "heroes": [
-                {general_stats: {
-                    win_percentage: 'mock_percentage%'
-                },
-                name: 'orisa'},
-                {general_stats: {
-                    win_percentage: 'mock_percentage%'
-                },
-                name: 'tracer'},
-                {general_stats: {
-                    win_percentage: 'mock_percentage%'
-                },
-                name: 'mercy'},
-                {general_stats: {
-                    win_percentage: 'mock_percentage%'
-                },
-                name: 'hanzo'},
-                {general_stats: {
-                    win_percentage: 'mock_percentage%'
-                },
-                name: 'reinhardt'}
+                {heroName: 'orisa'},
+                {heroName: 'soldier76'},
+                {heroName: 'mercy'},
+                {heroName: 'hanzo'},
+                {heroName: 'reinhardt'}
             ]
         };
         const store = mockStore(testState);
@@ -46,10 +31,7 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {general_stats: {
-                        win_percentage: 'mock_percentage%'
-                    },
-                    name: 'tracer'}
+                    {heroName: 'soldier76'}
                 ]
             )
         );
@@ -59,10 +41,7 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {general_stats: {
-                        win_percentage: 'mock_percentage%'
-                    },
-                    name: 'hanzo'}
+                    {heroName: 'hanzo'}
                 ]
             )
         );
@@ -73,14 +52,8 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {general_stats: {
-                        win_percentage: 'mock_percentage%'
-                    },
-                    name: 'orisa'},
-                    {general_stats: {
-                        win_percentage: 'mock_percentage%'
-                    },
-                    name: 'reinhardt'},
+                    {heroName: 'orisa'},
+                    {heroName: 'reinhardt'},
                 ]
             )
         );
@@ -90,10 +63,7 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {general_stats: {
-                        win_percentage: 'mock_percentage%'
-                    },
-                    name: 'mercy'}
+                    {heroName: 'mercy'}
                 ]
             )
         );

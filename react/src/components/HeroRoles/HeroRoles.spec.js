@@ -11,7 +11,7 @@ import HeroReducer from '../../reducers/HeroReducer';
 const setup = propOverrides => {
     const props = Object.assign({
         role: 'tank',        
-        heroes: [{name:'orisa', average_stats: 'just doing my job'}]
+        heroes: [{heroName:'orisa', voice_line: 'just doing my job'}]
     }, propOverrides);
 
     const store = createStore(
@@ -56,6 +56,6 @@ describe('HeroRoles Component', () => {
 
     it('should render container with one hero with correct name', () => {
         const { output } = setup();
-        expect(output.props.heroes[0].name).toBe('orisa');
+        expect(output.props.heroes[0].heroName).toBe('orisa');
     });
 }); 

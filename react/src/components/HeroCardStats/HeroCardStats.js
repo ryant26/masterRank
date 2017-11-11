@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export default class HeroCardStats extends Component {
 
   render() {
-    let averageStats = this.props.hero.average_stats;
+    let averageStats = this.props.hero;
 
     const row = {
       'height': '56px',
@@ -20,54 +20,37 @@ export default class HeroCardStats extends Component {
         <div style={row}>
           <StatBox
             label="Eliminations"
-            value={averageStats.eliminations_average}
+            value={averageStats.avgObjElims}
             percentile="75%" />
           <StatBox
             label="K/D ratio"
-            value={averageStats.deaths_average}
+            value={averageStats.kdRatio}
             percentile="45%" />
           <StatBox
             label="Accuracy"
-            value={averageStats.deaths_average}
+            value={averageStats.accuracy}
             percentile="50%" />
           <StatBox
             label="Blocked"
-            value={averageStats.deaths_average}
+            value={averageStats.blockedPerMin}
             percentile="23%" />
           <StatBox
             label="Healing"
-            value={averageStats.deaths_average}
+            value={averageStats.healingPerMin}
             percentile="8%" />
-          <StatBox
-            label="Crits"
-            value={averageStats.deaths_average}
-            percentile="91%" />
         </div>
-
         <div style={row}>
           <StatBox
             label="Damage"
-            value={averageStats.eliminations_average}
+            value={averageStats.damagePerMin}
             percentile="65%" />
           <StatBox
             label="Obj. Kills"
-            value={averageStats.deaths_average}
+            value={averageStats.avgObjElims}
             percentile="65%" />
           <StatBox
             label="Obj. Time"
-            value={averageStats.deaths_average}
-            percentile="65%" />
-          <StatBox
-            label="specific 1"
-            value={averageStats.deaths_average}
-            percentile="65%" />
-          <StatBox
-            label="specific 2"
-            value={averageStats.deaths_average}
-            percentile="65%" />
-          <StatBox
-            label="specific 3"
-            value={averageStats.deaths_average}
+            value={averageStats.avgObjTime}
             percentile="65%" />
         </div>
       </div>
@@ -76,7 +59,5 @@ export default class HeroCardStats extends Component {
 }
 
 HeroCardStats.propTypes = {
-  hero: PropTypes.shape({
-    average_stats: PropTypes.object.isRequired
-  })
+  hero: PropTypes.object.isRequired
 };
