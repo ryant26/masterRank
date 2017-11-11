@@ -33,60 +33,58 @@ export default class HeroCard extends Component {
   }
 
   render() {
+    const backgroundStyle = {
+      'backgroundColor': '#66ccff'      
+    }
+
     const containerStyle = {
       'display': 'flex',
-      'backgroundColor': '#66ccff',
-      'margin': '10px',
     };
 
     const statsStyle = {
       'display': 'flex',
+      'flexDirection':'column',
+      'width':'240px',
+      'cursor':'s-resize'      
     };
 
     const componentStyle = {
-      'textAlign': 'center',
-      'height': '60px',
-      'width': '33%',
+      'height':'20px'
     };
-
+    
     let wins = this.props.hero.wins;
     let losses = this.props.hero.losses;
     let winPercentage = parseFloat(wins/(wins+losses) * 100.0).toFixed(1);
 
     return (
       <div>
-        <div style={containerStyle}
-          onMouseEnter={this.toggleInvitePlayerButton}
-          onMouseLeave={this.toggleInvitePlayerButton}>
-
-          {
-            this.state.isHovering
-            ? <InvitePlayerButton />
-            : <HeroImage heroName={this.props.hero.heroName}/>
-          }
-
-          <div>
-            <div>{this.props.hero.platformDisplayName}</div>
+        <div style={backgroundStyle}>
+          <div onMouseEnter={this.toggleInvitePlayerButton}
+               onMouseLeave={this.toggleInvitePlayerButton}>
+                {
+                    this.state.isHovering? <InvitePlayerButton /> : 
+                                           <HeroImage heroName={this.props.hero.heroName}/>
+                }
           </div>
+          <div style={containerStyle}>
+            <div style={statsStyle} onClick={this.toggleStats}>
+              <div>
+                <div><b>{this.props.hero.platformDisplayName}</b></div>
+              </div>
+              <div style={componentStyle} >
+                <div><b>Rank:</b> 2733</div>
+              </div>
 
-          <div style={statsStyle} onClick={this.toggleStats}>
-            <div style={componentStyle} >
-              <div>Rank</div>
-              <div>2734</div>
-            </div>
+              <div style={componentStyle}>
+                <div><b>Hours Played:</b> {this.props.hero.hoursPlayed}</div>
+              </div>
 
-            <div style={componentStyle}>
-              <div>Hours Played</div>
-              <div>{this.props.hero.hoursPlayed}</div>
-            </div>
-
-            <div style={componentStyle}>
-              <div>WIN %</div>
-              <div>{winPercentage}%</div>
+              <div style={componentStyle}>
+                <div><b>Win Rate:</b> {winPercentage}%</div>
+              </div>
             </div>
           </div>
         </div>
-        
         {
           this.state.isStatsToggleOn
           ? <HeroCardStats hero={this.props.hero}/>
