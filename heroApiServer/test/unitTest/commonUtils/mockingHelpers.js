@@ -81,6 +81,7 @@ let getHeroConfig = function(platformDisplayName, heroName) {
         platform: 'pc',
         lastModified: new Date(),
         region: 'us',
+        skillRating: 2500,
         heroName,
         hoursPlayed: 26,
         wins: 10,
@@ -111,6 +112,7 @@ let _reStub = function (obj, func) {
 
 module.exports = {
     getSeedUsers,
+    getHeroConfig,
     stubOverwatchAPI,
     stubBnetAuth,
     stubOwGetPlayerStats,

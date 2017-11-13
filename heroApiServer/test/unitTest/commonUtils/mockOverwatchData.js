@@ -210,6 +210,7 @@ module.exports = {
         region: 'us',
         platform: 'pc',
         stats: {
+            competitiveRank: 2500,
             competitive: {
                 soldier76: {
                     name: 'soldier76',
