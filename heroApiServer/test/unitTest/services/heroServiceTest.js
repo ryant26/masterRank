@@ -18,6 +18,7 @@ let getHeroConfig = function (token, heroName) {
     return {
         platformDisplayName: token.battleNetId,
         platform: token.platform,
+        skillRating: 2500,
         lastModified: new Date(),
         region: token.region,
         heroName,
@@ -179,6 +180,12 @@ describe('heroService', function () {
                 assert.equal(hero.pAvgObjElims, 0.5);
                 assert.equal(hero.pAvgObjTime, 0.5);
 
+            });
+        });
+
+        it('should return the SR in every hero request', function() {
+            return heroService.findAndUpdateOrCreateHero(token, heroName).then((result) => {
+                assert.equal(result.skillRating, mockData.playerStats.stats.competitiveRank);
             });
         });
 

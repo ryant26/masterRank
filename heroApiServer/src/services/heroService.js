@@ -72,6 +72,8 @@ let _getUpdatedHeroConfigObject = function(token, heroName) {
 
     return _getCompetitveStatsFromOw(token).then((result) => {
         let heroStats = result[heroName];
+        heroStats.skillRating = result.skillRating;
+
         owValidators.heroValidator(heroStats);
         nonNormalizingStats = _getStatsNotRequiringPercentiles(token, heroName, heroStats);
         statsToBeNormalized = _getStatsRequiringPercentiles(heroStats);
@@ -88,6 +90,7 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         platformDisplayName: token.battleNetId,
         platform: token.platform,
         region: token.region,
+        skillRating: heroStats.skillRating,
         lastModified: new Date(),
         heroName,
         hoursPlayed: heroStats.game.time_played,
@@ -156,7 +159,10 @@ let _isDateOlderThan = function(date, hours) {
 
 let _getCompetitveStatsFromOw = function(token) {
     return _getPlayerStatsFromOw(token).then((stats) => {
-        return stats.competitive;
+        let compStats = stats.competitive;
+        compStats.skillRating = stats.competitiveRank;
+
+        return compStats;
     });
 };
 
