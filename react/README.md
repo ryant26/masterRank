@@ -23,3 +23,15 @@ To test and lint:
 npm run test
 npm run lint
 ```
+
+## Branch Naming
+
+Some { buzznames }:
+```
+feature, bugfix, refactor
+```
+
+Follow this structure in general:
+```
+frontend/{buzzname}/{ticketName-feature}
+```

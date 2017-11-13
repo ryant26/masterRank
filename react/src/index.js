@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
-import HeroReducer from './reducers/HeroReducer.js';
-import FireTeam from './containers/FireTeam.js';
+import HeroReducer from './reducers/HeroReducer';
+import FireTeam from './containers/FireTeam';
 
 const store = createStore(
   HeroReducer

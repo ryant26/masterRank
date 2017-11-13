@@ -1,8 +1,9 @@
 import React, {
   Component
-} from 'react'
+} from 'react';
+import PropTypes from 'prop-types';
 
-export default class InvitePlayerButton extends Component {
+export default class HeroImage extends Component {
 
   render() {
     const heroImageStyle = {
@@ -10,13 +11,17 @@ export default class InvitePlayerButton extends Component {
       'height': '60px',
       'width': '60px',
       'float': 'left',
-    }
+    };
 
     return (
       <img style={heroImageStyle}
-        src={require(`../assets/${this.props.heroName}-icon.png`)}
+        src={require(`../../assets/${this.props.heroName}-icon.png`)}
         alt = {this.props.heroName+' icon'}
       />
     );
   }
 }
+
+HeroImage.propTypes = {
+  heroName: PropTypes.string.isRequired
+};
