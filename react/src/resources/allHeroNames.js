@@ -1,6 +1,7 @@
 export const names = [
   'ana',
   'bastion',
+  'doomfist',
   'dva',
   'genji',
   'hanzo',
@@ -23,4 +24,4 @@ export const names = [
   'winston',
   'zarya',
   'zenyatta'
-]
+];

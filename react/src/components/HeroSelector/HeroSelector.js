@@ -1,9 +1,9 @@
 import React, {
   Component
-} from 'react'
+} from 'react';
 
-import * as AllHeroes from '../resources/allHeroNames.js';
-import SelectorButton from './SelectorButton.js'
+import * as AllHeroes from '../../resources/allHeroNames';
+import SelectorButton from '../SelectorButton/SelectorButton';
 
 export default class HeroSelector extends Component {
 
@@ -11,8 +11,7 @@ export default class HeroSelector extends Component {
     const selectorStyle = {
       'display': 'flex',
       'flexWrap': 'wrap',
-      'width': '1100px',
-    }
+    };
 
     return (
       <div style={selectorStyle}>
@@ -20,7 +19,7 @@ export default class HeroSelector extends Component {
         AllHeroes.names.map(name => {
           return (
             <SelectorButton heroName={name} key={name}/>
-          )
+          );
         })
       }
       </div>

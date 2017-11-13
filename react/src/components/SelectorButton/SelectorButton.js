@@ -1,8 +1,8 @@
 import React, {
   Component
-} from 'react'
-
-import HeroImage from './HeroImage.js'
+} from 'react';
+import PropTypes from 'prop-types';
+import HeroImage from '../HeroImage/HeroImage';
 
 export default class SelectorButton extends Component {
 
@@ -17,7 +17,6 @@ export default class SelectorButton extends Component {
   }
 
   addCards() {
-    // this.props.addMenuItem(this.props.name);
     this.setState(prevState => (
       prevState.isSelected
       ? {
@@ -37,7 +36,7 @@ export default class SelectorButton extends Component {
       'backgroundColor': this.state.backgroundColor,
       'padding': '5px',
       'margin': '10px',
-    }
+    };
 
     return (
       <div style={selectorStyle} onClick={this.addCards}>
@@ -46,3 +45,7 @@ export default class SelectorButton extends Component {
     );
   }
 }
+
+SelectorButton.propTypes = {
+  heroName: PropTypes.string.isRequired
+};
