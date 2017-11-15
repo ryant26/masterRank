@@ -1,15 +1,18 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
+import HEROS from '../../resources/heroes';
 
 import HeroCard from './HeroCard';
 
 describe('HeroCard Component',()=> {
+    let getHeroConfig = function() {
+        return HEROS[0];
+    };
+
     it('should render without exploding', () => {
         const wrapper = mount(
-            <HeroCard hero={
-                {heroName: 'orisa'}
-            }/>
+            <HeroCard hero={getHeroConfig()}/>
         );
 
         const HeroCardComponent = wrapper.find(HeroCard);
@@ -18,7 +21,7 @@ describe('HeroCard Component',()=> {
 
     it('should toggle the stats card on click', () => {
         const component = renderer.create(
-            <HeroCard hero={{heroName: 'orisa'}}/>
+            <HeroCard hero={getHeroConfig()}/>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
