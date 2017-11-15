@@ -4,6 +4,7 @@ import React, {
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector/HeroSelector';
+import PlayerCard from '../components/PlayerCard/PlayerCard';
 import HeroRolesContainer from './HeroRolesContainer';
 
 export class FireTeam extends Component {
@@ -25,6 +26,8 @@ export class FireTeam extends Component {
 
           <HeroSelector />
           <HeroRolesContainer />
+          <br /><br />
+          <PlayerCard />          
         </div>
     );
   }
