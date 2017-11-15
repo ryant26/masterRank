@@ -14,7 +14,7 @@ exports[`HeroCard Component should toggle the stats card on click 1`] = `
       onMouseLeave={[Function]}
     >
       <img
-        alt="orisa icon"
+        alt="soldier76 icon"
         src={
           Object {
             "process": [Function],
@@ -50,7 +50,9 @@ exports[`HeroCard Component should toggle the stats card on click 1`] = `
       >
         <div>
           <div>
-            <b />
+            <b>
+              PwNShoPP#1662
+            </b>
           </div>
         </div>
         <div
@@ -79,6 +81,7 @@ exports[`HeroCard Component should toggle the stats card on click 1`] = `
               Hours Played:
             </b>
              
+            4
           </div>
         </div>
         <div
@@ -93,7 +96,7 @@ exports[`HeroCard Component should toggle the stats card on click 1`] = `
               Win Rate:
             </b>
              
-            NaN
+            90.9
             %
           </div>
         </div>
@@ -117,7 +120,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
       onMouseLeave={[Function]}
     >
       <img
-        alt="orisa icon"
+        alt="soldier76 icon"
         src={
           Object {
             "process": [Function],
@@ -153,7 +156,9 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
       >
         <div>
           <div>
-            <b />
+            <b>
+              PwNShoPP#1662
+            </b>
           </div>
         </div>
         <div
@@ -182,6 +187,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
               Hours Played:
             </b>
              
+            4
           </div>
         </div>
         <div
@@ -196,7 +202,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
               Win Rate:
             </b>
              
-            NaN
+            90.9
             %
           </div>
         </div>
@@ -223,7 +229,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
         }
       >
         <div>
-           / min 
+          9.16
         </div>
         <div
           style={
@@ -239,7 +245,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
               Object {
                 "backgroundColor": "blue",
                 "height": "5px",
-                "width": "75%",
+                "width": "50%",
               }
             }
           />
@@ -260,7 +266,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
         }
       >
         <div>
-           / min 
+          3.26
         </div>
         <div
           style={
@@ -276,7 +282,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
               Object {
                 "backgroundColor": "blue",
                 "height": "5px",
-                "width": "45%",
+                "width": "75%",
               }
             }
           />
@@ -305,7 +311,171 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
         }
       >
         <div>
-           / min 
+          43
+        </div>
+        <div
+          style={
+            Object {
+              "backgroundColor": "lightgrey",
+              "height": "5px",
+              "width": "90px",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "blue",
+                "height": "5px",
+                "width": "60%",
+              }
+            }
+          />
+        </div>
+        <div>
+          Accuracy
+        </div>
+      </div>
+      <div
+        style={
+          Object {
+            "backgroundColor": "white",
+            "float": "left",
+            "height": "46px",
+            "textAlign": "left",
+            "width": "120px",
+          }
+        }
+      >
+        <div>
+          0
+        </div>
+        <div
+          style={
+            Object {
+              "backgroundColor": "lightgrey",
+              "height": "5px",
+              "width": "90px",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "blue",
+                "height": "5px",
+                "width": "0%",
+              }
+            }
+          />
+        </div>
+        <div>
+          Blocked / Min
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "height": "56px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "white",
+            "float": "left",
+            "height": "46px",
+            "textAlign": "left",
+            "width": "120px",
+          }
+        }
+      >
+        <div>
+          0
+        </div>
+        <div
+          style={
+            Object {
+              "backgroundColor": "lightgrey",
+              "height": "5px",
+              "width": "90px",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "blue",
+                "height": "5px",
+                "width": "25%",
+              }
+            }
+          />
+        </div>
+        <div>
+          Healing / Min
+        </div>
+      </div>
+      <div
+        style={
+          Object {
+            "backgroundColor": "white",
+            "float": "left",
+            "height": "46px",
+            "textAlign": "left",
+            "width": "120px",
+          }
+        }
+      >
+        <div>
+          1305.59
+        </div>
+        <div
+          style={
+            Object {
+              "backgroundColor": "lightgrey",
+              "height": "5px",
+              "width": "90px",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "blue",
+                "height": "5px",
+                "width": "90%",
+              }
+            }
+          />
+        </div>
+        <div>
+          Damage / Min
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "height": "56px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "white",
+            "float": "left",
+            "height": "46px",
+            "textAlign": "left",
+            "width": "120px",
+          }
+        }
+      >
+        <div>
+          9.16
         </div>
         <div
           style={
@@ -327,170 +497,6 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
           />
         </div>
         <div>
-          Accuracy
-        </div>
-      </div>
-      <div
-        style={
-          Object {
-            "backgroundColor": "white",
-            "float": "left",
-            "height": "46px",
-            "textAlign": "left",
-            "width": "120px",
-          }
-        }
-      >
-        <div>
-           / min 
-        </div>
-        <div
-          style={
-            Object {
-              "backgroundColor": "lightgrey",
-              "height": "5px",
-              "width": "90px",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "backgroundColor": "blue",
-                "height": "5px",
-                "width": "23%",
-              }
-            }
-          />
-        </div>
-        <div>
-          Blocked
-        </div>
-      </div>
-    </div>
-    <div
-      style={
-        Object {
-          "height": "56px",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "backgroundColor": "white",
-            "float": "left",
-            "height": "46px",
-            "textAlign": "left",
-            "width": "120px",
-          }
-        }
-      >
-        <div>
-           / min 
-        </div>
-        <div
-          style={
-            Object {
-              "backgroundColor": "lightgrey",
-              "height": "5px",
-              "width": "90px",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "backgroundColor": "blue",
-                "height": "5px",
-                "width": "8%",
-              }
-            }
-          />
-        </div>
-        <div>
-          Healing
-        </div>
-      </div>
-      <div
-        style={
-          Object {
-            "backgroundColor": "white",
-            "float": "left",
-            "height": "46px",
-            "textAlign": "left",
-            "width": "120px",
-          }
-        }
-      >
-        <div>
-           / min 
-        </div>
-        <div
-          style={
-            Object {
-              "backgroundColor": "lightgrey",
-              "height": "5px",
-              "width": "90px",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "backgroundColor": "blue",
-                "height": "5px",
-                "width": "65%",
-              }
-            }
-          />
-        </div>
-        <div>
-          Damage
-        </div>
-      </div>
-    </div>
-    <div
-      style={
-        Object {
-          "height": "56px",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "backgroundColor": "white",
-            "float": "left",
-            "height": "46px",
-            "textAlign": "left",
-            "width": "120px",
-          }
-        }
-      >
-        <div>
-           / min 
-        </div>
-        <div
-          style={
-            Object {
-              "backgroundColor": "lightgrey",
-              "height": "5px",
-              "width": "90px",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "backgroundColor": "blue",
-                "height": "5px",
-                "width": "65%",
-              }
-            }
-          />
-        </div>
-        <div>
           Obj. Kills
         </div>
       </div>
@@ -506,7 +512,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
         }
       >
         <div>
-           / min 
+          53.32
         </div>
         <div
           style={
@@ -550,7 +556,7 @@ exports[`HeroCard Component should toggle the stats card on click 3`] = `
       onMouseLeave={[Function]}
     >
       <img
-        alt="orisa icon"
+        alt="soldier76 icon"
         src={
           Object {
             "process": [Function],
@@ -586,7 +592,9 @@ exports[`HeroCard Component should toggle the stats card on click 3`] = `
       >
         <div>
           <div>
-            <b />
+            <b>
+              PwNShoPP#1662
+            </b>
           </div>
         </div>
         <div
@@ -615,6 +623,7 @@ exports[`HeroCard Component should toggle the stats card on click 3`] = `
               Hours Played:
             </b>
              
+            4
           </div>
         </div>
         <div
@@ -629,7 +638,7 @@ exports[`HeroCard Component should toggle the stats card on click 3`] = `
               Win Rate:
             </b>
              
-            NaN
+            90.9
             %
           </div>
         </div>
