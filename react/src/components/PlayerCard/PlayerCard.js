@@ -9,8 +9,10 @@ export default class PlayerCard extends Component {
         const { users = [] } = this.props;
 
         const cardStyle = {
-            'width':'15%',
+            'width':'275px',
             'border':'1px solid #626262',
+            'padding':'5px',
+            'margin':'10px',
             'display': 'flex',            
             'alignItems':'center'
         };
