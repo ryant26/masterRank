@@ -47,5 +47,4 @@ const PlayerCard = ({user}) => {
 PlayerCard.propTypes = {
     user: PropTypes.object.isRequired
 };
-
 export default PlayerCard;
