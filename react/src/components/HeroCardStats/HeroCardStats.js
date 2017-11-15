@@ -20,41 +20,41 @@ export default class HeroCardStats extends Component {
           <StatBox
             label="Eliminations"
             value={averageStats.avgObjElims}
-            percentile="75%" />
+            percentile={`${averageStats.pAvgObjElims * 100}%`} />
           <StatBox
             label="K/D ratio"
             value={averageStats.kdRatio}
-            percentile="45%" />
+            percentile={`${averageStats.pKdRatio * 100}%`} />
         </div>
         <div style={row}>
           <StatBox
             label="Accuracy"
             value={averageStats.accuracy}
-            percentile="50%" />
+            percentile={`${averageStats.pAccuracy * 100}%`} />
           <StatBox
-            label="Blocked"
+            label="Blocked / Min"
             value={averageStats.blockedPerMin}
-            percentile="23%" />
+            percentile={`${averageStats.pBlockedPerMin * 100}%`} />
         </div>
         <div style={row}>
           <StatBox
-            label="Healing"
+            label="Healing / Min"
             value={averageStats.healingPerMin}
-            percentile="8%" />
+            percentile={`${averageStats.pHealingPerMin * 100}%`} />
           <StatBox
-            label="Damage"
+            label="Damage / Min"
             value={averageStats.damagePerMin}
-            percentile="65%" />
+            percentile={`${averageStats.pDamagePerMin * 100}%`} />
         </div>
         <div style={row}>
           <StatBox
             label="Obj. Kills"
             value={averageStats.avgObjElims}
-            percentile="65%" />
+            percentile={`${averageStats.pAvgObjElims * 100}%`} />
           <StatBox
             label="Obj. Time"
             value={averageStats.avgObjTime}
-            percentile="65%" />
+            percentile={`${averageStats.pAvgObjTime * 100}%`} />
         </div>
       </div>
     );

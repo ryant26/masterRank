@@ -29,7 +29,7 @@ export default class StatBox extends Component {
 
     return (
       <div style={container}>
-        <div>{this.props.value} / min </div>
+        <div>{this.props.value}</div>
         <div style={indicator}>
           <div style={indicatorLevel}/>
         </div>

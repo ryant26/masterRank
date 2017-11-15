@@ -7,7 +7,7 @@ describe('StatBox Component',()=> {
     it('should render without exploding', () => {
         const props = Object.assign({
             percentile: '20%',        
-            value: '130',
+            value: 130,
             label: 'Healing' 
         });
 
