@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+require('./stylesheets/main.scss');
 
 import HeroReducer from './reducers/HeroReducer';
 import FireTeam from './containers/FireTeam';

@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector/HeroSelector';
 import HeroRolesContainer from './HeroRolesContainer';
+import Title from '../components/Title/Title';
 
 export class FireTeam extends Component {
   render() {
@@ -19,9 +20,7 @@ export class FireTeam extends Component {
             ]}
           />
 
-          <div className="App-header">
-            <h2>Fire Team GG</h2>
-          </div>
+          <Title/>
 
           <HeroSelector />
           <HeroRolesContainer />
