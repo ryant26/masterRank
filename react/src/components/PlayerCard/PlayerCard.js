@@ -1,13 +1,12 @@
 import React, {
     Component
 } from 'react';
-import PropTypes from 'react-redux';
+import PropTypes from 'prop-types';
 
 export default class PlayerCard extends Component {
     render() {
 
-        const { users = [] } = this.props;
-
+        const user = this.props.user;
         const cardStyle = {
             'width':'275px',
             'border':'1px solid #626262',
@@ -20,11 +19,6 @@ export default class PlayerCard extends Component {
         const imgStyle = {
             'height':'60px',
             'width':'60px'
-        };
-
-        const iconStyle = {
-            'height':'20px',
-            'width':'20px'
         };
 
         const imageStylePadding = {
@@ -42,22 +36,26 @@ export default class PlayerCard extends Component {
             'display': 'flex',
             'flexDirection':'row',
             'justifyContent':'space-between',
-            'font-size':'11px',
+            'fontSize':'11px',
             'color':'#626262'
         };
 
         return (
             <div className="PlayerCard" style={cardStyle}>
-                <img src='https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x025000000000115A.png' style={imgStyle}/>
+                <img src={user.portrait} style={imgStyle}/>
                 <div style={imageStylePadding}>
                     <div style={inLine0}>
-                        <div>wisesm0#1147</div><div>1978</div>
+                        <div>{user.platformDisplayName}</div><div>{user.skillRating}</div>
                     </div>
                     <div style={inLine1}>
-                        <div>PC</div><div>SKILL RATING</div>
+                        <div>{user.platform}</div><div>SKILL RATING</div>
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+PlayerCard.propTypes = {
+    user: PropTypes.object.isRequired
+};
