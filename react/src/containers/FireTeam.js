@@ -7,6 +7,7 @@ import HeroSelector from '../components/HeroSelector/HeroSelector';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
 import HeroRolesContainer from './HeroRolesContainer';
 import * as users from '../resources/users';
+import Title from '../components/Title/Title';
 
 export class FireTeam extends Component {
   render() {    
@@ -21,9 +22,7 @@ export class FireTeam extends Component {
             ]}
           />
 
-          <div className="App-header">
-            <h2>Fire Team GG</h2>
-          </div>
+          <Title/>
 
           <HeroSelector />
           <HeroRolesContainer />
