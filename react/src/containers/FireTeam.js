@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector/HeroSelector';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
 import HeroRolesContainer from './HeroRolesContainer';
+import * as users from '../resources/users';
 
 export class FireTeam extends Component {
-  render() {
-
+  render() {    
+    
     return (
         <div className="App">
           <Helmet
@@ -27,7 +28,7 @@ export class FireTeam extends Component {
           <HeroSelector />
           <HeroRolesContainer />
           <br /><br />
-          <PlayerCard />          
+          <PlayerCard user={users.users[0]}/>          
         </div>
     );
   }
