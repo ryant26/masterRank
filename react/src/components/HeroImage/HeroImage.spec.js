@@ -4,7 +4,6 @@ import { createRenderer } from 'react-test-renderer/shallow';
 
 import HeroImage from './HeroImage';
 
-
 const setup = propOverrides => {
     const props = Object.assign({
         heroName: 'orisa',        
