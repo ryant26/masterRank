@@ -62,7 +62,7 @@ export default class HeroCard extends Component {
           <div onMouseEnter={this.toggleInvitePlayerButton}
                onMouseLeave={this.toggleInvitePlayerButton}>
                 {
-                    this.state.isHovering? <InvitePlayerButton /> : 
+                    this.state.isHovering? <InvitePlayerButton hero={this.props.hero}/> : 
                                            <HeroImage heroName={this.props.hero.heroName}/>
                 }
           </div>
@@ -98,16 +98,9 @@ export default class HeroCard extends Component {
 HeroCard.propTypes = {
   hero: PropTypes.shape({
     heroName: PropTypes.string.isRequired,
-<<<<<<< HEAD
     wins: PropTypes.number.isRequired,
     losses: PropTypes.number.isRequired,
     platformDisplayName: PropTypes.string.isRequired,
-    hoursPlayed: PropTypes.number.isRequired,
-=======
-    wins: PropTypes.string.isRequired,
-    losses: PropTypes.string.isRequired,
-    platformDisplayName: PropTypes.string.isRequired,
-    hoursPlayed: PropTypes.string.isRequired,
->>>>>>> Add Player Card
+    hoursPlayed: PropTypes.number.isRequired
   })
 };
