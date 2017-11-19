@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector/HeroSelector';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
 import HeroRolesContainer from './HeroRolesContainer';
+import GroupContainer from './GroupContainer/GroupContainer';
 import * as users from '../resources/users';
 import Title from '../components/Title/Title';
 import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
