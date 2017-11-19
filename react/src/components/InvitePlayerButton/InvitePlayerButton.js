@@ -1,6 +1,7 @@
 import React, {
   Component
 } from 'react';
+import PropTypes from 'prop-types';
 
 import FontAwesome from 'react-fontawesome';
 
@@ -13,7 +14,14 @@ export default class InvitePlayerButton extends Component {
   }
 
   invitePlayer() {
-    // do invite thing
+    // TODO: commented to pass linting
+    // const hero = this.props.hero; 
+    // const socketData = {
+    //   "battleNetId": hero.platformDisplayName,
+    //   "heroName": hero.heroName
+    // };
+    
+    // TODO: implement sendInvite(socketData) via socket server
   }
 
   render() {
@@ -34,3 +42,13 @@ export default class InvitePlayerButton extends Component {
     );
   }
 }
+
+InvitePlayerButton.propTypes = {
+  hero: PropTypes.shape({
+    heroName: PropTypes.string.isRequired,
+    wins: PropTypes.number.isRequired,
+    losses: PropTypes.number.isRequired,
+    platformDisplayName: PropTypes.string.isRequired,
+    hoursPlayed: PropTypes.number.isRequired,
+  })
+};
