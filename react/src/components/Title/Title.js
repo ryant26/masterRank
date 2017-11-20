@@ -12,7 +12,7 @@ export default class Title extends Component {
                   <g transform="translate(24.000000, 32.000000)">
                     <path
                       d="M1.18760135e-15,8.8817842e-16 L1.18760135e-15,8.8817842e-16 L-1.99840144e-15,8.8817842e-16 C2.90728684,0.581457369 5,3.13415704 5,6.09901951 L5,20 L5,20 L5,20 C2.09271316,19.4185426 4.37549802e-15,16.865843 5.32907052e-15,13.9009805 L1.18760135e-15,8.8817842e-16 Z"
-                      ></path>
+                      />
                   </g>
                 </g>
               </g>
@@ -21,6 +21,6 @@ export default class Title extends Component {
           <h1>FIRETEAM.GG</h1>
         </div>
       </div>
-    )
+    );
   }
 }

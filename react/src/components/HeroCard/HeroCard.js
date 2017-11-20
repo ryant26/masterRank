@@ -35,7 +35,7 @@ export default class HeroCard extends Component {
   render() {
     const backgroundStyle = {
       'backgroundColor': '#66ccff'      
-    }
+    };
 
     const containerStyle = {
       'display': 'flex',
@@ -97,6 +97,10 @@ export default class HeroCard extends Component {
 
 HeroCard.propTypes = {
   hero: PropTypes.shape({
-    heroName: PropTypes.string.isRequired
+    heroName: PropTypes.string.isRequired,
+    wins: PropTypes.number.isRequired,
+    losses: PropTypes.number.isRequired,
+    platformDisplayName: PropTypes.string.isRequired,
+    hoursPlayed: PropTypes.number.isRequired,
   })
 };
