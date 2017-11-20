@@ -33,6 +33,6 @@ matrix:
       before_script:
         - cd react/
         - npm install 
-      script: npm run test
+      script: npm run prebuild
       after_script:
         - cd ..
