@@ -1,0 +1,41 @@
+.PlayerCard {
+    width:275px;
+    padding:5px;
+    margin:10px;
+    display: flex;            
+    align-items:center;
+
+    > img {
+        height: 60px;
+        width: 60px;
+    }
+
+    > .ImagePadding {
+        padding: 10px 10px 10px 10px;
+        width:100%;
+
+        > .heroInfo {
+            display: flex;
+            flex-direction:row;
+            justify-content:space-between;
+
+            > .rank {
+                display: flex;
+                flex-direction:row;
+                > img {
+                    height: 17px;
+                    width: 17px;
+                }
+            }
+            
+        }
+    
+        > .metaLabels {
+            display: flex;
+            flex-direction:row;
+            justify-content:space-between;
+            font-size:11px;
+            color:#626262;
+        }
+    }
+}
