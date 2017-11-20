@@ -38,7 +38,7 @@ export default class PlayerCard extends Component {
                     <div className="heroInfo">
                         <div>{user.platformDisplayName}</div>
                         <div className="rank">
-                            <img src={this.addIcon(user.skillRating)}></img>                        
+                            <img src={this.addIcon(user.skillRating)}/>                      
                             {this.addComma(user.skillRating)}
                         </div>
                     </div>

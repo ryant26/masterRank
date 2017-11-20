@@ -7,14 +7,25 @@ const mockStore = configureStore();
 
 describe('Hero Roles Container', () => {
     let wrapper;
+
+    let getHeroConfig = function(heroName) {
+        return {
+            heroName,
+            wins: 1,
+            losses: 2,
+            platformDisplayName: 'PwNShoPP#1662',
+            hoursPlayed: 3
+        };
+    };
+
     beforeEach(() => {
         const testState = {
             "heroes": [
-                {heroName: 'orisa'},
-                {heroName: 'soldier76'},
-                {heroName: 'mercy'},
-                {heroName: 'hanzo'},
-                {heroName: 'reinhardt'}
+                getHeroConfig('orisa'),
+                getHeroConfig('soldier76'),
+                getHeroConfig('mercy'),
+                getHeroConfig('hanzo'),
+                getHeroConfig('reinhardt')
             ]
         };
         const store = mockStore(testState);
@@ -31,7 +42,7 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {heroName: 'soldier76'}
+                    getHeroConfig('soldier76')
                 ]
             )
         );
@@ -41,7 +52,7 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {heroName: 'hanzo'}
+                    getHeroConfig('hanzo')
                 ]
             )
         );
@@ -52,8 +63,8 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {heroName: 'orisa'},
-                    {heroName: 'reinhardt'},
+                  getHeroConfig('orisa'),
+                  getHeroConfig('reinhardt'),
                 ]
             )
         );
@@ -63,7 +74,7 @@ describe('Hero Roles Container', () => {
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
             JSON.stringify(
                 [
-                    {heroName: 'mercy'}
+                  getHeroConfig('mercy')
                 ]
             )
         );
