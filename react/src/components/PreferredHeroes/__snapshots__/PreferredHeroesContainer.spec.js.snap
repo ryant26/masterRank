@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PreferredHeroesContainer/> Should render in the correct format 1`] = `
+<div
+  className="PreferredHeroes-HeroList flex flex-column"
+>
+  <div
+    className="flex justify-between"
+  >
+    <div
+      className="sidebar-title"
+    >
+      Preferred Heroes
+    </div>
+    <span
+      aria-hidden={true}
+      className="fa fa-cog"
+    />
+  </div>
+  <div
+    className="flex justify-between"
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+    <div
+      className="PreferredHeroes-AddHeroIcon flex justify-center align-center"
+    >
+      <span
+        aria-hidden={true}
+        className="fa fa-plus"
+      />
+    </div>
+    <div
+      className="PreferredHeroes-AddHeroIcon flex justify-center align-center"
+    >
+      <span
+        aria-hidden={true}
+        className="fa fa-plus"
+      />
+    </div>
+    <div
+      className="PreferredHeroes-AddHeroIcon flex justify-center align-center"
+    >
+      <span
+        aria-hidden={true}
+        className="fa fa-plus"
+      />
+    </div>
+    <div
+      className="PreferredHeroes-AddHeroIcon flex justify-center align-center"
+    >
+      <span
+        aria-hidden={true}
+        className="fa fa-plus"
+      />
+    </div>
+  </div>
+</div>
+`;

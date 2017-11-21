@@ -8,6 +8,7 @@ import PlayerCard from '../components/PlayerCard/PlayerCard';
 import HeroRolesContainer from './HeroRolesContainer';
 import * as users from '../resources/users';
 import Title from '../components/Title/Title';
+import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
 
 export class FireTeam extends Component {
   render() {    
@@ -28,6 +29,7 @@ export class FireTeam extends Component {
           <HeroRolesContainer />
           <br /><br />
           <PlayerCard user={users.users[0]}/>          
+          <PreferredHeroesContainer />
         </div>
     );
   }
