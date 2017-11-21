@@ -15,17 +15,10 @@ exports[`HeroCard Component should toggle the stats card on click 1`] = `
     >
       <img
         alt="soldier76 icon"
+        className="HeroImage"
         src={
           Object {
             "process": [Function],
-          }
-        }
-        style={
-          Object {
-            "backgroundColor": "lightgrey",
-            "float": "left",
-            "height": "60px",
-            "width": "60px",
           }
         }
       />
@@ -121,17 +114,10 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
     >
       <img
         alt="soldier76 icon"
+        className="HeroImage"
         src={
           Object {
             "process": [Function],
-          }
-        }
-        style={
-          Object {
-            "backgroundColor": "lightgrey",
-            "float": "left",
-            "height": "60px",
-            "width": "60px",
           }
         }
       />
@@ -557,17 +543,10 @@ exports[`HeroCard Component should toggle the stats card on click 3`] = `
     >
       <img
         alt="soldier76 icon"
+        className="HeroImage"
         src={
           Object {
             "process": [Function],
-          }
-        }
-        style={
-          Object {
-            "backgroundColor": "lightgrey",
-            "float": "left",
-            "height": "60px",
-            "width": "60px",
           }
         }
       />
