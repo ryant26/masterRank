@@ -1,15 +1,13 @@
-import React, {
-    Component
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class PlayerCard extends Component {
+const PlayerCard = ({user}) => {
 
-    addComma(x) {
+    function addComma(x) {
         return x.toLocaleString();
     }
 
-    addIcon(sr) {
+    function addIcon(sr) {
         if(sr < 1500) {
             return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/8/89/Badge_1_Bronze.png?version=ad7998775b2d62d071d7c0200c6f3503";
         } else if (sr < 2000) {
@@ -27,30 +25,27 @@ export default class PlayerCard extends Component {
         }
     }
 
-    render() {
-
-        const user = this.props.user;
-
-        return (
-            <div className="PlayerCard">
-                <img src={user.portrait}/>
-                <div className="ImagePadding">
-                    <div className="heroInfo">
-                        <div>{user.platformDisplayName}</div>
-                        <div className="rank">
-                            <img src={this.addIcon(user.skillRating)}/>                      
-                            {this.addComma(user.skillRating)}
-                        </div>
-                    </div>
-                    <div className="metaLabels">
-                        <div>{user.platform}</div><div>SKILL RATING</div>
+    return (
+        <div className="PlayerCard">
+            <img src={user.portrait}/>
+            <div className="ImagePadding">
+                <div className="heroInfo">
+                    <div>{user.platformDisplayName}</div>
+                    <div className="rank">
+                        <img src={addIcon(user.skillRating)}/>                      
+                        {addComma(user.skillRating)}
                     </div>
                 </div>
+                <div className="metaLabels">
+                    <div>{user.platform}</div><div>SKILL RATING</div>
+                </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 PlayerCard.propTypes = {
     user: PropTypes.object.isRequired
 };
+
+export default PlayerCard;
