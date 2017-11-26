@@ -5,8 +5,8 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector/HeroSelector';
 import PlayerCard from '../components/PlayerCard/PlayerCard';
-import HeroRolesContainer from './HeroRolesContainer';
-import GroupContainer from './GroupContainer/GroupContainer';
+import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
+import GroupContainer from '../components/Groups/GroupContainer/GroupContainer';
 import * as users from '../resources/users';
 import Title from '../components/Title/Title';
 import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
@@ -49,6 +49,7 @@ export class FireTeam extends Component {
                 <HeroRolesContainer />
                 <br /><br />
                 <PlayerCard user={users.users[0]}/>
+                <GroupContainer group={users.users[0]}/>
                 <PreferredHeroesContainer />
                 <InvitesContainer/>
                 <SidebarFooter/>

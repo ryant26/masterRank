@@ -3,7 +3,8 @@ import React, {
   } from 'react';
 import { connect } from 'react-redux';  
 import PropTypes from 'prop-types';
-import GroupHeroCard from '../../components/GroupHeroCard/GroupHeroCard';
+import GroupHeroCard from '../GroupHeroCard/GroupHeroCard';
+import HEROES from '../../../resources/heroes';
 
 export class GroupContainer extends Component {
 
@@ -12,6 +13,8 @@ export class GroupContainer extends Component {
         this.state = { showing: false };
         this.createGroup = this.createGroup.bind(this);   
         this.leaveGroup = this.leaveGroup.bind(this);
+        this.group = this.props.group;
+        this.user = this.props.user;
     }
 
     createGroup() {
@@ -23,10 +26,10 @@ export class GroupContainer extends Component {
     }
 
     leaveGroup() {
-        // TODO: Actually Implement
+        // todo: Actually Implement
     }
 
-    // Event Listener TODOs:
+    // Event Listener todo:
         // listen for group invite accepted event -> add group card to group list
         // listen for groupInviteDecline
         // listen for groupInviteCancel
@@ -37,23 +40,21 @@ export class GroupContainer extends Component {
             // timeout event after 30000 ms
                
     render() {
-        const { group = [] } = this.props;
-        let i = 0;
-
-        const groupHeroCards = group.map(hero => {
-            i = i + 1;
-            return <GroupHeroCard hero={hero} number={i.toString()} key={i.toString()} />;
+        // todo: implement get current users preferred hero from socket
+        const usersPreferredHero = HEROES[0];
+        const groupHeroCards = this.group.map((hero,i) => {
+            i = i + 2;
+            return <GroupHeroCard hero={hero} name={hero.platformDisplayName} number={i.toString()} key={i.toString()} />;
         });
 
         return (
-            <div className="GroupContainer">
-                <div className="inLine0">
-                    <div className="sidebar-title">Your Group</div>
-                </div>
+            <div className="GroupContainer sidebar-card flex flex-column">
+            <div className="sidebar-title">Your Group</div>
                 { this.state.showing 
                     ?   <div>  
+                            <GroupHeroCard hero={usersPreferredHero} name={'You'} number={'1'} key={'1'} />
                             {groupHeroCards}
-                            <button className="button-primary">
+                            <button className="button-primary flex align-center justify-center">
                                 <div className="button-content">
                                     Team Stats
                                 </div>
@@ -70,7 +71,7 @@ export class GroupContainer extends Component {
                             </div>
                         </button> 
                 }
-                <a className="leaveText" onClick={this.leaveGroup}><i>leave group</i></a>
+                <i className="leaveText" onClick={this.leaveGroup}>leave group</i>
             </div>
         );
     }

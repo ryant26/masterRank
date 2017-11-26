@@ -1,6 +1,5 @@
 import GroupReducer from './GroupReducer';
 import GROUP from '../resources/group';
-// import * as GroupActionTypes from '../actiontypes/groupHeroes';
 
 const initialState = GROUP;
 
