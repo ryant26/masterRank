@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Group Hero Container should render a group leader as first member which is you 1`] = `
+<div
+  className="GroupContainer sidebar-card flex flex-column"
+>
+  <div
+    className="sidebar-title"
+  >
+    Your Group
+  </div>
+  <button
+    className="button-primary"
+    onClick={[Function]}
+  >
+    <div
+      className="button-content"
+    >
+      Create Group
+    </div>
+  </button>
+  <i
+    className="leaveText"
+    onClick={[Function]}
+  >
+    leave group
+  </i>
+</div>
+`;

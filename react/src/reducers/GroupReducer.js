@@ -6,13 +6,8 @@ const initialState = [...GROUP];
 export default function GroupReducer(state=initialState, action) {
     switch(action.type) {
         case GroupHeroActionTypes.ADD_GROUP_HERO:
-            return Object.assign({}, state, {
-                group: [
-                    ...state.group,
-                    action.hero
-                ]
-            });
-            default:
-                return state;
+            return [...state, action.groupHero];
+        default:
+            return state;
     }
 }
