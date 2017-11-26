@@ -2,7 +2,7 @@
 
 exports[`<PreferredHeroesContainer/> Should render in the correct format 1`] = `
 <div
-  className="PreferredHeroes-HeroList flex flex-column"
+  className="PreferredHeroes-HeroList sidebar-card flex flex-column"
 >
   <div
     className="flex justify-between"

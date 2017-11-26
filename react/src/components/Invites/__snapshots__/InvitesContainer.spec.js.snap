@@ -1,0 +1,322 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroCard Component should render a single invite 1`] = `
+<div
+  className="flex flex-column sidebar-card"
+>
+  <div
+    className="flex align-center justify-between sidebar-title"
+  >
+    <div>
+      Invites
+    </div>
+    <div
+      className="Badge"
+    >
+      <div
+        className="background flex justify-center align-center"
+      >
+        <div
+          className="label"
+        >
+          3
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="InvitesList"
+  >
+    <div
+      className="list-container"
+    >
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            1
+            /
+            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            0
+            /
+            3
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            1
+            /
+            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="button-secondary flex align-center justify-center"
+  >
+    <div
+      className="button-content"
+    >
+      All Invites
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HeroCard Component should render three invites 1`] = `
+<div
+  className="flex flex-column sidebar-card"
+>
+  <div
+    className="flex align-center justify-between sidebar-title"
+  >
+    <div>
+      Invites
+    </div>
+    <div
+      className="Badge"
+    >
+      <div
+        className="background flex justify-center align-center"
+      >
+        <div
+          className="label"
+        >
+          3
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="InvitesList"
+  >
+    <div
+      className="list-container"
+    >
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            1
+            /
+            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            0
+            /
+            3
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            1
+            /
+            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="button-secondary flex align-center justify-center"
+  >
+    <div
+      className="button-content"
+    >
+      All Invites
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HeroCard Component should render two invites 1`] = `
+<div
+  className="flex flex-column sidebar-card"
+>
+  <div
+    className="flex align-center justify-between sidebar-title"
+  >
+    <div>
+      Invites
+    </div>
+    <div
+      className="Badge"
+    >
+      <div
+        className="background flex justify-center align-center"
+      >
+        <div
+          className="label"
+        >
+          3
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="InvitesList"
+  >
+    <div
+      className="list-container"
+    >
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            1
+            /
+            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            0
+            /
+            3
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            1
+            /
+            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="button-secondary flex align-center justify-center"
+  >
+    <div
+      className="button-content"
+    >
+      All Invites
+    </div>
+  </div>
+</div>
+`;

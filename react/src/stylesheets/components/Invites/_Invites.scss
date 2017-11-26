@@ -1,0 +1,36 @@
+.InvitesList {
+  $listItemHeight: 65px;
+
+  margin-bottom: 20px;
+
+  .list-container {
+    min-height: $listItemHeight;
+    max-height: 195px;
+    background-color: white;
+    border: 1px solid $gray5;
+    border-radius: 3px;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.05);
+  }
+
+  .empty-list-message {
+    min-height: inherit;
+    height: 100%;
+  }
+
+  .InviteListItem:last-child {
+    border-bottom: none;
+  }
+
+  .InviteListItem {
+    height: $listItemHeight;
+    border-bottom: 1px solid $gray6;
+    padding: 0 20px 0 20px;
+
+    .group-details {
+      font-weight: bold;
+      font-size: 14px;
+      color: $gray3;
+    }
+  }
+}
+

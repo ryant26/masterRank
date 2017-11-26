@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { mount } from 'enzyme';
 
@@ -14,9 +14,7 @@ const setup = propOverrides => {
         heroes: [{heroName:'orisa', voice_line: 'just doing my job'}]
     }, propOverrides);
 
-    const store = createStore(
-        HeroReducer
-    );
+    const store = createStore(combineReducers({heroes:HeroReducer}));
 
     const renderer = createRenderer();
     renderer.render(<Provider store = {store}> 
@@ -32,9 +30,7 @@ const setup = propOverrides => {
 
 describe('HeroRoles Component', () => {
     it('should render without exploding', () => {
-        const store = createStore(
-            HeroReducer
-        );
+      const store = createStore(combineReducers({heroes:HeroReducer}));
         
         const wrapper = mount(
             <Provider store ={store}> 

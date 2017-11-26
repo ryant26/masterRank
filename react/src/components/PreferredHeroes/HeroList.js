@@ -18,7 +18,7 @@ const HeroList = ({ heroes }) => {
   }
 
   return (
-    <div className="PreferredHeroes-HeroList flex flex-column">
+    <div className="PreferredHeroes-HeroList sidebar-card flex flex-column">
       <div className="flex justify-between">
         <div className="sidebar-title">Preferred Heroes</div>
         <FontAwesome name="cog"/>
