@@ -7,7 +7,7 @@ module.exports = function() {
             key: fs.readFileSync('../certs/key.pem'),
             cert: fs.readFileSync('../certs/cert.pem')
         },
-        target: 'http://localhost:3001',
+        target: 'http://localhost:3003',
         secure: false // Depends on your needs, could be false.
-    }).listen(3000);
+    }).listen(3002);
 };

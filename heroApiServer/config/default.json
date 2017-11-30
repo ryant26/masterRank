@@ -2,7 +2,7 @@
   "app": {
     "name": "heroapiserver",
     "hostname": "localhost",
-    "port": 3002
+    "port": 3000
   },
   "db": "mongodb://localhost/heroapiserver",
   "loggingLevel": "combined",
