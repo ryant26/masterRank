@@ -11,7 +11,7 @@ runUtils.checkExist('mongod');
 runUtils.checkExist('redis-server');
 
 runUtils.startProcess('mongod', 'port 27017').then(() => {
-    return runUtils.startProcess('redis-server', 'port 6379');
+    return runUtils.startProcess('redis-server', 'port 6379', 'Ready to accept connections');
 }).then(() => {
     let proxy = runUtils.startNodeProcess(heroApiRoot, 'devTools/proxy.js', 'develop');
     let heroApiServer = runUtils.startNodeProcess(heroApiRoot, 'src/app.js', 'develop', 'port 3001');

@@ -13,14 +13,14 @@ module.exports = {
         }
     },
 
-    startProcess: function(command, startString) {
+    startProcess: function(command, ...startStrings) {
         let process = shell.exec(command, {async: true});
         return new Promise((resolve, reject) => {
             process.stdout.on('data', (data) => {
                 logger.info(data);
-                if (startString) {
+                if (startStrings) {
                     let stringForm = data.toString();
-                    if (stringForm.includes(startString)) {
+                    if (startStrings.some((startString) => stringForm.includes(startString))) {
                         resolve(process);
                     }
                 } else {
