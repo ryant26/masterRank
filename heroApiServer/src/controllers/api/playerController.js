@@ -4,7 +4,7 @@ const playerService = require('../../services/playerService');
 const stringValidator = require('../../validators/stringValidator').allValidators;
 
 router.get('/players', function(req, res, next) {
-    if(!stringValidator(req.query.platformDisplayName, req.query.platform, req.query.region)) {
+    if(!stringValidator(req.query.platformDisplayName, req.query.platform)) {
         let error = new Error('Missing or malformed query parameter');
         error.status = 400;
         next(error);

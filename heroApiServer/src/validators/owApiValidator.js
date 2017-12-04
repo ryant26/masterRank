@@ -20,7 +20,7 @@ let careerValidator = function(herosDetails) {
 };
 
 let heroValidator = function(hero) {
-    let attributes = ['combat', 'hero', 'assists', 'game', 'misc'];
+    let attributes = ['combat', 'hero', 'assists', 'game'];
     attributes.forEach((attribute) => {
         if (!hero[attribute]) {
             logAttributeWarning('hero', attribute);

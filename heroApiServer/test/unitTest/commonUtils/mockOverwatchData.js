@@ -47,7 +47,9 @@ module.exports = {
                         eliminations: 1434,
                         all_damage_done: 585980,
                         environmental_kills: 4,
-                        multikills: 14
+                        multikills: 14,
+                        objective_time: '02:18:56',
+                        deaths: 340
                     },
                     assists: {
                         healing_done: 37492
@@ -68,9 +70,6 @@ module.exports = {
                     average: {
                         all_damage_done_avg_per_10_min: 16
                     },
-                    deaths: {
-                        deaths: 340
-                    },
                     awards: {
                         cards: 22,
                         medals: 129,
@@ -81,33 +80,9 @@ module.exports = {
                     game: {
                         time_played: 10,
                         time_spent_on_fire: '01:01:52',
-                        objective_time: '02:18:56',
                         games_played: 43,
-                        games_won: 27
-                    },
-                    misc: {
-                        melee_final_blows_most_in_game: 3,
-                        turrets_destroyed_most_in_game: 3,
-                        environmental_kills_most_in_game: 3,
-                        kill_streak_best: 87,
-                        hero_damage_done_most_in_game: 12894,
-                        barrier_damage_done: 120434,
-                        barrier_damage_done_avg_per_10_min: 3,
-                        deaths_avg_per_10_min: 0,
-                        hero_damage_done: 159491,
-                        hero_damage_done_avg_per_10_min: 8,
-                        time_spent_on_fire_avg_per_10_min: 0,
-                        solo_kills_avg_per_10_min: 0,
-                        objective_time_avg_per_10_min: 0,
-                        objective_kills_avg_per_10_min: 0,
-                        healing_done_avg_per_10_min: 1,
-                        final_blows_avg_per_10_min: 0,
-                        eliminations_avg_per_10_min: 0,
-                        turrets_destroyed: 40,
-                        games_tied: 2,
-                        games_lost: 14,
-                        offensive_assists: 8,
-                        defensive_assists: 35
+                        games_won: 27,
+                        games_lost: 14
                     }
                 },
                 soldier76: {
@@ -131,8 +106,9 @@ module.exports = {
                         melee_final_blow: 1,
                         critical_hits: 186,
                         critical_hit_accuracy: 4,
-                        eliminations_per_life: 2.36,
-                        weapon_accuracy: 41
+                        deaths: 50,
+                        weapon_accuracy: 41,
+                        objective_time: '06:33'
                     },
                     assists: {
                         turrets_destroyed: 6,
@@ -169,36 +145,9 @@ module.exports = {
                         time_played: 1,
                         games_played: 5,
                         games_won: 1,
-                        objective_time: '06:33',
+                        games_lost: 1,
                         time_spent_on_fire: '01:35',
                         win_percentage: 26
-                    },
-                    misc: {
-                        multikill_best: 3,
-                        healing_done: 8661,
-                        healing_done_most_in_game: 1435,
-                        time_spent_on_fire_most_in_game: 21,
-                        hero_damage_done: 10622,
-                        hero_damage_done_most_in_game: 3211,
-                        hero_damage_done_most_in_life: 2875,
-                        barrier_damage_done: 9263,
-                        barrier_damage_done_most_in_game: 3715,
-                        barrier_damage_done_avg_per_10_min: 9,
-                        tactical_visor_kills_avg_per_10_min: 0,
-                        helix_rockets_kills_avg_per_10_min: 0,
-                        self_healing_avg_per_10_min: 1,
-                        healing_done_avg_per_10_min: 2,
-                        critical_hits_avg_per_10_min: 0,
-                        time_spent_on_fire_avg_per_10_min: 0,
-                        solo_kills_avg_per_10_min: 0,
-                        objective_time_avg_per_10_min: 0,
-                        objective_kills_avg_per_10_min: 0,
-                        melee_final_blows_avg_per_10_min: 0,
-                        final_blows_avg_per_10_min: 0,
-                        eliminations_avg_per_10_min: 0,
-                        deaths_avg_per_10_min: 0,
-                        hero_damage_done_avg_per_10_min: 10,
-                        games_lost: 3
                     }
                 }
             }
@@ -220,16 +169,15 @@ module.exports = {
                     combat: {
                         all_damage_done: 180,
                         objective_kills: 3,
-                        eliminations_per_life: 3,
-                        weapon_accuracy: 3
+                        eliminations: 3,
+                        deaths: 1,
+                        weapon_accuracy: 3,
+                        objective_time: '00:00:03',
                     },
                     game: {
                         time_played: 1,
-                        objective_time: '00:00:03',
                         games_played: 1,
-                        games_won: 3
-                    },
-                    misc: {
+                        games_won: 3,
                         games_lost: 3
                     },
                     assists: {

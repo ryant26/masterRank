@@ -11,8 +11,7 @@ const ow = require('../../../src/apiClients/overwatch');
 let queryForPlayer = function(token) {
     return Player.findOne({
         platformDisplayName: token.battleNetId,
-        platform: token.platform,
-        region: token.region
+        platform: token.platform
     });
 };
 
@@ -215,7 +214,6 @@ describe('playerService', function() {
             }).then((players) => {
                 assert.lengthOf(players, 1);
                 assert.equal(players[0].platformDisplayName, playerConfig.platformDisplayName);
-                assert.equal(players[0].region, playerConfig.region);
                 assert.equal(players[0].platform, playerConfig.platform);
             });
         });
@@ -228,7 +226,6 @@ describe('playerService', function() {
             }).then((players) => {
                 assert.lengthOf(players, 1);
                 assert.equal(players[0].platformDisplayName, playerConfig.platformDisplayName);
-                assert.equal(players[0].region, playerConfig.region);
                 assert.equal(players[0].platform, playerConfig.platform);
             });
         });

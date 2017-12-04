@@ -95,7 +95,7 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         heroName,
         hoursPlayed: heroStats.game.time_played,
         wins: heroStats.game.games_won,
-        losses: heroStats.misc.games_lost
+        losses: heroStats.game.games_lost
     };
 };
 
@@ -119,13 +119,13 @@ let _getStatsRequiringPercentiles = function(heroStats) {
     };
 
     return {
-        kdRatio: heroStats.combat.eliminations_per_life,
+        kdRatio: heroStats.combat.eliminations / heroStats.combat.deaths,
         accuracy: heroStats.combat.weapon_accuracy,
         blockedPerMin: getPerMinuteStat(heroStats.hero.damage_blocked),
         healingPerMin: getPerMinuteStat(heroStats.assists.healing_done),
         damagePerMin: getPerMinuteStat(heroStats.combat.all_damage_done),
         avgObjElims: heroStats.combat.objective_kills / heroStats.game.games_played,
-        avgObjTime: convertTimeStringToNumber(heroStats.game.objective_time) / heroStats.game.games_played
+        avgObjTime: convertTimeStringToNumber(heroStats.combat.objective_time) / heroStats.game.games_played
     };
 };
 
