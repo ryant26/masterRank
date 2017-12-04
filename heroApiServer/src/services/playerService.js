@@ -47,7 +47,7 @@ let findOrCreatePlayer = function(token) {
 };
 
 let findAndUpdatePlayer = function(token) {
-    return Player.findOne({platformDisplayName: token.battleNetId, platform: token.platform, region: token.region}).then((result) => {
+    return Player.findOne({platformDisplayName: token.battleNetId, platform: token.platform}).then((result) => {
         if (result) {
             if (new Date(result.lastUpdated).setHours(result.lastUpdated.getHours() + 6) < new Date()) {
                 return updatePlayer(token).catch((err) => {
@@ -75,8 +75,7 @@ let updatePlayer = function (token) {
     return _getPlayerConfigFromOw(token).then((result) => {
         return Player.findOneAndUpdate({
             platformDisplayName: token.battleNetId,
-            platform: token.platform,
-            region: token.region
+            platform: token.platform
         }, result, {new: true});
     });
 };
@@ -95,7 +94,6 @@ let _getPlayerConfigFromOw = function (token) {
             lastUpdated: new Date(),
             level: playerDetails.level,
             portrait: playerDetails.portrait,
-            region: token.region,
             skillRating: isNaN(heroDetails.stats.competitiveRank) ? 0 : heroDetails.stats.competitiveRank
         };
     });

@@ -1,14 +1,15 @@
-let ow = require('oversmash').default();
+let ow = require('oversmash').default({
+    accountIdentityRegex: /^\/career\/([\w]+)\/.+$/
+});
 
 let getPlayerDetails = function(token) {
-    let playerId = _normalizeId(token.battleNetId);
-    return ow.player(playerId).then((result) => {
-        return result.accounts.find((element) => {return element.region === token.region && element.platform === token.platform;});
+    return ow.player(token.battleNetId).then((result) => {
+        return result.accounts.find((element) => element.platform === token.platform);
     });
 };
 
 let searchForPlayer = function(token) {
-    return ow.player(_normalizeId(token.battleNetId)).then((result) => {
+    return ow.player(token.battleNetId).then((result) => {
         result = result.accounts;
 
         result.forEach((account) => {
@@ -19,12 +20,6 @@ let searchForPlayer = function(token) {
         if (token.platform) {
             result = result.filter((element) => {
                 return element.platform === token.platform;
-            });
-        }
-
-        if (token.region) {
-            result = result.filter((element) => {
-                return element.region === token.region;
             });
         }
 

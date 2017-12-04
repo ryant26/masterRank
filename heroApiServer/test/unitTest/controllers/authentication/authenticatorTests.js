@@ -13,7 +13,6 @@ chai.use(chaiHttp);
 let getPlayerQueryObj = function (token = mockHelpers.token) {
     return {
         platformDisplayName: token.battleNetId,
-        region: token.region,
         platform: token.platform
     };
 };
@@ -81,7 +80,6 @@ let testUserUpdated = function (requestFunction, queryObject) {
         lastUpdated: date,
         level: 100,
         portrait: 'Some portrait link',
-        region: mockHelpers.token.region,
         skillRating: 2500
     };
 
