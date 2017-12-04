@@ -35,25 +35,6 @@ describe('Player Tests', function() {
                 });
         });
 
-        it('should filter by region', function() {
-            return chai.request(server)
-                .get(searchUrl)
-                .query({platformDisplayName: platformDisplayName, region: 'us'})
-                .then((res) => {
-                    assert.lengthOf(res.body, 1);
-                    assert.equal(res.body[0].platformDisplayName, platformDisplayName);
-                });
-        });
-
-        it('should filter by region (exclude)', function() {
-            return chai.request(server)
-                .get(searchUrl)
-                .query({platformDisplayName: platformDisplayName, region: 'apac'})
-                .then((res) => {
-                    assert.lengthOf(res.body, 0);
-                });
-        });
-
         it('should filter by platform', function() {
             return chai.request(server)
                 .get(searchUrl)
@@ -90,18 +71,6 @@ describe('Player Tests', function() {
                 .catch((err) => {
                     assert.equal(err.status, 400);
                     assert.equal(err.response.body.message, 'Missing or malformed query parameter');
-                });
-        });
-
-        it('should filter by region', function() {
-            return chai.request(server)
-                .get(playerUrl)
-                .query({platformDisplayName, region: 'apac',  platform})
-                .then(() => {
-                    throw new Error('Hero should not have been found');
-                }).catch((err) => {
-                    assert.equal(err.status, 404);
-                    assert.equal(err.response.body.message, 'Player could not be found');
                 });
         });
 

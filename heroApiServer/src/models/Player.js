@@ -30,7 +30,6 @@ let PlayerSchema = new Schema({
     lastUpdated: requiredDate(),
     level: requiredString(),
     portrait: requiredString(),
-    region: requiredString(),
     skillRating: requiredNumber()
 });
 
