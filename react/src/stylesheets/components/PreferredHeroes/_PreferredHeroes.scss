@@ -1,0 +1,22 @@
+.PreferredHeroes-AddHeroIcon {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  color: $gray2;
+  background-color: $gray1;
+  border-radius: 3px;
+}
+
+.PreferredHeroes-HeroList {
+  max-width: 250px;
+
+  .HeroImage {
+    width: 40px;
+    height: 40px;
+  }
+
+  .fa.fa-cog {
+    color: $gray4;
+    cursor: pointer;
+  }
+}
