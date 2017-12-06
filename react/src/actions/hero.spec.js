@@ -10,3 +10,13 @@ describe('addHero', () => {
         });
     });
 });
+
+describe('addHeroes', () => {
+    it ('should create the ADD_HEROES action', () => {
+        expect(HeroActionCreators.addHeroes([{name:"orisa", stat: "just doing my job"}]))
+            .toEqual({
+                type: HeroActionTypes.ADD_HEROES,
+                heroes: [{name:"orisa", stat: "just doing my job"}]
+            });
+    });
+});

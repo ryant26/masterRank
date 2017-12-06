@@ -4,7 +4,8 @@ let ow = require('oversmash').default({
 
 let getPlayerDetails = function(token) {
     return ow.player(token.battleNetId).then((result) => {
-        return result.accounts.find((element) => element.platform === token.platform);
+        return result.accounts.find((element) => element.platform === token.platform
+            && element.platformDisplayName === token.platformDisplayName);
     });
 };
 
