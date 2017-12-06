@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "jwt-decode": "^2.2.0",
     "object-assign": "4.1.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
@@ -12,7 +13,8 @@
     "react-router-dom": "4.2.2",
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -81,7 +83,10 @@
     "setupFiles": [
       "raf/polyfill",
       "./tools/enzymeTestAdapterSetup.js"
-    ]
+    ],
+    "globals": {
+      "__DEV__":  false
+    }
   },
   "babel": {
     "presets": [

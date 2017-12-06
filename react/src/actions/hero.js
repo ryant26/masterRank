@@ -6,3 +6,10 @@ export const addHero = (hero) => {
     hero
   };
 };
+
+export const addHeroes = (heroes) => {
+  return {
+    type: HeroActionTypes.ADD_HEROES,
+      heroes
+  };
+};
