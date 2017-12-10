@@ -1,13 +1,16 @@
 import {addGroupInvite} from "../actions/groupInvites";
 import {addHero as addHeroAction, addHeroes as addHeroesAction} from "../actions/hero";
 import {addHero as addPreferredHeroAction} from "../actions/preferredHeroes";
+import {updateUser as updateUserAction} from "../actions/user";
 import {clientEvents} from "../api/websocket";
-import store from './store';
 
 let socket;
+let store;
 
-const initialize = function(passedSocket) {
+const initialize = function(passedSocket, passedStore) {
+    store = passedStore;
     socket = passedSocket;
+
     socket.on(clientEvents.initialData, (players) => addHeroesToStore(players));
     socket.on(clientEvents.heroAdded, (hero) => addHeroToStore(hero));
     socket.on(clientEvents.groupInviteReceived, (invite) => addInviteToStore(invite));
@@ -24,7 +27,7 @@ const addHeroesToStore = function(heroes) {
 };
 
 const addPreferredHeroToStore = function(hero) {
-    if (hero.battleNetId === store.user.battleNetId) {
+    if (hero.battleNetId === store.getState().user.battleNetId) {
         store.dispatch(addPreferredHeroAction(hero));
     }
 };
@@ -38,9 +41,13 @@ const addPreferredHero = function(hero) {
     addHeroToStore(hero);
 };
 
+const updateUser = function(user) {
+    store.dispatch(updateUserAction(user));
+};
 
 const Actions = {
     initialize,
-    addPreferredHero
+    addPreferredHero,
+    updateUser
 };
 export default Actions;

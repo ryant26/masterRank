@@ -1,16 +1,17 @@
 import * as PreferredHeroActionTypes from '../actiontypes/preferredHeroes';
-import HEROES from '../resources/heroes';
-
-const initialState = [HEROES[0]];
+import {arrayHasDuplicate} from "./reducerUtilities";
 
 
-export default function PreferredHeroesReducer(state=initialState, action) {
+export default function PreferredHeroesReducer(state=[], action) {
   switch(action.type) {
     case PreferredHeroActionTypes.ADD_HERO:
-      return [
-          ...state,
-          action.hero
-        ];
+        if (!arrayHasDuplicate(state, action.hero, 'battleNetId', 'heroName')) {
+            return [
+                ...state,
+                action.hero
+            ];
+        }
+        return state;
     default:
       return state;
   }

@@ -11,6 +11,7 @@ import Title from '../components/Title/Title';
 import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
 import InvitesContainer from '../components/Invites/InvitesContainer';
 import Websocket from '../api/websocket';
+import store from '../model/store';
 import Model from '../model/model';
 import token from '../resources/token';
 
@@ -20,7 +21,8 @@ export class FireTeam extends Component {
         this.state = {
             websocket: new Websocket(token)
         };
-        Model.initialize(this.state.websocket);
+
+        Model.initialize(this.state.websocket, store);
     }
 
     componentWillUnmount() {

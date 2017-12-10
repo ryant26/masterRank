@@ -1,21 +1,12 @@
 import * as HeroActionTypes from '../actiontypes/hero';
-import HEROES from '../resources/heroes';
-
-const initialState = [...HEROES];
-
-const isDuplicate = function(state, hero) {
-    return state.some((storeHero) => {
-        return hero.battleNetId === storeHero.battleNetId
-            && hero.heroName === storeHero.heroName;
-    });
-};
+import {arrayHasDuplicate} from "./reducerUtilities";
 
 
-export default function HeroReducer(state=initialState, action) {
+export default function HeroReducer(state=[], action) {
   switch(action.type) {
       case HeroActionTypes.ADD_HERO: {
           let out = state;
-          if (!isDuplicate(out, action.hero)) {
+          if (!arrayHasDuplicate(out, action.hero, 'battleNetId', 'heroName')) {
               out = [
                   ...state,
                   action.hero
@@ -28,7 +19,7 @@ export default function HeroReducer(state=initialState, action) {
           let out = [...state];
 
           action.heroes.forEach((hero) => {
-              if (!isDuplicate(out, hero)) {
+              if (!arrayHasDuplicate(out, hero, 'battleNetId', 'heroName')) {
                   out.push(hero);
               }
           });

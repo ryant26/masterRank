@@ -2,7 +2,7 @@ import GroupInvitesReducer from './GroupInvitesReducer';
 import Invites from '../resources/groupInvites';
 import * as actionTypes from '../actiontypes/groupInvites';
 
-const initialState = [...Invites];
+const initialState = [];
 
 describe('Group Invite Reducer', () => {
   it ('should have default initial state when passed undefined', () => {

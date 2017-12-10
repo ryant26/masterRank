@@ -1,12 +1,13 @@
 import * as actionsTypes from '../actiontypes/groupInvites';
-import groupInvites from '../resources/groupInvites';
+import {arrayHasDuplicate} from "./reducerUtilities";
 
-const initialState = [...groupInvites];
-
-export default function GroupInvitesReducer(state=initialState, action) {
+export default function GroupInvitesReducer(state=[], action) {
   switch (action.type) {
     case actionsTypes.ADD_GROUP_INVITE:
-      return [...state, action.invite];
+      if (!arrayHasDuplicate(state, action.invite, 'id')) {
+          return [...state, action.invite];
+      }
+      return state;
     default:
       return state;
   }
