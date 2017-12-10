@@ -1,8 +1,7 @@
 import HeroReducer from './HeroReducer';
-import HEROES from '../resources/heroes';
 import * as HeroActionTypes from '../actiontypes/hero';
 
-const initialState = HEROES;
+const initialState = [];
 
 describe('Hero Reducer', () => {
     it ('should have default initial state when passed undefined', () => {

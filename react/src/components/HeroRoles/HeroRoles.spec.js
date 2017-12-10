@@ -7,11 +7,13 @@ import { mount } from 'enzyme';
 import HeroRoles from './HeroRoles';
 import HeroCard from '../HeroCard/HeroCard';
 import HeroReducer from '../../reducers/HeroReducer';
+import {addHero} from "../../actions/hero";
+import HEROES from '../../resources/heroes';
 
 const setup = propOverrides => {
     const props = Object.assign({
         role: 'tank',        
-        heroes: [{heroName:'orisa', voice_line: 'just doing my job'}]
+        heroes: [HEROES[0]]
     }, propOverrides);
 
     const store = createStore(combineReducers({heroes:HeroReducer}));
@@ -30,7 +32,9 @@ const setup = propOverrides => {
 
 describe('HeroRoles Component', () => {
     it('should render without exploding', () => {
-      const store = createStore(combineReducers({heroes:HeroReducer}));
+        const store = createStore(combineReducers({heroes:HeroReducer}));
+
+        store.dispatch(addHero(HEROES[0]));
         
         const wrapper = mount(
             <Provider store ={store}> 
@@ -52,6 +56,6 @@ describe('HeroRoles Component', () => {
 
     it('should render container with one hero with correct name', () => {
         const { output } = setup();
-        expect(output.props.heroes[0].heroName).toBe('orisa');
+        expect(output.props.heroes[0].heroName).toBe('soldier76');
     });
 }); 

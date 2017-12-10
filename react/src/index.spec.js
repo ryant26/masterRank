@@ -18,6 +18,7 @@ describe('index', () => {
         ReactDOM.render(<Provider store={store}>
             <FireTeam />
         </Provider>, div);
+
         ReactDOM.unmountComponentAtNode(div);
     });
 });
