@@ -6,10 +6,3 @@ export const addHero = (hero) => {
     hero
   };
 };
-
-export const addPreferredHero = (hero) => {
-  return {
-    type: HeroActionTypes.ADD_PREFERRED_HERO,
-    hero
-  };
-};
