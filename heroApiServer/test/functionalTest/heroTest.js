@@ -3,7 +3,7 @@ const assert = chai.assert;
 const chaiHttp = require('chai-http');
 const tokenUtil = require('../../devTools/tokenHelpers');
 
-const platformDisplayName = 'PwNShoPP#1662';
+const platformDisplayName = 'iddqd#2884';
 const region = 'us';
 const platform = 'pc';
 const heroName = 'soldier76';
