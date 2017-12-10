@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { FireTeam } from './containers/FireTeam';
 import HeroReducer from './reducers/HeroReducer';
+import PreferredHeroesReducer from './reducers/PreferredHeroesReducer';
+import GroupInvitesReducer from './reducers/GroupInvitesReducer';
 
 it('renders without crashing', () => {
-  const store = createStore(
-    HeroReducer
-  );
+  const store = createStore(combineReducers({
+    heroes: HeroReducer,
+    preferredHeroes: PreferredHeroesReducer,
+    groupInvites: GroupInvitesReducer
+  }));
   const div = document.createElement('div');
   ReactDOM.render(<Provider store={store}>
                     <FireTeam />

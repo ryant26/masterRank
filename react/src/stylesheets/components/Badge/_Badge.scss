@@ -1,0 +1,13 @@
+.Badge {
+  .background {
+    width: 42px;
+    height: 26px;
+    background-color: $yellow1;
+    border-radius: 25px;
+  }
+
+  .label {
+    color: white;
+    font-weight: bold;
+  }
+}

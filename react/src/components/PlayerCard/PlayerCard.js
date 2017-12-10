@@ -26,7 +26,7 @@ const PlayerCard = ({user}) => {
     }
 
     return (
-        <div className="PlayerCard">
+        <div className="PlayerCard sidebar-card">
             <img src={user.portrait}/>
             <div className="ImagePadding">
                 <div className="heroInfo">
