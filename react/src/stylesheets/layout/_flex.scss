@@ -21,3 +21,7 @@
 .justify-between {
   @include justify-content(space-between)
 }
+
+.justify-around {
+  @include justify-content(space-around)
+}
