@@ -10,6 +10,7 @@ import * as users from '../resources/users';
 import Title from '../components/Title/Title';
 import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
 import InvitesContainer from '../components/Invites/InvitesContainer';
+import SidebarFooter from '../components/sidebar-footer/sidebar-footer';
 import Websocket from '../api/websocket';
 import store from '../model/store';
 import Model from '../model/model';
@@ -33,22 +34,23 @@ export class FireTeam extends Component {
 
         return (
             <div className="App">
-              <Helmet
+                <Helmet
                 link={[
                   {
                     rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
                   }
                 ]}
-              />
+                />
 
-              <Title/>
+                <Title/>
 
-              <HeroSelector />
-              <HeroRolesContainer />
-              <br /><br />
-              <PlayerCard user={users.users[0]}/>
-              <PreferredHeroesContainer />
-              <InvitesContainer/>
+                <HeroSelector />
+                <HeroRolesContainer />
+                <br /><br />
+                <PlayerCard user={users.users[0]}/>
+                <PreferredHeroesContainer />
+                <InvitesContainer/>
+                <SidebarFooter/>
             </div>
         );
     }
