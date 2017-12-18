@@ -1,5 +1,5 @@
 import React from 'react';
-import HeroImage from '../../HeroImage/HeroImage';
+import HeroImage from '../../../HeroImage/HeroImage';
 import PropTypes from 'prop-types';
 
 const GroupHeroCard = ({hero, number, name}) =>  {

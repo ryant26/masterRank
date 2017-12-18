@@ -1,5 +1,5 @@
 import React from 'react';
-import HeroImage from '../HeroImage/HeroImage';
+import HeroImage from '../../HeroImage/HeroImage';
 import AddHeroIcon from './AddHeroIcon';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
