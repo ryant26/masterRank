@@ -25,6 +25,7 @@ describe('HeroCard Component',()=> {
     });
 
     it('should render a single invite', () => {
+        store = mockStore({groupInvites: [INVITES[0]]});
         const component = renderer.create(
             <InvitesContainer store={store}/>
         );
@@ -33,6 +34,7 @@ describe('HeroCard Component',()=> {
     });
 
     it('should render two invites', () => {
+        store = mockStore({groupInvites: [INVITES[0], INVITES[1]]});
         const component = renderer.create(
             <InvitesContainer store={store}/>
         );
@@ -41,6 +43,7 @@ describe('HeroCard Component',()=> {
     });
 
     it('should render three invites', () => {
+        store = mockStore({groupInvites: [INVITES[0], INVITES[1], INVITES[2]]});
         const component = renderer.create(
             <InvitesContainer store={store}/>
         );

@@ -19,7 +19,7 @@ exports[`HeroCard Component should render a single invite 1`] = `
         <div
           className="label"
         >
-          3
+          1
         </div>
       </div>
     </div>
@@ -30,48 +30,6 @@ exports[`HeroCard Component should render a single invite 1`] = `
     <div
       className="list-container"
     >
-      <div
-        className="InviteListItem flex flex-column justify-center"
-      >
-        <div
-          className="flex justify-between group-details"
-        >
-          <div>
-            luckbomb#1234
-          </div>
-          <div>
-            1
-            /
-            4
-          </div>
-        </div>
-        <div
-          className="sub-title"
-        >
-          Just now
-        </div>
-      </div>
-      <div
-        className="InviteListItem flex flex-column justify-center"
-      >
-        <div
-          className="flex justify-between group-details"
-        >
-          <div>
-            luckbomb#1234
-          </div>
-          <div>
-            0
-            /
-            3
-          </div>
-        </div>
-        <div
-          className="sub-title"
-        >
-          Just now
-        </div>
-      </div>
       <div
         className="InviteListItem flex flex-column justify-center"
       >
@@ -233,7 +191,7 @@ exports[`HeroCard Component should render two invites 1`] = `
         <div
           className="label"
         >
-          3
+          2
         </div>
       </div>
     </div>
@@ -278,27 +236,6 @@ exports[`HeroCard Component should render two invites 1`] = `
             0
             /
             3
-          </div>
-        </div>
-        <div
-          className="sub-title"
-        >
-          Just now
-        </div>
-      </div>
-      <div
-        className="InviteListItem flex flex-column justify-center"
-      >
-        <div
-          className="flex justify-between group-details"
-        >
-          <div>
-            luckbomb#1234
-          </div>
-          <div>
-            1
-            /
-            4
           </div>
         </div>
         <div
