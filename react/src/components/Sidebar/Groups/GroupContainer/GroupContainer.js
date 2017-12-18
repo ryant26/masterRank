@@ -4,7 +4,7 @@ import React, {
 import { connect } from 'react-redux';  
 import PropTypes from 'prop-types';
 import GroupHeroCard from '../GroupHeroCard/GroupHeroCard';
-import HEROES from '../../../resources/heroes';
+import HEROES from '../../../../resources/heroes';
 
 export class GroupContainer extends Component {
 

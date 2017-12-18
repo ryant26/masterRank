@@ -4,14 +4,8 @@ import React, {
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import HeroSelector from '../components/HeroSelector/HeroSelector';
-import PlayerCard from '../components/PlayerCard/PlayerCard';
 import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
-import GroupContainer from '../components/Groups/GroupContainer/GroupContainer';
-import * as users from '../resources/users';
-import Title from '../components/Title/Title';
-import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
-import InvitesContainer from '../components/Invites/InvitesContainer';
-import SidebarFooter from '../components/sidebar-footer/sidebar-footer';
+import Sidebar from '../components/Sidebar/Sidebar';
 import Websocket from '../api/websocket';
 import store from '../model/store';
 import Model from '../model/model';
@@ -42,17 +36,13 @@ export class FireTeam extends Component {
                   }
                 ]}
                 />
-
-                <Title/>
-
-                <HeroSelector />
-                <HeroRolesContainer />
-                <br /><br />
-                <PlayerCard user={users.users[0]}/>
-                <GroupContainer group={users.users[0]}/>
-                <PreferredHeroesContainer />
-                <InvitesContainer/>
-                <SidebarFooter/>
+                <div className="flex">
+                    <Sidebar/>
+                    <div className="flex flex-column">
+                        <HeroSelector />
+                        <HeroRolesContainer />
+                    </div>
+                </div>
             </div>
         );
     }

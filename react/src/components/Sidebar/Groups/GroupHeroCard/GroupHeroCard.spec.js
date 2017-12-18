@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import * as USERS from '../../../resources/users';
+import * as USERS from '../../../../resources/users';
 
 import GroupHeroCard from './GroupHeroCard';
 
