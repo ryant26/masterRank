@@ -1,11 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import GROUP from '../../../resources/group';
+import GROUP from '../../../../resources/group';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
 import GroupContainer from './GroupContainer';
-import * as users from '../../../resources/users';
+import * as users from '../../../../resources/users';
 
 const mockStore = configureStore();
 

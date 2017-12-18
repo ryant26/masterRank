@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import PlayerCard from './PlayerCard';
-import * as users from '../../resources/users';
+import * as users from '../../../resources/users';
 
 describe('Player Card Component', () => {
     it('should render without exploding', () => {
