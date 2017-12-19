@@ -1,8 +1,7 @@
 import PreferredHeroesReducer from './PreferredHeroesReducer';
-import HEROES from '../resources/heroes';
 import * as PreferredHeroActionTypes from '../actiontypes/preferredHeroes';
 
-const initialState = [HEROES[0]];
+const initialState = [];
 
 describe('Preferred Hero Reducer', () => {
   it ('should have default initial state when passed undefined', () => {
