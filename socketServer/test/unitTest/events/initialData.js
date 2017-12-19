@@ -76,7 +76,7 @@ describe(clientEvents.initialData, function() {
 
                 let socket1 = commonUtilities.getAuthenticatedSocket(randomString.generate(), region);
                 socket1.on(clientEvents.initialData, function () {
-                    socket1.emit(serverEvents.addHero, heroName);
+                    socket1.emit(serverEvents.addHero, {heroName, priority: 2});
                 });
 
                 // Ensure hero is fully added before we connect the 2nd user

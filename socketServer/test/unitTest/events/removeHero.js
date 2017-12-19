@@ -26,9 +26,10 @@ describe(serverEvents.removeHero, function() {
 
     it('should send out hero removed event', function(done) {
         let heroName = randomString.generate();
+        let priority = 3;
 
         socket.on(clientEvents.initialData, () => {
-            socket.emit(serverEvents.addHero, heroName);
+            socket.emit(serverEvents.addHero, {heroName, priority});
         });
 
         socket.on(clientEvents.heroAdded, () => {
@@ -43,9 +44,10 @@ describe(serverEvents.removeHero, function() {
 
     it('should remove heros from initalData', function(done) {
         let heroName = randomString.generate();
+        let priority = 4;
 
         socket.on(clientEvents.initialData, () => {
-            socket.emit(serverEvents.addHero, heroName);
+            socket.emit(serverEvents.addHero, {heroName, priority});
         });
 
         socket.on(clientEvents.heroAdded, () => {
@@ -65,11 +67,12 @@ describe(serverEvents.removeHero, function() {
     it('should call the heroRemoved event on all connected clients', function(done) {
         let socket2;
         let heroName = randomString.generate();
+        let priority = 4;
 
         socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs);
 
         socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, heroName);
+            socket2.emit(serverEvents.addHero, {heroName, priority});
         });
 
         socket2.on(clientEvents.heroAdded, () => {
@@ -85,11 +88,12 @@ describe(serverEvents.removeHero, function() {
     it('should not call the heroRemoved event for players in other ranks', function(done) {
         let socket2;
         let heroName = randomString.generate();
+        let priority = 5;
 
         socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, heroName);
+            socket2.emit(serverEvents.addHero, {heroName, priority});
         });
 
         socket2.on(clientEvents.heroAdded, () => {
@@ -109,11 +113,12 @@ describe(serverEvents.removeHero, function() {
     it('should not call the heroRemoved event for players in other regions', function(done) {
         let socket2;
         let heroName = randomString.generate();
+        let priority = 4;
 
         socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, heroName);
+            socket2.emit(serverEvents.addHero, {heroName, priority});
         });
 
         socket2.on(clientEvents.heroAdded, () => {
