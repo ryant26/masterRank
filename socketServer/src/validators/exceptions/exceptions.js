@@ -8,5 +8,6 @@ module.exports = {
     malformedHeroObject: 'Malformed Hero Object',
     invalidHeroName: 'Invalid Hero Name',
     invalidGroupId: 'Invalid group ID',
-    malformedToken: 'Malformed Token'
+    invalidPriority: 'Invalid priority',
+    malformedToken: 'Malformed Token',
 };

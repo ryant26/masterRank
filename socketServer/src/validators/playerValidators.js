@@ -33,8 +33,20 @@ let validateHeroName = function (heroName) {
     throw new SocketError(exceptions.invalidHeroName, 'heroName', heroName);
 };
 
+let validatePriority = function (priority) {
+    if (typeof priority === 'number'
+    && priority > 0
+    && priority < 6) {
+        return true;
+    }
+
+    logger.error(`Reveived invalid priority [${priority}]`);
+    throw new SocketError(exceptions.invalidPriority, 'priority', priority);
+};
+
 module.exports = {
     heroExists,
     validHeroObject,
-    validateHeroName
+    validateHeroName,
+    validatePriority
 };

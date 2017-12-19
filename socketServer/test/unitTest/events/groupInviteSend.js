@@ -58,7 +58,7 @@ describe(serverEvents.groupInviteSend, function() {
             let inviteSocket = commonUtilities.getAuthenticatedSocket(invite.battleNetId, commonUtilities.regions.us);
 
             inviteSocket.on(clientEvents.initialData, () => {
-                inviteSocket.emit(serverEvents.addHero, invite.heroName);
+                inviteSocket.emit(serverEvents.addHero, {heroName: invite.heroName, priority: 1});
             });
 
             memberSocket.on(clientEvents.heroAdded, (hero) => {

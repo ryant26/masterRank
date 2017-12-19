@@ -27,17 +27,18 @@ let sendInitialData = function (token, rank, socket) {
  * @param token
  * @param rank
  * @param namespace
- * @param heroName
+ * @param clientData
  */
-let addHeroByName = function(token, rank, namespace, heroName) {
+let addHeroByName = function(token, rank, namespace, clientData) {
     let heroStats;
-    return PlayerClient.getHeroStats(token.battleNetId, token.region, token.platform, heroName).then((stats) => {
+    return PlayerClient.getHeroStats(token.battleNetId, token.region, token.platform, clientData.heroName).then((stats) => {
         heroStats = stats;
+        heroStats.priority = clientData.priority;
         return Promise.all([RedisClient.addPlayerHero(token.battleNetId, token.platform, heroStats),
             RedisClient.addMetaHero(rank, token.platform, token.region, heroStats)]);
     }).then(() => {
         namespace.to(rank).emit(clientEvents.heroAdded, heroStats);
-        logger.info(`Player [${token.battleNetId}] added hero [${heroName}]`);
+        logger.info(`Player [${token.battleNetId}] added hero [${clientData.heroName}]`);
     });
 };
 

@@ -40,7 +40,7 @@ describe(serverEvents.groupInviteAccept, function() {
         });
 
         socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, invitedHero.heroName);
+            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
         });
 
         socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
@@ -68,7 +68,7 @@ describe(serverEvents.groupInviteAccept, function() {
         let socket3 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, invitedHero.heroName);
+            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
         });
 
         socket.on(clientEvents.heroAdded, () => {
@@ -101,7 +101,7 @@ describe(serverEvents.groupInviteAccept, function() {
         let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
 
         socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, invitedHero.heroName);
+            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
         });
 
         socket.on(clientEvents.heroAdded, () => {

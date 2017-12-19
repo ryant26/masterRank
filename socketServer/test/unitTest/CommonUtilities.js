@@ -55,7 +55,7 @@ module.exports = class CommonUtilities {
             out.leaderSocket = this.getAuthenticatedSocket(out.leaderHero.battleNetId, region);
 
             out.leaderSocket.on(clientEvents.initialData, () => {
-                out.leaderSocket.emit(serverEvents.addHero, out.leaderHero.heroName);
+                out.leaderSocket.emit(serverEvents.addHero, {heroName: out.leaderHero.heroName, priority: 1});
             });
 
             out.leaderSocket.on(clientEvents.heroAdded, () => {
@@ -100,7 +100,7 @@ module.exports = class CommonUtilities {
                     let memberSocket = this.getAuthenticatedSocket(member.battleNetId, region);
 
                     memberSocket.on(clientEvents.initialData, () => {
-                        memberSocket.emit(serverEvents.addHero, member.heroName);
+                        memberSocket.emit(serverEvents.addHero, {heroName: member.heroName, priority: 1});
                     });
 
                     memberSocket.on(clientEvents.groupInviteReceived, (group) => {
@@ -147,7 +147,7 @@ module.exports = class CommonUtilities {
             });
 
             socket.on(clientEvents.initialData, () => {
-                socket.emit(serverEvents.addHero, hero.heroName);
+                socket.emit(serverEvents.addHero, {heroName: hero.heroName, priority: 1});
             });
         });
     }
