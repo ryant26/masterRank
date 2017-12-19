@@ -10,36 +10,53 @@ import * as users from '../resources/users';
 import Title from '../components/Title/Title';
 import PreferredHeroesContainer from '../components/PreferredHeroes/PreferredHeroesContainer';
 import InvitesContainer from '../components/Invites/InvitesContainer';
+import Websocket from '../api/websocket';
+import store from '../model/store';
+import Model from '../model/model';
+import token from '../resources/token';
 
 export class FireTeam extends Component {
-  render() {    
-    
-    return (
-        <div className="App">
-          <Helmet
-            link={[
-              {
-                rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-              }
-            ]}
-          />
+    constructor(props) {
+        super(props);
+        this.state = {
+            websocket: new Websocket(token)
+        };
 
-          <Title/>
+        Model.initialize(this.state.websocket, store);
+    }
 
-          <HeroSelector />
-          <HeroRolesContainer />
-          <br /><br />
-          <PlayerCard user={users.users[0]}/>          
-          <PreferredHeroesContainer />
-          <InvitesContainer/>
-        </div>
-    );
-  }
+    componentWillUnmount() {
+        this.state.websocket.disconnect();
+    }
+
+    render() {
+
+        return (
+            <div className="App">
+              <Helmet
+                link={[
+                  {
+                    rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+                  }
+                ]}
+              />
+
+              <Title/>
+
+              <HeroSelector />
+              <HeroRolesContainer />
+              <br /><br />
+              <PlayerCard user={users.users[0]}/>
+              <PreferredHeroesContainer />
+              <InvitesContainer/>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state) => (
   {
-    heroes: state.heroes
+    store: state
   }
 );
 

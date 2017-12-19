@@ -2,7 +2,7 @@ const ow = require('../apiClients/PlayerClient');
 const authentication = require('../apiClients/authenticationClient');
 const jwt = require('jsonwebtoken');
 const environment = process.env.NODE_ENV;
-const mockedEnvrionments = ['unitTest', 'develop', 'multiNodeTest'];
+const mockedEnvrionments = ['unitTest', 'multiNodeTest'];
 
 let owPlayerApi;
 let owHeroApi;
