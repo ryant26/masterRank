@@ -10,13 +10,26 @@ const PlayerController = require('../PlayerController');
 let getPlayerController = function(config) {
     let playerController = new PlayerController(config);
     configureValidateHeroNameInput(playerController);
+    configureValidatePriorityInput(playerController);
     return playerController;
 };
 
 let configureValidateHeroNameInput = function(playerController) {
     playerController.before([serverEvents.addHero, serverEvents.removeHero], (data) => {
         return new Promise((resolve) => {
-            resolve(playerValidators.validateHeroName(data.eventData));
+            let heroName;
+            if (data.eventData) {
+                heroName = data.eventData.heroName || data.eventData;
+            }
+            resolve(playerValidators.validateHeroName(heroName));
+        });
+    });
+};
+
+let configureValidatePriorityInput = function(playerController) {
+    playerController.before([serverEvents.addHero], (data) => {
+        return new Promise((resolve) => {
+            resolve(playerValidators.validatePriority(data.eventData.priority));
         });
     });
 };
