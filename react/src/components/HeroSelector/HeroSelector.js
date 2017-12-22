@@ -1,28 +1,30 @@
-import React, {
-  Component
-} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import * as AllHeroes from '../../resources/allHeroNames';
-import SelectorButton from '../SelectorButton/SelectorButton';
+import SelectorButton from './HeroButton/HeroButton';
 
-export default class HeroSelector extends Component {
+const HeroSelector = ({selectedHeroes, onHeroSelected}) => {
+  return (
+    <div className="HeroSelector flex wrap">
+    {
+      AllHeroes.names.map(name => {
+        return (
+          <SelectorButton
+              heroName={name}
+              key={name}
+              selected={selectedHeroes.includes(name)}
+              onClick={onHeroSelected}/>
+        );
+      })
+    }
+    </div>
+  );
+};
 
-  render() {
-    const selectorStyle = {
-      'display': 'flex',
-      'flexWrap': 'wrap',
-    };
+HeroSelector.propTypes = {
+    selectedHeroes: PropTypes.array.isRequired,
+    onHeroSelected: PropTypes.func.isRequired
+};
 
-    return (
-      <div style={selectorStyle}>
-      {
-        AllHeroes.names.map(name => {
-          return (
-            <SelectorButton heroName={name} key={name}/>
-          );
-        })
-      }
-      </div>
-    );
-  }
-}
+export default HeroSelector;

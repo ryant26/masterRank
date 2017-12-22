@@ -1,7 +1,8 @@
 import {addGroupInvite} from "../actions/groupInvites";
 import {addHero as addHeroAction, addHeroes as addHeroesAction} from "../actions/hero";
-import {addHero as addPreferredHeroAction} from "../actions/preferredHeroes";
+import {addHero as addPreferredHeroAction, setSelectedSlot as setSelectedSlotAction} from "../actions/preferredHeroes";
 import {updateUser as updateUserAction} from "../actions/user";
+import {addFilter as addFilterAction, removeFilter as removeFilterAction} from "../actions/heroFilters";
 import {clientEvents} from "../api/websocket";
 
 let socket;
@@ -16,29 +17,44 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.groupInviteReceived, (invite) => addInviteToStore(invite));
 };
 
+const addHeroFilterToStore = function(filter) {
+    store.dispatch(addFilterAction(filter));
+};
+
+const removeHeroFilterFromStore = function(filter) {
+    store.dispatch(removeFilterAction(filter));
+};
 const addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
-    addPreferredHeroToStore(hero);
+    if (hero.battleNetId === store.getState().user.battleNetId) {
+        addPreferredHeroToStore(hero.heroName, hero.preference);
+    }
 };
 
 const addHeroesToStore = function(heroes) {
     store.dispatch(addHeroesAction(heroes));
-    heroes.map(addPreferredHeroToStore);
+    heroes.forEach((hero) => {
+        if (hero.battleNetId === store.getState().user.battleNetId) {
+            addPreferredHeroToStore(hero.heroName, hero.preference);
+        }
+    });
 };
 
-const addPreferredHeroToStore = function(hero) {
-    if (hero.battleNetId === store.getState().user.battleNetId) {
-        store.dispatch(addPreferredHeroAction(hero));
-    }
+const addPreferredHeroToStore = function(heroName, preference) {
+    store.dispatch(addPreferredHeroAction(heroName, preference));
 };
 
 const addInviteToStore = function(invite) {
     store.dispatch(addGroupInvite(invite));
 };
 
-const addPreferredHero = function(hero) {
-    socket.addHero(hero);
-    addHeroToStore(hero);
+const addPreferredHero = function(heroName, preference) {
+    socket.addHero(heroName, preference);
+    addPreferredHeroToStore(heroName, preference);
+};
+
+const setSelectedSlotInStore = function (slot) {
+    store.dispatch(setSelectedSlotAction(slot));
 };
 
 const updateUser = function(user) {
@@ -48,6 +64,9 @@ const updateUser = function(user) {
 const Actions = {
     initialize,
     addPreferredHero,
+    addHeroFilterToStore,
+    removeHeroFilterFromStore,
+    setSelectedSlotInStore,
     updateUser
 };
 export default Actions;

@@ -3,13 +3,14 @@ import React, {
 } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import HeroSelector from '../components/HeroSelector/HeroSelector';
-import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
+// import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
+import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Websocket from '../api/websocket';
 import store from '../model/store';
 import Model from '../model/model';
 import token from '../resources/token';
+const decode  = require('jwt-decode');
 
 export class FireTeam extends Component {
     constructor(props) {
@@ -19,6 +20,14 @@ export class FireTeam extends Component {
         };
 
         Model.initialize(this.state.websocket, store);
+
+        //TEMPORARY
+        const decodedToken = decode(token);
+        Model.updateUser({
+            battleNetId: decodedToken.battleNetId,
+            region: decodedToken.region,
+            platform: decodedToken.platform
+        });
     }
 
     componentWillUnmount() {
@@ -26,6 +35,9 @@ export class FireTeam extends Component {
     }
 
     render() {
+        const contentStyle = {
+            padding: '24px'
+        };
 
         return (
             <div className="App">
@@ -38,9 +50,9 @@ export class FireTeam extends Component {
                 />
                 <div className="flex">
                     <Sidebar/>
-                    <div className="flex flex-column">
-                        <HeroSelector />
-                        <HeroRolesContainer />
+                    <div className="flex flex-column" style={contentStyle}>
+                        <HeroSelectorCard/>
+                        {/*<HeroRolesContainer />*/}
                     </div>
                 </div>
             </div>

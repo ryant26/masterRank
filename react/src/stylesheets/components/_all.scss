@@ -1,10 +1,14 @@
 @import 'HeroImage/HeroImage';
+@import "HeroSelector/HeroButton/HeroButton";
+@import "HeroSelector/HeroSelectorCard";
 @import "Badge/Badge";
 @import 'Sidebar/Title/Title';
 @import 'Sidebar/PlayerCard/PlayerCard';
 @import 'Sidebar/PreferredHeroes/PreferredHeroes';
+@import "Sidebar/PreferredHeroes/PreferredHeroSelector/PreferredHeroSelector";
+@import "Sidebar/PreferredHeroes/HeroSlot/HeroSlot";
 @import "Sidebar/Invites/Invites";
 @import "Sidebar/sidebar-footer/sidebar-footer";
-@import "Sidebar/sidebar";
 @import 'Sidebar/Groups/GroupHeroCard/GroupHeroCard';
 @import 'Sidebar/Groups/GroupContainer/GroupContainer';
+@import "Sidebar/sidebar";

@@ -16,6 +16,7 @@ exports[`HeroCard Component should toggle the stats card on click 1`] = `
       <img
         alt="soldier76 icon"
         className="HeroImage"
+        onClick={undefined}
         src={
           Object {
             "process": [Function],
@@ -115,6 +116,7 @@ exports[`HeroCard Component should toggle the stats card on click 2`] = `
       <img
         alt="soldier76 icon"
         className="HeroImage"
+        onClick={undefined}
         src={
           Object {
             "process": [Function],
@@ -544,6 +546,7 @@ exports[`HeroCard Component should toggle the stats card on click 3`] = `
       <img
         alt="soldier76 icon"
         className="HeroImage"
+        onClick={undefined}
         src={
           Object {
             "process": [Function],

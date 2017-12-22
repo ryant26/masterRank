@@ -1,6 +1,7 @@
 import model from './model';
 import {createStore} from './store';
 import {clientEvents} from '../api/websocket';
+import {names} from '../resources/allHeroNames';
 const mockSocket = require('socket-io-mock');
 
 const token = {battleNetId: 'PwNShoPP', region: 'us', platform: 'pc'};
@@ -10,8 +11,8 @@ const initializeSocket = function() {
     return websocket;
 };
 
-let generateHero = function(heroName='hero', battleNetId=token.battleNetId) {
-    return {battleNetId, heroName};
+let generateHero = function(heroName='hero', battleNetId=token.battleNetId, preference=1) {
+    return {battleNetId, heroName, preference};
 };
 
 let generateInvite = function(id=1, groupLeader='PwNShoPP') {
@@ -46,12 +47,10 @@ describe('Model', () => {
             });
 
             it('should add heroes from the current user to the preferred heroes array', () => {
-                let heroArray = [
-                    generateHero('hero2')
-                ];
-                socket.socketClient.emit(clientEvents.initialData, heroArray);
+                let heroName = 'hero2';
+                socket.socketClient.emit(clientEvents.initialData, [generateHero(heroName)]);
 
-                expect(store.getState().preferredHeroes).toEqual(heroArray);
+                expect(store.getState().preferredHeroes.heroes).toEqual([heroName]);
             });
         });
 
@@ -72,7 +71,7 @@ describe('Model', () => {
             it('should add heroes from the current user to the preferred heroes array', function() {
                 let hero = generateHero();
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(store.getState().preferredHeroes).toEqual([hero]);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
             });
         });
 
@@ -97,17 +96,95 @@ describe('Model', () => {
         describe('addPreferredHero', function() {
             it('should add the new hero to the preferredHero and heroes array', function() {
                 let hero = generateHero();
-                model.addPreferredHero(hero);
-                expect(store.getState().preferredHeroes).toEqual([hero]);
-                expect(store.getState().heroes).toEqual([hero]);
+                model.addPreferredHero(hero.heroName, 1);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
+            });
+
+            it('should insert the hero into the correct position in the heroes array', function() {
+                let hero = generateHero('winston');
+                model.addPreferredHero(generateHero('genji').heroName, 1);
+                model.addPreferredHero(generateHero('tracer').heroName, 2);
+                model.addPreferredHero(generateHero('widowmaker').heroName, 3);
+
+                model.addPreferredHero(hero.heroName, 2);
+
+                expect(store.getState().preferredHeroes.heroes).toEqual(['genji', 'winston', 'widowmaker']);
             });
 
             it('should ignore duplicate heros', function() {
                 let hero = generateHero();
-                model.addPreferredHero(hero);
-                model.addPreferredHero(hero);
-                expect(store.getState().preferredHeroes).toEqual([hero]);
-                expect(store.getState().heroes).toEqual([hero]);
+                model.addPreferredHero(hero.heroName, 1);
+                model.addPreferredHero(hero.heroName, 2);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
+            });
+
+            it('should increment the selectedSlot', function() {
+                let hero = generateHero();
+                model.addPreferredHero(hero.heroName, 1);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
+                expect(store.getState().preferredHeroes.selectedSlot).toEqual(2);
+            });
+
+            it('should not increment the selectedSlot passed the maximum slots', function() {
+                let hero = generateHero('winston');
+                model.addPreferredHero(generateHero('genji').heroName, 1);
+                model.addPreferredHero(generateHero('tracer').heroName, 2);
+                model.addPreferredHero(generateHero('widowmaker').heroName, 3);
+                model.addPreferredHero(generateHero('soldier76').heroName, 4);
+
+                model.addPreferredHero(hero.heroName, 5);
+                expect(store.getState().preferredHeroes.selectedSlot).toEqual(5);
+            });
+
+            it('should not increment the selectedSlot when passed a duplicate hero', function() {
+                model.addPreferredHero(generateHero('genji').heroName, 1);
+                model.addPreferredHero(generateHero('genji').heroName, 2);
+
+                expect(store.getState().preferredHeroes.selectedSlot).toEqual(2);
+            });
+        });
+
+        describe('setSelectedSlotInStore', function() {
+            let setupStore = function(numHeroes) {
+                for (let i = 0; i < numHeroes; i++) {
+                    model.addPreferredHero(generateHero(`hero${i + 1}`), i + 1);
+                }
+            };
+
+            it('should select any slot for which a hero is chosen', function(done) {
+                let selectedSlot = 3;
+                setupStore(5);
+                model.setSelectedSlotInStore(selectedSlot);
+
+                expect(store.getState().preferredHeroes.selectedSlot).toEqual(selectedSlot);
+                done();
+            });
+
+            it('should choose the lowest empty slot when a higher slot is chosen', function(done) {
+                let selectedSlot = 4;
+                setupStore(2);
+                model.setSelectedSlotInStore(selectedSlot);
+
+                expect(store.getState().preferredHeroes.selectedSlot).toEqual(3);
+                done();
+            });
+        });
+
+        describe('addHeroFilter', function() {
+            it('should add the new filter to the filters array', function() {
+                let filter = names[0];
+                model.addHeroFilterToStore(filter);
+                expect(store.getState().heroFilters).toEqual([filter]);
+            });
+        });
+
+        describe('removeHeroFilter', function() {
+            it('should remove the filter from the filters array', function() {
+                let filter = names[0];
+                model.addHeroFilterToStore(filter);
+                model.addHeroFilterToStore(names[1]);
+                model.removeHeroFilterFromStore(filter);
+                expect(store.getState().heroFilters).toEqual([names[1]]);
             });
         });
 
