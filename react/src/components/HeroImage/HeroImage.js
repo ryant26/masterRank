@@ -10,11 +10,13 @@ export default class HeroImage extends Component {
       <img className="HeroImage"
         src={require(`../../assets/${this.props.heroName}-icon.png`)}
         alt = {this.props.heroName+' icon'}
+        onClick={this.props.onClick}
       />
     );
   }
 }
 
 HeroImage.propTypes = {
-  heroName: PropTypes.string.isRequired
+    heroName: PropTypes.string.isRequired,
+    onClick: PropTypes.func
 };

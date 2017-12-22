@@ -1,0 +1,19 @@
+$width: 43px;
+$height: 43px;
+
+.HeroSlot {
+  width: $width;
+  height: $height;
+  background-color: $gray1;
+  color: $gray2;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &.selected {@include selected}
+
+  .HeroImage {
+    height: $width;
+    width: $height;
+    border-radius: 3px;
+  }
+}

@@ -1,25 +1,32 @@
-.button-primary {
-  background-image: linear-gradient(-180deg, $blue2 0%, $blue3 100%);
+@mixin button($color1, $color2) {
+  background-image: linear-gradient(-180deg, $color1 0%, $color2 100%);
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
   border-radius: 3px;
+  border: none;
   color: white;
+  font: 400 14px 'Roboto', sans-serif;
   font-weight: bold;
   height: 34px;
   text-shadow: 0 1px 0 rgba(0,0,0,0.15);
   transform: skewX(-20deg);
-  width: 100%;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
+.button-primary {
+  @include button($blue2, $blue3);
+}
+
 .button-secondary {
-    background-image: linear-gradient(-180deg, $yellow2 0%, $yellow3 100%);
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    color: white;
-    font-weight: bold;
-    height: 34px;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
-    transform: skewX(-20deg);
+  @include button($yellow2, $yellow3);
+}
+
+.button-tertiary {
+  color: $gray1;
+  padding: 5px 10px;
+  & > * {
+    cursor: pointer;
+  }
 }
   
 .button-content {

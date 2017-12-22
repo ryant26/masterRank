@@ -1,8 +1,16 @@
 import * as PreferredHeroActionsTypes from '../actiontypes/preferredHeroes';
 
-export const addHero = (hero) => {
+export const addHero = (hero, preference) => {
   return {
     type: PreferredHeroActionsTypes.ADD_HERO,
-    hero
+    hero,
+    preference
   };
+};
+
+export const setSelectedSlot = (slot) => {
+    return {
+        type: PreferredHeroActionsTypes.SET_SELECTED_SLOT,
+        slot
+    };
 };
