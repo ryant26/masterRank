@@ -4,6 +4,7 @@ import PreferredHeroesReducer from '../reducers/PreferredHeroesReducer';
 import GroupInvitesReducer from '../reducers/GroupInvitesReducer';
 import UserReducer from '../reducers/UserReducer';
 import GroupReducer from '../reducers/GroupReducer';
+import HeroFiltersReducer from '../reducers/HeroFiltersReducer';
 
 
 export const createStore = function() {
@@ -12,7 +13,8 @@ export const createStore = function() {
         preferredHeroes: PreferredHeroesReducer,
         groupInvites: GroupInvitesReducer,
         user: UserReducer,
-        groupHeroes: GroupReducer
+        groupHeroes: GroupReducer,
+        heroFilters: HeroFiltersReducer
     }));
 
     return store;

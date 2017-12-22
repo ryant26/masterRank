@@ -1,13 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import SelectorButton from './SelectorButton';
-import HeroImage from '../HeroImage/HeroImage';
+import SelectorButton from './HeroButton';
+import HeroImage from '../../HeroImage/HeroImage';
 
-describe('SelectorButton Component',()=> {
+describe('HeroButton Component',()=> {
     it('should render without exploding', () => {
         const wrapper = mount(
-            <SelectorButton heroName="orisa"/>
+            <SelectorButton heroName="orisa" selected={false}/>
         );
 
         const SelectorButtonComponent = wrapper.find(SelectorButton);

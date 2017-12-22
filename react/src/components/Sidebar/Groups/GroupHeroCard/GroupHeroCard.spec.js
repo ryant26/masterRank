@@ -11,7 +11,7 @@ describe('Group Hero Card',()=> {
 
     it ('should render without exploding', () => {
         const wrapper = mount(
-            <GroupHeroCard hero={getHeroConfig()} number={'1'}/>
+            <GroupHeroCard hero={getHeroConfig()} number={'1'} name={'A Name'}/>
         );
 
         const GroupHeroCardComponent = wrapper.find(GroupHeroCard);

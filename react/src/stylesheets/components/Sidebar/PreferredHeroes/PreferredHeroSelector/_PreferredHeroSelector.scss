@@ -1,0 +1,43 @@
+$border: 1px solid $gray6;
+
+@mixin selected() {
+  border: 1px solid $blue4;
+  box-shadow: 0 0 8px 0 $blue4;
+}
+
+.PreferredHeroSelector {
+  .header {
+    padding: 18px 24px;
+    border-bottom: $border;
+  }
+
+  .hero-slots {
+    width: 250px;
+  }
+
+  .body {
+    padding: 12px;
+
+    .HeroImage {
+      height: 50px;
+      width: 50px;
+      border-radius: 3px;
+    }
+
+    .HeroButton {
+      &.selected {
+        @include selected;
+        margin: 9px;
+      }
+    }
+  }
+
+  .footer {
+    padding: 18px 24px;
+    border-top: $border;
+
+    & > div:first-child {
+      padding: 10px 20px;
+    }
+  }
+}

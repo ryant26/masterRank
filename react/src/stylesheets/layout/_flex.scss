@@ -25,3 +25,11 @@
 .justify-around {
   @include justify-content(space-around)
 }
+
+.justify-end {
+  @include justify-content(flex-end);
+}
+
+.wrap {
+  @include flex-wrap(wrap);
+}
