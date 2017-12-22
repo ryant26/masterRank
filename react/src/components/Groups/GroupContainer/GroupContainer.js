@@ -13,7 +13,7 @@ export class GroupContainer extends Component {
         this.state = { showing: false };
         this.createGroup = this.createGroup.bind(this);   
         this.leaveGroup = this.leaveGroup.bind(this);
-        this.group = this.props.group;
+        this.groupHeroes = this.props.groupHeroes;
         this.user = this.props.user;
     }
 
@@ -42,7 +42,7 @@ export class GroupContainer extends Component {
     render() {
         // todo: implement get current users preferred hero from socket
         const usersPreferredHero = HEROES[0];
-        const groupHeroCards = this.group.map((hero,i) => {
+        const groupHeroCards = this.groupHeroes.map((hero,i) => {
             i = i + 2;
             return <GroupHeroCard hero={hero} name={hero.platformDisplayName} number={i.toString()} key={i.toString()} />;
         });
@@ -78,13 +78,13 @@ export class GroupContainer extends Component {
 }
 
 GroupContainer.propTypes = {
-    user: PropTypes.object.isRequired,
-    group: PropTypes.array.isRequired
+    user: PropTypes.object,
+    groupHeroes: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => (
     {
-      group: state.group
+      groupHeroes: state.groupHeroes
     }
 );
 
