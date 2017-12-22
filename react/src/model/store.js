@@ -3,6 +3,7 @@ import HeroReducer from '../reducers/HeroReducer';
 import PreferredHeroesReducer from '../reducers/PreferredHeroesReducer';
 import GroupInvitesReducer from '../reducers/GroupInvitesReducer';
 import UserReducer from '../reducers/UserReducer';
+import GroupReducer from '../reducers/GroupReducer';
 
 
 export const createStore = function() {
@@ -10,7 +11,8 @@ export const createStore = function() {
         heroes: HeroReducer,
         preferredHeroes: PreferredHeroesReducer,
         groupInvites: GroupInvitesReducer,
-        user: UserReducer
+        user: UserReducer,
+        groupHeroes: GroupReducer
     }));
 
     return store;

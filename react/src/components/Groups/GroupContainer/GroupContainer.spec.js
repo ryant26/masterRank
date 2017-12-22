@@ -13,7 +13,7 @@ describe('Group Hero Container',()=> {
     let store;
 
     beforeEach(() => {
-        store = mockStore({group: GROUP});
+        store = mockStore({groupHeroes: GROUP});
     });
     
     it ('should render without exploding', () => {
