@@ -37,8 +37,8 @@ export default class Websocket {
         this.socket.close();
     }
 
-    addHero(hero, preference) {
-        this.emit(serverEvents.addHero, {hero, preference});
+    addHero(heroName, priority) {
+        this.emit(serverEvents.addHero, {heroName, priority});
     }
 
     on(event, cb) {
