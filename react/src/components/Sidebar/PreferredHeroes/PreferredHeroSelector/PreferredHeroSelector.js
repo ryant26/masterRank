@@ -104,8 +104,3 @@ const mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps)(PreferredHeroSelector);
-
-// TODO Clean up container structure of prefHeroContainer / HeroList
-// TODO Make API call to add pref hero
-// TODO - handle error
-// TODO - add unit tests

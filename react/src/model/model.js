@@ -1,6 +1,10 @@
 import {addGroupInvite} from "../actions/groupInvites";
 import {addHero as addHeroAction, addHeroes as addHeroesAction} from "../actions/hero";
-import {addHero as addPreferredHeroAction, setSelectedSlot as setSelectedSlotAction} from "../actions/preferredHeroes";
+import {
+    addHero as addPreferredHeroAction,
+    removeHero as removePreferredHeroAction,
+    setSelectedSlot as setSelectedSlotAction
+} from "../actions/preferredHeroes";
 import {updateUser as updateUserAction} from "../actions/user";
 import {addFilter as addFilterAction, removeFilter as removeFilterAction} from "../actions/heroFilters";
 import {clientEvents} from "../api/websocket";
@@ -14,6 +18,7 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.initialData, (players) => addHeroesToStore(players));
     socket.on(clientEvents.heroAdded, (hero) => addHeroToStore(hero));
+    socket.on(clientEvents.error.addHero, addHeroErrorHandler);
     socket.on(clientEvents.groupInviteReceived, (invite) => addInviteToStore(invite));
 };
 
@@ -24,6 +29,7 @@ const addHeroFilterToStore = function(filter) {
 const removeHeroFilterFromStore = function(filter) {
     store.dispatch(removeFilterAction(filter));
 };
+
 const addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.battleNetId === store.getState().user.battleNetId) {
@@ -44,6 +50,10 @@ const addPreferredHeroToStore = function(heroName, preference) {
     store.dispatch(addPreferredHeroAction(heroName, preference));
 };
 
+const removePreferredHeroFromStore = function(heroName) {
+    store.dispatch(removePreferredHeroAction(heroName));
+};
+
 const addInviteToStore = function(invite) {
     store.dispatch(addGroupInvite(invite));
 };
@@ -59,6 +69,12 @@ const setSelectedSlotInStore = function (slot) {
 
 const updateUser = function(user) {
     store.dispatch(updateUserAction(user));
+};
+
+const addHeroErrorHandler = function(err) {
+    removePreferredHeroFromStore(err.heroName);
+    // Do whatever we do to shuffle heroes in the case that multiple were added
+    // After this one
 };
 
 const Actions = {

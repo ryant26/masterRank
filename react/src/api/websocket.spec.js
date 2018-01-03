@@ -14,14 +14,14 @@ describe('Websocket API', () => {
 
     describe('addHero', () => {
         it('should emit the addHero event', (done) => {
-            let hero = {heroName: 'soldier76'};
+            let heroName = 'soldier76';
             let preference = 1;
             websocket.socket.emit = function(event, heroData) {
                 expect(event).toEqual('addHero');
-                expect(heroData).toEqual({hero, preference});
+                expect(heroData).toEqual({heroName, priority: preference});
                 done();
             };
-            websocket.addHero(hero, preference);
+            websocket.addHero(heroName, preference);
         });
     });
 });
