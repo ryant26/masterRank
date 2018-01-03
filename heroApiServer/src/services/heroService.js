@@ -90,7 +90,7 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         platformDisplayName: token.battleNetId,
         platform: token.platform,
         region: token.region,
-        skillRating: heroStats.skillRating,
+        skillRating: heroStats.skillRating ? heroStats.skillRating : 0,
         lastModified: new Date(),
         heroName,
         hoursPlayed: heroStats.game.time_played,
