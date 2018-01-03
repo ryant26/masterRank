@@ -10,4 +10,5 @@ module.exports = {
     invalidGroupId: 'Invalid group ID',
     invalidPriority: 'Invalid priority',
     malformedToken: 'Malformed Token',
+    errorAddingHero: 'Error adding hero'
 };
