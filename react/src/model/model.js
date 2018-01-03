@@ -34,7 +34,7 @@ const addHeroToStore = function(hero) {
 const addHeroesToStore = function(heroes) {
     store.dispatch(addHeroesAction(heroes));
     heroes.forEach((hero) => {
-        if (hero.battleNetId === store.getState().user.battleNetId) {
+        if (hero.platformDisplayName === store.getState().user.battleNetId) {
             addPreferredHeroToStore(hero.heroName, hero.preference);
         }
     });
