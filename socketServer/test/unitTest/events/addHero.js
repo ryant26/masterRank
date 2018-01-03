@@ -4,11 +4,11 @@ const randomString = require('randomstring');
 const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
 const CommonUtilities = require('../CommonUtilities');
+const mockingUtilities = require('../mockingUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
 
 let battleNetId;
 let commonUtilities = new CommonUtilities();
-
 // Start the Socket Server
 require('../../../src/app');
 
@@ -22,6 +22,7 @@ describe(serverEvents.addHero, function() {
 
     afterEach(function() {
         commonUtilities.closeOpenedSockets();
+        mockingUtilities.restoreAll();
     });
 
     it('should handle adding multiple heros for a single player', function(done) {
@@ -170,5 +171,18 @@ describe(serverEvents.addHero, function() {
         });
 
         socket.emit(serverEvents.addHero, null);
+    });
+
+    it('should return an error when the heroAPI throws an error', function(done) {
+        const heroName = 'genji';
+        mockingUtilities.makeHeroAPIReturnError('an error occured!!');
+
+        socket.on(clientEvents.error.addHero, (error) => {
+            assert.equal(error.err, exceptions.errorAddingHero);
+            assert.equal(error.heroName, heroName);
+            done();
+        });
+
+        socket.emit(serverEvents.addHero, {heroName: 'genji', priority: 1});
     });
 });

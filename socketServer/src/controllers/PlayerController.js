@@ -1,6 +1,9 @@
 const serverEvents = require('../socketEvents/serverEvents');
 const playerService = require('../services/playerService');
 const BaseController = require('./BaseController');
+const logger = require('../services/logger').sysLogger;
+const SocketError = require('../validators/exceptions/SocketError');
+const exceptions = require('../validators/exceptions/exceptions');
 
 /**
  * This module handles player API requests
@@ -21,7 +24,10 @@ module.exports = class PlayerController extends BaseController{
         });
 
         this.on(serverEvents.addHero, (data) => {
-            return playerService.addHeroByName(this.token, this.rank, this.namespace, data.eventData);
+            return playerService.addHeroByName(this.token, this.rank, this.namespace, data.eventData).catch((err) => {
+                logger.error(`Error adding hero ${data.eventData.heroName}: ${err}`);
+                throw new SocketError(exceptions.errorAddingHero, 'heroName', data.eventData.heroName);
+            });
         });
 
         this.on(serverEvents.removeHero, (data) => {
