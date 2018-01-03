@@ -4,7 +4,7 @@ import {clientEvents} from '../api/websocket';
 import {names} from '../resources/allHeroNames';
 const mockSocket = require('socket-io-mock');
 
-const token = {battleNetId: 'PwNShoPP', region: 'us', platform: 'pc'};
+const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
 const initializeSocket = function() {
     let websocket = new mockSocket();
     websocket.addHero = function() {}; //stub
@@ -72,6 +72,15 @@ describe('Model', () => {
                 let hero = generateHero();
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
+            });
+
+            it('should handle the error event for hero added', function() {
+                const hero = 'tracer';
+                model.addPreferredHero(hero, 1);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero]);
+
+                socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
+                expect(store.getState().preferredHeroes.heroes).toEqual([]);
             });
         });
 
