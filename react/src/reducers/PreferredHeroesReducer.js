@@ -8,8 +8,14 @@ const initialState = {
 const maxSlots = 5;
 
 const incrementSelectedSlot = (newState) => {
-    if (newState.selectedSlot <  maxSlots) {
+    if (newState.selectedSlot < maxSlots) {
         newState.selectedSlot++;
+    }
+};
+
+const decrementSelectedSlot = (newState) => {
+    if (newState.selectedSlot > 0) {
+        newState.selectedSlot--;
     }
 };
 
@@ -31,6 +37,18 @@ export default function PreferredHeroesReducer(state=initialState, action) {
             return newState;
         }
         return state;
+      case PreferredHeroActionTypes.REMOVE_HERO: {
+          let index = state.heroes.indexOf(action.hero);
+
+          if (index > -1) {
+              let newState = copyState(state);
+              newState.heroes.splice(index, 1);
+              decrementSelectedSlot(newState);
+
+              return newState;
+          }
+          return state;
+      }
     case PreferredHeroActionTypes.SET_SELECTED_SLOT: {
         let newState = copyState(state);
         let newSlot;

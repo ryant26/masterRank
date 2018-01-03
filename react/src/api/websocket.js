@@ -6,7 +6,10 @@ export const clientEvents = {
     initialData: 'initialData',
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
-    groupInviteReceived: 'groupInviteRecieved'
+    groupInviteReceived: 'groupInviteRecieved',
+    error: {
+        addHero: 'error.addHero'
+    }
 };
 
 const serverEvents = {
