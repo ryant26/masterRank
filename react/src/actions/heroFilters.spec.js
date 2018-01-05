@@ -1,13 +1,24 @@
-import * as GroupInvitesActionType from '../actiontypes/groupInvites';
-import * as GroupInviteActionCreators from './groupInvites';
-import Invite from '../resources/groupInvites';
+import * as heroFiltersActionType from '../actiontypes/heroFilters';
+import * as HeroFilterActionCreators from './heroFilters';
 
-describe('addHero', () => {
-  it ('should create the ADD_HERO action', () => {
-    expect(GroupInviteActionCreators.addGroupInvite(Invite))
+const tracerFilter = 'tracer';
+
+describe('addFilter', () => {
+  it ('should create the ADD_FILTER action', () => {
+    expect(HeroFilterActionCreators.addFilter(tracerFilter))
       .toEqual({
-        type: GroupInvitesActionType.ADD_GROUP_INVITE,
-        invite: Invite
+        type: heroFiltersActionType.ADD_FILTER,
+        heroName: tracerFilter
       });
   });
+});
+
+describe('removeFilter', () => {
+    it ('should create the REMOVE_FILTER action', () => {
+        expect(HeroFilterActionCreators.removeFilter(tracerFilter))
+            .toEqual({
+                type: heroFiltersActionType.REMOVE_FILTER,
+                heroName: tracerFilter
+            });
+    });
 });
