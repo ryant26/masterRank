@@ -4,7 +4,12 @@ const heroService = require('../../services/heroService');
 const stringValidator = require('../../validators/stringValidator').allValidators;
 const authenticationService = require('../../services/authenticationService');
 
-router.get('/heros/:heroName', authenticationService.authenticateWithToken, function(req, res, next) {
+router.use(authenticationService.authenticateWithToken);
+
+// router.get('', function(req, res, next) {
+// });
+
+router.get('/:heroName', function(req, res, next) {
     if(!stringValidator(req.query.platformDisplayName)
         || !stringValidator(req.query.region)
         || !stringValidator(req.query.platform)) {
@@ -16,7 +21,7 @@ router.get('/heros/:heroName', authenticationService.authenticateWithToken, func
     }
 });
 
-router.get('/heros/:heroName', function (req, res, next) {
+router.get('/:heroName', function (req, res, next) {
     return heroService.findAndUpdateOrCreateHero({
         battleNetId: req.query.platformDisplayName,
         region: req.query.region,
@@ -34,4 +39,7 @@ router.get('/heros/:heroName', function (req, res, next) {
     });
 });
 
-module.exports = router;
+module.exports = {
+    router,
+    path: 'heros'
+};
