@@ -25,6 +25,7 @@ let getHeroConfig = function (token, heroName) {
         hoursPlayed: 26,
         wins: 20,
         losses: 10,
+        gamesPlayed: 30,
         kdRatio: 2.33,
         pKdRatio: 0.8,
         accuracy: 21,
@@ -179,7 +180,6 @@ describe('heroService', function () {
                 assert.equal(hero.pDamagePerMin, 0.5);
                 assert.equal(hero.pAvgObjElims, 0.5);
                 assert.equal(hero.pAvgObjTime, 0.5);
-
             });
         });
 
@@ -225,6 +225,7 @@ describe('heroService', function () {
         });
 
         it('should update hero if it is more than 6 hours old', function () {
+            mockHelpers.stubOwGetPlayerStats(mockData.mockPlayer);
             let date = new Date();
             date.setHours(date.getHours() - 7);
 
@@ -232,21 +233,18 @@ describe('heroService', function () {
             heroConfig.lastModified = date;
 
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
-            }).then((heros) => {
-                assert.equal(heros[0].accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
-                assert.notEqual(heros[0].accuracy, heroConfig.accuracy);
-                assert.notEqual(heros[0].pAccuracy, heroConfig.pAccuracy);
+                return heroService.findHeroNamesWithGamesPlayed(token, gamesPlayed);
+            }).then((heroes) => {
+                assert.isAbove(heroes.length, 1);
             });
         });
 
         it('should not update players less than 6 hours old', function () {
             let heroConfig = getHeroConfig(token, heroName);
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
-            }).then((hero) => {
-                assert.equal(hero.accuracy, heroConfig.accuracy);
-                assert.notEqual(hero.accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
+                return heroService.findHeroNamesWithGamesPlayed(token, gamesPlayed);
+            }).then((heroes) => {
+                assert.equal(heroes.length, 1);
             });
         });
 
@@ -260,17 +258,17 @@ describe('heroService', function () {
             heroConfig.lastModified = date;
 
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
-            }).then((hero) => {
-                assert.equal(hero.accuracy, heroConfig.accuracy);
-                assert.notEqual(hero.accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
+                return heroService.findHeroNamesWithGamesPlayed(token, 25);
+            }).then((heroes) => {
+                assert.equal(heroes.length, 1);
+                assert.equal(heroes[0], heroConfig.heroName);
             });
         });
 
-        it('should return null if the battleNetId does not exist', function() {
+        it('should return empty array if the battleNetId does not exist', function() {
             mockHelpers.rejectOwGetPlayerStats();
-            return heroService.findAndUpdateOrCreateHero({battleNetId: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
-                assert.isNull(result);
+            return heroService.findHeroNamesWithGamesPlayed({battleNetId: 'doesntexist#1234', region: 'us', platform: 'pc'}, gamesPlayed).then((result) => {
+                assert.equal(result.length, 0);
             });
         });
     });

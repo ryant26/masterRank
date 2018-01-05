@@ -34,6 +34,7 @@ let HeroSchema = new Schema({
     hoursPlayed: requiredNumber(),
     wins: requiredNumber(),
     losses: requiredNumber(),
+    gamesPlayed: requiredNumber(),
     kdRatio: requiredNumber(),
     pKdRatio: requiredNumber(),
     accuracy: requiredNumber(),

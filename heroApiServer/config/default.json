@@ -7,6 +7,7 @@
   "db": "mongodb://localhost/heroapiserver",
   "loggingLevel": "combined",
   "reloadThreshold": 6,
+  "minimumGamesPlayed": 25,
   "logstash": {
     "host": "127.0.0.1",
     "systemPort": 28778,

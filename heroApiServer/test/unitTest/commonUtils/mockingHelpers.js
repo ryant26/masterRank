@@ -86,6 +86,7 @@ let getHeroConfig = function(platformDisplayName, heroName) {
         hoursPlayed: 26,
         wins: 10,
         losses: 1,
+        gamesPlayed: 26,
         kdRatio: 1,
         pKdRatio: 0.8,
         accuracy: 1,
