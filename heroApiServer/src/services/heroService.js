@@ -7,6 +7,10 @@ const config = require('config');
 
 const reloadThreshold = config.get('reloadThreshold');
 
+let findHeroNamesWithGamesPlayed = function(token, gamesPlayed) {
+    return [];
+};
+
 let findAndUpdateOrCreateHero = function(token, heroName) {
     return Hero.findOne(_getQueryCriteria(token, heroName)).then((result) => {
         if (!result) {
@@ -187,5 +191,6 @@ let _getPercentileKey = function(key) {
 
 
 module.exports = {
-    findAndUpdateOrCreateHero
+    findAndUpdateOrCreateHero,
+    findHeroNamesWithGamesPlayed
 };
