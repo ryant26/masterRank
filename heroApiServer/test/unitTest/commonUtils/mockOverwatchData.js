@@ -143,7 +143,7 @@ module.exports = {
                     },
                     game: {
                         time_played: 1,
-                        games_played: 5,
+                        games_played: 26,
                         games_won: 1,
                         games_lost: 1,
                         time_spent_on_fire: '01:35',
@@ -168,20 +168,66 @@ module.exports = {
                     },
                     combat: {
                         all_damage_done: 180,
-                        objective_kills: 3,
+                        objective_kills: 78,
                         eliminations: 3,
                         deaths: 1,
                         weapon_accuracy: 3,
-                        objective_time: '00:00:03',
+                        objective_time: '00:01:16',
                     },
                     game: {
                         time_played: 1,
-                        games_played: 1,
+                        games_played: 26,
                         games_won: 3,
                         games_lost: 3
                     },
                     assists: {
                         healing_done: 180
+                    }
+                },
+                tracer: {
+                    name: 'tracer',
+                    hero: {
+                        damage_blocked: 180
+                    },
+                    combat: {
+                        all_damage_done: 180,
+                        objective_kills: 78,
+                        eliminations: 3,
+                        deaths: 1,
+                        weapon_accuracy: 3,
+                        objective_time: '00:01:16',
+                    },
+                    game: {
+                        time_played: 1,
+                        games_played: 26,
+                        games_won: 3,
+                        games_lost: 3
+                    },
+                    assists: {
+                        healing_done: 180
+                    }
+                },
+                widowmaker: {
+                    name: 'widowmaker',
+                    hero: {
+                        damage_blocked: 0
+                    },
+                    combat: {
+                        all_damage_done: 0,
+                        objective_kills: 0,
+                        eliminations: 0,
+                        deaths: 0,
+                        weapon_accuracy: 0,
+                        objective_time: '00:01:16',
+                    },
+                    game: {
+                        time_played: 1,
+                        games_played: 0,
+                        games_won: 0,
+                        games_lost: 0
+                    },
+                    assists: {
+                        healing_done: 0
                     }
                 }
             }

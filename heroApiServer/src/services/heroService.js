@@ -6,17 +6,61 @@ const logger = require('./logger').sysLogger;
 const config = require('config');
 
 const reloadThreshold = config.get('reloadThreshold');
+const gamesPlayedThreshold = config.get('minimumGamesPlayed');
+
+
+let findHeroNamesWithGamesPlayed = function(token, gamesPlayed) {
+    let getHeroNames = function(array) {
+        return array.map((hero) => {
+            return hero.heroName;
+        });
+    };
+
+    let queryForQualifiedHeroes = function() {
+        return Hero.find(_getGamesPlayedQueryCriteria(token, gamesPlayed)).select('heroName lastModified');
+    };
+
+    return queryForQualifiedHeroes().then((result) => {
+        if (!result.length) {
+            return _updatePlayerHeroes(token).then(() => {
+                return queryForQualifiedHeroes();
+            }).then((heroes) => getHeroNames(heroes));
+        }
+
+        let outOfDate = false;
+        result.forEach((hero) => {
+            if (_isDateOlderThan(hero.lastModified, reloadThreshold)) {
+                outOfDate = true;
+            }
+        });
+
+        if (outOfDate) {
+            return _updatePlayerHeroes(token).then(() => queryForQualifiedHeroes()).then((updatedHeroes) => {
+                if (updatedHeroes.length) {
+                    return getHeroNames(updatedHeroes);
+                }
+            });
+        }
+
+        return getHeroNames(result);
+    });
+};
 
 let findAndUpdateOrCreateHero = function(token, heroName) {
-    return Hero.findOne(_getQueryCriteria(token, heroName)).then((result) => {
+    let queryForHero = function() {
+        return Hero.findOne(_getHeroNameQueryCriteria(token, heroName));
+    };
+
+    return queryForHero().then((result) => {
         if (!result) {
-            return _createHero(token, heroName);
+            return _updatePlayerHeroes(token).then(() => queryForHero());
         }
 
         if (_isDateOlderThan(result.lastModified, reloadThreshold)) {
-            return _updateHero(token, heroName, result).catch((err) => {
-                logger.error(`Found hero [${token.battleNetId}:${heroName}], but could not update: ${err.message}`);
-                return result;
+            return _updatePlayerHeroes(token).then(() => queryForHero()).then((hero) => {
+                if (hero) {
+                    return hero;
+                }
             });
         }
 
@@ -25,63 +69,84 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
 };
 
 
-let _updateHero = function(token, heroName, oldStats) {
-    return _getUpdatedHeroConfigObject(token, heroName).then((updatedInfo) => {
-        Object.keys(updatedInfo).forEach((key) => {
-            if (!updatedInfo[key] && oldStats[key]) {
-                _deleteStatAndPercentile(updatedInfo, key);
+let _updatePlayerHeroes = function(token) {
+    let getAllUserHeroes = function() {
+        return Hero.find(_getAllUserHeroesQueryCriteria(token));
+    };
+
+    let sanitizeNewData = function(newHero, oldHero) {
+        Object.keys(newHero).forEach((key) => {
+            if (!newHero[key] && oldHero[key]) {
+                newHero[key] = oldHero[key];
             }
         });
-        
-        return Hero.findOneAndUpdate(_getQueryCriteria(token, heroName), updatedInfo, {new: true});
+    };
+
+    return Promise.all([_getUpdatedHeroConfigObjects(token), getAllUserHeroes()]).then((promiseReturns) => {
+        let updatedInfo = promiseReturns[0].filter((hero) => hero !== null);
+        let oldData = promiseReturns[1];
+
+        let bulkOperations = updatedInfo.map((updatedHeroConfig) => {
+            if (oldData) {
+                let oldHeroConfig = oldData.find((hero) => hero.heroName === updatedHeroConfig.heroName);
+                if (oldHeroConfig) {
+                    sanitizeNewData(updatedHeroConfig, oldHeroConfig);
+                }
+            }
+
+            return {
+                updateOne: {
+                    filter: _getHeroNameQueryCriteria(token, updatedHeroConfig.heroName),
+                    update: updatedHeroConfig,
+                    upsert: true
+                }
+            };
+        });
+
+        return Hero.collection.bulkWrite(bulkOperations, {new: true});
+    }).catch((error) => {
+        logger.error(`Error updating heroes for ${token.battleNetId}: ${error}`);
+        return [];
     });
 };
 
-let _getQueryCriteria = function(token, heroName) {
+let _getHeroNameQueryCriteria = function(token, heroName) {
+    return Object.assign({}, _getAllUserHeroesQueryCriteria(token), {heroName});
+};
+
+let _getGamesPlayedQueryCriteria = function(token, gamesPlayed) {
+    return Object.assign({}, _getAllUserHeroesQueryCriteria(token), {gamesPlayed: {$gte: gamesPlayed}});
+};
+
+let _getAllUserHeroesQueryCriteria = function(token) {
     return {
         platformDisplayName: token.battleNetId,
         region: token.region,
         platform: token.platform,
-        heroName
     };
 };
 
+let _getUpdatedHeroConfigObjects = function(token) {
+    return _getCompetitveStatsFromOw(token).then(({heroes, skillRating}) => {
+        return Promise.all(Object.keys(heroes).map((heroName) => {
+            let nonNormalizingStats;
+            let statsToBeNormalized;
 
-let _createHero = function (token, heroName) {
-    return _getUpdatedHeroConfigObject(token, heroName).catch((err) => {
-        if (err.statusCode && err.statusCode === 404) {
-            logger.error(`Error creating hero [${token.battleNetId}:${heroName}]: could not be found`);
-            return null;
-        }
-    }).then((heroConfig) => {
-        if (heroConfig) {
-            return new Hero(heroConfig).save();
-        }
+            let heroStats = heroes[heroName];
+            heroStats.skillRating = skillRating;
 
-        return null;
-    }).catch((err) => {
-        logger.error(`Error saving new hero object: ${err.message}`);
-        return null;
-    });
-};
-
-let _getUpdatedHeroConfigObject = function(token, heroName) {
-    let nonNormalizingStats;
-    let statsToBeNormalized;
-
-
-    return _getCompetitveStatsFromOw(token).then((result) => {
-        let heroStats = result[heroName];
-        heroStats.skillRating = result.skillRating;
-
-        owValidators.heroValidator(heroStats);
-        nonNormalizingStats = _getStatsNotRequiringPercentiles(token, heroName, heroStats);
-        statsToBeNormalized = _getStatsRequiringPercentiles(heroStats);
-
-        return _getPercentiles(heroName, statsToBeNormalized);
-    }).then((percentiles) => {
-        Object.assign(nonNormalizingStats, statsToBeNormalized, percentiles);
-        return nonNormalizingStats;
+            owValidators.heroValidator(heroStats);
+            nonNormalizingStats = _getStatsNotRequiringPercentiles(token, heroName, heroStats);
+            if (nonNormalizingStats.gamesPlayed >= gamesPlayedThreshold) {
+                statsToBeNormalized = _getStatsRequiringPercentiles(heroStats);
+                return _getPercentiles(heroName, statsToBeNormalized).then((percentiles) => {
+                    Object.assign(nonNormalizingStats, statsToBeNormalized, percentiles);
+                    return nonNormalizingStats;
+                });
+            } else {
+                return Promise.resolve(null);
+            }
+        }));
     });
 };
 
@@ -95,7 +160,8 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         heroName,
         hoursPlayed: heroStats.game.time_played,
         wins: heroStats.game.games_won,
-        losses: heroStats.game.games_lost
+        losses: heroStats.game.games_lost,
+        gamesPlayed: heroStats.game.games_played
     };
 };
 
@@ -159,8 +225,12 @@ let _isDateOlderThan = function(date, hours) {
 
 let _getCompetitveStatsFromOw = function(token) {
     return _getPlayerStatsFromOw(token).then((stats) => {
-        let compStats = stats.competitive;
-        compStats.skillRating = stats.competitiveRank;
+        let compStats = {
+            heroes: stats.competitive,
+            skillRating: stats.competitiveRank
+        };
+
+        delete compStats.heroes.all;
 
         return compStats;
     });
@@ -172,20 +242,12 @@ let _getPlayerStatsFromOw = function(token) {
     });
 };
 
-let _deleteStatAndPercentile = function(obj, key) {
-    if (key.startsWith('p')) {
-        return;
-    }
-
-    delete obj[key];
-    return delete obj[_getPercentileKey(key)];
-};
-
 let _getPercentileKey = function(key) {
     return 'p' + key.charAt(0).toUpperCase() + key.slice(1);
 };
 
 
 module.exports = {
-    findAndUpdateOrCreateHero
+    findAndUpdateOrCreateHero,
+    findHeroNamesWithGamesPlayed
 };

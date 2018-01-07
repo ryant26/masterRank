@@ -23,8 +23,9 @@ let getHeroConfig = function (token, heroName) {
         region: token.region,
         heroName,
         hoursPlayed: 26,
-        wins: 10,
-        losses: 1,
+        wins: 20,
+        losses: 10,
+        gamesPlayed: 30,
         kdRatio: 2.33,
         pKdRatio: 0.8,
         accuracy: 21,
@@ -179,7 +180,6 @@ describe('heroService', function () {
                 assert.equal(hero.pDamagePerMin, 0.5);
                 assert.equal(hero.pAvgObjElims, 0.5);
                 assert.equal(hero.pAvgObjTime, 0.5);
-
             });
         });
 
@@ -193,6 +193,82 @@ describe('heroService', function () {
             mockHelpers.stubOwGetPlayerStats(mockData.mockPlayerMissingHeroAttributes);
             return heroService.findAndUpdateOrCreateHero(token, heroName).then((hero) => {
                 assert.isNull(hero);
+            });
+        });
+    });
+
+    describe('findHeroNamesWithGamesPlayed', function() {
+        const gamesPlayed = 25;
+
+        it('should create players that are valid but do not exist', function () {
+            return queryForHero(token, heroName).then((result) => {
+                assert.isNull(result);
+            }).then(() => {
+                return heroService.findHeroNamesWithGamesPlayed(token, gamesPlayed);
+            }).then((heros) => {
+                assert.isArray(heros);
+            }).then(() => {
+                return queryForHero(token, heroName);
+            }).then((player) => {
+                assert.equal(player.platformDisplayName, token.battleNetId);
+            });
+        });
+
+        it('should find players that already exist', function () {
+            let createdHero;
+            return new Hero(getHeroConfig(token, heroName)).save().then((hero) => {
+                createdHero = hero;
+                return heroService.findHeroNamesWithGamesPlayed(token, gamesPlayed);
+            }).then((heros) => {
+                assert.equal(heros[0], createdHero.heroName);
+            });
+        });
+
+        it('should update hero if it is more than 6 hours old', function () {
+            mockHelpers.stubOwGetPlayerStats(mockData.mockPlayer);
+            let date = new Date();
+            date.setHours(date.getHours() - 7);
+
+            let heroConfig = getHeroConfig(token, heroName);
+            heroConfig.lastModified = date;
+
+            return new Hero(heroConfig).save().then(() => {
+                return heroService.findHeroNamesWithGamesPlayed(token, gamesPlayed);
+            }).then((heroes) => {
+                assert.isAbove(heroes.length, 1);
+            });
+        });
+
+        it('should not update players less than 6 hours old', function () {
+            let heroConfig = getHeroConfig(token, heroName);
+            return new Hero(heroConfig).save().then(() => {
+                return heroService.findHeroNamesWithGamesPlayed(token, gamesPlayed);
+            }).then((heroes) => {
+                assert.equal(heroes.length, 1);
+            });
+        });
+
+        it('should return the outdated hero if api unreachable', function() {
+            mockHelpers.rejectOwGetPlayerStats();
+
+            let date = new Date();
+            date.setHours(date.getHours() - 7);
+
+            let heroConfig = getHeroConfig(token, heroName);
+            heroConfig.lastModified = date;
+
+            return new Hero(heroConfig).save().then(() => {
+                return heroService.findHeroNamesWithGamesPlayed(token, 25);
+            }).then((heroes) => {
+                assert.equal(heroes.length, 1);
+                assert.equal(heroes[0], heroConfig.heroName);
+            });
+        });
+
+        it('should return empty array if the battleNetId does not exist', function() {
+            mockHelpers.rejectOwGetPlayerStats();
+            return heroService.findHeroNamesWithGamesPlayed({battleNetId: 'doesntexist#1234', region: 'us', platform: 'pc'}, gamesPlayed).then((result) => {
+                assert.equal(result.length, 0);
             });
         });
     });

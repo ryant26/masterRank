@@ -44,7 +44,6 @@ describe('Hero Tests', function() {
         });
 
         it('should return a hero on valid request', function () {
-
             return chai.request(server)
                 .get(`/api/heros/${heroName}`)
                 .set('authorization', authHeader)
@@ -54,6 +53,48 @@ describe('Hero Tests', function() {
                     assert.equal(result.body.platform, platform);
                     assert.equal(result.body.region, region);
                     assert.equal(result.body.platformDisplayName, platformDisplayName);
+                });
+        });
+    });
+
+    describe('/heros?lowerLimitGamesPlayed=1&filter=heroName', function() {
+        const filter = 'heroName';
+        const lowerLimitGamesPlayed = 1;
+
+        it('should return 401 if no token is in req', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .query({filter})
+                .then(() => {
+                    throw new Error('Should have been UNAUTHORIZED');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.message, 'Unauthorized');
+                });
+        });
+
+        it('should have status of 400 when all query params are not supplied', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .then(() => {
+                    throw new Error('Should have been BAD REQUEST');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 400);
+                    assert.equal(err.response.body.message, 'Missing or malformed query parameter');
+                });
+        });
+
+        it('should return a hero on valid request', function () {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .query({filter, lowerLimitGamesPlayed, platformDisplayName, region, platform})
+                .then((result) => {
+                    assert.isArray(result.body);
+                    assert.isAtLeast(result.body.length, 1);
                 });
         });
     });

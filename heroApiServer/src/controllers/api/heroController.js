@@ -4,7 +4,17 @@ const heroService = require('../../services/heroService');
 const stringValidator = require('../../validators/stringValidator').allValidators;
 const authenticationService = require('../../services/authenticationService');
 
-router.get('/heros/:heroName', authenticationService.authenticateWithToken, function(req, res, next) {
+const getTokenFromQueryParams = function(req) {
+    return {
+        battleNetId: req.query.platformDisplayName,
+        region: req.query.region,
+        platform: req.query.platform
+    };
+};
+
+router.use(authenticationService.authenticateWithToken);
+
+router.use(function(req, res, next) {
     if(!stringValidator(req.query.platformDisplayName)
         || !stringValidator(req.query.region)
         || !stringValidator(req.query.platform)) {
@@ -16,12 +26,23 @@ router.get('/heros/:heroName', authenticationService.authenticateWithToken, func
     }
 });
 
-router.get('/heros/:heroName', function (req, res, next) {
-    return heroService.findAndUpdateOrCreateHero({
-        battleNetId: req.query.platformDisplayName,
-        region: req.query.region,
-        platform: req.query.platform
-    }, req.params.heroName).then((player) => {
+router.get('', function(req, res, next) {
+    let lowerLimit = parseInt(req.query.lowerLimitGamesPlayed);
+    let filter = req.query.filter;
+    if (lowerLimit > 0 && filter === 'heroName') {
+        return heroService.findHeroNamesWithGamesPlayed(getTokenFromQueryParams(req), lowerLimit).then((result) => {
+            res.json(result);
+        });
+    } else {
+        let error = new Error('Missing / malformed limit or filter query parameter');
+        error.status = 400;
+        next(error);
+    }
+});
+
+
+router.get('/:heroName', function (req, res, next) {
+    return heroService.findAndUpdateOrCreateHero(getTokenFromQueryParams(req), req.params.heroName).then((player) => {
         if(player === null) {
             let error = new Error('Hero could not be found');
             error.status = 404;
@@ -34,4 +55,7 @@ router.get('/heros/:heroName', function (req, res, next) {
     });
 });
 
-module.exports = router;
+module.exports = {
+    router,
+    path: 'heros'
+};
