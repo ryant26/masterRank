@@ -57,9 +57,9 @@ describe('Hero Tests', function() {
         });
     });
 
-    describe('/heros?lowerLimitGamesPlayed=25&filter=heroName', function() {
-        const filter = 'qualified';
-        const lowerLimitGamesPlayed = 25;
+    describe('/heros?lowerLimitGamesPlayed=1&filter=heroName', function() {
+        const filter = 'heroName';
+        const lowerLimitGamesPlayed = 1;
 
         it('should return 401 if no token is in req', function() {
             return chai.request(server)
@@ -91,10 +91,10 @@ describe('Hero Tests', function() {
             return chai.request(server)
                 .get('/api/heros')
                 .set('authorization', authHeader)
-                .query({filter, lowerLimitGamesPlayed})
+                .query({filter, lowerLimitGamesPlayed, platformDisplayName, region, platform})
                 .then((result) => {
                     assert.isArray(result.body);
-                    assert.isAtLeast(result.body.length, 3);
+                    assert.isAtLeast(result.body.length, 1);
                 });
         });
     });
