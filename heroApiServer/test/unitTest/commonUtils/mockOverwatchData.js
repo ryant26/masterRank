@@ -206,6 +206,29 @@ module.exports = {
                     assists: {
                         healing_done: 180
                     }
+                },
+                widowmaker: {
+                    name: 'widowmaker',
+                    hero: {
+                        damage_blocked: 0
+                    },
+                    combat: {
+                        all_damage_done: 0,
+                        objective_kills: 0,
+                        eliminations: 0,
+                        deaths: 0,
+                        weapon_accuracy: 0,
+                        objective_time: '00:01:16',
+                    },
+                    game: {
+                        time_played: 1,
+                        games_played: 0,
+                        games_won: 0,
+                        games_lost: 0
+                    },
+                    assists: {
+                        healing_done: 0
+                    }
                 }
             }
         }
