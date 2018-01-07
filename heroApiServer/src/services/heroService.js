@@ -83,7 +83,7 @@ let _updatePlayerHeroes = function(token) {
     };
 
     return Promise.all([_getUpdatedHeroConfigObjects(token), getAllUserHeroes()]).then((promiseReturns) => {
-        let updatedInfo = promiseReturns[0];
+        let updatedInfo = promiseReturns[0].filter((hero) => hero !== null);
         let oldData = promiseReturns[1];
 
         let bulkOperations = updatedInfo.map((updatedHeroConfig) => {
