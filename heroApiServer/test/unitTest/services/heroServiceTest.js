@@ -135,6 +135,24 @@ describe('heroService', function () {
             });
         });
 
+        it('should update the last modified date of all heroes regardless of data change', function() {
+            let date = new Date();
+            date.setHours(date.getHours() - 2);
+
+            let myHero = 'notActuallyAHero';
+            let heroConfig = getHeroConfig(token, myHero);
+            heroConfig.lastModified = date;
+
+            return new Hero(heroConfig).save().then(() => {
+                return heroService.findAndUpdateOrCreateHero(token, heroName);
+            }).then(() => {
+                return queryForHero(token, myHero);
+            }).then((hero) => {
+                let dateDifference = new Date(hero.lastModified).getHours() - date.getHours();
+                assert.equal(dateDifference, 2);
+            });
+        });
+
         it('should return the outdated hero if api unreachable', function() {
             mockHelpers.rejectOwGetPlayerStats();
 
