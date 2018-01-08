@@ -8,44 +8,6 @@ const config = require('config');
 const reloadThreshold = config.get('reloadThreshold');
 const gamesPlayedThreshold = config.get('minimumGamesPlayed');
 
-
-let findHeroNamesWithGamesPlayed = function(token, gamesPlayed) {
-    let getHeroNames = function(array) {
-        return array.map((hero) => {
-            return hero.heroName;
-        });
-    };
-
-    let queryForQualifiedHeroes = function() {
-        return Hero.find(_getGamesPlayedQueryCriteria(token, gamesPlayed)).select('heroName lastModified');
-    };
-
-    return queryForQualifiedHeroes().then((result) => {
-        if (!result.length) {
-            return _updatePlayerHeroes(token).then(() => {
-                return queryForQualifiedHeroes();
-            }).then((heroes) => getHeroNames(heroes));
-        }
-
-        let outOfDate = false;
-        result.forEach((hero) => {
-            if (_isDateOlderThan(hero.lastModified, reloadThreshold)) {
-                outOfDate = true;
-            }
-        });
-
-        if (outOfDate) {
-            return _updatePlayerHeroes(token).then(() => queryForQualifiedHeroes()).then((updatedHeroes) => {
-                if (updatedHeroes.length) {
-                    return getHeroNames(updatedHeroes);
-                }
-            });
-        }
-
-        return getHeroNames(result);
-    });
-};
-
 let findAndUpdateOrCreateHero = function(token, heroName) {
     let queryForHero = function() {
         return Hero.findOne(_getHeroNameQueryCriteria(token, heroName));
@@ -112,10 +74,6 @@ let _updatePlayerHeroes = function(token) {
 
 let _getHeroNameQueryCriteria = function(token, heroName) {
     return Object.assign({}, _getAllUserHeroesQueryCriteria(token), {heroName});
-};
-
-let _getGamesPlayedQueryCriteria = function(token, gamesPlayed) {
-    return Object.assign({}, _getAllUserHeroesQueryCriteria(token), {gamesPlayed: {$gte: gamesPlayed}});
 };
 
 let _getAllUserHeroesQueryCriteria = function(token) {
@@ -248,6 +206,5 @@ let _getPercentileKey = function(key) {
 
 
 module.exports = {
-    findAndUpdateOrCreateHero,
-    findHeroNamesWithGamesPlayed
+    findAndUpdateOrCreateHero
 };
