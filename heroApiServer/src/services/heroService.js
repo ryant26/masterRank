@@ -65,7 +65,18 @@ let _updatePlayerHeroes = function(token) {
             };
         });
 
+        bulkOperations.push({
+            updateMany: {
+                filter: _getAllUserHeroesQueryCriteria(token),
+                update: { $set: {lastModified: new Date()} }
+            }
+        });
+
         return Hero.collection.bulkWrite(bulkOperations, {new: true});
+    }).then((queryResult) => {
+        queryResult.getWriteErrors().forEach((error) => {
+            logger.error(`Error updating heroes for ${token.battleNetId}: ${error}`);
+        });
     }).catch((error) => {
         logger.error(`Error updating heroes for ${token.battleNetId}: ${error}`);
         return [];
