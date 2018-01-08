@@ -26,21 +26,6 @@ router.use(function(req, res, next) {
     }
 });
 
-router.get('', function(req, res, next) {
-    let lowerLimit = parseInt(req.query.lowerLimitGamesPlayed);
-    let filter = req.query.filter;
-    if (lowerLimit > 0 && filter === 'heroName') {
-        return heroService.findHeroNamesWithGamesPlayed(getTokenFromQueryParams(req), lowerLimit).then((result) => {
-            res.json(result);
-        });
-    } else {
-        let error = new Error('Missing / malformed limit or filter query parameter');
-        error.status = 400;
-        next(error);
-    }
-});
-
-
 router.get('/:heroName', function (req, res, next) {
     return heroService.findAndUpdateOrCreateHero(getTokenFromQueryParams(req), req.params.heroName).then((player) => {
         if(player === null) {
