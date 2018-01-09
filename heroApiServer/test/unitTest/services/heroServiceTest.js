@@ -83,7 +83,8 @@ describe('heroService', function () {
                 createdHero = hero;
                 return heroService.findAndUpdateOrCreateHero(token, heroName);
             }).then((hero) => {
-                assert(hero._id.equals(createdHero._id));
+                assert.equal(hero.heroName, createdHero.heroName);
+                assert.equal(hero.platformDisplayName, createdHero.platformDisplayName);
             });
         });
 

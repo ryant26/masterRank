@@ -1,8 +1,9 @@
 import model from './model';
 import {createStore} from './store';
 import {clientEvents} from '../api/websocket';
-import {names} from '../resources/allHeroNames';
 const mockSocket = require('socket-io-mock');
+const names = require('../../../shared/allHeroNames').names;
+
 
 const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
 const initializeSocket = function() {
