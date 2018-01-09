@@ -1,102 +1,138 @@
-const GROUP = [
-    {
-      "_id": 12,
-      "platformDisplayName": "PwNShoPP#1662",
-      "platform": "pc",
-      "region": "us",
-      "lastModified": "2017-10-28T06:08:42.474Z",
-      "heroName": "soldier76",
-      "hoursPlayed": 4,
-      "wins": 10,
-      "losses": 1,
-      "kdRatio": 3.26,
-      "accuracy": 43,
-      "blockedPerMin": 0,
-      "healingPerMin": 0,
-      "damagePerMin": 1305.59,
-      "avgObjElims": 9.16,
-      "avgObjTime": 53.32,
-      "pKdRatio": 0.75,
-      "pAccuracy": 0.60,
-      "pBlockedPerMin": 0,
-      "pHealingPerMin": 0.25,
-      "pDamagePerMin": 0.9,
-      "pAvgObjElims": 0.5,
-      "pAvgObjTime": 0.65,
-    }, 
-    {
-      "_id": 12,
-      "platformDisplayName": "santa#1662",
-      "platform": "pc",
-      "region": "us",
-      "lastModified": "2017-10-28T06:08:42.474Z",
-      "heroName": "dva",
-      "wins": 10,
-      "losses": 1,
-      "kdRatio": 3.26,
-      "hoursPlayed": 4,
-      "accuracy": 43,
-      "blockedPerMin": 0,
-      "healingPerMin": 0,
-      "damagePerMin": 1305.59,
-      "avgObjElims": 9.16,
-      "avgObjTime": 53.32,
-      "pKdRatio": 0.75,
-      "pAccuracy": 0.60,
-      "pBlockedPerMin": 0,
-      "pHealingPerMin": 0.25,
-      "pDamagePerMin": 0.9,
-      "pAvgObjElims": 0.5,
-      "pAvgObjTime": 0.65,  },
-    {
-      "_id": 12,
-      "platformDisplayName": "rustyK#1662",
-      "platform": "pc",
-      "region": "us",
-      "lastModified": "2017-10-28T06:08:42.474Z",
-      "heroName": "hanzo",
-      "wins": 10,
-      "losses": 1,
-      "kdRatio": 3.26,
-      "hoursPlayed": 4,
-      "accuracy": 43,
-      "blockedPerMin": 0,
-      "healingPerMin": 0,
-      "damagePerMin": 1305.59,
-      "avgObjElims": 9.16,
-      "avgObjTime": 53.32,
-      "pKdRatio": 0.75,
-      "pAccuracy": 0.60,
-      "pBlockedPerMin": 0,
-      "pHealingPerMin": 0.25,
-      "pDamagePerMin": 0.9,
-      "pAvgObjElims": 0.5,
-      "pAvgObjTime": 0.65,  },
-    {
-      "_id": 12,
-      "platformDisplayName": "wisesm0#1147",
-      "platform": "pc",
-      "region": "us",
-      "lastModified": "2017-10-28T06:08:42.474Z",
-      "heroName": "zenyatta",
-      "wins": 10,
-      "losses": 1,
-      "kdRatio": 3.26,
-      "hoursPlayed": 4,
-      "accuracy": 43,
-      "blockedPerMin": 0,
-      "healingPerMin": 0,
-      "damagePerMin": 1305.59,
-      "avgObjElims": 9.16,
-      "avgObjTime": 53.32,
-      "pKdRatio": 0.75,
-      "pAccuracy": 0.60,
-      "pBlockedPerMin": 0,
-      "pHealingPerMin": 0.25,
-      "pDamagePerMin": 0.9,
-      "pAvgObjElims": 0.5,
-      "pAvgObjTime": 0.65,  },
-  ];
-  
-  export default GROUP;
-  
+const group = [
+  {
+    groupId: 10,
+    groupSize: 4,
+    inviteDate: new Date(),
+    leader: {
+      platformDisplayName: "scott1",
+      hero: {
+        name: "genji",
+        stats: {}
+      }
+    },
+    members: [
+      {
+        platformDisplayName: "wismo0#1234",
+        leader: false,
+        hero: {
+          name: "widowMaker",
+          stats: {}
+        }
+      }
+    ],
+    pending: [
+      {
+        platformDisplayName: "besast#1234",
+        leader: false,
+        hero: {
+          name: "tracer",
+          stats: {}
+        }
+      }
+    ]
+  },
+  {
+    groupId: 8,
+    groupSize: 3,
+    inviteDate: new Date(),
+    leader: {
+      platformDisplayName: "luckbomb#1234",
+        hero: {
+        name: "genji",
+          stats: {}
+      }
+    },
+    members: [],
+    pending: [
+      {
+        platformDisplayName: "andyLin#1234",
+        leader: true,
+        hero: {
+          name: "trancer",
+          stats: {}
+        }
+      }
+    ]
+  },
+  {
+    groupId: 2,
+    groupSize: 4,
+    inviteDate: new Date(),
+    leader: {
+      platformDisplayName: "luckbomb#1234",
+      hero: {
+        name: "doomfist",
+        stats: {}
+      }
+    },
+    members: [
+      {
+        platformDisplayName: "wismo0#1234",
+        leader: true,
+        hero: {
+          name: "soldier76",
+          stats: {}
+        }
+      }
+    ],
+    pending: [
+      {
+        platformDisplayName: "andyLin#1234",
+        leader: true,
+        hero: {
+          name: "winston",
+          stats: {}
+        }
+      }
+    ]
+  },
+  {
+    groupId: 11,
+    groupSize: 4,
+    inviteDate: new Date(),
+    leader: {
+      platformDisplayName: "luckbomb#1234",
+      hero: {
+        name: "genji",
+        stats: {}
+      }
+    },
+    members: [],
+    pending: [
+      {
+        platformDisplayName: "scott1",
+        leader: false,
+        hero: {
+          name: "tracer",
+          stats: {}
+        }
+      },
+      {
+        platformDisplayName: "james#1234",
+        leader: false,
+        hero: {
+          name: "tracer",
+          stats: {}
+        }
+      },
+      {
+        platformDisplayName: "andyLin#1234",
+        leader: false,
+        hero: {
+          name: "tracer",
+          stats: {}
+        }
+      },
+      {
+        platformDisplayName: "killah#1234",
+        leader: false,
+        hero: {
+          name: "tracer",
+          stats: {}
+        }
+      }
+    ]
+  }
+];
+
+export default group;

@@ -18,12 +18,23 @@ describe('Group Hero Card',()=> {
         expect(GroupHeroCardComponent).toBeTruthy();
     });
 
-    it ('should render "You" as the group hero with value 1', () => {
-        const wrapper = mount(
-            <GroupHeroCard hero={getHeroConfig()} name={'You'} number={'1'}/>
-        );
+    xit('should render leader if user is marked true for leader flag', () => {
+        // we are going to change this styling
+    });
 
-        const GroupHeroCardComponent = wrapper.find(GroupHeroCard);
-        expect(GroupHeroCardComponent.text()).toBe('1You');
+    xit('should render pending if user is marked true for pending flag', () => {
+        // we are going to change this styling
+    });
+
+    xit('should render hero name and platform display name', () => {
+        
+    });
+
+    xit('should render you as username when you is passed as the userName', () => {
+
+    });
+
+    xit('should render your number based on the order you are listed', () => {
+
     });
 });

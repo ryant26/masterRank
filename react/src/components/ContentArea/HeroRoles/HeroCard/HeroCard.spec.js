@@ -51,4 +51,8 @@ describe('HeroCard Component',()=> {
 
         expect(wrapper.find('.invitable').length).toBe(1);
     });
+    
+    xit('should fire invite player event when the + is clicked', () => {
+             
+    });
 });

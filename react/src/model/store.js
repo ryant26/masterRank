@@ -11,9 +11,9 @@ export const createStore = function() {
     store = createReduxStore(combineReducers({
         heroes: HeroReducer,
         preferredHeroes: PreferredHeroesReducer,
-        groupInvites: GroupInvitesReducer,
         user: UserReducer,
-        groupHeroes: GroupReducer,
+        group: GroupReducer,
+        groupInvites: GroupInvitesReducer,        
         heroFilters: HeroFiltersReducer
     }));
 
