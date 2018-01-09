@@ -28,7 +28,6 @@ let HeroSchema = new Schema({
     platformDisplayName: requiredString(),
     platform: requiredString(),
     region: requiredString(),
-    skillRating: requiredNumber(),
     lastModified: requiredDate(),
     heroName: requiredString(),
     hoursPlayed: requiredNumber(),

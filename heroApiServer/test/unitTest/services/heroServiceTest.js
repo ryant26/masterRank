@@ -201,12 +201,6 @@ describe('heroService', function () {
             });
         });
 
-        it('should return the SR in every hero request', function() {
-            return heroService.findAndUpdateOrCreateHero(token, heroName).then((result) => {
-                assert.equal(result.skillRating, mockData.playerStats.stats.competitiveRank);
-            });
-        });
-
         it('should handle malformed reply from ow API', function () {
             mockHelpers.stubOwGetPlayerStats(mockData.mockPlayerMissingHeroAttributes);
             return heroService.findAndUpdateOrCreateHero(token, heroName).then((hero) => {
