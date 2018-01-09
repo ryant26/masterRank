@@ -10,7 +10,7 @@ const gamesPlayedThreshold = config.get('minimumGamesPlayed');
 
 let findAndUpdateOrCreateHero = function(token, heroName) {
     let queryForHero = function() {
-        return Hero.findOne(_getHeroNameQueryCriteria(token, heroName));
+        return Hero.findOne(_getHeroNameQueryCriteria(token, heroName), '-_id');
     };
 
     return queryForHero().then((result) => {
@@ -124,7 +124,6 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         platformDisplayName: token.battleNetId,
         platform: token.platform,
         region: token.region,
-        skillRating: heroStats.skillRating ? heroStats.skillRating : 0,
         lastModified: new Date(),
         heroName,
         hoursPlayed: heroStats.game.time_played,
