@@ -1,1 +1,0 @@
-export const ADD_GROUP_HERO = 'groupHeroes/ADD_GROUP_HERO';
