@@ -1,12 +1,16 @@
-import * as GroupHeroActionTypes from '../actiontypes/groupHeroes';
-import GROUP from '../resources/group';
+import * as GroupHeroActionTypes from '../actiontypes/group';
 
-const initialState = [...GROUP];
+const initialState = {
+    groupId: null,
+    members: [],
+    pending: []
+};
+
 
 export default function GroupReducer(state=initialState, action) {
     switch(action.type) {
-        case GroupHeroActionTypes.ADD_GROUP_HERO:
-            return [...state, action.groupHero];
+        case GroupHeroActionTypes.UPDATE_GROUP:
+            return action.updatedGroupData;
         default:
             return state;
     }

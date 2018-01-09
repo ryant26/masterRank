@@ -17,7 +17,7 @@ const Sidebar = () => {
                 <PlayerCard user={users.users[0]}/>
                 <PreferredHeroes/>
                 <Invites/>
-                <Group group={users.users[0]}/>
+                <Group />
             </div>
             <div className="footer">
                 <SidebarFooter/>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Group Hero Container should render a group leader as first member which is you 1`] = `
+exports[`Group Hero Container should not render leave group when you are the leader 1`] = `
 <div
   className="GroupContainer sidebar-card flex flex-column"
 >
@@ -9,21 +9,423 @@ exports[`Group Hero Container should render a group leader as first member which
   >
     Your Group
   </div>
-  <button
-    className="button-primary"
-    onClick={[Function]}
-  >
+  <div>
     <div
-      className="button-content"
+      className="GroupHeroCard flex align-center"
     >
-      Create Group
+      <div
+        className="numberBox flex align-center sidebar-title numbers"
+      >
+        1
+      </div>
+      <img
+        alt="undefined icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+      <div
+        className="imageStylePadding"
+      >
+        <div
+          className="flex justify-between"
+        >
+          You - Leader
+        </div>
+        <div
+          className="inLine1"
+        >
+          <div />
+        </div>
+      </div>
     </div>
-  </button>
-  <i
-    className="leaveText"
-    onClick={[Function]}
+    <div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          2
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            wismo0#1234
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          3
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            besast#1234 - Pending
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <br />
+      <button
+        className="button-four flex align-center justify-center"
+      >
+        <div
+          className="button-content"
+        >
+          Team Stats
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Group Hero Container should render a group leader as first member 1`] = `
+<div
+  className="GroupContainer sidebar-card flex flex-column"
+>
+  <div
+    className="sidebar-title"
   >
-    leave group
-  </i>
+    Your Group
+  </div>
+  <div>
+    <div
+      className="GroupHeroCard flex align-center"
+    >
+      <div
+        className="numberBox flex align-center sidebar-title numbers"
+      >
+        1
+      </div>
+      <img
+        alt="undefined icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+      <div
+        className="imageStylePadding"
+      >
+        <div
+          className="flex justify-between"
+        >
+          luckbomb#1234 - Leader
+        </div>
+        <div
+          className="inLine1"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          2
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            andyLin#1234 - Pending
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <br />
+      <button
+        className="button-four flex align-center justify-center"
+      >
+        <div
+          className="button-content"
+        >
+          Team Stats
+        </div>
+      </button>
+    </div>
+    <br />
+    <div
+      className="flex justify-center"
+    >
+      <i
+        className="leaveText"
+        onClick={[Function]}
+      >
+        leave group
+      </i>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Group Hero Container should render four pending members plus you and the leader 1`] = `
+<div
+  className="GroupContainer sidebar-card flex flex-column"
+>
+  <div
+    className="sidebar-title"
+  >
+    Your Group
+  </div>
+  <div>
+    <div
+      className="GroupHeroCard flex align-center"
+    >
+      <div
+        className="numberBox flex align-center sidebar-title numbers"
+      >
+        1
+      </div>
+      <img
+        alt="undefined icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+      <div
+        className="imageStylePadding"
+      >
+        <div
+          className="flex justify-between"
+        >
+          luckbomb#1234 - Leader
+        </div>
+        <div
+          className="inLine1"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          2
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            You - Pending
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          3
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            james#1234 - Pending
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          4
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            andyLin#1234 - Pending
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <div
+        className="GroupHeroCard flex align-center"
+      >
+        <div
+          className="numberBox flex align-center sidebar-title numbers"
+        >
+          5
+        </div>
+        <img
+          alt="undefined icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="imageStylePadding"
+        >
+          <div
+            className="flex justify-between"
+          >
+            killah#1234 - Pending
+          </div>
+          <div
+            className="inLine1"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+      <br />
+      <button
+        className="button-four flex align-center justify-center"
+      >
+        <div
+          className="button-content"
+        >
+          Team Stats
+        </div>
+      </button>
+    </div>
+    <br />
+    <div
+      className="flex justify-center"
+    >
+      <i
+        className="leaveText"
+        onClick={[Function]}
+      >
+        leave group
+      </i>
+    </div>
+  </div>
 </div>
 `;
