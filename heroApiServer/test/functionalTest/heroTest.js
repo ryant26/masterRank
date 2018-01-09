@@ -50,9 +50,20 @@ describe('Hero Tests', function() {
                 .query({platformDisplayName, region,  platform})
                 .then((result) => {
                     assert.equal(result.body.heroName, heroName);
-                    assert.equal(result.body.platform, platform);
-                    assert.equal(result.body.region, region);
-                    assert.equal(result.body.platformDisplayName, platformDisplayName);
+                    assert.equal(result.body.battleNetId, platformDisplayName);
+                    assert.isObject(result.body.stats);
+                });
+        });
+
+        it('should return a null stats field when stats are unavailable', function () {
+            return chai.request(server)
+                .get('/api/heros/doomfist')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform})
+                .then((result) => {
+                    assert.equal(result.body.heroName, 'doomfist');
+                    assert.equal(result.body.battleNetId, platformDisplayName);
+                    assert.isNull(result.body.stats);
                 });
         });
     });
