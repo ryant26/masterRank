@@ -5,7 +5,7 @@ let ow = require('oversmash').default({
 let getPlayerDetails = function(token) {
     return ow.player(token.platformDisplayName).then((result) => {
         return result.accounts.find((element) => element.platform === token.platform
-            && element.platformDisplayName === token.platformDisplayName);
+            && element.displayName === token.platformDisplayName);
     });
 };
 
