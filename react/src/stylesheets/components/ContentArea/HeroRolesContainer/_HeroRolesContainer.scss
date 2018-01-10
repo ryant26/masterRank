@@ -1,0 +1,7 @@
+.HeroRolesContainer {
+  flex: 1;
+
+  & > div {
+    max-width: 24%;
+  }
+}

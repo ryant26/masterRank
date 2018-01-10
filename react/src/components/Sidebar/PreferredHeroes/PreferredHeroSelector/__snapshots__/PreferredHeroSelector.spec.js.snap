@@ -108,52 +108,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="ana icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="bastion icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
           alt="doomfist icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="dva icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -183,97 +138,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="hanzo icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="junkrat icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="lucio icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
           alt="mccree icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="mei icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="mercy icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="orisa icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -318,36 +183,6 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="reinhardt icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="roadhog icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
           alt="soldier76 icon"
           className="HeroImage"
           onClick={undefined}
@@ -378,7 +213,67 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="symmetra icon"
+          alt="tracer icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="bastion icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="hanzo icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="junkrat icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="mei icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -408,7 +303,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="tracer icon"
+          alt="widowmaker icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -423,7 +318,52 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="widowmaker icon"
+          alt="dva icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="orisa icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="reinhardt icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="roadhog icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -454,6 +394,81 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
       >
         <img
           alt="zarya icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="ana icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="lucio icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="mercy icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="moira icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="symmetra icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -570,52 +585,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
         onClick={[Function]}
       >
         <img
-          alt="ana icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="bastion icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
           alt="doomfist icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="dva icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -645,97 +615,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
         onClick={[Function]}
       >
         <img
-          alt="hanzo icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="junkrat icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="lucio icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
           alt="mccree icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="mei icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="mercy icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="orisa icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -780,36 +660,6 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
         onClick={[Function]}
       >
         <img
-          alt="reinhardt icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
-          alt="roadhog icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroButton"
-        onClick={[Function]}
-      >
-        <img
           alt="soldier76 icon"
           className="HeroImage"
           onClick={undefined}
@@ -840,7 +690,67 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
         onClick={[Function]}
       >
         <img
-          alt="symmetra icon"
+          alt="tracer icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="bastion icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="hanzo icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="junkrat icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="mei icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -870,7 +780,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
         onClick={[Function]}
       >
         <img
-          alt="tracer icon"
+          alt="widowmaker icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -885,7 +795,52 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
         onClick={[Function]}
       >
         <img
-          alt="widowmaker icon"
+          alt="dva icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="orisa icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="reinhardt icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="roadhog icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -916,6 +871,81 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
       >
         <img
           alt="zarya icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="ana icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="lucio icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="mercy icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="moira icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="symmetra icon"
           className="HeroImage"
           onClick={undefined}
           src={

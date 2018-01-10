@@ -1,0 +1,795 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroSelector Component should render with the correct format with selected heroes 1`] = `
+<div
+  className="HeroSelector flex wrap"
+>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="doomfist icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="genji icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="mccree icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="pharah icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="reaper icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="sombra icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="tracer icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="bastion icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="hanzo icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="junkrat icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="mei icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="torbjorn icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="widowmaker icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="dva icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="orisa icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="reinhardt icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="roadhog icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="winston icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="zarya icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton selected"
+    onClick={[Function]}
+  >
+    <img
+      alt="ana icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="lucio icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="mercy icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="moira icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="symmetra icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="zenyatta icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`HeroSelector Component should render with the correct format without any selected heroes 1`] = `
+<div
+  className="HeroSelector flex wrap"
+>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="doomfist icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="genji icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="mccree icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="pharah icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="reaper icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="sombra icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="tracer icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="bastion icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="hanzo icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="junkrat icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="mei icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="torbjorn icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="widowmaker icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="dva icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="orisa icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="reinhardt icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="roadhog icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="winston icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="zarya icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="ana icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="lucio icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="mercy icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="moira icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="symmetra icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="HeroButton"
+    onClick={[Function]}
+  >
+    <img
+      alt="zenyatta icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+  </div>
+</div>
+`;
