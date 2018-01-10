@@ -1,31 +1,52 @@
+const offensive = [
+    'doomfist',
+    'genji',
+    'mccree',
+    'pharah',
+    'reaper',
+    'soldier76',
+    'sombra',
+    'tracer'
+];
+
+const defensive = [
+    'bastion',
+    'hanzo',
+    'junkrat',
+    'mei',
+    'torbjorn',
+    'widowmaker'
+];
+
+const tank = [
+    'dva',
+    'orisa',
+    'reinhardt',
+    'roadhog',
+    'winston',
+    'zarya'
+];
+
+const support = [
+    'ana',
+    'lucio',
+    'mercy',
+    'moira',
+    'symmetra',
+    'zenyatta'
+];
+
 const names = [
-  'ana',
-  'bastion',
-  'doomfist',
-  'dva',
-  'genji',
-  'hanzo',
-  'junkrat',
-  'lucio',
-  'mccree',
-  'mei',
-  'mercy',
-  'orisa',
-  'pharah',
-  'reaper',
-  'reinhardt',
-  'roadhog',
-  'soldier76',
-  'sombra',
-  'symmetra',
-  'torbjorn',
-  'tracer',
-  'widowmaker',
-  'winston',
-  'zarya',
-  'zenyatta'
+    ...offensive,
+    ...defensive,
+    ...tank,
+    ...support
 ];
 
 module.exports = {
-  names
+    names,
+    offensive,
+    defensive,
+    tank,
+    support
 };

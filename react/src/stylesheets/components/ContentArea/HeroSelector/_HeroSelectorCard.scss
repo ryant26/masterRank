@@ -1,0 +1,18 @@
+.HeroSelectorCard {
+  .HeroSelector {
+    .HeroButton {
+      &::after {
+        content: '';
+        display: block;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        background-color: $transparentGray1;
+      }
+
+      &.selected:after {
+        display: none;
+      }
+    }
+  }
+}

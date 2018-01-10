@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import HeroImage from '../../HeroImage/HeroImage';
 import AddHeroIcon from './AddHeroIcon';
-import Modal from 'react-modal';
-import ModalContent from './PreferredHeroSelector/PreferredHeroSelector';
+import Modal from '../../Modal/Modal';
+import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
 import Model from '../../../model/model';
@@ -63,22 +63,8 @@ class PreferredHeroesContainer extends Component {
                 <div className="flex justify-between">
                     {heroThumbnails}
                 </div>
-                <Modal
-                    isOpen={this.state.modalOpen}
-                    onRequestClose={this.closeModal}
-                    ariaHideApp={false}
-                    className={{
-                        base: 'Hero-selector-modal',
-                        afterOpen: 'Hero-selector-modal-open',
-                        beforeClose: 'Hero-selector-modal-before-close'
-                    }}
-                    overlayClassName={{
-                        base: 'Hero-selector-overlay',
-                        afterOpen: 'Hero-selector-overlay-open',
-                        beforeClose: 'Hero-selector-overlay-before-close'
-                    }}
-                >
-                    <ModalContent changeSelectedHeroSlot={Model.setSelectedSlotInStore} done={this.closeModal}/>
+                <Modal closeModal={this.closeModal} modalOpen={this.state.modalOpen}>
+                    <PreferredHeroSelector changeSelectedHeroSlot={Model.setSelectedSlotInStore} done={this.closeModal}/>
                 </Modal>
             </div>
         );
