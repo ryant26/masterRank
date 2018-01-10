@@ -3,9 +3,8 @@ import React, {
 } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-// import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
-import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
+import ContentArea from '../components/ContentArea/ContentArea';
 import Websocket from '../api/websocket';
 import store from '../model/store';
 import Model from '../model/model';
@@ -35,12 +34,8 @@ export class FireTeam extends Component {
     }
 
     render() {
-        const contentStyle = {
-            padding: '24px'
-        };
-
         return (
-            <div className="App">
+            <div className="App flex stretch">
                 <Helmet
                 link={[
                   {
@@ -48,13 +43,8 @@ export class FireTeam extends Component {
                   }
                 ]}
                 />
-                <div className="flex">
-                    <Sidebar/>
-                    <div className="flex flex-column" style={contentStyle}>
-                        <HeroSelectorCard/>
-                        {/*<HeroRolesContainer />*/}
-                    </div>
-                </div>
+                <Sidebar/>
+                <ContentArea/>
             </div>
         );
     }
