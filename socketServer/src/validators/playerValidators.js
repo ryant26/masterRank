@@ -9,16 +9,16 @@ let heroExists = function(playerHeros, hero) {
     });
 
     if (!heroStats) {
-        logger.error(`Hero ${hero.battleNetId}:${hero.heroName} does not exist`);
+        logger.error(`Hero ${hero.platformDisplayName}:${hero.heroName} does not exist`);
         throw new SocketError(exceptions.heroNotFound, 'hero', hero);
     }
 };
 
 let validHeroObject = function (hero) {
-    if (hero.battleNetId
+    if (hero.platformDisplayName
         && hero.heroName
-        && typeof hero.battleNetId === 'string'
-        && hero.battleNetId.length > 0) {
+        && typeof hero.platformDisplayName === 'string'
+        && hero.platformDisplayName.length > 0) {
         return validateHeroName(hero.heroName);
     }
     logger.error(`Received malformed hero object [${hero}]`);

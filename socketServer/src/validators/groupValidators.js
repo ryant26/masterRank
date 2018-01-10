@@ -6,11 +6,11 @@ const SocketError = require('./exceptions/SocketError');
  * This function checks if the passed ID is in the pending members list of the passed group details
  * object. Throws an exception if not found.
  * @param details - group details
- * @param id - battleNetIdToTest
+ * @param id - platformDisplayNameToTest
  */
 let idInPending = function (details, id) {
     let found = details.pending.find((element) => {
-        return element.battleNetId === id;
+        return element.platformDisplayName === id;
     });
 
     if (!found) {
@@ -22,10 +22,10 @@ let idInPending = function (details, id) {
 /**
  * This function checks that the passed id is the leader of the passed group details object
  * @param details - group details
- * @param id - battleNetId
+ * @param id - platformDisplayName
  */
 let idIsLeader = function (details, id) {
-    if (details.leader.battleNetId !== id) {
+    if (details.leader.platformDisplayName !== id) {
         logger.error(`${id} is not the leader of group ${details.groupId}`);
         throw new SocketError(exceptions.unauthorized, 'groupId', details.groupId);
     }
@@ -37,8 +37,8 @@ let idIsLeader = function (details, id) {
  * @param id
  */
 let idIsLeaderOrMember = function(details, id) {
-    if (details.leader.battleNetId !== id &&
-        !details.members.find((element) => { return element.battleNetId === id;})) {
+    if (details.leader.platformDisplayName !== id &&
+        !details.members.find((element) => { return element.platformDisplayName === id;})) {
         throw new SocketError(exceptions.userNotInGroup, 'groupId', details.groupId);
     }
 };

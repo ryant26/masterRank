@@ -29,87 +29,91 @@ describe(serverEvents.groupInviteAccept, function() {
 
     it('should inform everyone that a new member was added', function(done) {
         let invitedHero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
+        commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us).then((data) => {
+            let socket2 = data.socket;
 
-        socket.on(clientEvents.heroAdded, () => {
-            socket.emit(serverEvents.groupInviteSend, invitedHero);
-        });
+            socket.on(clientEvents.heroAdded, () => {
+                socket.emit(serverEvents.groupInviteSend, invitedHero);
+            });
 
-        socket2.on(clientEvents.initialData, () => {
+            socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
+                socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+            });
+
+            socket.on(clientEvents.groupInviteAccepted, (groupDetails) => {
+                assert.equal(groupDetails.leader.platformDisplayName, leaderHero.platformDisplayName);
+                assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
+                assert.lengthOf(groupDetails.pending, 0);
+                assert.lengthOf(groupDetails.members, 1);
+                assert.equal(groupDetails.members[0].heroName, invitedHero.heroName);
+                assert.equal(groupDetails.members[0].platformDisplayName, invitedHero.platformDisplayName);
+                done();
+            });
+
             socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
-        });
-
-        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
-            socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
-        });
-
-        socket.on(clientEvents.groupInviteAccepted, (groupDetails) => {
-            assert.equal(groupDetails.leader.battleNetId, leaderHero.battleNetId);
-            assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
-            assert.lengthOf(groupDetails.pending, 0);
-            assert.lengthOf(groupDetails.members, 1);
-            assert.equal(groupDetails.members[0].heroName, invitedHero.heroName);
-            assert.equal(groupDetails.members[0].battleNetId, invitedHero.battleNetId);
-            done();
         });
     });
 
     it('should only allow people in group pending to accept invites', function(done) {
         let invitedHero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
-
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
-        let socket3 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
-
-        socket2.on(clientEvents.initialData, () => {
-            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
-        });
 
         socket.on(clientEvents.heroAdded, () => {
             socket.emit(serverEvents.groupInviteSend, invitedHero);
         });
 
-        // Make the uninvited socket accept the invite
-        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
-            socket3.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
-        });
+        Promise.all([
+            commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us),
+            commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us)
+        ]).then((sockets) => {
+            let socket2 = sockets[0].socket;
+            let socket3 = sockets[1].socket;
 
-        socket3.on(clientEvents.error.groupInviteAccept, (error) => {
-            assert.equal(error.err, 'Hero not invited to group');
-            done();
+            // Make the uninvited socket accept the invite
+            socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
+                socket3.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+            });
+
+            socket3.on(clientEvents.error.groupInviteAccept, (error) => {
+                assert.equal(error.err, 'Hero not invited to group');
+                done();
+            });
+
+            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
+
         });
     });
 
     it('should fire the heroRemoved event to the rank', function(done) {
         let invitedHero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
         socket.on(clientEvents.heroRemoved, (hero) => {
             assert.equal(hero.heroName, invitedHero.heroName);
-            assert.equal(hero.battleNetId, invitedHero.battleNetId);
+            assert.equal(hero.platformDisplayName, invitedHero.platformDisplayName);
             done();
         });
 
-        let socket2 = commonUtilities.getAuthenticatedSocket(invitedHero.battleNetId, commonUtilities.regions.us);
+        commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us).then((data) => {
+            let socket2 = data.socket;
 
-        socket2.on(clientEvents.initialData, () => {
+            socket.on(clientEvents.heroAdded, () => {
+                socket.emit(serverEvents.groupInviteSend, invitedHero);
+            });
+
+            socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
+                socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+            });
+
             socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
-        });
-
-        socket.on(clientEvents.heroAdded, () => {
-            socket.emit(serverEvents.groupInviteSend, invitedHero);
-        });
-
-        socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
-            socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
         });
     });
 

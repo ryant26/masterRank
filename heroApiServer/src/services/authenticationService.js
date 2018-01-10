@@ -12,7 +12,7 @@ let serializeUser = function(req, res, next) {
 };
 
 let generateToken = function(req, res, next) {
-    req.token = tokenService.getToken(req.user.battleNetId, req.user.region, req.user.platform);
+    req.token = tokenService.getToken(req.user.platformDisplayName, req.user.region, req.user.platform);
     next();
 };
 

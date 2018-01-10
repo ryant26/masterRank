@@ -32,7 +32,7 @@ const removeHeroFilterFromStore = function(filter) {
 
 const addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
-    if (hero.battleNetId === store.getState().user.battleNetId) {
+    if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
         addPreferredHeroToStore(hero.heroName, hero.preference);
     }
 };
@@ -40,7 +40,7 @@ const addHeroToStore = function(hero) {
 const addHeroesToStore = function(heroes) {
     store.dispatch(addHeroesAction(heroes));
     heroes.forEach((hero) => {
-        if (hero.platformDisplayName === store.getState().user.battleNetId) {
+        if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
             addPreferredHeroToStore(hero.heroName, hero.preference);
         }
     });

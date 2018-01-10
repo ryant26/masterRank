@@ -89,7 +89,7 @@ module.exports = class BaseController {
                 }).then(() => {
                     return this.eventEmitter.emitAsync(this._getAfterEvent(event), data);
                 }).catch((error) => {
-                    logger.error(`Error handling socket event [${event}] for user [${this.token.battleNetId}]: ${error}`);
+                    logger.error(`Error handling socket event [${event}] for user [${this.token.platformDisplayName}]: ${error}`);
                     if (clientEvents.error[event]) {
                         let errorInfo = {
                             err: error.message

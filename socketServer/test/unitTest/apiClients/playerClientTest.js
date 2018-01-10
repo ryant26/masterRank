@@ -1,7 +1,7 @@
 const assert = require('chai').assert;
 const playerClient = require('../../../src/apiClients/PlayerClient');
 const nock = require('nock');
-const battleNetId = 'luckybomb#1470';
+const platformDisplayName = 'luckybomb#1470';
 const region = 'us';
 const platform = 'pc';
 const config = require('config');
@@ -14,7 +14,7 @@ describe('PlayerClient', function() {
     let setPlayerResponse = function(response) {
         nock(playerUrl)
             .get(findPlayerPath)
-            .query({platformDisplayName: battleNetId, region, platform})
+            .query({platformDisplayName: platformDisplayName, region, platform})
             .reply(200, response);
     };
 
@@ -33,7 +33,7 @@ describe('PlayerClient', function() {
         describe('rank', function() {
             let testRank = function(skillRating, rank) {
                 setPlayerResponse({skillRating});
-                return playerClient.getPlayerRank(battleNetId, region, platform).then((result) => {
+                return playerClient.getPlayerRank(platformDisplayName, region, platform).then((result) => {
                     assert.equal(result.rank, rank);
                 });
             };

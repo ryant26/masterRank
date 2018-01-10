@@ -20,8 +20,8 @@ let createNewGroup = function (token, socket, namespace, hero) {
     return RedisClient.createNewGroup().then((id) => {
         groupId = id;
         addSocketToGroupRoom(groupId, socket);
-        logger.info(`${token.battleNetId} created new group ${id}`);
-        return PlayerClient.getHeroStats(token.battleNetId, token.region, token.platform, hero.heroName);
+        logger.info(`${token.platformDisplayName} created new group ${id}`);
+        return PlayerClient.getHeroStats(token.platformDisplayName, token.region, token.platform, hero.heroName);
     }).then((heroStats) => {
         return _setNewGroupLeader(groupId, namespace, heroStats);
     }).then(() => {
@@ -37,7 +37,7 @@ let createNewGroup = function (token, socket, namespace, hero) {
  * @param token
  */
 let getGroupId = function(token) {
-    return RedisClient.getGroupId(token.battleNetId, token.platform);
+    return RedisClient.getGroupId(token.platformDisplayName, token.platform);
 };
 
 /**
@@ -46,7 +46,7 @@ let getGroupId = function(token) {
  * @param groupId
  */
 let setGroupId = function(token, groupId) {
-    return RedisClient.setGroupId(token.battleNetId, token.platform, groupId);
+    return RedisClient.setGroupId(token.platformDisplayName, token.platform, groupId);
 };
 
 /**
@@ -54,7 +54,7 @@ let setGroupId = function(token, groupId) {
  * @param token
  */
 let deleteGroupId = function(token) {
-    return RedisClient.deleteGroupId(token.battleNetId, token.platform);
+    return RedisClient.deleteGroupId(token.platformDisplayName, token.platform);
 };
 
 /**
@@ -68,8 +68,8 @@ let deleteGroupId = function(token) {
  * @returns {Promise}
  */
 let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
-    return RedisClient.getPlayerHeros(hero.battleNetId, token.platform).then((heros) => {
-        logger.info(`Invited hero ${hero.battleNetId}:${hero.heroName} to group ${groupId}`);
+    return RedisClient.getPlayerHeros(hero.platformDisplayName, token.platform).then((heros) => {
+        logger.info(`Invited hero ${hero.platformDisplayName}:${hero.heroName} to group ${groupId}`);
 
         let heroStats = heros.find((element) => {
             return element.heroName === hero.heroName;
@@ -79,10 +79,10 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((groupDetails) => {
-        socket.to(getPlayerRoom({battleNetId: hero.battleNetId, platform: token.platform})).emit(clientEvents.groupInviteReceived, groupDetails);
+        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: token.platform})).emit(clientEvents.groupInviteReceived, groupDetails);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInvited, groupDetails);
     }).catch((err) => {
-        logger.error(`Problem inviting ${hero.battleNetId}:${hero.heroName} to group ${groupId}: ${err}`);
+        logger.error(`Problem inviting ${hero.platformDisplayName}:${hero.heroName} to group ${groupId}: ${err}`);
         throw err;
     });
 };
@@ -98,10 +98,10 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
  */
 let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        logger.info(`Canceling hero ${hero.battleNetId}'s invite to group ${groupId}`);
+        logger.info(`Canceling hero ${hero.platformDisplayName}'s invite to group ${groupId}`);
 
         let heroStats = details.pending.find((element) => {
-            return element.battleNetId === hero.battleNetId;
+            return element.platformDisplayName === hero.platformDisplayName;
         });
 
         return RedisClient.removeHeroFromGroupPending(groupId, heroStats);
@@ -111,7 +111,7 @@ let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
         socket.to(getPlayerRoom(hero)).emit(clientEvents.groupInviteCanceled, details);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteCanceled, details);
     }).catch((err) => {
-        logger.error(`Problem trying to cancel invite to ${hero.battleNetId} for group ${groupId}: ${err}`);
+        logger.error(`Problem trying to cancel invite to ${hero.platformDisplayName} for group ${groupId}: ${err}`);
         throw err;
     });
 };
@@ -132,7 +132,7 @@ let acceptGroupInvite = function (token, groupId, socket, namespace) {
     }).then((details) => {
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteAccepted, details);
     }).catch((err) => {
-        logger.error(`${token.battleNetId} encountered a problem accepting invite to ${groupId}: ${err}`);
+        logger.error(`${token.platformDisplayName} encountered a problem accepting invite to ${groupId}: ${err}`);
         throw err;
     });
 };
@@ -149,7 +149,7 @@ let removePlayerFromGroup = function (token, groupId, socket, namespace) {
     return _removePlayerFromGroupWithRetry(token, groupId, socket, namespace, 5).then(() => {
         socket.leave(getGroupRoom(groupId));
     }).catch((err) => {
-        logger.error(`Encountered a problem removing player [${token.battleNetId}] from group [${groupId}]: ${err}`);
+        logger.error(`Encountered a problem removing player [${token.platformDisplayName}] from group [${groupId}]: ${err}`);
         throw err;
     });
 };
@@ -157,7 +157,7 @@ let removePlayerFromGroup = function (token, groupId, socket, namespace) {
 /**
  * This function removes a hero from the group pending list of the passed groupId.
  * Fires the events: groupInviteDeclined, error.groupInviteDecline
- * @param battleNetId
+ * @param platformDisplayName
  * @param groupId
  * @param socket
  * @param namespace
@@ -165,14 +165,14 @@ let removePlayerFromGroup = function (token, groupId, socket, namespace) {
  */
 let declineGroupInvite = function (token, groupId, socket, namespace) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        let hero = getHeroFromListById(details.pending, token.battleNetId);
+        let hero = getHeroFromListById(details.pending, token.platformDisplayName);
         return RedisClient.removeHeroFromGroupPending(groupId, hero);
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteDeclined, details);
     }).catch((err) => {
-        logger.error(`Encountered a problem removing player [${token.battleNetId}] from group [${groupId}]: ${err}`);
+        logger.error(`Encountered a problem removing player [${token.platformDisplayName}] from group [${groupId}]: ${err}`);
         throw err;
     });
 };
@@ -212,7 +212,7 @@ let _setNewGroupLeader = function(groupId, namespace, hero) {
 let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespace, retriesRemaining) {
     return new Promise((resolve, reject) => {
         RedisClient.getGroupDetails(groupId).then((groupDetails) => {
-            if (groupDetails.leader.battleNetId === token.battleNetId) {
+            if (groupDetails.leader.platformDisplayName === token.platformDisplayName) {
                 if (groupDetails.members.length > 0) {
                     _replaceGroupLeaderWithMember(groupId, namespace).then(() => {
                         resolve();
@@ -227,7 +227,7 @@ let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespac
                     resolve(_deleteGroup(groupId, namespace));
                 }
             } else {
-                let hero = getHeroFromListById(groupDetails.members, token.battleNetId);
+                let hero = getHeroFromListById(groupDetails.members, token.platformDisplayName);
                 resolve(_removeHeroFromMembers(groupId, namespace, hero));
             }
         });
@@ -246,7 +246,7 @@ let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespac
 let _acceptGroupInviteWithRetry = function (token, groupId, retriesRemaining) {
     return new Promise((resolve, reject) => {
         RedisClient.getGroupDetails(groupId).then((details) => {
-            let hero = getHeroFromListById(details.pending, token.battleNetId);
+            let hero = getHeroFromListById(details.pending, token.platformDisplayName);
             if(!hero) reject(exceptions.heroNotInvitedToGroup);
             return  RedisClient.moveHeroFromPendingToMembers(groupId, hero);
         }).then(() => {
@@ -346,18 +346,18 @@ let addSocketToPlayerRoom = function (token, socket) {
 
 let getHeroFromListById = function(list, id) {
     return list.find((element) => {
-        return element.battleNetId === id;
+        return element.platformDisplayName === id;
     });
 };
 
 let getGroupMemberHeroById = function(token, groupId) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
-        return getHeroFromListById(details.members, token.battleNetId);
+        return getHeroFromListById(details.members, token.platformDisplayName);
     });
 };
 
 let getPlayerRoom = function(token) {
-    return `player.${token.battleNetId}.${token.platform}`;
+    return `player.${token.platformDisplayName}.${token.platform}`;
 };
 
 let getGroupRoom = function(groupId) {

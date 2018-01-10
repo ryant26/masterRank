@@ -12,11 +12,11 @@ let out  = {
     mockPlayerApi: function() {
         owPlayerApi = ow.getPlayerRank;
 
-        ow.getPlayerRank = function(battleNetId, region, platform) {
+        ow.getPlayerRank = function(platformDisplayName, region, platform) {
             let rank = 'diamond';
 
-            if(battleNetId === 'goldPlayer#1234') rank = 'gold';
-            if(battleNetId === 'silverPlayer#1234') rank = 'silver';
+            if(platformDisplayName === 'goldPlayer#1234') rank = 'gold';
+            if(platformDisplayName === 'silverPlayer#1234') rank = 'silver';
             return new Promise((resolve) => {
                 resolve({rank, region, platform});
             });
@@ -26,12 +26,12 @@ let out  = {
     mockHeroApi: function() {
         owHeroApi = ow.getHeroStats;
 
-        ow.getHeroStats = function(battleNetId, region, platform, heroName) {
+        ow.getHeroStats = function(platformDisplayName, region, platform, heroName) {
             return new Promise((resolve) => {
                 resolve({
                     eliminations: 10,
                     winPercentage: 65,
-                    battleNetId,
+                    platformDisplayName,
                     region,
                     platform,
                     heroName

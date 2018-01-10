@@ -53,16 +53,14 @@ describe('Multi-Node Tests', function() {
 
     it('should be able to see added heros from other nodes', function(done) {
         let serv1Hero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
-        server1Utilities.getUserWithAddedHero(serv1Hero.battleNetId, serv1Hero.heroName).then(() => {
-            let socket2 = server2Utilities.getAuthenticatedSocket(randomString.generate());
-
-            socket2.on(clientEvents.initialData, (data) => {
-                assert.lengthOf(data, 1);
-                assert.equal(data[0].heroName, serv1Hero.heroName);
+        server1Utilities.getUserWithAddedHero(serv1Hero.platformDisplayName, serv1Hero.heroName).then(() => {
+            server2Utilities.getAuthenticatedSocket(randomString.generate()).then((data) => {
+                assert.lengthOf(data.initialData, 1);
+                assert.equal(data.initialData[0].heroName, serv1Hero.heroName);
                 done();
             });
         });
@@ -70,7 +68,7 @@ describe('Multi-Node Tests', function() {
 
     it('should be able to invite hero from another node to group', function(done) {
         let serv2Hero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
@@ -79,13 +77,13 @@ describe('Multi-Node Tests', function() {
         server1Utilities.getEmptyGroup().then((group) => {
             leadersocket = group.leaderSocket;
             leaderHero = group.leaderHero;
-            return server2Utilities.getUserWithAddedHero(serv2Hero.battleNetId, serv2Hero.heroName);
+            return server2Utilities.getUserWithAddedHero(serv2Hero.platformDisplayName, serv2Hero.heroName);
         }).then((serv2User) => {
             user2 = serv2User;
 
             user2.socket.on(clientEvents.groupInviteReceived, (details) => {
-                assert.equal(details.leader.battleNetId, leaderHero.battleNetId);
-                assert.deepEqual(details.pending[0].battleNetId, serv2Hero.battleNetId);
+                assert.equal(details.leader.platformDisplayName, leaderHero.platformDisplayName);
+                assert.deepEqual(details.pending[0].platformDisplayName, serv2Hero.platformDisplayName);
                 done();
             });
 
@@ -95,7 +93,7 @@ describe('Multi-Node Tests', function() {
 
     it('should be able to accept invite to group from another node', function (done) {
         let invitee = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
@@ -103,11 +101,11 @@ describe('Multi-Node Tests', function() {
 
         server1Utilities.getFilledGroup(2).then((details) => {
             groupDetails = details;
-            return server2Utilities.getUserWithAddedHero(invitee.battleNetId, invitee.heroName);
+            return server2Utilities.getUserWithAddedHero(invitee.platformDisplayName, invitee.heroName);
         }).then((user) => {
             groupDetails.memberSockets[0].on(clientEvents.groupInviteAccepted, (details) => {
                 let invitedHero = details.members.find((hero) => {
-                    return hero.battleNetId === invitee.battleNetId;
+                    return hero.platformDisplayName === invitee.platformDisplayName;
                 });
                 assert(invitedHero);
                 done();
@@ -142,7 +140,7 @@ describe('Multi-Node Tests', function() {
 
     it('should be able to remove a pending hero from another node', function(done) {
         let invitedHero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
@@ -154,7 +152,7 @@ describe('Multi-Node Tests', function() {
                 done();
             });
 
-            server2Utilities.getUserWithAddedHero(invitedHero.battleNetId, invitedHero.heroName).then((user) => {
+            server2Utilities.getUserWithAddedHero(invitedHero.platformDisplayName, invitedHero.heroName).then((user) => {
                 user.socket.on(clientEvents.groupInviteReceived, () => {
                     socket.emit(serverEvents.groupInviteCancel, invitedHero);
                 });
