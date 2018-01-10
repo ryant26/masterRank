@@ -14,13 +14,11 @@ require('../../../src/app');
 
 describe(serverEvents.addHero, function() {
     let socket;
-    let initialData;
 
     beforeEach(function () {
         platformDisplayName = randomString.generate();
         return commonUtilities.getAuthenticatedSocket(platformDisplayName, commonUtilities.regions.us).then((data) => {
             socket = data.socket;
-            initialData = data.initialData;
         });
     });
 

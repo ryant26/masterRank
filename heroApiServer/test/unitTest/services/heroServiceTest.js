@@ -149,8 +149,7 @@ describe('heroService', function () {
             }).then(() => {
                 return queryForHero(token, myHero);
             }).then((hero) => {
-                let dateDifference = new Date(hero.lastModified).getHours() - date.getHours();
-                assert.equal(dateDifference, 2);
+                assert(hero.lastModified > date);
             });
         });
 
