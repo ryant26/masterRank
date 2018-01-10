@@ -1,4 +1,4 @@
-const battleNetId = 'PwNShoPP#1662';
+const platformDisplayName = 'PwNShoPP#1662';
 const region = 'us';
 const platform = 'pc';
 
@@ -6,14 +6,14 @@ module.exports = {
     playerDetails: {
         level: 188,
         portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x025000000000115A.png',
-        displayName: battleNetId,
+        displayName: platformDisplayName,
         platform,
         region
     },
 
     playerDetailsNoLevel: {
         portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x025000000000115A.png',
-        displayName: battleNetId,
+        displayName: platformDisplayName,
         platform,
         region
     },
@@ -25,7 +25,7 @@ module.exports = {
     },
 
     token: {
-        battleNetId,
+        platformDisplayName,
         platform,
         region
     },

@@ -75,10 +75,10 @@ let _updatePlayerHeroes = function(token) {
         return Hero.collection.bulkWrite(bulkOperations, {new: true});
     }).then((queryResult) => {
         queryResult.getWriteErrors().forEach((error) => {
-            logger.error(`Error updating heroes for ${token.battleNetId}: ${error}`);
+            logger.error(`Error updating heroes for ${token.platformDisplayName}: ${error}`);
         });
     }).catch((error) => {
-        logger.error(`Error updating heroes for ${token.battleNetId}: ${error}`);
+        logger.error(`Error updating heroes for ${token.platformDisplayName}: ${error}`);
         return [];
     });
 };
@@ -89,7 +89,7 @@ let _getHeroNameQueryCriteria = function(token, heroName) {
 
 let _getAllUserHeroesQueryCriteria = function(token) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         region: token.region,
         platform: token.platform,
     };
@@ -121,7 +121,7 @@ let _getUpdatedHeroConfigObjects = function(token) {
 
 let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform,
         region: token.region,
         lastModified: new Date(),

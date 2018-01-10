@@ -6,7 +6,7 @@ export default function HeroReducer(state=[], action) {
   switch(action.type) {
       case HeroActionTypes.ADD_HERO: {
           let out = state;
-          if (!arrayHasDuplicate(out, action.hero, 'battleNetId', 'heroName')) {
+          if (!arrayHasDuplicate(out, action.hero, 'platformDisplayName', 'heroName')) {
               out = [
                   ...state,
                   action.hero
@@ -19,7 +19,7 @@ export default function HeroReducer(state=[], action) {
           let out = [...state];
 
           action.heroes.forEach((hero) => {
-              if (!arrayHasDuplicate(out, hero, 'battleNetId', 'heroName')) {
+              if (!arrayHasDuplicate(out, hero, 'platformDisplayName', 'heroName')) {
                   out.push(hero);
               }
           });

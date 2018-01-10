@@ -12,7 +12,7 @@ const domainName = config.get('app.hostname') + port;
 
 let generateAuthHandler = function(region) {
     return function (accessToken, refreshToken, profile, done) {
-        done(null, {battleNetId: profile.battletag, region, platform: 'pc'});
+        done(null, {platformDisplayName: profile.battletag, region, platform: 'pc'});
     };
 };
 

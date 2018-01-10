@@ -6,7 +6,7 @@ Master Rank Websocket API
 	
 	PlayerConnected
 	{
-		battleNetId: ""
+		platformDisplayName: ""
 		hero: {
 			name: "widowMaker"
 			stats: {}
@@ -18,7 +18,7 @@ Master Rank Websocket API
 
 	PlayerDisconnected
 	{
-		battleNetId: ""
+		platformDisplayName: ""
 		heros: [
 			{
 				name: "widowmaker"
@@ -36,7 +36,7 @@ Master Rank Websocket API
 			id: 10
 			players: [
 				{
-					battleNetId: "",
+					platformDisplayName: "",
 					leader: true
 					hero: {
 						name: "widowMaker"
@@ -55,7 +55,7 @@ Master Rank Websocket API
 	GroupInviteAccepted
 	{
 		player: {
-			battleNetId: ""
+			platformDisplayName: ""
 		}
 	}
 
@@ -66,7 +66,7 @@ Master Rank Websocket API
 	GroupInviteDeclined
 	{
 		player: {
-			battleNetId: ""
+			platformDisplayName: ""
 		}
 	}
 
@@ -120,14 +120,14 @@ Master Rank Websocket API
 
 	error.GroupInviteSend
 	{
-		battleNetId: 10
+		platformDisplayName: 10
 	}
 
 	++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	error.groupInviteCancel
 	{
-		battleNetId: 10
+		platformDisplayName: 10
 	}
 
 
@@ -136,14 +136,14 @@ Master Rank Websocket API
 
 	GroupInviteSend
 	{
-		battleNetId: ""
+		platformDisplayName: ""
 	}
 
 	++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	GroupInviteCancel
 	{
-		battleNetId: ""
+		platformDisplayName: ""
 	}
 
 	++++++++++++++++++++++++++++++++++++++++++++++++++++++	

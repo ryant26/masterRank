@@ -46,7 +46,7 @@ export default class InviteListItem extends Component{
       <div className="InviteListItem flex flex-column justify-center">
         <div className="flex justify-between group-details">
           <div>
-            {details.leader.battleNetId}
+            {details.leader.platformDisplayName}
           </div>
           <div>
             {details.members.length}/{details.groupSize}

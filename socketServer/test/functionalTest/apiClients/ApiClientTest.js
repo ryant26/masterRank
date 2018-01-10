@@ -5,7 +5,7 @@ const tokenHelper = require('../../../../heroApiServer/devTools/tokenHelpers');
 const spawn = require('child_process').spawn;
 const config = require('config');
 
-const battleNetId = 'luckybomb#1470';
+const platformDisplayName = 'luckybomb#1470';
 const region = 'us';
 const platform = 'pc';
 
@@ -60,16 +60,16 @@ describe('AuthenticationClient', function() {
 
     describe('authenticate', function() {
         it('should resolve the promise for a valid token', function() {
-            return authenticationClient.authenticate(tokenHelper.getValidToken(battleNetId, region, platform))
+            return authenticationClient.authenticate(tokenHelper.getValidToken(platformDisplayName, region, platform))
                 .then((decodedToken) => {
-                    assert.equal(decodedToken.battleNetId, battleNetId);
+                    assert.equal(decodedToken.platformDisplayName, platformDisplayName);
                     assert.equal(decodedToken.region, region);
                     assert.equal(decodedToken.platform, platform);
                 });
         });
 
         it('should reject the promise for an expired token', function() {
-            return authenticationClient.authenticate(tokenHelper.getExpiredToken(battleNetId, region, platform))
+            return authenticationClient.authenticate(tokenHelper.getExpiredToken(platformDisplayName, region, platform))
                 .then(() => {
                     throw new Error('Should have been unauthorized');
                 })
@@ -79,7 +79,7 @@ describe('AuthenticationClient', function() {
         });
 
         it('should reject the promise for an invalid token', function() {
-            return authenticationClient.authenticate(tokenHelper.getTokenSignedWithOldSecret(battleNetId, region, platform))
+            return authenticationClient.authenticate(tokenHelper.getTokenSignedWithOldSecret(platformDisplayName, region, platform))
                 .then(() => {
                     throw new Error('Should have been unauthorized');
                 })

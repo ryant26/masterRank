@@ -29,15 +29,16 @@ describe(serverEvents.groupLeave, function() {
 
     it('should promote a new leader when the leader leaves', function(done) {
         commonUtilities.getFilledGroup(1).then((group) => {
-            group.leaderSocket.emit(serverEvents.groupLeave);
-
             let newLeader = group.memberHeros[0];
 
             group.memberSockets[0].on(clientEvents.groupPromotedLeader, (groupDetails) => {
-                assert.equal(groupDetails.leader.battleNetId, newLeader.battleNetId);
+                assert.equal(groupDetails.leader.platformDisplayName, newLeader.platformDisplayName);
                 assert.equal(groupDetails.leader.heroName, newLeader.heroName);
                 done();
             });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
+
         });
     });
 
@@ -57,7 +58,7 @@ describe(serverEvents.groupLeave, function() {
         commonUtilities.getFilledGroup(1).then((group) => {
             let newLeader = group.memberHeros[0];
             group.memberSockets[0].on(clientEvents.groupHeroLeft, (groupDetails) => {
-                if (groupDetails.leader.battleNetId === newLeader.battleNetId) {
+                if (groupDetails.leader.platformDisplayName === newLeader.platformDisplayName) {
                     done();
                 }
             });

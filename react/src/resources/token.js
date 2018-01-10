@@ -1,7 +1,7 @@
 /*
 This token has the following decoded form:
     {
-      battleNetId: 'Daco#11404',
+      platformDisplayName: 'Daco#11404',
       region: 'us',
       platform: 'pc'
     }

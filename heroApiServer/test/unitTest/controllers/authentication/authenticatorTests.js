@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 let getPlayerQueryObj = function (token = mockHelpers.token) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform
     };
 };
@@ -75,7 +75,7 @@ let testUserUpdated = function (requestFunction, queryObject) {
     date.setHours(date.getHours() - 7);
 
     let playerConfig = {
-        platformDisplayName: mockHelpers.token.battleNetId,
+        platformDisplayName: mockHelpers.token.platformDisplayName,
         platform: mockHelpers.token.platform,
         lastUpdated: date,
         level: 100,
@@ -125,7 +125,7 @@ describe('battleNetAuthenticator', function() {
 
 describe('xblAuthenticator', function() {
     let postReqFunc = function () {
-        return makePostAuthenticationRequest('xbl', mockHelpers.token.battleNetId, 'password');
+        return makePostAuthenticationRequest('xbl', mockHelpers.token.platformDisplayName, 'password');
     };
 
     before(function() {
@@ -143,7 +143,7 @@ describe('xblAuthenticator', function() {
 
     it('should create the user on new login', function() {
         return testNewUserCreated(postReqFunc, getPlayerQueryObj({
-            battleNetId: mockHelpers.token.battleNetId,
+            platformDisplayName: mockHelpers.token.platformDisplayName,
             platform: 'xbl',
             region: mockHelpers.token.region
         }));
@@ -151,7 +151,7 @@ describe('xblAuthenticator', function() {
 
     it('should update older users', function() {
         return testUserUpdated(postReqFunc, getPlayerQueryObj({
-            battleNetId: mockHelpers.token.battleNetId,
+            platformDisplayName: mockHelpers.token.platformDisplayName,
             platform: 'xbl',
             region: mockHelpers.token.region
         }));
@@ -164,7 +164,7 @@ describe('xblAuthenticator', function() {
 
 describe('psnAuthenticator', function() {
     let postReqFunc = function () {
-        return makePostAuthenticationRequest('psn', mockHelpers.token.battleNetId, 'password');
+        return makePostAuthenticationRequest('psn', mockHelpers.token.platformDisplayName, 'password');
     };
 
     before(function() {
@@ -182,7 +182,7 @@ describe('psnAuthenticator', function() {
 
     it('should create the user on new login', function() {
         return testNewUserCreated(postReqFunc, getPlayerQueryObj({
-            battleNetId: mockHelpers.token.battleNetId,
+            platformDisplayName: mockHelpers.token.platformDisplayName,
             platform: 'psn',
             region: mockHelpers.token.region
         }));
@@ -190,7 +190,7 @@ describe('psnAuthenticator', function() {
 
     it('should update older users', function() {
         return testUserUpdated(postReqFunc, getPlayerQueryObj({
-            battleNetId: mockHelpers.token.battleNetId,
+            platformDisplayName: mockHelpers.token.platformDisplayName,
             platform: 'psn',
             region: mockHelpers.token.region
         }));
@@ -202,12 +202,12 @@ describe('psnAuthenticator', function() {
 });
 
 describe('tokenAuthenticator', function() {
-    let battleNetId = 'testUser#1234';
+    let platformDisplayName = 'testUser#1234';
     let region = 'us';
     let platform = 'pc';
 
     it('should reject expired tokens', function() {
-        let expiredToken = tokenGenerator.getExpiredToken(battleNetId, region, platform);
+        let expiredToken = tokenGenerator.getExpiredToken(platformDisplayName, region, platform);
         return chai.request(server)
             .post('/auth/token/validate')
             .send({token: expiredToken})
@@ -233,7 +233,7 @@ describe('tokenAuthenticator', function() {
     });
 
     it('should reject tokens signed with the wrong secret', function() {
-        let badToken = tokenGenerator.getTokenSignedWithOldSecret(battleNetId, region, platform);
+        let badToken = tokenGenerator.getTokenSignedWithOldSecret(platformDisplayName, region, platform);
         return chai.request(server)
             .post('/auth/token/validate')
             .send({token: badToken})
@@ -247,7 +247,7 @@ describe('tokenAuthenticator', function() {
     });
 
     it('should accept valid tokens', function() {
-        let badToken = tokenGenerator.getValidToken(battleNetId, region, platform);
+        let badToken = tokenGenerator.getValidToken(platformDisplayName, region, platform);
         return chai.request(server)
             .post('/auth/token/validate')
             .send({token: badToken})

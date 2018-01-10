@@ -5,8 +5,8 @@ const expressJwt = require('express-jwt');
 const tokenSecret = config.get('token.secret');
 const tokenExpiry = config.get('token.expiry');
 
-let getToken = function(battleNetId, region, platform) {
-    return jwt.sign({battleNetId, region, platform, exp: Math.floor(Date.now() / 1000) + tokenExpiry}, tokenSecret);
+let getToken = function(platformDisplayName, region, platform) {
+    return jwt.sign({platformDisplayName, region, platform, exp: Math.floor(Date.now() / 1000) + tokenExpiry}, tokenSecret);
 };
 
 let verifyToken = expressJwt({secret: tokenSecret});

@@ -29,13 +29,13 @@ describe(serverEvents.groupInviteSend, function() {
 
     it('Should show group details on invite', function(done) {
         let invitedHero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
-        commonUtilities.getUserWithAddedHero(invitedHero.battleNetId, invitedHero.heroName).then((user) => {
+        commonUtilities.getUserWithAddedHero(invitedHero.platformDisplayName, invitedHero.heroName).then((user) => {
             user.socket.on(clientEvents.groupInviteReceived, (groupDetails) => {
-                assert.equal(groupDetails.leader.battleNetId, leaderHero.battleNetId);
+                assert.equal(groupDetails.leader.platformDisplayName, leaderHero.platformDisplayName);
                 assert.equal(groupDetails.leader.heroName, leaderHero.heroName);
                 assert.lengthOf(groupDetails.pending, 1);
                 assert.lengthOf(groupDetails.members, 0);
@@ -49,20 +49,14 @@ describe(serverEvents.groupInviteSend, function() {
     it('should not allow non-leaders to perform invites', function(done) {
         commonUtilities.getFilledGroup(2).then((groupSockets) => {
             let invite = {
-                battleNetId: randomString.generate(),
+                platformDisplayName: randomString.generate(),
                 heroName: randomString.generate()
             };
 
             let memberSocket = groupSockets.memberSockets[0];
 
-            let inviteSocket = commonUtilities.getAuthenticatedSocket(invite.battleNetId, commonUtilities.regions.us);
-
-            inviteSocket.on(clientEvents.initialData, () => {
-                inviteSocket.emit(serverEvents.addHero, {heroName: invite.heroName, priority: 1});
-            });
-
             memberSocket.on(clientEvents.heroAdded, (hero) => {
-                if (hero.battleNetId === invite.battleNetId) {
+                if (hero.platformDisplayName === invite.platformDisplayName) {
                     memberSocket.emit(serverEvents.groupInviteSend, invite);
                 }
             });
@@ -71,12 +65,16 @@ describe(serverEvents.groupInviteSend, function() {
                 assert.equal(error.err, 'Unauthorized');
                 done();
             });
+
+            commonUtilities.getAuthenticatedSocket(invite.platformDisplayName, commonUtilities.regions.us).then((data) => {
+                data.socket.emit(serverEvents.addHero, {heroName: invite.heroName, priority: 1});
+            });
         });
     });
 
     it('should not fire event for inviting non-existant hero', function(done) {
         let invite = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
@@ -88,9 +86,9 @@ describe(serverEvents.groupInviteSend, function() {
         });
     });
 
-    it('should reject malformed battleNetId', function(done) {
+    it('should reject malformed platformDisplayName', function(done) {
         socket.emit(serverEvents.groupInviteSend, {
-            battleNetId: 0,
+            platformDisplayName: 0,
             heroName: 'hanzo'
         });
 
@@ -102,7 +100,7 @@ describe(serverEvents.groupInviteSend, function() {
 
     it('should reject malformed heroName', function(done) {
         socket.emit(serverEvents.groupInviteSend, {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: 10
         });
 

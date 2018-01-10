@@ -4,7 +4,7 @@ const logger = require('winston');
 const spawn = require('child_process').spawn;
 const config = require('config');
 
-const battleNetId = 'luckybomb#1470';
+const platformDisplayName = 'luckybomb#1470';
 const region = 'us';
 const platform = 'pc';
 const heroName = 'pharah';
@@ -60,7 +60,7 @@ describe('PlayerClient', function() {
 
     describe('getPlayerRank', function() {
         it('should return a valid object for a valid input', function() {
-            return playerClient.getPlayerRank(battleNetId, region, platform).then((result) => {
+            return playerClient.getPlayerRank(platformDisplayName, region, platform).then((result) => {
                 assert.isNotNull(result.rank);
                 assert.equal(result.region, region);
                 assert.equal(result.platform, platform);
@@ -70,7 +70,7 @@ describe('PlayerClient', function() {
 
     describe('getHeroStats', function() {
         it('should return a valid object for a valid input', function() {
-            return playerClient.getHeroStats(battleNetId, region, platform, heroName).then((result) => {
+            return playerClient.getHeroStats(platformDisplayName, region, platform, heroName).then((result) => {
                 assert.isNotNull(result.accuracy);
                 assert.isNotNull(result.avgObjElims);
                 assert.isNotNull(result.avgObjTime);

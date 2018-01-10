@@ -31,7 +31,7 @@ let getGroupController = function(config) {
 let configureLeaderValidation = function(groupController) {
     groupController.before([serverEvents.groupInviteSend, serverEvents.groupInviteCancel], () => {
         return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-            groupValidators.idIsLeader(groupDetails, groupController.token.battleNetId);
+            groupValidators.idIsLeader(groupDetails, groupController.token.platformDisplayName);
         });
     });
 };
@@ -43,7 +43,7 @@ let configureLeaderValidation = function(groupController) {
  */
 let configureHeroExistsValidation = function(groupController) {
     groupController.before(serverEvents.groupInviteSend, (data) => {
-        return RedisClient.getPlayerHeros(data.eventData.battleNetId, groupController.token.platform).then((heros) => {
+        return RedisClient.getPlayerHeros(data.eventData.platformDisplayName, groupController.token.platform).then((heros) => {
             playerValidators.heroExists(heros, data.eventData);
         });
     });
@@ -57,7 +57,7 @@ let configureHeroExistsValidation = function(groupController) {
 let configrePlayersHeroInGroupPending = function(groupController) {
     groupController.before([serverEvents.groupInviteAccept, serverEvents.groupInviteDecline], (data) => {
         return RedisClient.getGroupDetails(data.eventData).then((groupDetails) => {
-            groupValidators.idInPending(groupDetails, groupController.token.battleNetId);
+            groupValidators.idInPending(groupDetails, groupController.token.platformDisplayName);
         });
     });
 };
@@ -65,7 +65,7 @@ let configrePlayersHeroInGroupPending = function(groupController) {
 let configurePassedHeroInGroupPending = function(groupController) {
     groupController.before(serverEvents.groupInviteCancel, (data) => {
         return RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-            groupValidators.idInPending(groupDetails, data.eventData.battleNetId);
+            groupValidators.idInPending(groupDetails, data.eventData.platformDisplayName);
         });
     });
 };
@@ -80,7 +80,7 @@ let configureHeroInGroup = function(groupController) {
         return new Promise((resolve) => {
             if (!groupController.groupId) throw new SocketError(exceptions.userNotInGroup);
             resolve(RedisClient.getGroupDetails(groupController.groupId).then((groupDetails) => {
-                groupValidators.idIsLeaderOrMember(groupDetails, groupController.token.battleNetId);
+                groupValidators.idIsLeaderOrMember(groupDetails, groupController.token.platformDisplayName);
             }));
         });
     });

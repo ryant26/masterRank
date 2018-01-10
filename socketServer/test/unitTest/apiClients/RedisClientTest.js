@@ -229,7 +229,7 @@ describe('RedisClient Tests', function() {
             let hero = getHeroObject('Mei');
             sinon.spy(systemLogger, 'warn');
             return RedisClient.addMetaHero(rank, platform, region, hero).then(() => {
-                return RedisClient.removeMetaHeros(rank, platform, region, {battleNetId: randomString.generate(), heroName: 'Genji'});
+                return RedisClient.removeMetaHeros(rank, platform, region, {platformDisplayName: randomString.generate(), heroName: 'Genji'});
             }).then(() => {
                 assert(systemLogger.warn.calledOnce);
                 systemLogger.warn.restore();
@@ -296,22 +296,22 @@ describe('RedisClient Tests', function() {
         });
 
         it('should set the group leader', function() {
-            let battleNetId = randomString.generate();
-            return RedisClient.setGroupLeader(groupId, battleNetId).then(() => {
+            let platformDisplayName = randomString.generate();
+            return RedisClient.setGroupLeader(groupId, platformDisplayName).then(() => {
                 return RedisClient.getGroupDetails(groupId);
             }).then((groupDetails) => {
-                assert.equal(groupDetails.leader, battleNetId);
+                assert.equal(groupDetails.leader, platformDisplayName);
             });
         });
 
         it('should overwrite the current leader', function() {
-            let battleNetId = randomString.generate();
+            let platformDisplayName = randomString.generate();
             return RedisClient.setGroupLeader(groupId, randomString.generate()).then(() => {
-                return RedisClient.setGroupLeader(groupId, battleNetId);
+                return RedisClient.setGroupLeader(groupId, platformDisplayName);
             }).then(() => {
                 return RedisClient.getGroupDetails(groupId);
             }).then((groupDetails) => {
-                assert.equal(groupDetails.leader, battleNetId);
+                assert.equal(groupDetails.leader, platformDisplayName);
             });
         });
     });
@@ -533,9 +533,9 @@ describe('RedisClient Tests', function() {
 
         it('should be able to set a groupID', function(done) {
             let groupId = 10;
-            let battleNetId = randomString.generate();
-            RedisClient.setGroupId(battleNetId, platform, groupId).then(() => {
-                return RedisClient.getGroupId(battleNetId, platform);
+            let platformDisplayName = randomString.generate();
+            RedisClient.setGroupId(platformDisplayName, platform, groupId).then(() => {
+                return RedisClient.getGroupId(platformDisplayName, platform);
             }).then((id) => {
                 assert.equal(id, groupId);
                 done();
@@ -544,11 +544,11 @@ describe('RedisClient Tests', function() {
 
         it('should be able to delete a groupId', function(done) {
             let groupId = 10;
-            let battleNetId = randomString.generate();
-            RedisClient.setGroupId(battleNetId, platform, groupId).then(() => {
-                return RedisClient.deleteGroupId(battleNetId, platform);
+            let platformDisplayName = randomString.generate();
+            RedisClient.setGroupId(platformDisplayName, platform, groupId).then(() => {
+                return RedisClient.deleteGroupId(platformDisplayName, platform);
             }).then(() => {
-                return RedisClient.getGroupId(battleNetId, platform);
+                return RedisClient.getGroupId(platformDisplayName, platform);
             }).then((id) => {
                 assert.isNull(id);
                 done();
