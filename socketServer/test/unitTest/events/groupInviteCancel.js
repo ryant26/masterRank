@@ -26,7 +26,7 @@ describe(serverEvents.groupInviteCancel, function() {
 
     it('Should remove a pending hero', function(done) {
         let invitedHero = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
@@ -35,7 +35,7 @@ describe(serverEvents.groupInviteCancel, function() {
             done();
         });
 
-        commonUtilities.getUserWithAddedHero(invitedHero.battleNetId, invitedHero.heroName).then((user) => {
+        commonUtilities.getUserWithAddedHero(invitedHero.platformDisplayName, invitedHero.heroName).then((user) => {
             user.socket.on(clientEvents.groupInviteReceived, () => {
                 socket.emit(serverEvents.groupInviteCancel, invitedHero);
             });
@@ -65,7 +65,7 @@ describe(serverEvents.groupInviteCancel, function() {
 
     it('should not fire event for inviting non-existant hero', function(done) {
         let invite = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: randomString.generate()
         };
 
@@ -77,21 +77,21 @@ describe(serverEvents.groupInviteCancel, function() {
         });
     });
 
-    it('should reject malformed battleNetId', function(done) {
-        socket.emit(serverEvents.groupInviteCancel, {
-            battleNetId: 0,
-            heroName: 'hanzo'
-        });
-
+    it('should reject malformed platformDisplayName', function(done) {
         socket.on(clientEvents.error.groupInviteCancel, (error) => {
             assert.equal(error.err, exceptions.malformedHeroObject);
             done();
+        });
+
+        socket.emit(serverEvents.groupInviteCancel, {
+            platformDisplayName: 0,
+            heroName: 'hanzo'
         });
     });
 
     it('should reject malformed heroName', function(done) {
         socket.emit(serverEvents.groupInviteCancel, {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             heroName: 10
         });
 

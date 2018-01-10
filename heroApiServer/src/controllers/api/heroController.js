@@ -8,7 +8,7 @@ const authenticationService = require('../../services/authenticationService');
 
 const getTokenFromQueryParams = function(req) {
     return {
-        battleNetId: req.query.platformDisplayName,
+        platformDisplayName: req.query.platformDisplayName,
         region: req.query.region,
         platform: req.query.platform
     };
@@ -46,7 +46,7 @@ router.get('/:heroName', function (req, res, next) {
         let player = results[1];
 
         let out = {
-            battleNetId: user.battleNetId,
+            platformDisplayName: user.platformDisplayName,
             heroName: req.params.heroName,
             skillRating: player ? player.skillRating : 0,
             stats: hero

@@ -8,7 +8,7 @@ const mockHelpers = require('../commonUtils/mockingHelpers');
 let queryForHero = function (token, heroName) {
     return Hero.findOne({
         heroName,
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform,
         region: token.region
     });
@@ -16,7 +16,7 @@ let queryForHero = function (token, heroName) {
 
 let getHeroConfig = function (token, heroName) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform,
         skillRating: 2500,
         lastModified: new Date(),
@@ -69,11 +69,11 @@ describe('heroService', function () {
             }).then(() => {
                 return heroService.findAndUpdateOrCreateHero(token, heroName);
             }).then((hero) => {
-                assert.equal(hero.platformDisplayName, token.battleNetId);
+                assert.equal(hero.platformDisplayName, token.platformDisplayName);
             }).then(() => {
                 return queryForHero(token, heroName);
             }).then((player) => {
-                assert.equal(player.platformDisplayName, token.battleNetId);
+                assert.equal(player.platformDisplayName, token.platformDisplayName);
             });
         });
 
@@ -171,9 +171,9 @@ describe('heroService', function () {
             });
         });
 
-        it('should return null if the battleNetId does not exist', function() {
+        it('should return null if the platformDisplayName does not exist', function() {
             mockHelpers.rejectOwGetPlayerStats();
-            return heroService.findAndUpdateOrCreateHero({battleNetId: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
+            return heroService.findAndUpdateOrCreateHero({platformDisplayName: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
                 assert.isNull(result);
             });
         });
@@ -187,7 +187,7 @@ describe('heroService', function () {
                 return new Hero(config).save();
             })).then(() => {
                 return heroService.findAndUpdateOrCreateHero({
-                    battleNetId: mockPlayer.name,
+                    platformDisplayName: mockPlayer.name,
                     region: mockPlayer.region,
                     platform: mockPlayer.platform
                 }, 'soldier76');

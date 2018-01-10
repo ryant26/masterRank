@@ -35,7 +35,7 @@ describe('authenticationService', function() {
         it('should generate a valid token and add it to the request obj', function() {
             let req = {
                 user: {
-                    battleNetId: randomString.generate(),
+                    platformDisplayName: randomString.generate(),
                     region: 'us',
                     platform: 'pc'
                 }
@@ -70,7 +70,7 @@ describe('authenticationService', function() {
 
     describe('authenticateWithToken', function() {
         let token = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             region: 'us',
             platform: 'pc'
         };

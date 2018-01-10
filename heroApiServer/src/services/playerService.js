@@ -6,7 +6,7 @@ const owValidator = require('../validators/owApiValidator');
 
 let searchForPlayer = function(token) {
     let queryCriteria = {
-        $text: {$search: token.battleNetId},
+        $text: {$search: token.platformDisplayName},
     };
 
     if (token.platform) {
@@ -24,7 +24,7 @@ let searchForPlayer = function(token) {
 
         return players;
     }).catch((err) => {
-        logger.error(`Error searching for player ${token.battleNetId}: ${err}`);
+        logger.error(`Error searching for player ${token.platformDisplayName}: ${err}`);
         throw err;
     });
 };
@@ -34,24 +34,24 @@ let findOrCreatePlayer = function(token) {
         if (!player) {
             return createPlayer(token).catch((err) => {
                 let error = err.statusCode || err;
-                logger.error(`Error creating player [${token.battleNetId}]: ${error}`);
+                logger.error(`Error creating player [${token.platformDisplayName}]: ${error}`);
                 return null;
             });
         }
 
         return player;
     }).catch((err) => {
-        logger.error(`Error finding/updating player [${token.battleNetId}]: ${err}`);
+        logger.error(`Error finding/updating player [${token.platformDisplayName}]: ${err}`);
         return null;
     });
 };
 
 let findAndUpdatePlayer = function(token) {
-    return Player.findOne({platformDisplayName: token.battleNetId, platform: token.platform}).then((result) => {
+    return Player.findOne({platformDisplayName: token.platformDisplayName, platform: token.platform}).then((result) => {
         if (result) {
             if (new Date(result.lastUpdated).setHours(result.lastUpdated.getHours() + 6) < new Date()) {
                 return updatePlayer(token).catch((err) => {
-                    logger.error(`Found player ${token.battleNetId} but failed to update: ${err}`);
+                    logger.error(`Found player ${token.platformDisplayName} but failed to update: ${err}`);
                     return result;
                 });
             }
@@ -74,7 +74,7 @@ let createPlayer = function(token) {
 let updatePlayer = function (token) {
     return _getPlayerConfigFromOw(token).then((result) => {
         return Player.findOneAndUpdate({
-            platformDisplayName: token.battleNetId,
+            platformDisplayName: token.platformDisplayName,
             platform: token.platform
         }, result, {new: true});
     });
@@ -89,7 +89,7 @@ let _getPlayerConfigFromOw = function (token) {
         owValidator.careerValidator(heroDetails);
 
         return {
-            platformDisplayName: token.battleNetId,
+            platformDisplayName: token.platformDisplayName,
             platform: token.platform,
             lastUpdated: new Date(),
             level: playerDetails.level,

@@ -24,7 +24,7 @@ export class FireTeam extends Component {
         //TEMPORARY
         const decodedToken = decode(token);
         Model.updateUser({
-            battleNetId: decodedToken.battleNetId,
+            platformDisplayName: decodedToken.platformDisplayName,
             region: decodedToken.region,
             platform: decodedToken.platform
         });

@@ -10,7 +10,7 @@ const ow = require('../../../src/apiClients/overwatch');
 
 let queryForPlayer = function(token) {
     return Player.findOne({
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform
     });
 };
@@ -29,7 +29,7 @@ let getPlayerConfig = function() {
 
 let getTokenFromConfig = function(playerConfig) {
     return {
-        battleNetId: playerConfig.platformDisplayName,
+        platformDisplayName: playerConfig.platformDisplayName,
         region: playerConfig.region,
         platform: playerConfig.platform
     };
@@ -37,7 +37,7 @@ let getTokenFromConfig = function(playerConfig) {
 
 describe('playerService', function() {
     const token = {
-        battleNetId: 'PwNShoPP-1662',
+        platformDisplayName: 'PwNShoPP-1662',
         region: 'us',
         platform: 'pc'
     };
@@ -63,11 +63,11 @@ describe('playerService', function() {
 
         it('should create players that are valid but do not exist', function() {
             return playerService.findOrCreatePlayer(token).then((player) => {
-                assert.equal(player.platformDisplayName, token.battleNetId);
+                assert.equal(player.platformDisplayName, token.platformDisplayName);
             }).then(() => {
                 return queryForPlayer(token);
             }).then((player) => {
-                assert.equal(player.platformDisplayName, token.battleNetId);
+                assert.equal(player.platformDisplayName, token.platformDisplayName);
             });
         });
 
@@ -114,7 +114,7 @@ describe('playerService', function() {
             return playerService.findOrCreatePlayer(token).then(() => {
                 return playerService.findAndUpdatePlayer(token);
             }).then((player) => {
-                assert.equal(player.platformDisplayName, token.battleNetId);
+                assert.equal(player.platformDisplayName, token.platformDisplayName);
             });
         });
 
@@ -210,7 +210,7 @@ describe('playerService', function() {
         it('should find a player', function() {
             let playerConfig = getPlayerConfig();
             return new Player(playerConfig).save().then(() => {
-                return playerService.searchForPlayer({battleNetId: playerConfig.platformDisplayName});
+                return playerService.searchForPlayer({platformDisplayName: playerConfig.platformDisplayName});
             }).then((players) => {
                 assert.lengthOf(players, 1);
                 assert.equal(players[0].platformDisplayName, playerConfig.platformDisplayName);
@@ -222,7 +222,7 @@ describe('playerService', function() {
             let playerConfig = getPlayerConfig();
             playerConfig.platformDisplayName = 'a name with spaces';
             return new Player(playerConfig).save().then(() => {
-                return playerService.searchForPlayer({battleNetId: playerConfig.platformDisplayName});
+                return playerService.searchForPlayer({platformDisplayName: playerConfig.platformDisplayName});
             }).then((players) => {
                 assert.lengthOf(players, 1);
                 assert.equal(players[0].platformDisplayName, playerConfig.platformDisplayName);
@@ -239,7 +239,7 @@ describe('playerService', function() {
             playerConfig3.region = 'eu';
 
             return Promise.all([new Player(playerConfig1).save(), new Player(playerConfig2).save(), new Player(playerConfig3).save()]).then(() => {
-                return playerService.searchForPlayer({battleNetId: playerConfig1.platformDisplayName});
+                return playerService.searchForPlayer({platformDisplayName: playerConfig1.platformDisplayName});
             }).then((players) => {
                 assert.lengthOf(players, 3);
             });
@@ -254,7 +254,7 @@ describe('playerService', function() {
             playerConfig3.region = 'eu';
 
             return Promise.all([new Player(playerConfig1).save(), new Player(playerConfig2).save(), new Player(playerConfig3).save()]).then(() => {
-                return playerService.searchForPlayer({battleNetId: playerConfig1.platformDisplayName, region: playerConfig1.region});
+                return playerService.searchForPlayer({platformDisplayName: playerConfig1.platformDisplayName, region: playerConfig1.region});
             }).then((players) => {
                 assert.lengthOf(players, 1);
             });
@@ -269,7 +269,7 @@ describe('playerService', function() {
             playerConfig3.platform = 'psn';
 
             return Promise.all([new Player(playerConfig1).save(), new Player(playerConfig2).save(), new Player(playerConfig3).save()]).then(() => {
-                return playerService.searchForPlayer({battleNetId: playerConfig1.platformDisplayName, platform: playerConfig1.platform});
+                return playerService.searchForPlayer({platformDisplayName: playerConfig1.platformDisplayName, platform: playerConfig1.platform});
             }).then((players) => {
                 assert.lengthOf(players, 1);
             });
@@ -277,7 +277,7 @@ describe('playerService', function() {
 
         it('should return empty array when found nothing', function() {
             mockHelpers.stubOwSearchForPlayer([]);
-            return playerService.searchForPlayer({battleNetId: 'someID'}).then((players) => {
+            return playerService.searchForPlayer({platformDisplayName: 'someID'}).then((players) => {
                 assert.lengthOf(players, 0);
             });
         });
@@ -285,7 +285,7 @@ describe('playerService', function() {
         it('should reject when mongoose throws error', function() {
             let errorString = 'my Error!';
             sinon.stub(Player, 'find').rejects(errorString);
-            playerService.searchForPlayer({battleNetId: 'someID'}).catch((err) => {
+            playerService.searchForPlayer({platformDisplayName: 'someID'}).catch((err) => {
                 assert.equal(err, errorString);
                 Player.find.restore();
             });
@@ -293,7 +293,7 @@ describe('playerService', function() {
 
         it('shoud call the Overwatch API when not found in db', function() {
             mockHelpers.stubOwSearchForPlayer([]);
-            return playerService.searchForPlayer({battleNetId: 'someID'}).then(() => {
+            return playerService.searchForPlayer({platformDisplayName: 'someID'}).then(() => {
                 assert.isTrue(ow.searchForPlayer.calledOnce);
             });
         });
@@ -301,7 +301,7 @@ describe('playerService', function() {
         it('should not call the Overwatch API when found in db', function() {
             mockHelpers.stubOwSearchForPlayer([]);
             return playerService.findOrCreatePlayer(token).then(() => {
-                return playerService.searchForPlayer({battleNetId: token.battleNetId});
+                return playerService.searchForPlayer({platformDisplayName: token.platformDisplayName});
             }).then(() => {
                 assert.isFalse(ow.searchForPlayer.called);
             });

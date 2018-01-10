@@ -7,17 +7,21 @@ const CommonUtilities = require('../CommonUtilities');
 const mockingUtilities = require('../mockingUtilities');
 const exceptions = require('../../../src/validators/exceptions/exceptions');
 
-let battleNetId;
+let platformDisplayName;
 let commonUtilities = new CommonUtilities();
 // Start the Socket Server
 require('../../../src/app');
 
 describe(serverEvents.addHero, function() {
     let socket;
+    let initialData;
 
     beforeEach(function () {
-        battleNetId = randomString.generate();
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        platformDisplayName = randomString.generate();
+        return commonUtilities.getAuthenticatedSocket(platformDisplayName, commonUtilities.regions.us).then((data) => {
+            socket = data.socket;
+            initialData = data.initialData;
+        });
     });
 
     afterEach(function() {
@@ -32,73 +36,70 @@ describe(serverEvents.addHero, function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
+            let socket2 = commonUtilities.getSocket(randomString.generate(), commonUtilities.regions.us);
 
             socket2.on(clientEvents.initialData, (data) => {
                 assert.lengthOf(data, 3);
                 done();
             });
+
+            socket2.authenticate();
         }, 150);
     });
 
     it('should call the heroAdded event on all connected clients', function(done) {
-        let socket2;
         let heroName = randomString.generate();
         let priority = 1;
 
-        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
+        commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us).then((data) => {
+            data.socket.on('heroAdded', (hero) => {
+                assert.equal(hero.heroName, heroName);
+                assert.equal(hero.priority, priority);
+                done();
+            });
 
-        socket2.on(clientEvents.initialData, () => {
             socket.emit(serverEvents.addHero, {heroName, priority});
-        });
-
-        socket2.on('heroAdded', (hero) => {
-            assert.equal(hero.heroName, heroName);
-            assert.equal(hero.priority, priority);
-            done();
         });
     });
 
     it('should not call the heroAdded event for players in other ranks', function(done) {
-        let socket2;
         let heroName = randomString.generate();
         let priority = 1;
 
-        socket2 = commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us);
+        commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us).then((data) => {
+            let socket2 = data.socket;
 
-        socket2.on(clientEvents.initialData, () => {
+            socket2.on('heroAdded', () => {
+                assert.fail();
+            });
+
             socket.emit(serverEvents.addHero, {heroName, priority});
-        });
 
-        socket2.on('heroAdded', () => {
-            assert.fail();
+            //Give some time for the handler to be called
+            setTimeout(() => {
+                done();
+            }, 100);
         });
-
-        //Give some time for the handler to be called
-        setTimeout(() => {
-            done();
-        }, 100);
     });
 
     it('should not call the heroAdded event for players in other regions', function(done) {
-        let socket2;
         let heroName = randomString.generate();
         let priority = 1;
 
-        socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.eu);
+        commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.eu).then((data) => {
+            let socket2 = data.socket;
 
-        socket2.on(clientEvents.initialData, () => {
+            socket2.on('heroAdded', () => {
+                assert.fail();
+            });
+
             socket.emit(serverEvents.addHero, {heroName, priority});
-        });
 
-        socket2.on('heroAdded', () => {
-            assert.fail();
+            //Give some time for the handler to be called
+            setTimeout(() => {
+                done();
+            }, 100);
         });
-
-        //Give some time for the handler to be called
-        setTimeout(() => {
-            done();
-        }, 100);
     });
 
     it('should reject null heroNames', function(done) {

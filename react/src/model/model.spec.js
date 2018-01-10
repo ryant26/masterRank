@@ -12,16 +12,16 @@ const initializeSocket = function() {
     return websocket;
 };
 
-let generateHero = function(heroName='hero', battleNetId=token.battleNetId, preference=1) {
-    return {battleNetId, heroName, preference};
+let generateHero = function(heroName='hero', platformDisplayName=token.platformDisplayName, preference=1) {
+    return {platformDisplayName, heroName, preference};
 };
 
 let generateInvite = function(id=1, groupLeader='PwNShoPP') {
     return {id, groupLeader};
 };
 
-let generateUser = function(battleNetId=token.battleNetId, region=token.region, platform=token.platform) {
-    return {battleNetId, region, platform};
+let generateUser = function(platformDisplayName=token.platformDisplayName, region=token.region, platform=token.platform) {
+    return {platformDisplayName, region, platform};
 };
 
 describe('Model', () => {

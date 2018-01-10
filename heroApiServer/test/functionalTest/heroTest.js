@@ -64,7 +64,7 @@ describe('Hero Tests', function() {
                 .query({platformDisplayName, region,  platform})
                 .then((result) => {
                     assert.equal(result.body.heroName, heroName);
-                    assert.equal(result.body.battleNetId, platformDisplayName);
+                    assert.equal(result.body.platformDisplayName, platformDisplayName);
                     assert.isObject(result.body.stats);
                 });
         });
@@ -76,7 +76,7 @@ describe('Hero Tests', function() {
                 .query({platformDisplayName, region,  platform})
                 .then((result) => {
                     assert.equal(result.body.heroName, 'doomfist');
-                    assert.equal(result.body.battleNetId, platformDisplayName);
+                    assert.equal(result.body.platformDisplayName, platformDisplayName);
                     assert.isNull(result.body.stats);
                 });
         });

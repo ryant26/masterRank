@@ -16,7 +16,7 @@ describe('GroupController Tests', function() {
     beforeEach(function() {
         socket = new EventEmitter();
         token = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             region: randomString.generate(),
             platform: 'pc'
         };

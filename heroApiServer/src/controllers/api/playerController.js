@@ -14,7 +14,7 @@ router.get('', function(req, res, next) {
 });
 
 router.get('', function (req, res, next) {
-    return playerService.findOrCreatePlayer({battleNetId: req.query.platformDisplayName,
+    return playerService.findOrCreatePlayer({platformDisplayName: req.query.platformDisplayName,
         region: req.query.region,
         platform: req.query.platform})
         .then((player) => {
@@ -40,7 +40,7 @@ router.get('/search', function(req, res, next) {
 
 router.get('/search', function (req, res) {
     return playerService.searchForPlayer({
-        battleNetId: req.query.platformDisplayName,
+        platformDisplayName: req.query.platformDisplayName,
         platform: req.query.platform,
         region: req.query.region
     }).then((players) => {
