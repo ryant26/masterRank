@@ -4,35 +4,35 @@ import React, {
 
 
 export default class LoginPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {value: ''};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
 
-  render() {
-    const backgroundStyle = {
-      'backgroundColor': '#66ccff'
-    };
+      handleChange(event) {
+        this.setState({value: event.target.value});
+      }
 
-    const containerStyle = {
-      'display': 'flex',
-    };
+      handleSubmit(event) {
+        alert('Battletag: ' + this.state.value);
+        event.preventDefault();
+      }
 
-    const statsStyle = {
-      'display': 'flex',
-      'flexDirection':'column',
-      'width':'240px',
-      'cursor':'s-resize'
-    };
-
-    const componentStyle = {
-      'height':'20px'
-    };
-
-    return (
-      <div> Login </div>
-    );
-  }
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <input
+                type="text"
+                value={this.state.value}
+                onChange={this.handleChange}
+                placeholder="Enter Full Battletag, PSN, or Xbox Gamertag..."
+                className="input-primary"
+            />
+            <input type="submit" value="Search" className="button-primary" />
+          </form>
+        );
+    }
 }
