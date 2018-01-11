@@ -1,8 +1,9 @@
 import model from './model';
 import {createStore} from './store';
 import {clientEvents} from '../api/websocket';
-import {names} from '../resources/allHeroNames';
 const mockSocket = require('socket-io-mock');
+const names = require('../../../shared/allHeroNames').names;
+
 
 const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
 const initializeSocket = function() {
@@ -11,16 +12,16 @@ const initializeSocket = function() {
     return websocket;
 };
 
-let generateHero = function(heroName='hero', battleNetId=token.battleNetId, preference=1) {
-    return {battleNetId, heroName, preference};
+let generateHero = function(heroName='hero', platformDisplayName=token.platformDisplayName, preference=1) {
+    return {platformDisplayName, heroName, preference};
 };
 
 let generateInvite = function(id=1, groupLeader='PwNShoPP') {
     return {id, groupLeader};
 };
 
-let generateUser = function(battleNetId=token.battleNetId, region=token.region, platform=token.platform) {
-    return {battleNetId, region, platform};
+let generateUser = function(platformDisplayName=token.platformDisplayName, region=token.region, platform=token.platform) {
+    return {platformDisplayName, region, platform};
 };
 
 describe('Model', () => {

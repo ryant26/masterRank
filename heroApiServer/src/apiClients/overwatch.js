@@ -3,14 +3,14 @@ let ow = require('oversmash').default({
 });
 
 let getPlayerDetails = function(token) {
-    return ow.player(token.battleNetId).then((result) => {
+    return ow.player(token.platformDisplayName).then((result) => {
         return result.accounts.find((element) => element.platform === token.platform
-            && element.platformDisplayName === token.platformDisplayName);
+            && element.displayName === token.platformDisplayName);
     });
 };
 
 let searchForPlayer = function(token) {
-    return ow.player(token.battleNetId).then((result) => {
+    return ow.player(token.platformDisplayName).then((result) => {
         result = result.accounts;
 
         result.forEach((account) => {
@@ -29,12 +29,12 @@ let searchForPlayer = function(token) {
 };
 
 let getPlayerStats = function(token) {
-    let playerId = _normalizeId(token.battleNetId);
+    let playerId = _normalizeId(token.platformDisplayName);
     return ow.playerStats(playerId, token.region, token.platform);
 };
 
-let _normalizeId = function(battleNetId) {
-    return battleNetId.replace('#', '-');
+let _normalizeId = function(platformDisplayName) {
+    return platformDisplayName.replace('#', '-');
 };
 
 module.exports = {

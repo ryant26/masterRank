@@ -5,18 +5,20 @@ const serverEvents = require('../../../src/socketEvents/serverEvents');
 const clientEvents = require('../../../src/socketEvents/clientEvents');
 const CommonUtilities = require('../CommonUtilities');
 
-let battleNetId;
+let platformDisplayName;
 let commonUtilities = new CommonUtilities();
 
 // Start the Socket Server
 require('../../../src/app');
 
 describe('Connection', function() {
-    let socket;
+    let initialData;
 
     before(function () {
-        battleNetId = randomString.generate();
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        platformDisplayName = randomString.generate();
+        return commonUtilities.getAuthenticatedSocket(platformDisplayName, commonUtilities.regions.us).then((data) => {
+            initialData = data.initialData;
+        });
     });
 
     after(function() {
@@ -24,11 +26,9 @@ describe('Connection', function() {
     });
 
     it('should call initialData on the client upon connect', function(done) {
-        socket.on(clientEvents.initialData, (data) => {
-            assert.isArray(data);
-            assert.isEmpty(data);
-            done();
-        });
+        assert.isArray(initialData);
+        assert.isEmpty(initialData);
+        done();
     });
 });
 
@@ -36,7 +36,9 @@ describe('disconnect', function() {
     let socket;
 
     beforeEach(function () {
-        socket = commonUtilities.getAuthenticatedSocket(battleNetId, commonUtilities.regions.us);
+        return commonUtilities.getAuthenticatedSocket(platformDisplayName, commonUtilities.regions.us).then((data) => {
+            socket = data.socket;
+        });
     });
 
     afterEach(function() {
@@ -62,10 +64,8 @@ describe('disconnect', function() {
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
-            let socket2 = commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us);
-
-            socket2.on(clientEvents.initialData, (data) => {
-                assert.isEmpty(data);
+            commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us).then(({initialData}) => {
+                assert.isEmpty(initialData);
                 done();
             });
         }, 100);

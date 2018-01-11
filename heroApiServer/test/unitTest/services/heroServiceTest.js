@@ -8,7 +8,7 @@ const mockHelpers = require('../commonUtils/mockingHelpers');
 let queryForHero = function (token, heroName) {
     return Hero.findOne({
         heroName,
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform,
         region: token.region
     });
@@ -16,15 +16,16 @@ let queryForHero = function (token, heroName) {
 
 let getHeroConfig = function (token, heroName) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform,
         skillRating: 2500,
         lastModified: new Date(),
         region: token.region,
         heroName,
         hoursPlayed: 26,
-        wins: 10,
-        losses: 1,
+        wins: 20,
+        losses: 10,
+        gamesPlayed: 30,
         kdRatio: 2.33,
         pKdRatio: 0.8,
         accuracy: 21,
@@ -68,11 +69,11 @@ describe('heroService', function () {
             }).then(() => {
                 return heroService.findAndUpdateOrCreateHero(token, heroName);
             }).then((hero) => {
-                assert.equal(hero.platformDisplayName, token.battleNetId);
+                assert.equal(hero.platformDisplayName, token.platformDisplayName);
             }).then(() => {
                 return queryForHero(token, heroName);
             }).then((player) => {
-                assert.equal(player.platformDisplayName, token.battleNetId);
+                assert.equal(player.platformDisplayName, token.platformDisplayName);
             });
         });
 
@@ -82,7 +83,8 @@ describe('heroService', function () {
                 createdHero = hero;
                 return heroService.findAndUpdateOrCreateHero(token, heroName);
             }).then((hero) => {
-                assert(hero._id.equals(createdHero._id));
+                assert.equal(hero.heroName, createdHero.heroName);
+                assert.equal(hero.platformDisplayName, createdHero.platformDisplayName);
             });
         });
 
@@ -134,6 +136,23 @@ describe('heroService', function () {
             });
         });
 
+        it('should update the last modified date of all heroes regardless of data change', function() {
+            let date = new Date();
+            date.setHours(date.getHours() - 2);
+
+            let myHero = 'notActuallyAHero';
+            let heroConfig = getHeroConfig(token, myHero);
+            heroConfig.lastModified = date;
+
+            return new Hero(heroConfig).save().then(() => {
+                return heroService.findAndUpdateOrCreateHero(token, heroName);
+            }).then(() => {
+                return queryForHero(token, myHero);
+            }).then((hero) => {
+                assert(hero.lastModified > date);
+            });
+        });
+
         it('should return the outdated hero if api unreachable', function() {
             mockHelpers.rejectOwGetPlayerStats();
 
@@ -151,9 +170,9 @@ describe('heroService', function () {
             });
         });
 
-        it('should return null if the battleNetId does not exist', function() {
+        it('should return null if the platformDisplayName does not exist', function() {
             mockHelpers.rejectOwGetPlayerStats();
-            return heroService.findAndUpdateOrCreateHero({battleNetId: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
+            return heroService.findAndUpdateOrCreateHero({platformDisplayName: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
                 assert.isNull(result);
             });
         });
@@ -167,7 +186,7 @@ describe('heroService', function () {
                 return new Hero(config).save();
             })).then(() => {
                 return heroService.findAndUpdateOrCreateHero({
-                    battleNetId: mockPlayer.name,
+                    platformDisplayName: mockPlayer.name,
                     region: mockPlayer.region,
                     platform: mockPlayer.platform
                 }, 'soldier76');
@@ -179,13 +198,6 @@ describe('heroService', function () {
                 assert.equal(hero.pDamagePerMin, 0.5);
                 assert.equal(hero.pAvgObjElims, 0.5);
                 assert.equal(hero.pAvgObjTime, 0.5);
-
-            });
-        });
-
-        it('should return the SR in every hero request', function() {
-            return heroService.findAndUpdateOrCreateHero(token, heroName).then((result) => {
-                assert.equal(result.skillRating, mockData.playerStats.stats.competitiveRank);
             });
         });
 

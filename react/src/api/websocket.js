@@ -30,7 +30,7 @@ export default class Websocket {
         this.on(clientEvents.authenticated, () => {
             this.authenticated = true;
             logger.log('Authenticated: ');
-            logger.log(`    User: ${tokenDecoded.battleNetId}`);
+            logger.log(`    User: ${tokenDecoded.platformDisplayName}`);
             logger.log(`    Region: ${tokenDecoded.region}`);
             logger.log(`    Platform: ${tokenDecoded.platform}`);
         });

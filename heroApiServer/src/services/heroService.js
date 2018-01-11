@@ -6,17 +6,23 @@ const logger = require('./logger').sysLogger;
 const config = require('config');
 
 const reloadThreshold = config.get('reloadThreshold');
+const gamesPlayedThreshold = config.get('minimumGamesPlayed');
 
 let findAndUpdateOrCreateHero = function(token, heroName) {
-    return Hero.findOne(_getQueryCriteria(token, heroName)).then((result) => {
+    let queryForHero = function() {
+        return Hero.findOne(_getHeroNameQueryCriteria(token, heroName), '-_id');
+    };
+
+    return queryForHero().then((result) => {
         if (!result) {
-            return _createHero(token, heroName);
+            return _updatePlayerHeroes(token).then(() => queryForHero());
         }
 
         if (_isDateOlderThan(result.lastModified, reloadThreshold)) {
-            return _updateHero(token, heroName, result).catch((err) => {
-                logger.error(`Found hero [${token.battleNetId}:${heroName}], but could not update: ${err.message}`);
-                return result;
+            return _updatePlayerHeroes(token).then(() => queryForHero()).then((hero) => {
+                if (hero) {
+                    return hero;
+                }
             });
         }
 
@@ -25,77 +31,105 @@ let findAndUpdateOrCreateHero = function(token, heroName) {
 };
 
 
-let _updateHero = function(token, heroName, oldStats) {
-    return _getUpdatedHeroConfigObject(token, heroName).then((updatedInfo) => {
-        Object.keys(updatedInfo).forEach((key) => {
-            if (!updatedInfo[key] && oldStats[key]) {
-                _deleteStatAndPercentile(updatedInfo, key);
+let _updatePlayerHeroes = function(token) {
+    let getAllUserHeroes = function() {
+        return Hero.find(_getAllUserHeroesQueryCriteria(token));
+    };
+
+    let sanitizeNewData = function(newHero, oldHero) {
+        Object.keys(newHero).forEach((key) => {
+            if (!newHero[key] && oldHero[key]) {
+                newHero[key] = oldHero[key];
             }
         });
-        
-        return Hero.findOneAndUpdate(_getQueryCriteria(token, heroName), updatedInfo, {new: true});
+    };
+
+    return Promise.all([_getUpdatedHeroConfigObjects(token), getAllUserHeroes()]).then((promiseReturns) => {
+        let updatedInfo = promiseReturns[0].filter((hero) => hero !== null);
+        let oldData = promiseReturns[1];
+
+        let bulkOperations = updatedInfo.map((updatedHeroConfig) => {
+            if (oldData) {
+                let oldHeroConfig = oldData.find((hero) => hero.heroName === updatedHeroConfig.heroName);
+                if (oldHeroConfig) {
+                    sanitizeNewData(updatedHeroConfig, oldHeroConfig);
+                }
+            }
+
+            return {
+                updateOne: {
+                    filter: _getHeroNameQueryCriteria(token, updatedHeroConfig.heroName),
+                    update: updatedHeroConfig,
+                    upsert: true
+                }
+            };
+        });
+
+        bulkOperations.push({
+            updateMany: {
+                filter: _getAllUserHeroesQueryCriteria(token),
+                update: { $set: {lastModified: new Date()} }
+            }
+        });
+
+        return Hero.collection.bulkWrite(bulkOperations, {new: true});
+    }).then((queryResult) => {
+        queryResult.getWriteErrors().forEach((error) => {
+            logger.error(`Error updating heroes for ${token.platformDisplayName}: ${error}`);
+        });
+    }).catch((error) => {
+        logger.error(`Error updating heroes for ${token.platformDisplayName}: ${error}`);
+        return [];
     });
 };
 
-let _getQueryCriteria = function(token, heroName) {
+let _getHeroNameQueryCriteria = function(token, heroName) {
+    return Object.assign({}, _getAllUserHeroesQueryCriteria(token), {heroName});
+};
+
+let _getAllUserHeroesQueryCriteria = function(token) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         region: token.region,
         platform: token.platform,
-        heroName
     };
 };
 
+let _getUpdatedHeroConfigObjects = function(token) {
+    return _getCompetitveStatsFromOw(token).then(({heroes, skillRating}) => {
+        return Promise.all(Object.keys(heroes).map((heroName) => {
+            let nonNormalizingStats;
+            let statsToBeNormalized;
 
-let _createHero = function (token, heroName) {
-    return _getUpdatedHeroConfigObject(token, heroName).catch((err) => {
-        if (err.statusCode && err.statusCode === 404) {
-            logger.error(`Error creating hero [${token.battleNetId}:${heroName}]: could not be found`);
-            return null;
-        }
-    }).then((heroConfig) => {
-        if (heroConfig) {
-            return new Hero(heroConfig).save();
-        }
+            let heroStats = heroes[heroName];
+            heroStats.skillRating = skillRating;
 
-        return null;
-    }).catch((err) => {
-        logger.error(`Error saving new hero object: ${err.message}`);
-        return null;
-    });
-};
-
-let _getUpdatedHeroConfigObject = function(token, heroName) {
-    let nonNormalizingStats;
-    let statsToBeNormalized;
-
-
-    return _getCompetitveStatsFromOw(token).then((result) => {
-        let heroStats = result[heroName];
-        heroStats.skillRating = result.skillRating;
-
-        owValidators.heroValidator(heroStats);
-        nonNormalizingStats = _getStatsNotRequiringPercentiles(token, heroName, heroStats);
-        statsToBeNormalized = _getStatsRequiringPercentiles(heroStats);
-
-        return _getPercentiles(heroName, statsToBeNormalized);
-    }).then((percentiles) => {
-        Object.assign(nonNormalizingStats, statsToBeNormalized, percentiles);
-        return nonNormalizingStats;
+            owValidators.heroValidator(heroStats);
+            nonNormalizingStats = _getStatsNotRequiringPercentiles(token, heroName, heroStats);
+            if (nonNormalizingStats.gamesPlayed >= gamesPlayedThreshold) {
+                statsToBeNormalized = _getStatsRequiringPercentiles(heroStats);
+                return _getPercentiles(heroName, statsToBeNormalized).then((percentiles) => {
+                    Object.assign(nonNormalizingStats, statsToBeNormalized, percentiles);
+                    return nonNormalizingStats;
+                });
+            } else {
+                return Promise.resolve(null);
+            }
+        }));
     });
 };
 
 let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
     return {
-        platformDisplayName: token.battleNetId,
+        platformDisplayName: token.platformDisplayName,
         platform: token.platform,
         region: token.region,
-        skillRating: heroStats.skillRating ? heroStats.skillRating : 0,
         lastModified: new Date(),
         heroName,
         hoursPlayed: heroStats.game.time_played,
         wins: heroStats.game.games_won,
-        losses: heroStats.game.games_lost
+        losses: heroStats.game.games_lost,
+        gamesPlayed: heroStats.game.games_played
     };
 };
 
@@ -159,8 +193,12 @@ let _isDateOlderThan = function(date, hours) {
 
 let _getCompetitveStatsFromOw = function(token) {
     return _getPlayerStatsFromOw(token).then((stats) => {
-        let compStats = stats.competitive;
-        compStats.skillRating = stats.competitiveRank;
+        let compStats = {
+            heroes: stats.competitive,
+            skillRating: stats.competitiveRank
+        };
+
+        delete compStats.heroes.all;
 
         return compStats;
     });
@@ -170,15 +208,6 @@ let _getPlayerStatsFromOw = function(token) {
     return ow.getPlayerStats(token).then((stats) => {
         return stats.stats;
     });
-};
-
-let _deleteStatAndPercentile = function(obj, key) {
-    if (key.startsWith('p')) {
-        return;
-    }
-
-    delete obj[key];
-    return delete obj[_getPercentileKey(key)];
 };
 
 let _getPercentileKey = function(key) {

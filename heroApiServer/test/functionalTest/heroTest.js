@@ -43,17 +43,41 @@ describe('Hero Tests', function() {
                 });
         });
 
-        it('should return a hero on valid request', function () {
+        it('should have status of 400 when an invalid heroname is passed', function() {
+            return chai.request(server)
+                .get('/api/heros/notARealName')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform})
+                .then(() => {
+                    throw new Error('Should have been BAD REQUEST');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 400);
+                    assert.equal(err.response.body.message, 'Invalid hero name');
+                });
+        });
 
+        it('should return a hero on valid request', function () {
             return chai.request(server)
                 .get(`/api/heros/${heroName}`)
                 .set('authorization', authHeader)
                 .query({platformDisplayName, region,  platform})
                 .then((result) => {
                     assert.equal(result.body.heroName, heroName);
-                    assert.equal(result.body.platform, platform);
-                    assert.equal(result.body.region, region);
                     assert.equal(result.body.platformDisplayName, platformDisplayName);
+                    assert.isObject(result.body.stats);
+                });
+        });
+
+        it('should return a null stats field when stats are unavailable', function () {
+            return chai.request(server)
+                .get('/api/heros/doomfist')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform})
+                .then((result) => {
+                    assert.equal(result.body.heroName, 'doomfist');
+                    assert.equal(result.body.platformDisplayName, platformDisplayName);
+                    assert.isNull(result.body.stats);
                 });
         });
     });

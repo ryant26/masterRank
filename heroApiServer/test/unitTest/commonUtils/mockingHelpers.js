@@ -12,7 +12,7 @@ passportBnet.Strategy = mockBnetStrat;
 let sandbox = sinon.sandbox.create();
 
 let token = {
-    battleNetId: 'testUser#1234',
+    platformDisplayName: 'testUser#1234',
     region: 'us',
     platform: 'pc'
 };
@@ -49,9 +49,9 @@ let stubOwSearchForPlayer = function(output) {
     _reStub(ow, 'searchForPlayer').resolves(output);
 };
 
-let stubBnetAuth = function (battleNetId = token.battleNetId, region = token.region) {
+let stubBnetAuth = function (platformDisplayName = token.platformDisplayName, region = token.region) {
     let strategy = passport._strategies[`bnet-${region}`];
-    strategy.battletag = battleNetId;
+    strategy.battletag = platformDisplayName;
 };
 
 let restoreAllStubs = function() {
@@ -86,6 +86,7 @@ let getHeroConfig = function(platformDisplayName, heroName) {
         hoursPlayed: 26,
         wins: 10,
         losses: 1,
+        gamesPlayed: 26,
         kdRatio: 1,
         pKdRatio: 0.8,
         accuracy: 1,

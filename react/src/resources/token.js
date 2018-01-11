@@ -1,13 +1,14 @@
 /*
 This token has the following decoded form:
     {
-      battleNetId: 'Daco#11404',
+      platformDisplayName: 'Daco#11404',
       region: 'us',
       platform: 'pc'
     }
  */
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IkRhY28jMTE0MDQiLCJyZWdpb24iOi' +
-    'J1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MTI1MTY1MTUyNTgsImlhdCI6MTUxMjUxNTUxNX0.NtgT0qG-XVhweMOxGbS' +
-    '74LQvYxJEsO3j8EpBIug5aKA';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybURpc3Bs' +
+    'YXlOYW1lIjoiRGFjbyMxMTQwNCIsInJlZ2lvbiI6InVzIiwicGxhdGZvcm0iOiJwYyI' +
+    'sImV4cCI6MTUxNTU0NTc1Mzc0MywiaWF0IjoxNTE1NTQ0NzUzfQ.drCnU5EYx6iTzI7' +
+    'JsDZg80cMyR8ahpPy87eSJLwYa1I';
 
 export default token;

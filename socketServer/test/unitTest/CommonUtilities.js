@@ -26,10 +26,25 @@ module.exports = class CommonUtilities {
         return `${this.connectionUrl}/${region}/${platform}`;
     }
 
-    getAuthenticatedSocket(battleNetId, region = this.regions.us, platform = 'pc') {
+    getAuthenticatedSocket(platformDisplayName, region, platform) {
+        return this.getSocket(platformDisplayName, region, platform).authenticate();
+    }
+
+    getSocket(platformDisplayName, region = this.regions.us, platform = 'pc') {
+        let self = this;
         let outSocket = io(this.getSocketUrl(region, platform), {forceNew: true});
-        outSocket.emit(serverEvents.authenticate, jwt.sign({battleNetId: battleNetId, region, platform}, 'secret'));
-        this.socketsArray.push(outSocket);
+
+        outSocket.authenticate = function() {
+            return new Promise((resolve) => {
+                outSocket.on(clientEvents.initialData, (data) => {
+                    self.socketsArray.push(outSocket);
+                    resolve({socket: outSocket, initialData: data});
+                });
+
+                outSocket.emit(serverEvents.authenticate, jwt.sign({platformDisplayName, region, platform}, 'secret'));
+            });
+        };
+
         return outSocket;
     }
 
@@ -47,27 +62,27 @@ module.exports = class CommonUtilities {
         return new Promise((resolve) => {
             let out = {
                 leaderHero: {
-                    battleNetId: randomString.generate(),
+                    platformDisplayName: randomString.generate(),
                     heroName: randomString.generate()
                 }
             };
 
-            out.leaderSocket = this.getAuthenticatedSocket(out.leaderHero.battleNetId, region);
+            this.getAuthenticatedSocket(out.leaderHero.platformDisplayName, region).then(({socket}) => {
+                out.leaderSocket = socket;
 
-            out.leaderSocket.on(clientEvents.initialData, () => {
+                out.leaderSocket.on(clientEvents.heroAdded, () => {
+                    out.leaderSocket.emit(serverEvents.createGroup, out.leaderHero);
+                });
+
+                out.leaderSocket.on(clientEvents.groupPromotedLeader, (groupDetails) => {
+                    out.leaderSocket.removeAllListeners(clientEvents.initialData);
+                    out.leaderSocket.removeAllListeners(clientEvents.heroAdded);
+                    out.leaderSocket.removeAllListeners(clientEvents.groupPromotedLeader);
+                    out.groupDetails = groupDetails;
+                    resolve(out);
+                });
+
                 out.leaderSocket.emit(serverEvents.addHero, {heroName: out.leaderHero.heroName, priority: 1});
-            });
-
-            out.leaderSocket.on(clientEvents.heroAdded, () => {
-                out.leaderSocket.emit(serverEvents.createGroup, out.leaderHero);
-            });
-
-            out.leaderSocket.on(clientEvents.groupPromotedLeader, (groupDetails) => {
-                out.leaderSocket.removeAllListeners(clientEvents.initialData);
-                out.leaderSocket.removeAllListeners(clientEvents.heroAdded);
-                out.leaderSocket.removeAllListeners(clientEvents.groupPromotedLeader);
-                out.groupDetails = groupDetails;
-                resolve(out);
             });
         });
     }
@@ -92,24 +107,25 @@ module.exports = class CommonUtilities {
             out.leaderSocket.on(clientEvents.groupPromotedLeader, () => {
                 for (let i = 0; i < numberOfGroupMembers; i++) {
                     let member = {
-                        battleNetId: randomString.generate(),
+                        platformDisplayName: randomString.generate(),
                         heroName: randomString.generate()
                     };
 
 
-                    let memberSocket = this.getAuthenticatedSocket(member.battleNetId, region);
+                    this.getAuthenticatedSocket(member.platformDisplayName, region).then((data) => {
+                        let memberSocket = data.socket;
 
-                    memberSocket.on(clientEvents.initialData, () => {
+                        memberSocket.on(clientEvents.groupInviteReceived, (group) => {
+                            memberSocket.emit(serverEvents.groupInviteAccept, group.groupId);
+                            memberSocket.removeAllListeners(clientEvents.groupInviteReceived);
+                            memberSocket.removeAllListeners(clientEvents.initialData);
+                        });
+
+                        out.memberSockets.push(memberSocket);
+
                         memberSocket.emit(serverEvents.addHero, {heroName: member.heroName, priority: 1});
-                    });
 
-                    memberSocket.on(clientEvents.groupInviteReceived, (group) => {
-                        memberSocket.emit(serverEvents.groupInviteAccept, group.groupId);
-                        memberSocket.removeAllListeners(clientEvents.groupInviteReceived);
-                        memberSocket.removeAllListeners(clientEvents.initialData);
                     });
-
-                    out.memberSockets.push(memberSocket);
                 }
             });
 
@@ -126,27 +142,25 @@ module.exports = class CommonUtilities {
         });
     }
 
-    getUserWithAddedHero(battleNetId, heroName, region) {
+    getUserWithAddedHero(platformDisplayName, heroName, region) {
         return new Promise((resolve) => {
             let hero =  {
-                battleNetId: battleNetId || randomString.generate(),
+                platformDisplayName: platformDisplayName || randomString.generate(),
                 heroName: heroName || randomString.generate()
             };
 
-            let socket = this.getAuthenticatedSocket(hero.battleNetId, region);
+            this.getAuthenticatedSocket(hero.platformDisplayName, region).then(({socket}) => {
+                socket.on(clientEvents.heroAdded, (addedHero) => {
+                    if (addedHero.platformDisplayName === hero.platformDisplayName) {
+                        socket.removeAllListeners(clientEvents.initialData);
+                        socket.removeAllListeners(clientEvents.heroAdded);
+                        resolve({
+                            hero,
+                            socket
+                        });
+                    }
+                });
 
-            socket.on(clientEvents.heroAdded, (addedHero) => {
-                if (addedHero.battleNetId === hero.battleNetId) {
-                    socket.removeAllListeners(clientEvents.initialData);
-                    socket.removeAllListeners(clientEvents.heroAdded);
-                    resolve({
-                        hero,
-                        socket
-                    });
-                }
-            });
-
-            socket.on(clientEvents.initialData, () => {
                 socket.emit(serverEvents.addHero, {heroName: hero.heroName, priority: 1});
             });
         });

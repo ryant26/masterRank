@@ -17,7 +17,7 @@ export default class InvitePlayerButton extends Component {
     // TODO: commented to pass linting
     // const hero = this.props.hero; 
     // const socketData = {
-    //   "battleNetId": hero.platformDisplayName,
+    //   "platformDisplayName": hero.platformDisplayName,
     //   "heroName": hero.heroName
     // };
     

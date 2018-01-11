@@ -8,7 +8,7 @@ describe('tokenService', function() {
 
     beforeEach(function() {
         config = {
-            battleNetId: randomString.generate(),
+            platformDisplayName: randomString.generate(),
             region: randomString.generate(),
             platform: randomString.generate()
         };
@@ -17,7 +17,7 @@ describe('tokenService', function() {
 
     describe('getToken', function() {
         it('return a jwt token', function() {
-            let token = tokenService.getToken(config.battleNetId, config.region, config.platform);
+            let token = tokenService.getToken(config.platformDisplayName, config.region, config.platform);
             assert.isString(token);
         });
     });
@@ -39,7 +39,7 @@ describe('tokenService', function() {
         };
 
         it('should validate token', function() {
-            let token = tokenService.getToken(config.battleNetId, config.region, config.platform);
+            let token = tokenService.getToken(config.platformDisplayName, config.region, config.platform);
 
             let req = {
                 headers: {
@@ -56,12 +56,12 @@ describe('tokenService', function() {
         });
 
         it ('should invalidate expired tokens', function() {
-            let token = tokenHelpers.getExpiredToken(config.battleNetId, config.region, config.platform);
+            let token = tokenHelpers.getExpiredToken(config.platformDisplayName, config.region, config.platform);
             verifyInvalidToken(token, 'jwt expired');
         });
 
         it ('should invalidate tokens signed with the wrong secret', function() {
-            let token = tokenHelpers.getTokenSignedWithOldSecret(config.battleNetId, config.region, config.platform);
+            let token = tokenHelpers.getTokenSignedWithOldSecret(config.platformDisplayName, config.region, config.platform);
             verifyInvalidToken(token, 'invalid signature');
         });
     });

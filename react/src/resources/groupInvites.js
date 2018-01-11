@@ -4,7 +4,7 @@ const groupInvites = [
     groupSize: 4,
     inviteDate: new Date(),
     leader: {
-      battleNetId: "luckbomb#1234",
+      platformDisplayName: "luckbomb#1234",
       hero: {
         name: "genji",
         stats: {}
@@ -12,7 +12,7 @@ const groupInvites = [
     },
     members: [
       {
-        battleNetId: "wismo0#1234",
+        platformDisplayName: "wismo0#1234",
         leader: true,
         hero: {
           name: "widowMaker",
@@ -22,7 +22,7 @@ const groupInvites = [
     ],
     pending: [
       {
-        battleNetId: "andyLin#1234",
+        platformDisplayName: "andyLin#1234",
         leader: true,
         hero: {
           name: "trancer",
@@ -36,7 +36,7 @@ const groupInvites = [
     groupSize: 3,
     inviteDate: new Date(),
     leader: {
-      battleNetId: "luckbomb#1234",
+      platformDisplayName: "luckbomb#1234",
         hero: {
         name: "genji",
           stats: {}
@@ -45,7 +45,7 @@ const groupInvites = [
     members: [],
     pending: [
       {
-        battleNetId: "andyLin#1234",
+        platformDisplayName: "andyLin#1234",
         leader: true,
         hero: {
           name: "trancer",
@@ -59,7 +59,7 @@ const groupInvites = [
     groupSize: 4,
     inviteDate: new Date(),
     leader: {
-      battleNetId: "luckbomb#1234",
+      platformDisplayName: "luckbomb#1234",
       hero: {
         name: "doomfist",
         stats: {}
@@ -67,7 +67,7 @@ const groupInvites = [
     },
     members: [
       {
-        battleNetId: "wismo0#1234",
+        platformDisplayName: "wismo0#1234",
         leader: true,
         hero: {
           name: "soldier76",
@@ -77,7 +77,7 @@ const groupInvites = [
     ],
     pending: [
       {
-        battleNetId: "andyLin#1234",
+        platformDisplayName: "andyLin#1234",
         leader: true,
         hero: {
           name: "winston",

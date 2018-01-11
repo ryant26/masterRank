@@ -1,4 +1,4 @@
-export const names = [
+const names = [
   'ana',
   'bastion',
   'doomfist',
@@ -25,3 +25,7 @@ export const names = [
   'zarya',
   'zenyatta'
 ];
+
+module.exports = {
+  names
+};

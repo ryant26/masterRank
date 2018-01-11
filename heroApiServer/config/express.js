@@ -17,7 +17,8 @@ module.exports = function(app) {
 
     let apiControllers = glob.sync(rootPath + '/src/controllers/api/*.js');
     apiControllers.forEach(function (controller) {
-        app.use('/api', require(controller));
+        let router = require(controller);
+        app.use(`/api/${router.path}`, router.router);
     });
 
     let authenticationControllers = glob.sync(rootPath + '/src/controllers/authentication/*.js');

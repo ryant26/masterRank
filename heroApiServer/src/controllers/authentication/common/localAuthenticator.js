@@ -20,7 +20,7 @@ let self = {
             passReqToCallback: true
         }, function (req, username, password, done) {
             let region = req.query.region;
-            let token = {battleNetId: username, region, platform: opts.platform};
+            let token = {platformDisplayName: username, region, platform: opts.platform};
             playerService.findOrCreatePlayer(token).then((player) => {
                 if (player) {
                     done(null, token);
