@@ -7,11 +7,14 @@ import PlayerCard from '../components/Sidebar/PlayerCard/PlayerCard';
 //TODO: Remove before submitting PR
 import * as users from '../resources/users';
 
+const urlForPlayerInfo = battletag =>
+  `http://localhost:3003/api/players/search?platformDisplayName=${battletag}`
+
 export default class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
+            battletag: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -19,23 +22,34 @@ export default class LoginPage extends Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
+        this.setState({battletag: event.target.value});
     }
 
     handleSubmit(event) {
-        try {
-            //Query player using /api/player/search
-            //Check if valid use is retured
-            let user = users.users[0];
-            user.platformDisplayName = this.state.value;
-            this.setState({
-                user: user
-            });
-            //redirect to homepage
-            this.props.history.push("/");
-        } catch(e) {
-            alert(e);
-        }
+        //Query player using /api/player/search
+//        fetch(urlForPlayerInfo(this.state.battletag))
+//          .then(response => {
+//            if (!response.ok) {
+//              throw Error("Network request failed")
+//            }
+//
+//            return response
+//          })
+//          .then(response => response.json())
+//          .then(response => {
+//            this.setState({
+//              user: response
+//            })
+//          })
+//        Check if valid use is retured
+        let user = users.users[0];
+        user.platformDisplayName = this.state.battletag;
+        this.setState({
+            user: user
+        });
+
+        //redirect to homepage
+        this.props.history.push("/");
     }
 
     render() {
@@ -49,7 +63,7 @@ export default class LoginPage extends Component {
                   <form onSubmit={this.handleSubmit}>
                     <input
                         type="text"
-                        value={this.state.value}
+                        value={this.state.battletag}
                         onChange={this.handleChange}
                         placeholder="Enter Full Battletag, PSN, or Xbox Gamertag..."
                         className="input-primary"
