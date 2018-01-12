@@ -1,11 +1,126 @@
-.input-primary {
-    display: inline-block;
-    width: 380px;
-    height: 34px;
-    margin: 5px;
-    line-height: 50px;
-    font-size: 16px;
-    vertical-align: middle;
-    border-color: #fff;
-    transform: skew(-0.15rad);
+body {
+  overflow-x: hidden;
+  margin: 0px;
+  font-family: 'Industry', 'Roboto', sans-serif;
+}
+
+.container-md {
+  width: 60%;
+  padding-top: 5%;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+.flex {
+  display: flex;
+}
+
+.background-clan {
+  background: url(/images/clanBackground.jpg) no-repeat center center scroll;
+}
+
+.background-rein {
+  background: url(/images/reinBackground.jpg) no-repeat center center scroll;
+}
+
+.background-img {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.background-color {
+  background-color: #14152E;
+}
+
+.skew {
+  transform: skewX(-20deg);
+}
+
+.unskew {
+  transform: skewX(20deg);
+}
+
+.input-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: white;
+  font-size: 1em;
+  margin: 4px;
+  background-image: linear-gradient(-180deg, #FFC029 0%, #F7981C 100%);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.30);
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.input-button:hover {
+  background: #FFC029;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.50);
+}
+
+.input-button:focus {
+  outline: none;
+}
+
+.input-button:active {
+  background: #F7981C;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.30);
+  margin-bottom: 3px;
+  margin-top: 5px;
+}
+
+.input-component {
+  display: flex;
+  flex: 1;
+  background: #FFFFFF;
+  box-shadow: 0 5px 10px 0 rgba(0,0,0,0.10);
+  border-radius: 3px;
+  height: 40px;
+}
+
+.input-component form {
+    display: flex;
+    flex: 1;
+}
+
+.input-container {
+  display: flex;
+  align-content: stretch;
+  flex: 5;
+  margin-left: 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  background: #F5F5F5;
+  box-shadow: inset 0 1px 2px 0 rgba(0,0,0,0.10);
+  border-radius: 3px;
+  padding: 2px 8px;
+}
+
+.input-component input[type='button'] {
+  flex: 1;
+  background-color: #EFBF49;
+  margin-right: 4px;
+}
+
+.input-component input[type='text'] {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: black;
+}
+
+.input-component input[type='text']::-webkit-input-placeholder {
+  color: #999FA8;
+  font-family: 'Roboto', sans-serif;
+}
+
+.input-component input[type='text']:focus {
+  outline: none !important;
+}
+
+.stretch {
+  flex: 1;
 }
