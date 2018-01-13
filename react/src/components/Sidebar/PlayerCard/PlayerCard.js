@@ -31,13 +31,15 @@ const PlayerCard = ({user}) => {
             <div className="ImagePadding">
                 <div className="heroInfo">
                     <div>{user.platformDisplayName}</div>
-                    <div className="rank">
-                        <img src={addIcon(user.skillRating)}/>                      
-                        {addComma(user.skillRating)}
-                    </div>
+                    { user.skillRating &&
+                        <div className="rank">
+                            <img src={addIcon(user.skillRating)}/>
+                            {addComma(user.skillRating)}
+                        </div>
+                    }
                 </div>
                 <div className="metaLabels">
-                    <div>{user.platform}</div><div>SKILL RATING</div>
+                    <div>{user.platform}</div>
                 </div>
             </div>
         </div>
