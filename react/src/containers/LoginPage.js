@@ -26,30 +26,59 @@ export default class LoginPage extends Component {
         this.setState({displayName: event.target.value});
     }
 
+//    componentDidMount() {
+//        fetch(urlForPlayerSearch("luckybomb-1470"))
+//              .then(response => {
+//                if (!response.ok) {
+//                  throw Error("Network request failed")
+//                }
+//
+//                return response
+//              })
+//              .then(response => response.json())
+//              .then(response => {
+//                this.setState({
+//                  user: {
+//                        platformDisplayName: response.platformDisplayName,
+//                        platform: response.platform,
+//                        portrait: response.portrait,
+//                        level: response.level
+//                      }
+//                })
+//              })
+//    }
+
     handleSubmit(event) {
-        //Query player using /api/player/search
-        fetch(urlForPlayerSearch(this.state.displayName))
-          .then(response => {
-            if (!response.ok) {
-              throw Error("Network request failed")
-            }
+//        fetch(urlForPlayerSearch("luckybomb-1470"))
+//        fetch(urlForPlayerSearch(this.state.displayName))
+//          .then(response => {
+//            if (!response.ok) {
+//              throw Error("Network request failed")
+//            }
+//
+//            return response
+//          })
+//          .then(response => response.json())
+//          .then(response => {
+//            this.setState({
+//              user: {
+//                        platformDisplayName: response.platformDisplayName,
+//                        platform: response.platform,
+//                        portrait: response.portrait,
+//                        level: response.level
+//                      }
+//            })
+//          })
 
-            return response
-          })
-          .then(response => response.json())
-          .then(response => {
-            this.setState({
-              user: response
-            })
-          })
-
-//      Check if valid use is returned
-        let user = users.users[0];
-        user.platformDisplayName = this.state.displayName;
         this.setState({
-            user: user
-        });
-
+            user: {
+              platformDisplayName: "Luckybomb-1470",
+              platform: 'pc',
+              portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000005A3.png',
+              level: '517',
+//              skillRating: '3200'
+            }
+         })
         //redirect to homepage
 //        this.props.history.push("/");
     }
