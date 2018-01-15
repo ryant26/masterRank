@@ -39,7 +39,7 @@ const UserCard = ({user}) => {
                     }
                 </div>
                 <div className="metaLabels">
-                    <div>{user.platform}</div><div>SKILL RATING</div>
+                    <div>{user.platform}</div>
                 </div>
             </div>
         </div>
