@@ -12,7 +12,7 @@ import Model from '../model/model';
 import token from '../resources/token';
 const decode  = require('jwt-decode');
 
-export class FireTeam extends Component {
+export class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,7 +49,7 @@ export class FireTeam extends Component {
                 ]}
                 />
                 <div className="flex">
-                    <Sidebar/>
+                    <Sidebar user={this.props.location.state.user}/>
                     <div className="flex flex-column" style={contentStyle}>
                         <HeroSelectorCard/>
                         {/*<HeroRolesContainer />*/}
