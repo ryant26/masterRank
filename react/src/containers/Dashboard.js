@@ -49,7 +49,7 @@ export class Dashboard extends Component {
                 ]}
                 />
                 <div className="flex">
-                    <Sidebar user={this.props.location.state.user}/>
+                    <Sidebar />
                     <div className="flex flex-column" style={contentStyle}>
                         <HeroSelectorCard/>
                         {/*<HeroRolesContainer />*/}
@@ -66,4 +66,4 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps)(FireTeam);
+export default connect(mapStateToProps)(Dashboard);

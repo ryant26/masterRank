@@ -13,7 +13,7 @@ import './index.css';
 
 require('./stylesheets/main.scss');
 
-import FireTeam from './containers/FireTeam';
+import Dashboard from './containers/Dashboard';
 import LoginPage from './containers/LoginPage';
 
 render(
@@ -21,7 +21,7 @@ render(
     <Router>
         <Switch>
             <Route path="/login" component={LoginPage} />
-            <Route path="/" component={FireTeam} />
+            <Route path="/" component={Dashboard} />
         </Switch>
     </Router>
   </Provider>,
