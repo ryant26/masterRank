@@ -22,15 +22,18 @@ export default class PlayerButton extends Component {
     this.setState({
         fireRedirect: true
     });
+
+    //TODO: should I be making a token?
+    this.props.updateUserAction(this.props.user);
   }
 
   render() {
     return (
         <div>
             { this.state.fireRedirect
-                ? ( <Redirect to={{pathname: '/', state:{user: this.props.user}}}/> )
+                ? ( <Redirect to='/' /> )
                 : ( <button onClick={this.handleClick}>
-                        <PlayerCard user={this.props.player} />
+                        <PlayerCard user={this.props.user} />
                     </button>)
             }
         </div>
