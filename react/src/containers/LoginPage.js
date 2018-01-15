@@ -2,9 +2,9 @@ import React, {
   Component
 } from 'react';
 
-import PlayerSelector from '../components/PlayerSelector/PlayerSelector';
+import UserSelector from '../components/UserSelector/UserSelector';
 
-const urlForPlayerSearch = displayName =>
+const urlForUserSearch = displayName =>
   `/api/players/search?platformDisplayName=${displayName}`
 
 export default class LoginPage extends Component {
@@ -24,8 +24,10 @@ export default class LoginPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-//        fetch(urlForPlayerSearch(this.state.displayName))
-        fetch(urlForPlayerSearch("luckybomb"))
+        //TODO: How do people feel about movig dashboard and login to a pages folder?
+        //TODO: Replace # with - in the api query
+        //TODO: Limit returned users
+        fetch(urlForUserSearch(this.state.displayName))
             .then(response => {
             //TODO: how should we handle 304?
               if (!response.ok || response.status == '304') {
@@ -38,7 +40,7 @@ export default class LoginPage extends Component {
             .then(response => {
 
               this.setState({
-                players: response
+                users: response
               })
             })
     }
@@ -46,8 +48,8 @@ export default class LoginPage extends Component {
     render() {
         return (
             <div className="container-md flex">
-            { this.state.players
-                ? ( <PlayerSelector players={this.state.players}/> )
+            { this.state.users
+                ? ( <UserSelector users={this.state.users} updateUserAction={this.props.updateUserAction}/> )
                 : ( <div className="input-component skew">
                     <form onSubmit={this.handleSubmit} className="validate">
                         <div className="input-container">

@@ -7,27 +7,18 @@ import { connect } from 'react-redux';
 import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Websocket from '../api/websocket';
-import store from '../model/store';
 import Model from '../model/model';
 import token from '../resources/token';
-const decode  = require('jwt-decode');
 
-class Dashboard extends Component {
+
+export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             websocket: new Websocket(token)
         };
 
-        Model.initialize(this.state.websocket, store);
-
-        //TEMPORARY
-        const decodedToken = decode(token);
-        Model.updateUser({
-            platformDisplayName: decodedToken.platformDisplayName,
-            region: decodedToken.region,
-            platform: decodedToken.platform
-        });
+        Model.initialize(this.state.websocket, this.props.store);
     }
 
     componentWillUnmount() {
@@ -49,7 +40,7 @@ class Dashboard extends Component {
                 ]}
                 />
                 <div className="flex">
-                    <Sidebar/>
+                    <Sidebar user={this.props.user} />
                     <div className="flex flex-column" style={contentStyle}>
                         <HeroSelectorCard/>
                         {/*<HeroRolesContainer />*/}
@@ -59,11 +50,3 @@ class Dashboard extends Component {
         );
     }
 }
-
-const mapStateToProps = (state) => (
-  {
-    store: state
-  }
-);
-
-export default connect(mapStateToProps)(Dashboard);
