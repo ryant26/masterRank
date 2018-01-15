@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import UserCard from './UserCard';
-import * as users from '../../../resources/users';
+import * as users from '../../resources/users';
 
 describe('User Card Component', () => {
     it('should render without exploding', () => {

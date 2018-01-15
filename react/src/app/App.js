@@ -5,7 +5,6 @@ import {
     BrowserRouter as Router,
     Switch
 } from 'react-router-dom';
-import { Redirect } from 'react-router'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

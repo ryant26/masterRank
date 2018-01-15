@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import store from "./model/store";
 import './index.css';
 
-import App from './App/App';
+import App from './app/App';
 
 require('./stylesheets/main.scss');
 

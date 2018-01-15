@@ -2,7 +2,6 @@ import React, {
   Component
 } from 'react';
 import Helmet from 'react-helmet';
-import { connect } from 'react-redux';
 // import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
 import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
