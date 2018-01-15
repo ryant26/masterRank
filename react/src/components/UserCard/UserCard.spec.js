@@ -1,17 +1,17 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import PlayerCard from './PlayerCard';
+import UserCard from './UserCard';
 import * as users from '../../../resources/users';
 
-describe('Player Card Component', () => {
+describe('User Card Component', () => {
     it('should render without exploding', () => {
         const wrapper = mount(
-            <PlayerCard user={users.users[0]}/>
+            <UserCard user={users.users[0]}/>
         );
 
-        const PlayerCardComponent = wrapper.find(PlayerCard);
-        expect(PlayerCardComponent).toBeTruthy();
-        expect(JSON.stringify(PlayerCardComponent.props().user)).toBe(
+        const UserCardComponent = wrapper.find(UserCard);
+        expect(UserCardComponent).toBeTruthy();
+        expect(JSON.stringify(UserCardComponent.props().user)).toBe(
             JSON.stringify({
                 "_id": 12,
                 "platformDisplayName": "PwNShoPP#1662",
