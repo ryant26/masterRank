@@ -4,9 +4,9 @@ import React, {
 
 import { Redirect } from 'react-router'
 
-import PlayerCard from '../../PlayerCard/PlayerCard';
+import UserCard from '../../UserCard/UserCard';
 
-export default class PlayerButton extends Component {
+export default class UserButton extends Component {
 
   constructor(props){
     super(props);
@@ -33,7 +33,7 @@ export default class PlayerButton extends Component {
             { this.state.fireRedirect
                 ? ( <Redirect to='/' /> )
                 : ( <button onClick={this.handleClick}>
-                        <PlayerCard user={this.props.user} />
+                        <UserCard user={this.props.user} />
                     </button>)
             }
         </div>

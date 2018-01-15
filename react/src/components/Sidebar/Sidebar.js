@@ -3,12 +3,11 @@ import React, {
 } from 'react';
 
 import Title from './Title/Title';
-import PlayerCard from '../PlayerCard/PlayerCard';
+import UserCard from '../UserCard/UserCard';
 import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
 import Invites from './Invites/InvitesContainer';
 import Group from './Groups/GroupContainer/GroupContainer';
 import SidebarFooter from './sidebar-footer/sidebar-footer';
-import * as users from '../../resources/users';
 
 export default class Sidebar extends Component {
     constructor(props) {
@@ -22,10 +21,10 @@ export default class Sidebar extends Component {
                     <Title/>
                 </div>
                 <div className="body">
-                    <PlayerCard user={users.users[0]} />
+                    <UserCard user={this.props.user} />
                     <PreferredHeroes/>
                     <Invites/>
-                    <Group group={users.users[0]} />
+                    <Group group={this.props.user} />
                 </div>
                 <div className="footer">
                     <SidebarFooter/>
