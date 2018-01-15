@@ -24,6 +24,7 @@ export default class LoginPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        //TODO: Handle no users retured
         //TODO: How do people feel about moving dashboard and login to a pages folder?
         //TODO: Replace # with - in the api query
         //TODO: Limit returned users
