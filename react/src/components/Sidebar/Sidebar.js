@@ -22,10 +22,10 @@ export default class Sidebar extends Component {
                     <Title/>
                 </div>
                 <div className="body">
-                    <PlayerCard user={users.users[0]}/>
+                    <PlayerCard user={users.users[0]} />
                     <PreferredHeroes/>
                     <Invites/>
-                    <Group group={users.users[0]}/>
+                    <Group group={users.users[0]} />
                 </div>
                 <div className="footer">
                     <SidebarFooter/>

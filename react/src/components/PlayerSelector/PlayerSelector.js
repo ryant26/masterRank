@@ -14,7 +14,7 @@ export default class withRoutPlayerSelector extends Component {
     render() {
         return (
             <div>
-            { this.props.players.map((player, i) => <PlayerButton player={player} key={i}/>) }
+                { this.props.players.map((player, i) => <PlayerButton player={player} key={i}/>) }
             </div>
         );
     }
