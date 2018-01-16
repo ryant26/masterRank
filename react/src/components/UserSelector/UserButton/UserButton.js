@@ -29,7 +29,7 @@ export default class UserButton extends Component {
 
   render() {
     return (
-        <div>
+        <div className='UserButton'>
             { this.state.fireRedirect
                 ? ( <Redirect to='/' /> )
                 : ( <button onClick={this.handleClick}>
