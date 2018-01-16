@@ -54,7 +54,7 @@ export default class LoginPage extends Component {
         return (
             <div className="LoginPage flex">
             { this.state.users
-                ? ( <UserSelector users={this.state.users} updateUserAction={this.props.updateUserAction}/> )
+                ? ( <UserSelector users={this.state.users}/> )
                 : ( <div className="input-component skew">
                     <form onSubmit={this.handleSubmit} className="validate">
                         <div className="input-container">
