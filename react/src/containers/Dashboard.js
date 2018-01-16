@@ -1,7 +1,6 @@
 import React, {
   Component
 } from 'react';
-import Helmet from 'react-helmet';
 // import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
 import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
@@ -30,20 +29,11 @@ export default class Dashboard extends Component {
         };
 
         return (
-            <div className="App">
-                <Helmet
-                link={[
-                  {
-                    rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-                  }
-                ]}
-                />
-                <div className="flex">
-                    <Sidebar user={this.props.user} />
-                    <div className="flex flex-column" style={contentStyle}>
-                        <HeroSelectorCard/>
-                        {/*<HeroRolesContainer />*/}
-                    </div>
+            <div className="flex">
+                <Sidebar user={this.props.user} />
+                <div className="flex flex-column" style={contentStyle}>
+                    <HeroSelectorCard/>
+                    {/*<HeroRolesContainer />*/}
                 </div>
             </div>
         );
