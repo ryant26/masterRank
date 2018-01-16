@@ -23,7 +23,7 @@ export default class UserButton extends Component {
         fireRedirect: true
     });
 
-    //TODO: should I be making a token?
+    //TODO: implement Blizzard endpoint /auth/bnet
     this.props.updateUserAction(this.props.user);
   }
 
