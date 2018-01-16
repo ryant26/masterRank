@@ -1,12 +1,14 @@
 import React, {
   Component
 } from 'react';
-
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router'
 
 import UserCard from '../../UserCard/UserCard';
+import {updateUser as updateUserAction} from "../../../actions/user";
 
-export default class UserButton extends Component {
+class UserButton extends Component {
 
   constructor(props){
     super(props);
@@ -40,3 +42,11 @@ export default class UserButton extends Component {
     );
   }
 }
+
+const mapDispatchToProps = function (dispatch) {
+  return bindActionCreators({
+    updateUserAction: updateUserAction,
+  }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(UserButton)

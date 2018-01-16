@@ -5,14 +5,12 @@ import {
     BrowserRouter as Router,
     Switch
 } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import { PrivateRoute, PublicRoute } from '../routes/routes';
 import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/LoginPage';
-import {updateUser as updateUserAction} from "../actions/user";
 
 class App extends Component {
     constructor(props) {
@@ -36,14 +34,12 @@ class App extends Component {
                           exact
                           path='/login'
                           component={LoginPage}
-                          updateUserAction={this.props.updateUserAction}
                         />
                         <PrivateRoute
                           path="/"
                           component={Dashboard}
                           authed={this.props.store.user}
                           user={this.props.store.user}
-                          dispatch={this.props.dispatch}
                         />
 
                     </Switch>
@@ -59,13 +55,6 @@ const mapStateToProps = function(state){
   }
 }
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-    updateUserAction: updateUserAction,
-    dispatch: dispatch,
-  }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)
 
 
