@@ -8,11 +8,12 @@ import {
 import {updateUser as updateUserAction} from "../actions/user";
 import {addFilter as addFilterAction, removeFilter as removeFilterAction} from "../actions/heroFilters";
 import {clientEvents} from "../api/websocket";
-import store from './store';
 
 let socket;
+let store;
 
-const initialize = function(passedSocket) {
+const initialize = function(passedSocket, passedStore) {
+    store = passedStore;
     socket = passedSocket;
 
     socket.on(clientEvents.initialData, (players) => addHeroesToStore(players));

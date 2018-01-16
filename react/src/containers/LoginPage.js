@@ -39,7 +39,6 @@ export default class LoginPage extends Component {
             })
             .then(response => response.json())
             .then(response => {
-
               this.setState({
                 users: response
               })
