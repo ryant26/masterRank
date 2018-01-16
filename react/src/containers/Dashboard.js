@@ -7,7 +7,6 @@ import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Websocket from '../api/websocket';
 import Model from '../model/model';
-import store from '../model/store';
 import token from '../resources/token';
 
 
@@ -18,7 +17,7 @@ export default class Dashboard extends Component {
             websocket: new Websocket(token)
         };
 
-        Model.initialize(this.state.websocket, store);
+        Model.initialize(this.state.websocket);
     }
 
     componentWillUnmount() {

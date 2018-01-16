@@ -33,6 +33,7 @@ class App extends Component {
                       component={Dashboard}
                       authed={this.props.store.user}
                       user={this.props.store.user}
+                      dispatch={this.props.dispatch}
                     />
 
                 </Switch>
@@ -50,6 +51,7 @@ const mapStateToProps = function(state){
 const mapDispatchToProps = function (dispatch) {
   return bindActionCreators({
     updateUserAction: updateUserAction,
+    dispatch: dispatch,
   }, dispatch)
 }
 
