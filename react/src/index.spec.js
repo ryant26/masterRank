@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Store from './model/store';
-import Dashboard from './containers/Dashboard';
+import Dashboard from './pages/Dashboard';
 import { users } from './resources/users'
 
 describe('index', () => {

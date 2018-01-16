@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import { PrivateRoute, PublicRoute } from '../routes/routes';
-import Dashboard from '../containers/Dashboard';
-import LoginPage from '../containers/LoginPage';
+import Dashboard from '../pages/Dashboard';
+import LoginPage from '../pages/LoginPage';
 import {updateUser as updateUserAction} from "../actions/user";
 
 class App extends Component {
