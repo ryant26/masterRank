@@ -1,27 +1,26 @@
-import React, {
-  Component
-} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import UserButton from './UserButton/UserButton';
 
-export default class UserSelector extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+const UserSelector = (props) => {
 
-    render() {
-        return (
-            <div>
-                { this.props.users.map((user, i) =>
-                    <UserButton
-                        user={user}
-                        updateUserAction={this.props.updateUserAction}
-                        key={i}
-                    />)
-                }
-            </div>
-        );
-    }
+    return (
+        <div className='UserSelector'>
+            { props.users.map((user, i) =>
+                <UserButton
+                    user={user}
+                    updateUserAction={props.updateUserAction}
+                    key={i}
+                />)
+            }
+        </div>
+    );
 }
+
+UserSelector.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateUserAction: PropTypes.func.isRequired,
+};
+
+export default UserSelector;
