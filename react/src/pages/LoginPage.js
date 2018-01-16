@@ -12,6 +12,7 @@ export default class LoginPage extends Component {
         super(props);
         this.state = {
             displayName: '',
+            placeholder: 'Enter Full Battletag, PSN, or Xbox Gamertag...'
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,14 +25,11 @@ export default class LoginPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        //TODO: Handle no users retured
-        //TODO: How do people feel about moving dashboard and login to a pages folder?
-        //TODO: Replace # with - in the api query
-        //TODO: Limit returned users
-        fetch(urlForUserSearch(this.state.displayName))
+
+        let displayName = this.state.displayName.replace(/#/g, '-');
+        fetch(urlForUserSearch(displayName))
             .then(response => {
-            //TODO: how should we handle 304?
-              if (!response.ok || response.status == '304') {
+              if (!response.ok) {
                 throw Error("Network request failed")
               }
 
@@ -39,15 +37,22 @@ export default class LoginPage extends Component {
             })
             .then(response => response.json())
             .then(response => {
-              this.setState({
-                users: response
-              })
+                if(response.length == 0) {
+                    this.setState({
+                        displayName: '',
+                        placeholder: 'No matches found! please try again'
+                    })
+                } else {
+                    this.setState({
+                        users: response
+                    })
+                }
             })
     }
 
     render() {
         return (
-            <div className="container-md flex">
+            <div className="LoginPage flex">
             { this.state.users
                 ? ( <UserSelector users={this.state.users} updateUserAction={this.props.updateUserAction}/> )
                 : ( <div className="input-component skew">
@@ -57,11 +62,11 @@ export default class LoginPage extends Component {
                                 type="text"
                                 value={this.state.displayName}
                                 onChange={this.handleChange}
-                                placeholder="Enter Full Battletag, PSN, or Xbox Gamertag..."
+                                placeholder={this.state.placeholder}
                                 className="unskew stretch"
                             />
                         </div>
-                        <input type="submit" value="Search" className="input-button" />
+                        <input type="submit" value="Search" className="input-button" disabled={!this.state.displayName} />
                     </form>
                  </div>)
              }
