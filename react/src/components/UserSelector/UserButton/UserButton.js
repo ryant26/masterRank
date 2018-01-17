@@ -3,7 +3,8 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
 
 import UserCard from '../../UserCard/UserCard';
 import {updateUser as updateUserAction} from "../../../actions/user";
@@ -31,9 +32,9 @@ class UserButton extends Component {
 
   render() {
     return (
-        <div className='UserButton'>
+        <div className="UserButton">
             { this.state.fireRedirect
-                ? ( <Redirect to='/' /> )
+                ? ( <Redirect to="/" /> )
                 : ( <button onClick={this.handleClick}>
                         <UserCard user={this.props.user} />
                     </button>)
@@ -43,10 +44,15 @@ class UserButton extends Component {
   }
 }
 
+UserButton.propTypes = {
+    user: PropTypes.object.isRequired,
+    updateUserAction: PropTypes.func.isRequired
+};
+
 const mapDispatchToProps = function (dispatch) {
   return bindActionCreators({
     updateUserAction: updateUserAction,
-  }, dispatch)
-}
+  }, dispatch);
+};
 
-export default connect(null, mapDispatchToProps)(UserButton)
+export default connect(null, mapDispatchToProps)(UserButton);

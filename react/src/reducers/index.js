@@ -13,4 +13,4 @@ export default combineReducers({
   user: UserReducer,
   groupHeroes: GroupReducer,
   heroFilters: HeroFiltersReducer
-})
+});

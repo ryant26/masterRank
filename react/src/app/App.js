@@ -7,8 +7,10 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
-import { PrivateRoute, PublicRoute } from '../routes/routes';
+import { PrivateRoute } from '../components/routes/PrivateRoute';
+import { PublicRoute } from '../components/routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/LoginPage';
 
@@ -32,7 +34,7 @@ class App extends Component {
                     <Switch>
                         <PublicRoute
                           exact
-                          path='/login'
+                          path="/login"
                           component={LoginPage}
                         />
                         <PrivateRoute
@@ -49,12 +51,17 @@ class App extends Component {
     }
 }
 
+App.propTypes = {
+    store: PropTypes.object,
+    user: PropTypes.object
+};
+
 const mapStateToProps = function(state){
   return {
     store: state,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(App);
 
 

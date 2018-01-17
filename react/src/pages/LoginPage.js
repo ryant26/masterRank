@@ -5,7 +5,7 @@ import React, {
 import UserSelector from '../components/UserSelector/UserSelector';
 
 const urlForUserSearch = displayName =>
-  `/api/players/search?platformDisplayName=${displayName}`
+  `/api/players/search?platformDisplayName=${displayName}`;
 
 export default class LoginPage extends Component {
     constructor(props) {
@@ -30,10 +30,10 @@ export default class LoginPage extends Component {
         fetch(urlForUserSearch(displayName))
             .then(response => {
               if (!response.ok) {
-                throw Error("Network request failed")
+                throw Error("Network request failed");
               }
 
-              return response
+              return response;
             })
             .then(response => response.json())
             .then(response => {
@@ -41,13 +41,13 @@ export default class LoginPage extends Component {
                     this.setState({
                         displayName: '',
                         placeholder: 'No matches found! please try again'
-                    })
+                    });
                 } else {
                     this.setState({
                         users: response
-                    })
+                    });
                 }
-            })
+            });
     }
 
     render() {

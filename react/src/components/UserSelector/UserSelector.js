@@ -6,13 +6,13 @@ import UserButton from './UserButton/UserButton';
 const UserSelector = (props) => {
 
     return (
-        <div className='UserSelector'>
+        <div className="UserSelector">
             { props.users.map((user, i) =>
                 <UserButton user={user} key={i} />
             )}
         </div>
     );
-}
+};
 
 UserSelector.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,

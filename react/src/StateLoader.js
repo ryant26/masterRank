@@ -30,6 +30,6 @@ export class StateLoader {
     initializeState() {
         return {
               //state object
-            }
+            };
     }
 }

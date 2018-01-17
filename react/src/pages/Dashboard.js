@@ -1,13 +1,15 @@
 import React, {
   Component
 } from 'react';
+import PropTypes from 'prop-types';
+
 // import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
 import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Websocket from '../api/websocket';
 import Model from '../model/model';
 import token from '../resources/token';
-import store from '../model/store'
+import store from '../model/store';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -39,3 +41,7 @@ export default class Dashboard extends Component {
         );
     }
 }
+
+Dashboard.propTypes = {
+    user: PropTypes.object.isRequired
+};
