@@ -1,29 +1,35 @@
 import React from 'react';
+
+import PropTypes from 'prop-types';
+
 import Title from './Title/Title';
-import PlayerCard from './PlayerCard/PlayerCard';
+import UserCard from '../UserCard/UserCard';
 import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
 import Invites from './Invites/InvitesContainer';
 import Group from './Groups/GroupContainer/GroupContainer';
 import SidebarFooter from './sidebar-footer/sidebar-footer';
-import * as users from '../../resources/users';
 
-const Sidebar = () => {
+const Sidebar = (props) => {
     return (
         <div className="Sidebar flex flex-column">
             <div className="header">
                 <Title/>
             </div>
             <div className="body">
-                <PlayerCard user={users.users[0]}/>
+                <UserCard user={props.user} />
                 <PreferredHeroes/>
                 <Invites/>
-                <Group group={users.users[0]}/>
+                <Group group={props.user} />
             </div>
             <div className="footer">
                 <SidebarFooter/>
             </div>
         </div>
     );
+};
+
+Sidebar.propTypes = {
+  user: PropTypes.object.isRequired,
 };
 
 export default Sidebar;

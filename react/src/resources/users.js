@@ -6,7 +6,6 @@ export const users = [
         "platform": "pc",
         "level": 155,
         "portrait": "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x025000000000115A.png",
-        "region": "us",
-        "skillRating": 2450
+        "region": "us"
     }
 ];

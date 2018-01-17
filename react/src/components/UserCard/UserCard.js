@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlayerCard = ({user}) => {
+const UserCard = ({user}) => {
 
     function addComma(x) {
         return x.toLocaleString();
@@ -26,26 +26,28 @@ const PlayerCard = ({user}) => {
     }
 
     return (
-        <div className="PlayerCard sidebar-card">
+        <div className="UserCard sidebar-card">
             <img src={user.portrait}/>
             <div className="ImagePadding">
                 <div className="heroInfo">
                     <div>{user.platformDisplayName}</div>
-                    <div className="rank">
-                        <img src={addIcon(user.skillRating)}/>                      
-                        {addComma(user.skillRating)}
-                    </div>
+                    { user.skillRating &&
+                        <div className="rank">
+                            <img src={addIcon(user.skillRating)}/>
+                            {addComma(user.skillRating)}
+                        </div>
+                    }
                 </div>
                 <div className="metaLabels">
-                    <div>{user.platform}</div><div>SKILL RATING</div>
+                    <div>{user.platform}</div>
                 </div>
             </div>
         </div>
     );
 };
 
-PlayerCard.propTypes = {
+UserCard.propTypes = {
     user: PropTypes.object.isRequired
 };
 
-export default PlayerCard;
+export default UserCard;

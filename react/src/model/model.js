@@ -85,4 +85,5 @@ const Actions = {
     setSelectedSlotInStore,
     updateUser
 };
+
 export default Actions;
