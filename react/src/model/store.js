@@ -1,7 +1,7 @@
 import { createStore as createReduxStore } from 'redux';
 
 import reducers from '../reducers/index';
-import { StateLoader } from '../StateLoader';
+import { StateLoader } from './StateLoader';
 
 
 export const createStore = function() {

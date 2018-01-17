@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import App from './app/App';
 import store from './model/store';
-import { StateLoader } from "./StateLoader";
+import { StateLoader } from "./model/StateLoader";
 
 require('./stylesheets/main.scss');
 
