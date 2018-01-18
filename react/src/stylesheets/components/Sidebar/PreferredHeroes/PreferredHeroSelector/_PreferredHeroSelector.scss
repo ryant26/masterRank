@@ -16,6 +16,10 @@ $border: 1px solid $gray6;
     border-radius: 3px;
   }
 
+  div.body {
+    padding: 12px;
+  }
+
   .HeroButton {
     &.selected {
       @include selected;
@@ -24,9 +28,6 @@ $border: 1px solid $gray6;
   }
 
   .footer {
-    padding: 18px 24px;
-    border-top: $border;
-
     & > div:first-child {
       padding: 10px 20px;
     }

@@ -1,0 +1,274 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroStatsListItem component should match the snapshot 1`] = `
+<div
+  className="HeroStatsListItem"
+>
+  <div
+    className="flex align-center"
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+    <div>
+      <h3>
+        Soldier76
+      </h3>
+      <div
+        className="sub-title"
+      >
+        3
+         hours played
+      </div>
+    </div>
+    <div
+      className="flex justify-between record"
+    >
+      <div
+        className="RecordStat flex flex-column align-end"
+      >
+        <div
+          className="stat"
+        >
+          11
+        </div>
+        <div
+          className="sub-title"
+        >
+          WINS
+        </div>
+      </div>
+      <div
+        className="RecordStat flex flex-column align-end"
+      >
+        <div
+          className="stat"
+        >
+          7
+        </div>
+        <div
+          className="sub-title"
+        >
+          LOSSES
+        </div>
+      </div>
+      <div
+        className="RecordStat flex flex-column align-end"
+      >
+        <div
+          className="stat"
+        >
+          2.99
+        </div>
+        <div
+          className="sub-title"
+        >
+          K/D
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="flex wrap justify-between"
+  >
+    <div
+      className="HeroStat flex flex-column"
+    >
+      <div>
+        <span
+          className="stat"
+        >
+          1339
+        </span>
+        <span
+          className="stat-label sub-title"
+        >
+          /min
+        </span>
+      </div>
+      <div
+        className="indicator"
+      >
+        <div
+          className="indicator-level"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="sub-title"
+      >
+        DAMAGE
+      </div>
+    </div>
+    <div
+      className="HeroStat flex flex-column"
+    >
+      <div>
+        <span
+          className="stat"
+        >
+          148
+        </span>
+        <span
+          className="stat-label sub-title"
+        >
+          /min
+        </span>
+      </div>
+      <div
+        className="indicator"
+      >
+        <div
+          className="indicator-level"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="sub-title"
+      >
+        HEALING
+      </div>
+    </div>
+    <div
+      className="HeroStat flex flex-column"
+    >
+      <span
+        className="stat"
+      >
+        -
+      </span>
+      <div
+        className="indicator"
+      >
+        <div
+          className="indicator-level"
+          style={
+            Object {
+              "width": "0%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="sub-title"
+      >
+        BLOCKED
+      </div>
+    </div>
+    <div
+      className="HeroStat flex flex-column"
+    >
+      <div>
+        <span
+          className="stat"
+        >
+          11
+        </span>
+        <span
+          className="stat-label sub-title"
+        >
+          /min
+        </span>
+      </div>
+      <div
+        className="indicator"
+      >
+        <div
+          className="indicator-level"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="sub-title"
+      >
+        OBJ. KILLS
+      </div>
+    </div>
+    <div
+      className="HeroStat flex flex-column"
+    >
+      <div>
+        <span
+          className="stat"
+        >
+          56
+        </span>
+        <span
+          className="stat-label sub-title"
+        >
+          /min
+        </span>
+      </div>
+      <div
+        className="indicator"
+      >
+        <div
+          className="indicator-level"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="sub-title"
+      >
+        OBJ. TIME
+      </div>
+    </div>
+    <div
+      className="HeroStat flex flex-column"
+    >
+      <div>
+        <span
+          className="stat"
+        >
+          36
+        </span>
+        <span
+          className="stat-label sub-title"
+        >
+          %
+        </span>
+      </div>
+      <div
+        className="indicator"
+      >
+        <div
+          className="indicator-level"
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+      <div
+        className="sub-title"
+      >
+        ACCURACY
+      </div>
+    </div>
+  </div>
+</div>
+`;
