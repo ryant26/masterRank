@@ -1,21 +1,23 @@
-import React, {
-  Component
-} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 
 import StatBox from '../../../StatBox/StatBox';
 import PropTypes from 'prop-types';
 
-export default class HeroCardStats extends Component {
+const HeroCardStats =  ({user, hero}) => {
 
-  render() {
-    let averageStats = this.props.hero;
+    let averageStats = hero;
 
     const row = {
       'height': '56px'
     };
 
     return (
-      <div>
+      <div className="HeroCardStats">
+          <div className="header">
+              <h3>Preferred Heroes</h3>
+              <div className="sub-title">{user.skillRating} SR</div>
+          </div>
         <div style={row}>
           <StatBox
             label="Eliminations"
@@ -58,9 +60,20 @@ export default class HeroCardStats extends Component {
         </div>
       </div>
     );
-  }
-}
+};
 
 HeroCardStats.propTypes = {
-  hero: PropTypes.object.isRequired
+    user: PropTypes.shape({
+      platformDisplayName: PropTypes.string.isRequired
+    }),
+    hero: PropTypes.object
 };
+
+const mapStateToProps = (state) => {
+    return {
+        heroes: state.heroes,
+        user: state.user
+    };
+};
+
+export default connect(mapStateToProps)(HeroCardStats);

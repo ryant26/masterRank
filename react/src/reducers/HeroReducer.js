@@ -16,7 +16,7 @@ for (let i = 0; i < 300; i++) {
     initialState.push(hero);
 }
 
-export default function HeroReducer(state=initialState, action) {
+export default function HeroReducer(state=[], action) {
   switch(action.type) {
       case HeroActionTypes.ADD_HERO: {
           let out = state;

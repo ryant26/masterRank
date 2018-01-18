@@ -29,7 +29,7 @@ const FireTeamModal = (props) => {
 FireTeamModal.propTypes = {
     modalOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
-    children: PropTypes.any
+    children: PropTypes.node.isRequired
 };
 
 export default FireTeamModal;
