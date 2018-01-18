@@ -20,6 +20,9 @@ const FireTeamModal = (props) => {
             }}
         >
             <div className="FireTeamModal flex flex-column stretch">
+                <div className="close-button" onClick={props.closeModal}>
+                    <i className="fa fa-times"/>
+                </div>
                 {props.children}
             </div>
         </Modal>

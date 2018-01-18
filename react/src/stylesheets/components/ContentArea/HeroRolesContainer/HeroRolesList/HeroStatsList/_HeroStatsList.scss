@@ -1,0 +1,27 @@
+.HeroStatsList {
+  .header {
+    span {
+      padding-right: 10px;
+    }
+
+    .HeroImage {
+      margin-right: 10px;
+      height: 50px;
+      width: 50px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  div.body {
+    padding-top: 0;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .button-secondary {
+    height: 30px;
+  }
+}
