@@ -28,6 +28,24 @@
     cursor: pointer;
   }
 }
+
+.close-button {
+  .fa-times {
+    line-height: inherit;
+  }
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  line-height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  color: $gray1;
+  background-color: white;
+  border: 1px solid $gray5;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
   
 .button-content {
     transform: skewX(20deg);

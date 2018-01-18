@@ -1,8 +1,9 @@
-const HEROES = [
+export const getHeroes = () => {return [
     {
         "platformDisplayName": "PwNShoPP#1662",
         "heroName": "soldier76",
         "skillRating": 2400,
+        "priority": 1,
         "stats": {
             "hoursPlayed": 3,
             "wins": 11,
@@ -28,6 +29,7 @@ const HEROES = [
         "platformDisplayName": "PwNShoPP#1662",
         "heroName": "hanzo",
         "skillRating": 2400,
+        "priority": 2,
         "stats": {
             "hoursPlayed": 3,
             "wins": 11,
@@ -53,6 +55,7 @@ const HEROES = [
         "platformDisplayName": "PwNShoPP#1662",
         "heroName": "dva",
         "skillRating": 2400,
+        "priority": 3,
         "stats": {
             "hoursPlayed": 3,
             "wins": 11,
@@ -78,6 +81,7 @@ const HEROES = [
         "platformDisplayName": "PwNShoPP#1662",
         "heroName": "zenyatta",
         "skillRating": 2400,
+        "priority": 4,
         "stats": {
             "hoursPlayed": 3,
             "wins": 11,
@@ -100,5 +104,8 @@ const HEROES = [
         }
     },
 ];
+};
+
+const HEROES = getHeroes();
 
 export default HEROES;

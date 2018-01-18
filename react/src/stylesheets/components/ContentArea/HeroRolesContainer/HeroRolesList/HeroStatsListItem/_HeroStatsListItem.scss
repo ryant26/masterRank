@@ -1,0 +1,26 @@
+.HeroStatsListItem {
+  border-bottom: 1px solid $gray6;
+  padding: 15px 0;
+
+  .HeroImage {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+
+  .HeroStat {
+    margin-top: 15px;
+    width: 30%;
+  }
+
+  .record {
+    width: 20%;
+    margin-left: auto;
+  }
+
+  .stat {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14pt;
+    color: $gray3;
+  }
+}

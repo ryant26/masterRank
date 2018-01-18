@@ -25,7 +25,8 @@ export class FireTeam extends Component {
         Model.updateUser({
             platformDisplayName: decodedToken.platformDisplayName,
             region: decodedToken.region,
-            platform: decodedToken.platform
+            platform: decodedToken.platform,
+            skillRating: 2400
         });
     }
 
