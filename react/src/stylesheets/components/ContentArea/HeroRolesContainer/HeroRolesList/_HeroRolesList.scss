@@ -1,0 +1,19 @@
+.HeroRolesList {
+  flex: 1;
+
+  .role-icon {
+    height: 16px;
+    width: 17px;
+    margin-bottom: 4px;
+  }
+
+  .body {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .empty-list-message {
+    margin-top: 20%;
+  }
+}

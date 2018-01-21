@@ -1,6 +1,7 @@
 @import 'HeroImage/HeroImage';
-@import "HeroSelector/HeroButton/HeroButton";
-@import "HeroSelector/HeroSelectorCard";
+@import "ContentArea/HeroSelector/HeroButton/HeroButton";
+@import "ContentArea/HeroSelector/HeroSelectorCard";
+@import "ContentArea/HeroRolesContainer/HeroRolesList/HeroCard/HeroCard";
 @import "Badge/Badge";
 @import '/UserCard/UserCard';
 @import 'Sidebar/Title/Title';
@@ -12,3 +13,7 @@
 @import 'Sidebar/Groups/GroupHeroCard/GroupHeroCard';
 @import 'Sidebar/Groups/GroupContainer/GroupContainer';
 @import "Sidebar/sidebar";
+@import "ContentArea/ContentArea";
+@import "ContentArea/HeroRolesContainer/HeroRolesContainer";
+@import "ContentArea/HeroRolesContainer/HeroRolesList/HeroRolesList";
+@import "FireTeamModal/FireTeamModal";

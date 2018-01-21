@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import {createStore} from '../../../../model/store';
 import Model from '../../../../model/model';
 import {addHero} from '../../../../actions/preferredHeroes';
-import HeroButton from '../../../HeroSelector/HeroButton/HeroButton';
+import HeroButton from '../../../ContentArea/HeroSelector/HeroButton/HeroButton';
 import HeroSlot from '../HeroSlot/HeroSlot';
 
 const MockSocket = require('socket-io-mock');
@@ -56,14 +56,14 @@ describe('<PreferredHeroSelector/>', () => {
 
     it('Should set selectedHero in the state', () => {
         wrapper.find(HeroButton).at(0).simulate('click');
-        expect(wrapper.find('PreferredHeroSelector').instance().state.selectedHero).toEqual('ana');
+        expect(wrapper.find('PreferredHeroSelector').instance().state.selectedHero).toEqual('doomfist');
     });
 
     it('Should reflect the saved hero in the props', () => {
         wrapper.find(HeroButton).at(0).simulate('click');
         wrapper.find('button.button-primary').simulate('click');
 
-        expect(wrapper.find('PreferredHeroSelector').instance().props.preferredHeroes).toEqual(['ana']);
+        expect(wrapper.find('PreferredHeroSelector').instance().props.preferredHeroes).toEqual(['doomfist']);
     });
 
     it('Should reflect the selected hero slot in the props', () => {

@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroCard Component should toggle the stats card on click 1`] = `
+<div
+  className="HeroCard flex align-center"
+>
+  <div
+    className="invitePlayerButton"
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+    <div
+      className="overlay"
+    >
+      <div
+        className="plus-container flex align-center justify-center"
+      >
+        <i
+          className="fa fa-plus"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="content flex flex-column"
+  >
+    <div
+      className="display-name"
+    >
+      PwNShoPP#1662
+    </div>
+    <div
+      className="sub-title"
+    >
+      <span>
+        2400
+         SR
+      </span>
+      <span>
+         | 
+      </span>
+      <span>
+        61.1
+        % WR
+      </span>
+    </div>
+  </div>
+  <div
+    className="button-primary"
+    onClick={[Function]}
+  >
+    <div
+      className="button-content"
+    >
+      stats
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HeroCard Component should toggle the stats card on click 2`] = `
+<div
+  className="HeroCard flex align-center"
+>
+  <div
+    className="invitePlayerButton"
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+    <div
+      className="overlay"
+    >
+      <div
+        className="plus-container flex align-center justify-center"
+      >
+        <i
+          className="fa fa-plus"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="content flex flex-column"
+  >
+    <div
+      className="display-name"
+    >
+      PwNShoPP#1662
+    </div>
+    <div
+      className="sub-title"
+    >
+      <span>
+        2400
+         SR
+      </span>
+      <span>
+         | 
+      </span>
+      <span>
+        61.1
+        % WR
+      </span>
+    </div>
+  </div>
+  <div
+    className="button-primary"
+    onClick={[Function]}
+  >
+    <div
+      className="button-content"
+    >
+      stats
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HeroCard Component should toggle the stats card on click 3`] = `
+<div
+  className="HeroCard flex align-center"
+>
+  <div
+    className="invitePlayerButton"
+  >
+    <img
+      alt="soldier76 icon"
+      className="HeroImage"
+      onClick={undefined}
+      src={
+        Object {
+          "process": [Function],
+        }
+      }
+    />
+    <div
+      className="overlay"
+    >
+      <div
+        className="plus-container flex align-center justify-center"
+      >
+        <i
+          className="fa fa-plus"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="content flex flex-column"
+  >
+    <div
+      className="display-name"
+    >
+      PwNShoPP#1662
+    </div>
+    <div
+      className="sub-title"
+    >
+      <span>
+        2400
+         SR
+      </span>
+      <span>
+         | 
+      </span>
+      <span>
+        61.1
+        % WR
+      </span>
+    </div>
+  </div>
+  <div
+    className="button-primary"
+    onClick={[Function]}
+  >
+    <div
+      className="button-content"
+    >
+      stats
+    </div>
+  </div>
+</div>
+`;

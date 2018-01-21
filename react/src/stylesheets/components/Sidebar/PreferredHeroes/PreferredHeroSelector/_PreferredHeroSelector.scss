@@ -6,29 +6,20 @@ $border: 1px solid $gray6;
 }
 
 .PreferredHeroSelector {
-  .header {
-    padding: 18px 24px;
-    border-bottom: $border;
-  }
-
   .hero-slots {
     width: 250px;
   }
 
-  .body {
-    padding: 12px;
+  .HeroImage {
+    height: 50px;
+    width: 50px;
+    border-radius: 3px;
+  }
 
-    .HeroImage {
-      height: 50px;
-      width: 50px;
-      border-radius: 3px;
-    }
-
-    .HeroButton {
-      &.selected {
-        @include selected;
-        margin: 9px;
-      }
+  .HeroButton {
+    &.selected {
+      @include selected;
+      margin: 9px;
     }
   }
 

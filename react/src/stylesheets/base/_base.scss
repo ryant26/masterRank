@@ -1,4 +1,10 @@
-body {
+html, body {
   font-family: 'Industry', 'Roboto', sans-serif;
   background-color: $gray7;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.App {
+  height: 100vh;
 }

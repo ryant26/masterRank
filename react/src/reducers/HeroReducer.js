@@ -1,6 +1,20 @@
 import * as HeroActionTypes from '../actiontypes/hero';
 import {arrayHasDuplicate} from "./reducerUtilities";
+import MockHeroes from '../resources/heroes';
+const names = require('../../../shared/allHeroNames').names;
 
+let initialState = [];
+
+const getRandomHeroName = function() {
+    let randNum = Math.floor(Math.random() * names.length);
+    return names[randNum];
+};
+
+for (let i = 0; i < 300; i++) {
+    let hero = Object.assign({}, MockHeroes[0]);
+    hero.heroName = getRandomHeroName();
+    initialState.push(hero);
+}
 
 export default function HeroReducer(state=[], action) {
   switch(action.type) {

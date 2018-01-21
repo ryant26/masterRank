@@ -22,22 +22,3 @@
     cursor: pointer;
   }
 }
-
-.Hero-selector-overlay-open {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: $transparentBlue1;
-
-  .Hero-selector-modal-open {
-    margin: 15% 25%;
-    background: white;
-
-    &:focus {
-      outline: none;
-    }
-  }
-}
-

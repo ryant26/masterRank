@@ -3,9 +3,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-// import HeroRolesContainer from './HeroRolesContainer/HeroRolesContainer';
-import HeroSelectorCard from '../components/HeroSelector/HeroSelectorCard';
 import Sidebar from '../components/Sidebar/Sidebar';
+import ContentArea from '../components/ContentArea/ContentArea';
 import Websocket from '../api/websocket';
 import Model from '../model/model';
 import token from '../resources/token';
@@ -26,17 +25,11 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const contentStyle = {
-            padding: '24px'
-        };
 
         return (
-            <div className="flex">
+            <div className="Dashboard flex stretch">
                 <Sidebar user={this.props.user} />
-                <div className="flex flex-column" style={contentStyle}>
-                    <HeroSelectorCard/>
-                    {/*<HeroRolesContainer />*/}
-                </div>
+                <ContentArea/>
             </div>
         );
     }

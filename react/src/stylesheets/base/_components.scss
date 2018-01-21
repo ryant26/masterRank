@@ -3,4 +3,13 @@
   background: white;
   border: 1px solid $gray5;
   box-shadow: 0 0 8px 0 $shadow;
+
+  & > .header {
+    border-bottom: 1px solid $gray6;
+    padding: 16px 16px 12px 16px;
+  }
+
+  & > .body {
+    padding: 6px;
+  }
 }

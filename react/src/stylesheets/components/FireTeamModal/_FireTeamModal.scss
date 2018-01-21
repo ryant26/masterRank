@@ -1,0 +1,33 @@
+.FireTeamModal-overlay {
+  .header {
+    padding: 18px 24px;
+    border-bottom: $border;
+  }
+
+  .body {
+    padding: 12px;
+  }
+
+  .footer {
+    padding: 18px 24px;
+    border-top: $border;
+  }
+
+  &.overlay-open {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $transparentBlue1;
+  }
+
+  .modal-open {
+    margin: 15% 25%;
+    background: white;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
