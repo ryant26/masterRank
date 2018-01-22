@@ -37,9 +37,9 @@ module.exports = {
         });
     },
 
-    startNodeProcess: function(cwd, filePath, env, startupString) {
+    startNodeProcess: function(cwd, filePath, env, startupString, ...args) {
         return new Promise((resolve, reject) => {
-            let child = spawn('node', [filePath], {cwd, env: Object.assign({}, process.env, {NODE_ENV: env})});
+            let child = spawn('node', [filePath, ...args], {cwd, env: Object.assign({}, process.env, {NODE_ENV: env})});
             processes.push(child);
 
             child.stdout.on('data', (data) => {
