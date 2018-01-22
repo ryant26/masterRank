@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import UserButton from './UserButton/UserButton';
 
-const UserSelector = (props) => {
+const UserSelector = ({users}) => {
 
     return (
         <div className="UserSelector">
-            { props.users.map((user, i) =>
+            { users.map((user, i) =>
                 <UserButton user={user} key={i} />
             )}
         </div>

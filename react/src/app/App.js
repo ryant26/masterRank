@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PrivateRoute } from '../components/routes/PrivateRoute';
 import { PublicRoute } from '../components/routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
-import LoginPage from '../pages/LoginPage';
+import LoginPage from '../pages/LoginPage/LoginPage';
 
 class App extends Component {
     constructor(props) {

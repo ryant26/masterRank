@@ -2,10 +2,7 @@ import React, {
   Component
 } from 'react';
 
-import UserSelector from '../components/UserSelector/UserSelector';
-
-const urlForUserSearch = displayName =>
-  `/api/players/search?platformDisplayName=${displayName}`;
+import UserSelector from '../../components/UserSelector/UserSelector';
 
 export default class LoginPage extends Component {
     constructor(props) {
@@ -26,8 +23,7 @@ export default class LoginPage extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        let displayName = this.state.displayName.replace(/#/g, '-');
-        fetch(urlForUserSearch(displayName))
+        fetch(this.urlForUserSearch(this.state.displayName))
             .then(response => {
               if (!response.ok) {
                 throw Error("Network request failed");
@@ -48,6 +44,14 @@ export default class LoginPage extends Component {
                     });
                 }
             });
+    }
+
+    urlForUserSearch(displayName) {
+        return `/api/players/search?platformDisplayName=${this.sanitize(displayName)}`;
+    }
+
+    sanitize(displayName) {
+        return displayName.replace(/#/g, '-');
     }
 
     render() {
