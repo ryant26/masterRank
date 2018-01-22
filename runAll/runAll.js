@@ -10,15 +10,18 @@ const landingPageRoot = __dirname + '/../landingPage';
 runUtils.checkExist('mongod');
 runUtils.checkExist('redis-server');
 
+const mockDataFlag = process.argv.includes('--mock-data') ? '--mock-data' : undefined;
+
 runUtils.startProcess('mongod', 'port 27017').then(() => {
     return runUtils.startProcess('redis-server', 'port 6379', 'Ready to accept connections');
 }).then(() => {
     let proxy = runUtils.startNodeProcess(heroApiRoot, 'devTools/proxy.js', 'develop');
     let heroApiServer = runUtils.startNodeProcess(heroApiRoot, 'src/app.js', 'develop', 'port 3003');
-    let socketServer = runUtils.startNodeProcess(socketServerRoot, 'src/app.js', 'develop', 'port 3004');
     let landingPage = runUtils.startNodeProcess(landingPageRoot, 'fileserver.js', 'develop', 'port 3005');
 
-    return Promise.all([proxy, heroApiServer, socketServer, landingPage]);
+    return Promise.all([proxy, heroApiServer, landingPage]);
+}).then(() => {
+    return runUtils.startNodeProcess(socketServerRoot, 'src/app.js', 'develop', 'port 3004', mockDataFlag);
 }).then(() => {
     logger.info('====================== All Processes Started ====================');
     logger.info('=================================================================');

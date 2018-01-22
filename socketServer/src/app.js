@@ -7,6 +7,7 @@ const groupControllerFactory = require('./controllers/factories/groupControllerF
 const playerControllerFactory = require('./controllers/factories/playerControllerFactory');
 const authenticationControllerFactory = require('./controllers/factories/authenticationControllerFactory');
 const dependencyMocker = require('./mockingUtilities/mockDependencies');
+const dataMocker = require('./mockingUtilities/mockData');
 const serverEvents = require('./socketEvents/serverEvents');
 
 const port = config.get('port');
@@ -14,6 +15,7 @@ const regionNamespaces = ['us', 'eu', 'apac'];
 const platformNamespaces = ['pc', 'ps', 'xb'];
 
 dependencyMocker.mockAllDependenciesForEnvironment();
+dataMocker.mockDataForEnvironment();
 
 let onAuthenticated = function (namespace, socket, token) {
     socket.removeAllListeners();
