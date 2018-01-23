@@ -47,8 +47,12 @@ describe('Login Page', () => {
         expect(LoginPageComponent.state('displayName')).toBe(arrayUsers[0].platformDisplayName);
     });
 
-    it('should render UserSelector and pass state users when state users is defined', () => {
+    it('should render UserSelector, search box, and button when when state users is defined', () => {
         LoginPageComponent.setState({users: arrayUsers});
+        expect(LoginPageComponent.find('.input-component')).toHaveLength(1);
+        expect(LoginPageComponent.find('form')).toHaveLength(1);
+        expect(LoginPageComponent.find('.input-component')).toHaveLength(1);
+        expect(LoginPageComponent.find('input')).toHaveLength(2);
         let UserSelectorComponent = LoginPageComponent.find(UserSelector);
         expect(UserSelectorComponent).toHaveLength(1);
         expect(UserSelectorComponent.prop('users')).toBe(arrayUsers);

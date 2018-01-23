@@ -57,9 +57,7 @@ export default class LoginPage extends Component {
     render() {
         return (
             <div className="LoginPage flex">
-            { this.state.users
-                ? ( <UserSelector users={this.state.users}/> )
-                : ( <div className="input-component skew">
+                <div className="input-component skew">
                     <form onSubmit={this.handleSubmit} className="validate">
                         <div className="input-container">
                             <input
@@ -69,12 +67,12 @@ export default class LoginPage extends Component {
                                 placeholder={this.state.placeholder}
                                 className="unskew stretch"
                             />
+                            <input type="submit" value="Search" className="input-button" disabled={!this.state.displayName} />
                         </div>
-                        <input type="submit" value="Search" className="input-button" disabled={!this.state.displayName} />
                     </form>
-                 </div>)
-             }
-             </div>
+                    { this.state.users && ( <UserSelector users={this.state.users}/> )}
+                 </div>
+            </div>
         );
     }
 }

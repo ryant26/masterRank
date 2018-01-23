@@ -20,6 +20,8 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.heroAdded, (hero) => addHeroToStore(hero));
     socket.on(clientEvents.error.addHero, addHeroErrorHandler);
     socket.on(clientEvents.groupInviteReceived, (invite) => addInviteToStore(invite));
+    //TODO: Ryan, thoughts on this implementation?
+    socket.on(clientEvents.authenticated, () => loadPreferredHeroesFromLocalStorage());
 };
 
 const addHeroFilterToStore = function(filter) {
@@ -75,6 +77,14 @@ const addHeroErrorHandler = function(err) {
     removePreferredHeroFromStore(err.heroName);
     // Do whatever we do to shuffle heroes in the case that multiple were added
     // After this one
+};
+
+const loadPreferredHeroesFromLocalStorage = () => {
+    //TODO: Ryan, does socket.addHero(heroName, preference), in the backend, check if the hero has been added yet?
+    let preferredHeroes = store.getState().preferredHeroes.heroes;
+    preferredHeroes.forEach((hero, key) => {
+        addPreferredHero(hero, (key+1));
+    })
 };
 
 const Actions = {

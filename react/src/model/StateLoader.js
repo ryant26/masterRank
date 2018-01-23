@@ -1,5 +1,3 @@
-//TODO opinions where to put this?
-
 export class StateLoader {
 
     loadState() {
@@ -19,7 +17,12 @@ export class StateLoader {
 
     saveState(state) {
         try {
-            let serializedState = JSON.stringify(state);
+            let serializedState = JSON.stringify({
+                user: state.user,
+                preferredHeroes: state.preferredHeroes,
+                heroFilters: state.heroFilters
+            });
+
             localStorage.setItem("state", serializedState);
         }
         catch (err) {
