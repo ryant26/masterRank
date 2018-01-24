@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
 import UserCard from '../../UserCard/UserCard';
@@ -13,32 +12,32 @@ class UserButton extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-        fireRedirect: false
-    };
 
     this.handleClick = this.handleClick.bind(this);
+    this.redirectUrl = this.redirectUrl.bind(this);
   }
 
-  handleClick(event){
-    event.preventDefault();
-    this.setState({
-        fireRedirect: true
-    });
+  handleClick(){
+    //TODO: implement Blizzard endpoint /auth/bnet?region={region}
+    //TODO: Still not sure how you want this user to be set. token
+    let user = this.props.user;
+    this.props.updateUserAction(user);
+    window.location.assign(this.redirectUrl());
+  }
 
-    //TODO: implement Blizzard endpoint /auth/bnet
-    this.props.updateUserAction(this.props.user);
+  //TODO: what do I do with the callback https://localhost:3002/auth/bnet/callback?region=us&code=68tr9t6samjgrznzng89d7su
+  redirectUrl() {
+    //TODO: Bnet still shows our app as MasterRank (Blizzards end)
+    //TODO: how should i be getting region? it is not a part of the user obj returned when I search
+    return `/auth/bnet/callback?region=us`;
   }
 
   render() {
     return (
         <div className="UserButton">
-            { this.state.fireRedirect
-                ? ( <Redirect to="/" /> )
-                : ( <button onClick={this.handleClick}>
-                        <UserCard user={this.props.user} />
-                    </button>)
-            }
+            <button onClick={this.handleClick}>
+                <UserCard user={this.props.user} />
+            </button>)
         </div>
     );
   }

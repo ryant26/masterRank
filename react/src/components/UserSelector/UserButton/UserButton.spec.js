@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import { shallow } from 'enzyme';
 
 import { users } from '../../../resources/users';
@@ -28,17 +27,15 @@ describe('User Button', () => {
         expect(UserButtonContainer.prop('updateUserAction')).toBeDefined();
     });
 
-    it('should set fireRedirect to false, not redirect user, and render UserCard component when page loads', () => {
-        expect(UserButtonComponent.state('fireRedirect')).toBe(false);
-        expect(UserButtonComponent.find(Redirect)).toHaveLength(0);
+    it('should render UserCard component when page loads', () => {
         expect(UserButtonComponent.find(UserCard)).toHaveLength(1);
     });
 
-    it('should set fireRedirect to true, redirect user to "/", and not render UserCard component when button is clicked', () => {
-        UserButtonComponent.find('button').simulate('click', { preventDefault() {} });
-        expect(UserButtonComponent.state('fireRedirect')).toBe(true);
-        expect(UserButtonComponent.find(Redirect)).toHaveLength(1);
-        expect(UserButtonComponent.find(Redirect).prop('to')).toBe('/');
-        expect(UserButtonComponent.find(UserCard)).toHaveLength(0);
+    it('should call updateUserAction and redirect user to blizzard auth when button is clicked', () => {
+        window.location.assign = jest.fn();
+        UserButtonComponent.find('button').simulate('click');
+        //TODO: check that updateUserAction was called
+        let redirectUrl = UserButtonComponent.instance().redirectUrl();
+        expect(window.location.assign).toBeCalledWith(redirectUrl);
     });
 });

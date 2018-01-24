@@ -20,7 +20,6 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.heroAdded, (hero) => addHeroToStore(hero));
     socket.on(clientEvents.error.addHero, addHeroErrorHandler);
     socket.on(clientEvents.groupInviteReceived, (invite) => addInviteToStore(invite));
-    //TODO: Ryan, thoughts on this implementation?
     socket.on(clientEvents.authenticated, () => loadPreferredHeroesFromLocalStorage());
 };
 
@@ -84,7 +83,7 @@ const loadPreferredHeroesFromLocalStorage = () => {
     let preferredHeroes = store.getState().preferredHeroes.heroes;
     preferredHeroes.forEach((hero, key) => {
         addPreferredHero(hero, (key+1));
-    })
+    });
 };
 
 const Actions = {

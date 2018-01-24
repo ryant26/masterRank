@@ -35,6 +35,19 @@ describe('Model', () => {
         model.updateUser(token);
     });
 
+//    describe('Authenticated', () => {
+//        it('should add preferred heroes from local storage', () => {
+//            store = createStore();
+//            let preferredHeroes = [generateHero('hero1'),generateHero('hero2')];
+//            store.getState().preferredHeroes.heroes = preferredHeroes;
+//            socket = initializeSocket();
+//            model.initialize(socket, store);
+//
+//            socket.socketClient.emit(clientEvents.authenticated);
+//            expect(store.getState().preferredHeroes.heroes).toEqual(preferredHeroes);
+//        });
+//    });
+
     describe('Socket Events', () => {
         describe('Initial Data', () => {
             it('should add all heroes to the store', () => {

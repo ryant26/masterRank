@@ -25,6 +25,7 @@ browserSync({
 
     middleware: [
         proxyMiddleware('/api', {target: 'http://localhost:3003', changeOrigin: true}),
+        proxyMiddleware('/auth', {target: 'http://localhost:3003', changeOrigin: true}),
 
         historyApiFallback(),
 
