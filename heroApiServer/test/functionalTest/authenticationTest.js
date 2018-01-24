@@ -16,7 +16,7 @@ let testBnetRegion = function(region, done) {
         .then(Promise.reject)
         .catch((err) => {
             assert.equal(err.response.status, 302);
-            assert.equal(err.response.headers.location, `https://${region}.battle.net/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A3002%2Fauth%2Fbnet%2Fcallback%3Fregion%3D${region}&client_id=${clientId}`);
+            assert.equal(err.response.headers.location, `https://${region}.battle.net/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fauth%2Fbnet%2Fcallback%3Fregion%3D${region}&client_id=${clientId}`);
             done();
         });
 };

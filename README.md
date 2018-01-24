@@ -32,3 +32,7 @@ npm install
 ### Start all services
 cd runAll/
 node runAll.js
+
+### Start all services with mock data injected
+cd runAll/
+node runAll.js --mock-data

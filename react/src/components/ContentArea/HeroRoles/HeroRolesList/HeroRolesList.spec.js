@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
+import renderer from 'react-test-renderer';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { mount } from 'enzyme';
 
@@ -49,6 +50,22 @@ describe('HeroRoles Component', () => {
 
         expect(HeroRolesComponent.length).toBeTruthy();
         expect(HeroCardComponent.length).toBeTruthy();
+    });
+
+    it('should match the snapshot', () => {
+        let component = renderer.create(
+            <HeroRoles heroes={[]} role="tank" user={{platformDisplayName: 'myName'}}/>
+        );
+
+        let tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
+
+        component = renderer.create(
+            <HeroRoles heroes={[HEROES[0]]} role="offensive" user={{platformDisplayName: 'myName'}}/>
+        );
+
+        tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it('should render container with one hero with correct role', () => {

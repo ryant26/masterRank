@@ -55,6 +55,11 @@ browserSync({
     ]
   },
 
+  https: {
+    key: '../certs/key.pem',
+      cert: '../certs/cert.pem'
+  },
+
   // no need to watch '*.js' here, webpack will take care of it for us,
   // including full page reloads if HMR won't work
   files: [

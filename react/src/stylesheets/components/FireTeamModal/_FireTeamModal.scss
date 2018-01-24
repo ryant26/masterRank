@@ -1,19 +1,26 @@
+@mixin padding {
+  padding: 18px 24px;
+}
+
 .FireTeamModal-overlay {
   .header {
-    padding: 18px 24px;
+    @include padding;
     border-bottom: $border;
   }
 
   .body {
-    padding: 12px;
+    @include padding;
   }
 
   .footer {
-    padding: 18px 24px;
+    @include padding;
     border-top: $border;
   }
 
   &.overlay-open {
+    @include flexbox;
+    @include align-items(center);
+    @include justify-content(center);
     position: fixed;
     top: 0;
     bottom: 0;
@@ -23,11 +30,24 @@
   }
 
   .modal-open {
-    margin: 15% 25%;
+    width: 60%;
+    max-height: 80%;
     background: white;
+    border-radius: 3px;
+    border: 1px solid $gray5;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.2);
 
     &:focus {
       outline: none;
     }
+  }
+
+  .close-button {
+    display: inline-block;
+    position: relative;
+    top: 15px;
+    left: 100%;
+    margin-top: -30px;
+    margin-left: -15px;
   }
 }

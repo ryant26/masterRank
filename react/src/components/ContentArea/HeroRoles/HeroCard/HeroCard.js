@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 
-import HeroCardStats from '../HeroCardStats/HeroCardStats';
+import HeroStatsList from '../HeroStatsList/HeroStatsList';
 import HeroImage from '../../../HeroImage/HeroImage';
 import PropTypes from 'prop-types';
 import Modal from '../../../Modal/Modal';
@@ -86,7 +86,7 @@ export default class HeroCard extends Component {
                 </div>
             </div>
             <Modal modalOpen={this.state.modalOpen} closeModal={this.closeModal}>
-                <HeroCardStats hero={this.props.hero}/>
+                <HeroStatsList hero={this.props.hero}/>
             </Modal>
 
         </div>
