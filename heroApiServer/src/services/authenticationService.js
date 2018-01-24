@@ -17,7 +17,7 @@ let generateToken = function(req, res, next) {
 };
 
 let respond = function(req, res) {
-    res.setHeader('set-cookie', `access_token=${req.token}`);
+    res.cookie('access_token', req.token);
     res.redirect('/');
 };
 
