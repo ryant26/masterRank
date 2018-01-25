@@ -1,4 +1,9 @@
-const app = require('http').createServer();
+const fs = require('fs');
+const options = {
+    key: fs.readFileSync('../certs/key.pem'),
+    cert: fs.readFileSync('../certs/cert.pem')
+};
+const app = require('https').createServer(options);
 const io = require('socket.io')(app);
 const redisAdapter = require('socket.io-redis');
 const config = require('config');
