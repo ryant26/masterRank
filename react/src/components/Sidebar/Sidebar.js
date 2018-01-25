@@ -19,7 +19,7 @@ const Sidebar = (props) => {
                 <UserCard user={props.user} />
                 <PreferredHeroes/>
                 <Invites/>
-                <Group group={props.user} />
+                <Group />
             </div>
             <div className="footer">
                 <SidebarFooter/>

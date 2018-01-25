@@ -4,88 +4,157 @@ import React, {
 import { connect } from 'react-redux';  
 import PropTypes from 'prop-types';
 import GroupHeroCard from '../GroupHeroCard/GroupHeroCard';
-import HEROES from '../../../../resources/heroes';
+import Model from '../../../../model/model';
 
 export class GroupContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { showing: false };
         this.createGroup = this.createGroup.bind(this);   
         this.leaveGroup = this.leaveGroup.bind(this);
-        this.groupHeroes = this.props.groupHeroes;
-        this.user = this.props.user;
+        this.cancelInvite = this.cancelInvite.bind(this);
+        this.pendingHeroes = [];
+    }
+
+    componentDidUpdate() {
+        if (this.props.group.pending.length > this.pendingHeroes.length) {
+            for (let i = 0; i < this.props.group.pending.length; i++) {
+                if (!this.containsPlatformDisplayName(this.props.group.pending[i].platformDisplayName, this.pendingHeroes)) {
+                    let heroObject = {
+                        platformDisplayName: this.props.group.pending[i].platformDisplayName,
+                        heroName: this.props.group.pending[i].heroName
+                    };
+                    this.pendingHeroes.push(heroObject);
+                } 
+            }
+            setTimeout(() => {
+                    this.cancelInvite(this.pendingHeroes[0]);
+                    this.pendingHeroes.shift();
+            }, 30000);
+        }
     }
 
     createGroup() {
-        // TODO: Create Group socket function
-        // use 'create group' button -> fire serverEvents.createGroup
-        // removes 'create group' button -> adds 'You' as initial card
-        // use createGroupData -> socket server
-        // creategroupdata === playerInvited from socket api wiki
+        Model.createNewGroup(this.props.preferredHeroes.heroes[0]);
     }
 
     leaveGroup() {
-        // todo: Actually Implement
+        Model.leaveGroup(this.props.group.groupId);
     }
 
-    // Event Listener todo:
-        // listen for group invite accepted event -> add group card to group list
-        // listen for groupInviteDecline
-        // listen for groupInviteCancel
-        // listen for groupInviteSend from InvitePlayerButton to create and show pending text when user has not accepted invite
-        // listen for playerInvited -> 
-            // populate current the invited user's card with 'pending'
-            // include a loading animation there: like ... dancing or something
-            // timeout event after 30000 ms
-               
+    cancelInvite(heroToBeRemoved) {
+        Model.cancelInvite(heroToBeRemoved);
+    }
+
+    showGroupStats() {
+
+    }
+    
+    getPendingHeroesFromStore() {
+        return this.props.group.pending;
+    }
+
+    containsPlatformDisplayName(platformDisplayName, pendingHeroes) {
+        let i;
+        for (i = 0; i < pendingHeroes.length; i++) {
+            if (pendingHeroes[i].platformDisplayName === platformDisplayName) {
+                return true;
+            }
+        }
+    
+        return false;
+    }
+
     render() {
-        // todo: implement get current users preferred hero from socket
-        const usersPreferredHero = HEROES[0];
-        const groupHeroCards = this.groupHeroes.map((hero,i) => {
-            i = i + 2;
-            return <GroupHeroCard hero={hero} name={hero.platformDisplayName} number={i.toString()} key={i.toString()} />;
+        let renderMemberCards;
+        let renderPendingCards;
+        let groupHeroCards;
+        let renderGroupAndButtons;
+        let i = 1;
+
+        renderMemberCards = this.props.group.members.map((hero) => {
+            i = i + 1;
+            let usersName = hero.platformDisplayName;
+            if (this.props.user.platformDisplayName === usersName) {
+                usersName = 'You';
+            }
+            return <GroupHeroCard hero={hero} number={i} userName={usersName} key={i} />;
         });
+
+        renderPendingCards = this.props.group.pending.map((hero) => {
+            i = i + 1;
+            let usersName = hero.platformDisplayName;
+            if (this.props.user.platformDisplayName === usersName) {
+                usersName = 'You';
+            }
+            return <GroupHeroCard hero={hero} number={i} userName={usersName} key={i} pending={true}/>;
+        });
+
+        renderGroupAndButtons = 
+                (<div>                
+                    {renderMemberCards}
+                    {renderPendingCards}
+                    <br/>
+                    <button className="button-four flex align-center justify-center">
+                        <div className="button-content">
+                            Team Stats
+                        </div>
+                    </button>
+                </div>);
+
+        if (!this.props.group.leader) {
+            groupHeroCards = (
+                <div className="InvitesList">
+                    <div className="list-container">
+                        <div className="sub-title empty-list-message flex justify-center align-center">
+                            <div>Not currently in a group</div>
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            if (this.props.group.leader.platformDisplayName === this.props.user.platformDisplayName){
+                groupHeroCards = (
+                    <div>
+                        <GroupHeroCard hero={this.props.group.leader} number={1} userName={'You'} key={'1'} leader={true} /> 
+                        {renderGroupAndButtons}
+                    </div>
+                );
+            } else {
+                groupHeroCards = (
+                    <div>
+                        <GroupHeroCard hero={this.props.group.leader} number={1} userName={this.props.group.leader.platformDisplayName} key={'1'} leader={true} /> 
+                        {renderGroupAndButtons}
+                        <br/>
+                        <div className="flex justify-center">
+                            <i className="leaveText" onClick={this.leaveGroup}>leave group</i>
+                        </div>
+                    </div>
+                );
+            } 
+        } 
 
         return (
             <div className="GroupContainer sidebar-card flex flex-column">
-            <div className="sidebar-title">Your Group</div>
-                { this.state.showing 
-                    ?   <div>  
-                            <GroupHeroCard hero={usersPreferredHero} name={'You'} number={'1'} key={'1'} />
-                            {groupHeroCards}
-                            <button className="button-primary flex align-center justify-center">
-                                <div className="button-content">
-                                    Team Stats
-                                </div>
-                            </button>
-                        </div>
-                    :   <button className="button-primary" onClick={
-                                (prevState) => {
-                                    this.createGroup;
-                                    this.setState({ showing: !prevState.showing });
-                                }
-                            }>
-                            <div className="button-content">
-                                Create Group
-                            </div>
-                        </button> 
-                }
-                <i className="leaveText" onClick={this.leaveGroup}>leave group</i>
+                <div className="sidebar-title">Your Group</div>
+                {groupHeroCards}
             </div>
         );
     }
 }
 
 GroupContainer.propTypes = {
-    user: PropTypes.object,
-    groupHeroes: PropTypes.array.isRequired
+    group: PropTypes.object.isRequired,
+    preferredHeroes: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => (
-    {
-      groupHeroes: state.groupHeroes
-    }
-);
+const mapStateToProps = (state) => {
+    return {
+      group: state.group,
+      preferredHeroes: state.preferredHeroes,
+      user: state.user
+    };
+};
 
 export default connect(mapStateToProps)(GroupContainer);

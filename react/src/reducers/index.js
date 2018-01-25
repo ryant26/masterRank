@@ -9,8 +9,8 @@ import HeroFiltersReducer from './HeroFiltersReducer';
 export default combineReducers({
   heroes: HeroReducer,
   preferredHeroes: PreferredHeroesReducer,
-  groupInvites: GroupInvitesReducer,
   user: UserReducer,
-  groupHeroes: GroupReducer,
+  group: GroupReducer,
+  groupInvites: GroupInvitesReducer,
   heroFilters: HeroFiltersReducer
 });

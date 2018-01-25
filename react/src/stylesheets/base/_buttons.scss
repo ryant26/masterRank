@@ -29,6 +29,11 @@
   }
 }
 
+.button-four {
+  @include button($blue2, $blue3);
+  width:100%;
+}
+
 .close-button {
   .fa-times {
     line-height: inherit;

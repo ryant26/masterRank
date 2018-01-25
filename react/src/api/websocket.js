@@ -6,15 +6,26 @@ export const clientEvents = {
     initialData: 'initialData',
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
+    groupPromotedLeader: 'groupPromotedLeader',
     groupInviteReceived: 'groupInviteRecieved',
+    groupHeroLeft: 'groupHeroLeft',
+    playerInvited: 'playerInvited',
+    groupInviteCanceled: 'groupInviteCanceled',
+    groupInviteAccepted: 'groupInviteAccepted',
     error: {
-        addHero: 'error.addHero'
+        addHero: 'error.addHero',
+        groupLeave: 'error.groupLeave',
+        groupInviteCancel: 'error.groupInviteCancel'
     }
 };
 
 const serverEvents = {
     authenticate: 'authenticate',
-    addHero: 'addHero'
+    addHero: 'addHero',
+    createGroup: 'createGroup',
+    groupInviteSend: 'groupInviteSend',
+    groupLeave: 'groupLeave',
+    groupInviteCancel: 'groupInviteCancel'
 };
 
 const websocketPort = '3004';
@@ -42,6 +53,22 @@ export default class Websocket {
 
     addHero(heroName, priority) {
         this.emit(serverEvents.addHero, {heroName, priority});
+    }
+
+    groupInviteSend(userObject) {
+        this.emit(serverEvents.groupInviteSend, userObject);
+    }
+
+    createGroup(heroName) {
+        this.emit(serverEvents.createGroup, {heroName});
+    }
+
+    groupLeave(groupId) {
+        this.emit(serverEvents.groupLeave, groupId);
+    }
+
+    groupInviteCancel(userObject) {
+        this.emit(serverEvents.groupInviteCancel, userObject);
     }
 
     on(event, cb) {

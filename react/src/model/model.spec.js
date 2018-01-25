@@ -9,6 +9,7 @@ const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
 const initializeSocket = function() {
     let websocket = new mockSocket();
     websocket.addHero = function() {}; //stub
+    websocket.createGroup = function() {}; // stub
     return websocket;
 };
 
@@ -23,6 +24,10 @@ let generateInvite = function(id=1, groupLeader='PwNShoPP') {
 let generateUser = function(platformDisplayName=token.platformDisplayName, region=token.region, platform=token.platform) {
     return {platformDisplayName, region, platform};
 };
+
+// let generateGroup = function() {
+
+// };
 
 describe('Model', () => {
     let store;
@@ -96,6 +101,20 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
                 expect(store.getState().preferredHeroes.heroes).toEqual([]);
             });
+
+            xit('should create a new group for the current user if the hero added is the first preferred hero', () => {
+                let heroObject = 'hero';
+                model.addPreferredHero(heroObject, 1);
+                socket.socketClient.emit(clientEvents.createGroup, heroObject);
+                expect(store.getState().group.leader).toEqual({
+                    platformDisplayName: 'PwNShoPP', 
+                    heroName: heroObject
+                });
+            });
+
+            xit('should promote leader of the group for the current user if the hero added replaces the first preferred hero', () => {
+
+            });
         });
 
         describe('Group invite received', () => {
@@ -107,10 +126,44 @@ describe('Model', () => {
 
             it('should not add multiple invites with the same id to the list', () => {
                 let invite = generateInvite();
-
                 socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
                 socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
                 expect(store.getState().groupInvites).toEqual([invite]);
+            });
+        });
+
+        describe('Group Promoted Leader', () => {
+            xit('should update the group with a new leader', () => {
+                // let promotedLeaderObject = generateLeaderGroup();
+                // socket.socketClient.emit(clientEvents.groupPromotedLeader, promotedLeaderObject);
+                // expect(store.getState().group).toEqual(promotedLeaderObject);
+            });
+        });
+
+        describe('Player Invited', () => {
+            xit('should update the group with a new pending user', () => {
+            //     let groupInvitePendingObject = generatePendingObject();
+            //     socket.socketClient.emit(clientEvents.groupPromotedLeader, groupInvitePendingObject);
+            //     expect(store.getState().group).toEqual(groupInvitePendingObject);
+            });
+        });
+
+        describe('Group Hero Left', () => {
+            xit('should update the group by removing the specified user', () => {
+            //     let groupHeroExistsObject = generateCurrentGroup();
+            //     expect(store.getState().group).toEqual(groupHeroExistsObject);
+
+            //     let groupHeroLeftObject = generateLeftObject();
+            //     socket.socketClient.emit(clientEvents.groupPromotedLeader, groupHeroLeftObject);
+            //     expect(store.getState().group).toEqual(groupHeroLeftObject);
+            });
+        });
+
+        describe('Group Invite Canceled', () => {
+            xit('should remove the specified pending hero from the group', () => {
+            //     let groupHeroCancelledObject = generateCanceledObject();
+            //     socket.socketClient.emit(clientEvents.groupInviteCanceled, groupHeroCancelledObject);
+            //     expect(store.getState().group).toEqual(groupHeroCancelledObject);
             });
         });
     });
@@ -230,5 +283,42 @@ describe('Model', () => {
                 expect(store.getState().user).toEqual(user2);
             });
         });
+
+        describe('createNewGroup', () => {
+            xit('should fire createGroup socket event', () => {
+
+            });
+            xit('should set a new group in the state with group leader', () => {
+
+            });
+        });
+
+        describe('inviteUserToGroup', () => {
+            xit('should fire groupInviteSend socket event', () => {
+
+            });
+            xit('should set a new group in the state with invited user', () => {
+
+            });
+        });
+
+        describe('leaveGroup', () => {
+            xit('should fire groupLeave socket event', () => {
+
+            });
+            xit('should return the same group with the missing user', () => {
+
+            });
+        });
+
+        describe('cancelInvite', () => {
+            xit('should fire cancelInvite socket event', () => {
+
+            });
+            xit('should set a new group in the state with pending user missing', () => {
+
+            });
+        });
+
     });
 });
