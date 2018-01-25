@@ -18,17 +18,15 @@ class UserButton extends Component {
   }
 
   handleClick(){
-    //TODO: implement Blizzard endpoint /auth/bnet?region={region}
-    //TODO: Still not sure how you want this user to be set. token
+    //TODO: Decided when and where to move cookie token to local storage
     let user = this.props.user;
     this.props.updateUserAction(user);
     window.location.assign(this.redirectUrl());
   }
 
-  //TODO: what do I do with the callback https://localhost:3002/auth/bnet/callback?region=us&code=68tr9t6samjgrznzng89d7su
   redirectUrl() {
     //TODO: Bnet still shows our app as MasterRank (Blizzards end)
-    //TODO: how should i be getting region? it is not a part of the user obj returned when I search
+    //TODO: Decide what to do about region and unhard code "us" here
     return `/auth/bnet/callback?region=us`;
   }
 

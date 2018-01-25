@@ -29,6 +29,19 @@ let generateUser = function(platformDisplayName=token.platformDisplayName, regio
 
 // };
 
+describe('Model should load preferred heroes when Socket event authenticated is emitted', () => {
+    it('should add preferred heroes from local storage', () => {
+        let store = createStore();
+        let preferredHeroes = [generateHero('hero1'),generateHero('hero2')];
+        store.getState().preferredHeroes.heroes = preferredHeroes;
+        let socket = initializeSocket();
+        model.initialize(socket, store);
+        
+        socket.socketClient.emit(clientEvents.authenticated);
+        expect(store.getState().preferredHeroes.heroes).toEqual(preferredHeroes);
+    });
+});
+
 describe('Model', () => {
     let store;
     let socket;
@@ -39,19 +52,6 @@ describe('Model', () => {
         model.initialize(socket, store);
         model.updateUser(token);
     });
-
-//    describe('Authenticated', () => {
-//        it('should add preferred heroes from local storage', () => {
-//            store = createStore();
-//            let preferredHeroes = [generateHero('hero1'),generateHero('hero2')];
-//            store.getState().preferredHeroes.heroes = preferredHeroes;
-//            socket = initializeSocket();
-//            model.initialize(socket, store);
-//
-//            socket.socketClient.emit(clientEvents.authenticated);
-//            expect(store.getState().preferredHeroes.heroes).toEqual(preferredHeroes);
-//        });
-//    });
 
     describe('Socket Events', () => {
         describe('Initial Data', () => {

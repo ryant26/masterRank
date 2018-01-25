@@ -34,7 +34,6 @@ describe('User Button', () => {
     it('should call updateUserAction and redirect user to blizzard auth when button is clicked', () => {
         window.location.assign = jest.fn();
         UserButtonComponent.find('button').simulate('click');
-        //TODO: check that updateUserAction was called
         let redirectUrl = UserButtonComponent.instance().redirectUrl();
         expect(window.location.assign).toBeCalledWith(redirectUrl);
     });
