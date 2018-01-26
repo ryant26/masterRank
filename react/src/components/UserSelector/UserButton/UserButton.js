@@ -18,9 +18,6 @@ class UserButton extends Component {
   }
 
   handleClick(){
-    //TODO: Decided when and where to move cookie token to local storage
-    let user = this.props.user;
-    this.props.updateUserAction(user);
     window.location.assign(this.redirectUrl());
   }
 
@@ -35,7 +32,7 @@ class UserButton extends Component {
         <div className="UserButton">
             <button onClick={this.handleClick}>
                 <UserCard user={this.props.user} />
-            </button>)
+            </button>
         </div>
     );
   }

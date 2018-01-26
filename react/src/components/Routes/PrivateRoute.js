@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
+import Authentication from '../Authentication/Authentication';
 
 export const PrivateRoute = ({ component, authed, ...rest }) => {
   return (
@@ -11,9 +11,7 @@ export const PrivateRoute = ({ component, authed, ...rest }) => {
         authed ? (
           React.createElement(component, Object.assign(routeProps, rest))
         ) : (
-          <Redirect
-            to={{ pathname: '/login', state: { from: routeProps.location } }}
-          />
+          <Authentication />
         )}
     />
   );

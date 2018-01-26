@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
-import { PrivateRoute } from '../components/routes/PrivateRoute';
-import { PublicRoute } from '../components/routes/PublicRoute';
+import { PrivateRoute } from '../components/Routes/PrivateRoute';
+import { PublicRoute } from '../components/Routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/LoginPage/LoginPage';
 
@@ -43,7 +43,6 @@ class App extends Component {
                           authed={this.props.store.user}
                           user={this.props.store.user}
                         />
-
                     </Switch>
                 </Router>
             </div>
