@@ -16,8 +16,11 @@ const getCookie = (name) => {
     return cookieValue;
 };
 
-class Callback extends Component {
-    //TODO: Is there a reason to not just store the token straight to local storage?
+const deleteCookie = (name) => {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
+
+class Authentication extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,8 +32,8 @@ class Callback extends Component {
         let accessToken = this.state.accessToken;
 
         if (accessToken) {
+            deleteCookie('access_token');
             localStorage.setItem('accessToken', accessToken);
-            //TODO: figure out how to delete a cookie
             let decodedToken = decode(accessToken);
             fetch(this.urlForUserSearch(decodedToken.platformDisplayName))
                 .then(response => {
@@ -56,7 +59,7 @@ class Callback extends Component {
     }
 }
 
-Callback.propTypes = {
+Authentication.propTypes = {
     updateUserAction: PropTypes.func.isRequired
 };
 
@@ -66,4 +69,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(Callback);
+export default connect(null, mapDispatchToProps)(Authentication);
