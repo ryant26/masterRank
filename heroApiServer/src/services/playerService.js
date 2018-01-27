@@ -6,7 +6,7 @@ const owValidator = require('../validators/owApiValidator');
 
 let searchForPlayer = function(token) {
     let queryCriteria = {
-        $text: {$search: token.platformDisplayName},
+        platformDisplayName: token.platformDisplayName
     };
 
     if (token.platform) {

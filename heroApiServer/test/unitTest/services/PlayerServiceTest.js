@@ -298,6 +298,15 @@ describe('playerService', function() {
             });
         });
 
+        it('shoud call the Overwatch API when an exact match not found in db', function() {
+            mockHelpers.stubOwSearchForPlayer([]);
+            return playerService.findOrCreatePlayer(token).then(() => {
+                return playerService.searchForPlayer({platformDisplayName: 'pwnshopp'});
+            }).then(() => {
+                assert.isTrue(ow.searchForPlayer.called);
+            });
+        });
+
         it('should not call the Overwatch API when found in db', function() {
             mockHelpers.stubOwSearchForPlayer([]);
             return playerService.findOrCreatePlayer(token).then(() => {
