@@ -29,7 +29,7 @@ export default class HeroRoles extends Component {
                 <div className="header flex justify-between">
                     <h3>{role}</h3>
                     <img className="role-icon"
-                         src={require(`../../../../assets/${this.props.role}.png`)}
+                         src={require(`../../../../../assets/${this.props.role}.png`)}
                          alt = {this.props.role+' icon'}
                     />
                 </div>

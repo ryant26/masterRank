@@ -3,10 +3,10 @@ import React, {
 } from 'react';
 
 import HeroStatsList from '../HeroStatsList/HeroStatsList';
-import HeroImage from '../../../HeroImage/HeroImage';
+import HeroImage from '../../../../HeroImage/HeroImage';
 import PropTypes from 'prop-types';
-import Modal from '../../../Modal/Modal';
-import Model from '../../../../model/model';
+import Modal from '../../../../Modal/Modal';
+import Model from '../../../../../model/model';
 
 const classNames = require('classnames');
 

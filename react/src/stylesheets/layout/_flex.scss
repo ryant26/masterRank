@@ -2,6 +2,10 @@
   @include flexbox();
 }
 
+.grow {
+  @include flex();
+}
+
 .flex-column {
   @include flex-direction(column);
 }
