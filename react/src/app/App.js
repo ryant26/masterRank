@@ -13,6 +13,7 @@ import { PrivateRoute } from '../components/Routes/PrivateRoute';
 import { PublicRoute } from '../components/Routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/LoginPage/LoginPage';
+import {login, home} from "../components/Routes/links"
 
 class App extends Component {
     constructor(props) {
@@ -33,14 +34,15 @@ class App extends Component {
                 <Router>
                     <Switch>
                         <PublicRoute
-                            exact
-                            path="/login"
-                            component={LoginPage}
+                          exact
+                          path={login}
+                          component={LoginPage}
                         />
                         <PrivateRoute
-                            path="/"
-                            component={Dashboard}
-                            authed={this.props.store.user}
+                          path={home}
+                          component={Dashboard}
+                          authed={this.props.store.user}
+                          user={this.props.store.user}
                         />
                     </Switch>
                 </Router>

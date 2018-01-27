@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HeroImage from '../../../HeroImage/HeroImage';
+import HeroImage from '../../../../HeroImage/HeroImage';
 const classNames = require('classnames');
 
 const SelectorButton = ({heroName, selected, onClick}) => {
