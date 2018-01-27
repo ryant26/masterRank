@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import PropTypes from 'prop-types';
-import HeroImage from '../../../HeroImage/HeroImage';
+import HeroImage from '../../../../HeroImage/HeroImage';
 import HeroStatsCard from "../HeroStatsListItem/HeroStatsListItem";
 
 const HeroStatsList =  ({hero, heroes}) => {

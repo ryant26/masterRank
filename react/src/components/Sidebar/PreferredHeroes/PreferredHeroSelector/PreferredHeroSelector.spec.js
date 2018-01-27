@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import {createStore} from '../../../../model/store';
 import Model from '../../../../model/model';
 import {addHero} from '../../../../actions/preferredHeroes';
-import HeroButton from '../../../ContentArea/HeroSelector/HeroButton/HeroButton';
+import HeroButton from '../../../ContentArea/Home/HeroSelector/HeroButton/HeroButton';
 import HeroSlot from '../HeroSlot/HeroSlot';
 
 const MockSocket = require('socket-io-mock');
