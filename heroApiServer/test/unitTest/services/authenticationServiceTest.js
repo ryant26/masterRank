@@ -49,7 +49,7 @@ describe('authenticationService', function() {
 
     describe('respond', function() {
         let res = {
-            setHeader: sinon.stub(),
+            cookie: sinon.stub(),
             redirect: sinon.stub()
         };
 
@@ -59,7 +59,7 @@ describe('authenticationService', function() {
 
         it('should set the response header "set-cookie" with the token', function() {
             authenticationService.respond(req, res);
-            assert.isTrue(res.setHeader.calledWith('set-cookie', `access_token=${req.token}`));
+            assert.isTrue(res.cookie.calledWith('access_token', req.token));
         });
 
         it('should redirect the user to the homepage', function() {
