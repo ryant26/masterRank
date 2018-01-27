@@ -32,7 +32,7 @@ module.exports = class CommonUtilities {
 
     getSocket(platformDisplayName, region = this.regions.us, platform = 'pc') {
         let self = this;
-        let outSocket = io(this.getSocketUrl(region, platform), {forceNew: true});
+        let outSocket = io(this.getSocketUrl(region, platform), {reconnect: true, forceNew: true, secure: true, rejectUnauthorized: false});
 
         outSocket.authenticate = function() {
             return new Promise((resolve) => {

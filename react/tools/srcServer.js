@@ -25,6 +25,7 @@ browserSync({
 
     middleware: [
         proxyMiddleware('/api', {target: 'http://localhost:3003', changeOrigin: true}),
+        proxyMiddleware('/auth', {target: 'http://localhost:3003', changeOrigin: true}),
 
         historyApiFallback(),
 
@@ -52,6 +53,11 @@ browserSync({
       // bundler should be the same as above
       webpackHotMiddleware(bundler)
     ]
+  },
+
+  https: {
+    key: '../certs/key.pem',
+      cert: '../certs/cert.pem'
   },
 
   // no need to watch '*.js' here, webpack will take care of it for us,

@@ -41,6 +41,15 @@ describe('Model', () => {
     });
 
     describe('Socket Events', () => {
+        describe('Authenticated', () => {
+            xit('should add preferred heroes from local storage', () => {
+                model.loadPreferredHeroesFromLocalStorage = jest.fn();
+                //Todo: cant figure out how to mock our websocket.js constructor
+                socket.socketClient.emit(clientEvents.authenticated, true);
+                expect(model.loadPreferredHeroesFromLocalStorage).toHaveBeenCalled();
+            });
+        });
+
         describe('Initial Data', () => {
             it('should add all heroes to the store', () => {
                 let heroArray = [
