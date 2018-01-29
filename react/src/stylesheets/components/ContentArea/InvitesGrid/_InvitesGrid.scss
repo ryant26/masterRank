@@ -1,0 +1,37 @@
+.InvitesGrid {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .homeLink {
+    margin-bottom: 24px;
+  }
+
+  .title {
+    margin-bottom: 24px;
+  }
+
+  .Badge {
+    margin-left: 8px;
+  }
+
+  .header {
+    h3 {
+      margin-right: 5px;
+    }
+
+    .group-title {
+      margin-bottom: 8px;
+    }
+
+  }
+
+  .grid {
+    margin: -10px -10px;
+    .InvitesGridItem {
+      margin: 10px 10px;
+      width: 23%;
+      min-width: 250px;
+    }
+  }
+
+}

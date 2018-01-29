@@ -13,7 +13,7 @@ import { PrivateRoute } from '../components/Routes/PrivateRoute';
 import { PublicRoute } from '../components/Routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/LoginPage/LoginPage';
-import {login, home} from "../components/Routes/links"
+import {login, home} from '../components/Routes/links';
 
 class App extends Component {
     constructor(props) {
