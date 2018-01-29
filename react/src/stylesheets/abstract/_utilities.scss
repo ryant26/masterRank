@@ -1,0 +1,8 @@
+@mixin selectable ($selectable: auto) {
+  user-drag: $selectable;
+  user-select: $selectable;
+  -moz-user-select: $selectable;
+  -webkit-user-drag: $selectable;
+  -webkit-user-select: $selectable;
+  -ms-user-select: $selectable;
+}
