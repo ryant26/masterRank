@@ -7,7 +7,7 @@ import UserCard from '../UserCard/UserCard';
 import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
 import Invites from './Invites/InvitesContainer';
 import Group from './Groups/GroupContainer/GroupContainer';
-import SidebarFooter from './sidebar-footer/sidebar-footer';
+import SidebarFooter from './SidebarFooter/SidebarFooter';
 
 const Sidebar = ({user}) => {
     return (

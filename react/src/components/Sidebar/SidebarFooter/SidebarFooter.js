@@ -1,14 +1,17 @@
 import React from 'react';
 
-const sidebarFooter = () => {
+import LogoutButton from './LogoutButton/LogoutButton';
+
+const SidebarFooter = () => {
     return (
         <div className="sidebar-footer flex justify-around sidebar-card">
             <a>Settings</a>
             <a>Help</a>
-            <a>Log Out</a>
+            <div>
+                <LogoutButton/>
+                </div>
         </div>
-
     );
 };
 
-export default sidebarFooter;
+export default SidebarFooter;
