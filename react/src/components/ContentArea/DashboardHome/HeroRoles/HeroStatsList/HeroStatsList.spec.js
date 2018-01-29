@@ -1,10 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import {getHeroes} from '../../../../resources/heroes';
+import {getHeroes} from '../../../../../resources/heroes';
 import HeroStatsList from './HeroStatsList';
-import {createStore} from "../../../../model/store";
-import {addHero} from "../../../../actions/hero";
+import {createStore} from "../../../../../model/store";
+import {addHero} from "../../../../../actions/hero";
 
 
 const getMixedHeroes = () => {
@@ -45,7 +45,7 @@ describe('HeroStatsList Component', () => {
 
     it('should match the snapshot', () => {
         let component = renderer.create(
-            <HeroStatsList store={getStore()} hero={hero}/>
+            <HeroStatsList store={getStore()} hero={hero} invitable={true}/>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();

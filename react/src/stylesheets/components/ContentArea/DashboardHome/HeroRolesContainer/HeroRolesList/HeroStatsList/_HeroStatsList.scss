@@ -16,9 +16,12 @@
   }
 
   div.body {
-    padding-top: 0;
     max-height: 400px;
     overflow-y: auto;
+
+    .HeroStatsListItem:first-child {
+      margin-top: -18px;
+    }
   }
 
   .button-secondary {

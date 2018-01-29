@@ -29,6 +29,10 @@
   }
 }
 
+.button-five {
+  @include button($gray10, $gray11);
+}
+
 .button-four {
   @include button($blue2, $blue3);
   width:100%;

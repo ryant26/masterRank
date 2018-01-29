@@ -1,5 +1,5 @@
 import React from 'react';
-import Badge from '../Badge/Badge';
+import Badge from '../../Badge/Badge';
 import InvitesList from './InvitesList';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';

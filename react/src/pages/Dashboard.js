@@ -7,14 +7,13 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import ContentArea from '../components/ContentArea/ContentArea';
 import Websocket from '../api/websocket';
 import Model from '../model/model';
-import token from '../resources/token';
 import store from '../model/store';
 
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            websocket: new Websocket(token)
+            websocket: new Websocket(window.localStorage.accessToken)
         };
 
         Model.initialize(this.state.websocket, store);
@@ -27,7 +26,7 @@ export default class Dashboard extends Component {
     render() {
 
         return (
-            <div className="Dashboard flex stretch">
+            <div className="Dashboard flex stretch grow">
                 <Sidebar />
                 <ContentArea/>
             </div>

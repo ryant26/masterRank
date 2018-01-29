@@ -53,15 +53,25 @@ exports[`HeroCard Component should render a single invite 1`] = `
       </div>
     </div>
   </div>
-  <div
-    className="button-secondary flex align-center justify-center"
+  <a
+    href="/allInvites/"
+    onClick={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
   >
     <div
-      className="button-content"
+      className="button-secondary flex align-center justify-center"
     >
-      All Invites
+      <div
+        className="button-content"
+      >
+        All Invites
+      </div>
     </div>
-  </div>
+  </a>
 </div>
 `;
 
@@ -160,15 +170,25 @@ exports[`HeroCard Component should render three invites 1`] = `
       </div>
     </div>
   </div>
-  <div
-    className="button-secondary flex align-center justify-center"
+  <a
+    href="/allInvites/"
+    onClick={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
   >
     <div
-      className="button-content"
+      className="button-secondary flex align-center justify-center"
     >
-      All Invites
+      <div
+        className="button-content"
+      >
+        All Invites
+      </div>
     </div>
-  </div>
+  </a>
 </div>
 `;
 
@@ -246,14 +266,24 @@ exports[`HeroCard Component should render two invites 1`] = `
       </div>
     </div>
   </div>
-  <div
-    className="button-secondary flex align-center justify-center"
+  <a
+    href="/allInvites/"
+    onClick={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
   >
     <div
-      className="button-content"
+      className="button-secondary flex align-center justify-center"
     >
-      All Invites
+      <div
+        className="button-content"
+      >
+        All Invites
+      </div>
     </div>
-  </div>
+  </a>
 </div>
 `;
