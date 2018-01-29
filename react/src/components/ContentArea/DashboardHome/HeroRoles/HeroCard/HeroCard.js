@@ -17,7 +17,8 @@ export default class HeroCard extends Component {
         super(props);
         this.state = {
             isStatsToggleOn: false,
-            modalOpen: false
+            modalOpen: false,
+            invitable: props.hero.platformDisplayName !== props.user.platformDisplayName
         };
 
         this.toggleStats = this.toggleStats.bind(this);
@@ -59,7 +60,7 @@ export default class HeroCard extends Component {
     render() {
         const classses = classNames({
             overlay: true,
-            invitable: this.props.hero.platformDisplayName !== this.props.user.platformDisplayName,
+            invitable: this.state.invitable,
         });
 
         let statLine;
@@ -97,7 +98,7 @@ export default class HeroCard extends Component {
                 </div>
             </div>
             <Modal modalOpen={this.state.modalOpen} closeModal={this.closeModal}>
-                <HeroStatsList hero={this.props.hero}/>
+                <HeroStatsList hero={this.props.hero} invitable={this.state.invitable}/>
             </Modal>
 
         </div>

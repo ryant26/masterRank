@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import HeroImage from '../../../../HeroImage/HeroImage';
 import HeroStatsCard from "../HeroStatsListItem/HeroStatsListItem";
 
-const HeroStatsList =  ({hero, heroes}) => {
+const HeroStatsList =  ({hero, heroes, invitable}) => {
 
     const userHeroes = heroes.filter((userHero) => userHero.platformDisplayName === hero.platformDisplayName).sort((hero1, hero2) => {
         return hero1.priority > hero2.priority;
@@ -46,20 +46,24 @@ const HeroStatsList =  ({hero, heroes}) => {
         <div className="body">
             {heroStatsCards}
         </div>
-        <div className="footer flex justify-end align-center">
-            <div className="button-secondary flex align-center">
-                <div className="button-content">
-                    INVITE TO GROUP
+        {invitable ?
+            <div className="footer flex justify-end align-center">
+                <div className="button-secondary flex align-center">
+                    <div className="button-content">
+                        INVITE TO GROUP
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div> :
+            undefined
+        }
       </div>
     );
 };
 
 HeroStatsList.propTypes = {
     hero: PropTypes.object,
-    heroes: PropTypes.array.isRequired
+    heroes: PropTypes.array.isRequired,
+    invitable: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {

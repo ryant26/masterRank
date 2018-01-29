@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import HEROS from '../../../../resources/heroes';
-import {users} from '../../../../resources/users';
+import HEROS from '../../../../../resources/heroes';
+import {users} from '../../../../../resources/users';
 import HeroCard from './HeroCard';
 
 describe('HeroCard Component',()=> {
