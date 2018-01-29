@@ -5,6 +5,7 @@ import GroupInvitesReducer from './GroupInvitesReducer';
 import UserReducer from './UserReducer';
 import GroupReducer from './GroupReducer';
 import HeroFiltersReducer from './HeroFiltersReducer';
+import PlatformReducer from './PlatformReducer';
 
 export default combineReducers({
   heroes: HeroReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   user: UserReducer,
   group: GroupReducer,
   groupInvites: GroupInvitesReducer,
-  heroFilters: HeroFiltersReducer
+  heroFilters: HeroFiltersReducer,
+  platform: PlatformReducer,
 });

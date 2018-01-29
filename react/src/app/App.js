@@ -33,15 +33,14 @@ class App extends Component {
                 <Router>
                     <Switch>
                         <PublicRoute
-                          exact
-                          path="/login"
-                          component={LoginPage}
+                            exact
+                            path="/login"
+                            component={LoginPage}
                         />
                         <PrivateRoute
-                          path="/"
-                          component={Dashboard}
-                          authed={this.props.store.user}
-                          user={this.props.store.user}
+                            path="/"
+                            component={Dashboard}
+                            authed={this.props.store.user}
                         />
                     </Switch>
                 </Router>

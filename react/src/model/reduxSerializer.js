@@ -19,7 +19,9 @@ export const saveState = (state) => {
         let serializedState = JSON.stringify({
             user: state.user,
             preferredHeroes: state.preferredHeroes,
-            heroFilters: state.heroFilters
+            heroFilters: state.heroFilters,
+            platform: state.platform,
+            region: state.region,
         });
 
         localStorage.setItem("state", serializedState);
