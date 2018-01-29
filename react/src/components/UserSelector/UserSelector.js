@@ -10,10 +10,10 @@ export default class UserSelector extends Component {
     constructor(props) {
         super(props);
 
-        this.handleClick = this.handleClick.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
-    //TODO: Add new unit tests
-    handleClick() {
+
+    onClick() {
         window.location.assign(this.redirectUrl());
     }
 
@@ -26,7 +26,7 @@ export default class UserSelector extends Component {
         return (
             <div className="UserSelector">
                 { this.props.users.map((user, i) =>
-                    <UserCard user={user} key={i} handleClick={this.handleClick} />
+                    <UserCard user={user} key={i} onClick={this.onClick} />
                 )}
             </div>
         );

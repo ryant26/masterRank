@@ -35,7 +35,7 @@ class Authentication extends Component {
             deleteCookie('access_token');
             localStorage.setItem('accessToken', accessToken);
             let decodedToken = decode(accessToken);
-            fetch(this.urlForUserSearch(decodedToken.platformDisplayName))
+            fetch(this.urlForUserSearch(decodedToken))
                 .then(response => {
                   if (!response.ok) {
                     throw Error("Network request failed");
@@ -45,13 +45,17 @@ class Authentication extends Component {
                 })
                 .then(response => response.json())
                 .then(response => {
-                    this.props.updateUserAction(response[0]);
+                    this.props.updateUserAction(response);
+                })
+                .catch((error) => {
+                    throw error;
                 });
         }
     }
 
-    urlForUserSearch(displayName) {
-        return `/api/players/search?platformDisplayName=${displayName}`;
+    urlForUserSearch(token) {
+        let platformDisplayName = encodeURIComponent(token.platformDisplayName);
+        return `/api/players?platformDisplayName=${platformDisplayName}&platform=${token.platform}&region=${token.region}`;
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const UserCard = ({user, handleClick}) => {
+const UserCard = ({user, onClick}) => {
 
     function addComma(x) {
         return x.toLocaleString();
@@ -25,18 +25,10 @@ const UserCard = ({user, handleClick}) => {
         }
     }
 
-    function onClick() {
-        if (handleClick) {
-            return handleClick();
-        }
-
-        return false;
-    }
-
     return (
         //TODO: Add new unit tests
         //TODO: In the future for PSN and Xbox users, handleClick() will pass user, handleClick(user)
-         <div className="UserCard sidebar-card" onClick={onClick}>
+         <div className="UserCard sidebar-card" onClick={() => {onClick();}}>
             <img src={user.portrait}/>
             <div className="ImagePadding">
                 <div className="heroInfo">
@@ -58,7 +50,11 @@ const UserCard = ({user, handleClick}) => {
 
 UserCard.propTypes = {
     user: PropTypes.object.isRequired,
-    handleClick: PropTypes.func
+    onClick: PropTypes.func
+};
+
+UserCard.defaultProps = {
+  onClick: () => {}
 };
 
 export default UserCard;

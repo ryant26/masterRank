@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import App from './app/App';
 import store from './model/store';
-import { saveState } from "./model/stateManager";
+import { saveState } from "./model/reduxSerializer";
 
 require('./stylesheets/main.scss');
 
