@@ -4,9 +4,11 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoginPage from '../../pages/LoginPage/LoginPage';
 
 import {updateUser as updateUserAction} from "../../actions/user";
+import LoginPage from '../../pages/LoginPage/LoginPage';
+import PlatformSelectionPage from '../../pages/PlatformSelectionPage/PlatformSelectionPage';
+
 
 const decode  = require('jwt-decode');
 
@@ -59,12 +61,26 @@ class Authentication extends Component {
     }
 
     render() {
-        return (!this.state.accessToken && <LoginPage /> );
+        return (
+            <div>
+                { !this.props.platform
+                    ? <PlatformSelectionPage/>
+                    : !this.state.accessToken && <LoginPage/>
+                }
+            </div>
+        );
     }
 }
 
 Authentication.propTypes = {
-    updateUserAction: PropTypes.func.isRequired
+    platform: PropTypes.string,
+    updateUserAction: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = function(state){
+  return {
+    platform: state.platform,
+  };
 };
 
 const mapDispatchToProps = function (dispatch) {
@@ -73,4 +89,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(Authentication);
+export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
