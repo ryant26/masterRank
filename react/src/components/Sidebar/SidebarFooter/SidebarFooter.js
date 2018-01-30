@@ -7,9 +7,7 @@ const SidebarFooter = () => {
         <div className="sidebar-footer flex justify-around sidebar-card">
             <a>Settings</a>
             <a>Help</a>
-            <div>
-                <LogoutButton/>
-                </div>
+            <LogoutButton/>
         </div>
     );
 };
