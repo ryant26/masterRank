@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 
 import {updateUser as updateUserAction} from "../../actions/user";
 import LoginPage from '../../pages/LoginPage/LoginPage';
-import PlatformSelectionPage from '../../pages/PlatformSelectionPage/PlatformSelectionPage';
 
 
 const decode  = require('jwt-decode');
@@ -63,24 +62,14 @@ class Authentication extends Component {
     render() {
         return (
             <div>
-                { !this.props.platform
-                    ? <PlatformSelectionPage/>
-                    : !this.state.accessToken && <LoginPage/>
-                }
+                { !this.state.accessToken && <LoginPage/> }
             </div>
         );
     }
 }
 
 Authentication.propTypes = {
-    platform: PropTypes.string,
     updateUserAction: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = function(state){
-  return {
-    platform: state.platform,
-  };
 };
 
 const mapDispatchToProps = function (dispatch) {
@@ -89,4 +78,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
+export default connect(null, mapDispatchToProps)(Authentication);
