@@ -168,7 +168,7 @@ export class GroupContainer extends Component {
 
 GroupContainer.propTypes = {
     group: PropTypes.object.isRequired,
-    preferredHeroes: PropTypes.array.isRequired,
+    preferredHeroes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired
 };
 
