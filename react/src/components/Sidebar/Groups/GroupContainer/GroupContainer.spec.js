@@ -3,26 +3,21 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 import GROUP from '../../../../resources/group';
-
+import { createStore, combineReducers } from 'redux';
+import { users } from '../../../../resources/users';
+import { updateUser } from '../../../../actions/user';
 
 import GroupContainer from './GroupContainer';
+import GroupReducer from '../../../../reducers/GroupReducer';
 
 const mockStore = configureStore();
 
-describe('Group Hero Container',()=> {
+describe('Group Hero Container',() => {
     let store;
 
     beforeEach(() => {
-        store = mockStore({
-            user: {
-                platformDisplayName: 'scott1'
-            },
-            group: {
-                groupId: null,
-                members: [],
-                pending: []
-            }
-        });
+        store = createStore(combineReducers({group:GroupReducer}));
+        store.dispatch(updateUser(users[0]));
 
         jest.useFakeTimers();       
     });
