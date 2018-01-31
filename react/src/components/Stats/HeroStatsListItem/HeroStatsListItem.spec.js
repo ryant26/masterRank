@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import {getHeroes} from '../../../../../resources/heroes';
+import {getHeroes} from '../../../resources/heroes';
 import HeroStatsListItem from './HeroStatsListItem';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
