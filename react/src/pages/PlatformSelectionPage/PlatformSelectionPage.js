@@ -1,43 +1,34 @@
-import React, {
-    Component
-} from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import {updatePlatform as updatePlatformAction} from '../../actions/platform';
+const PlatformSelectionPage = ({region}) => {
 
-class PlatformSelectionPage extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.onClick = this.onClick.bind(this);
+    function onClick(platform) {
+        switch(platform) {
+            case 'pc':
+                window.location.assign(redirectBlizzardAuthUrl());
+                break;
+            default:
+                window.location.assign('/login');
+        }
     }
 
-    onClick(platform) {
-        this.props.updatePlatformAction(platform);
+    function redirectBlizzardAuthUrl() {
+        //TODO: Decide what to do about region and unhard code "us" here
+        return `/auth/bnet/callback?region=${region}`;
     }
 
-    render() {
-         return(
-            <div className="PlatformSelectionPage">
-                <button onClick={() => {this.onClick('pc');}}>PC</button>
-                <button onClick={() => {this.onClick('xbl');}}>Xbox</button>
-                <button onClick={() => {this.onClick('psn');}}>Play Station</button>
-            </div>
-        );
-    }
-}
+     return(
+        <div className="PlatformSelectionPage">
+            <button onClick={() => {onClick('pc');}}>PC</button>
+            <button onClick={() => {onClick('xbl');}}>Xbox</button>
+            <button onClick={() => {onClick('psn');}}>Play Station</button>
+        </div>
+    );
+};
 
 PlatformSelectionPage.propTypes = {
-    updatePlatformAction: PropTypes.func.isRequired
+    region: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-    updatePlatformAction: updatePlatformAction,
-  }, dispatch);
-};
-
-export default connect(null, mapDispatchToProps)(PlatformSelectionPage);
+export default PlatformSelectionPage;

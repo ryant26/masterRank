@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import Authentication from './Authentication';
-import LoginPage from '../../pages/LoginPage/LoginPage';
 import PlatformSelectionPage from '../../pages/PlatformSelectionPage/PlatformSelectionPage';
 import Store from '../../model/store';
 
@@ -19,22 +18,18 @@ describe('Authentication', () => {
         AuthenticationComponent = AuthenticationContainer.dive();
     });
 
-    it('should render platform selection page when platform is undefined', () => {
-        AuthenticationComponent.setProps({
-            platform: undefined,
-        });
-        expect(AuthenticationComponent.find(PlatformSelectionPage)).toHaveLength(1);
-        expect(AuthenticationComponent.find(LoginPage)).toHaveLength(0);
-    });
-
-    it('should render login page when state access token is undefined and platform is defined', () => {
+    it('should render platform selection page when state access token is undefined', () => {
         AuthenticationComponent.setState({
             accessToken: undefined,
         });
-        AuthenticationComponent.setProps({
-            platform: 'pc',
+
+        expect(AuthenticationComponent.find(PlatformSelectionPage)).toHaveLength(1);
+    });
+
+    it('should not render platform selection page when state access token is defined', () => {
+        AuthenticationComponent.setState({
+            accessToken: 'mock_token',
         });
         expect(AuthenticationComponent.find(PlatformSelectionPage)).toHaveLength(0);
-        expect(AuthenticationComponent.find(LoginPage)).toHaveLength(1);
     });
 });

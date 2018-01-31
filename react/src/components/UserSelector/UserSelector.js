@@ -6,12 +6,8 @@ import UserCard from '../UserCard/UserCard';
 const UserSelector = ({users}) => {
 
     function onClick() {
-        window.location.assign(redirectUrl());
-    }
-
-    function redirectUrl() {
-        //TODO: Decide what to do about region and unhard code "us" here
-        return `/auth/bnet/callback?region=us`;
+        //TODO: Add logic for Xbox & psn login
+        window.location.assign('/waiting');
     }
 
     return (
