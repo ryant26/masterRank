@@ -13,7 +13,7 @@ let server = require('../../src/app');
 chai.use(chaiHttp);
 
 describe('Hero Tests', function() {
-    this.timeout(10000);
+    this.timeout(20000);
     let token = tokenUtil.getValidToken(platformDisplayName, region, platform);
     let authHeader = `Bearer ${token}`;
 

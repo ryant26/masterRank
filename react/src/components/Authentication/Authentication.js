@@ -9,7 +9,6 @@ import {updateUser as updateUserAction} from "../../actions/user";
 import LoginPage from '../../pages/LoginPage/LoginPage';
 import PlatformSelectionPage from '../../pages/PlatformSelectionPage/PlatformSelectionPage';
 
-
 const decode  = require('jwt-decode');
 
 const getCookie = (name) => {
@@ -48,9 +47,6 @@ class Authentication extends Component {
                 .then(response => response.json())
                 .then(response => {
                     this.props.updateUserAction(response);
-                })
-                .catch((error) => {
-                    throw error;
                 });
         }
     }
