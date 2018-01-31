@@ -51,6 +51,31 @@ describe('HeroCard Component',()=> {
 
         expect(wrapper.find('.invitable').length).toBe(1);
     });
+
+    it('should handle null stats without throwing an error', () => {
+        let heroConfig = getHeroConfig();
+
+        heroConfig.stats = null;
+
+        const wrapper = mount (
+            <HeroCard hero={heroConfig} user={getUser()}/>
+        );
+
+        expect(wrapper.find(HeroCard).length).toBeTruthy();
+    });
+
+    it('should handle individual null stats without throwing an error', () => {
+        let heroConfig = getHeroConfig();
+
+        heroConfig.stats.wins = null;
+        heroConfig.stats.losses = null;
+
+        const wrapper = mount (
+            <HeroCard hero={heroConfig} user={getUser()}/>
+        );
+
+        expect(wrapper.find(HeroCard).length).toBeTruthy();
+    });
     
     xit('should fire invite player event when the + is clicked', () => {
              

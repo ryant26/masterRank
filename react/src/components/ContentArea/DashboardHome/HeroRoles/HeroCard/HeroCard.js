@@ -66,17 +66,23 @@ export default class HeroCard extends Component {
         let statLine;
 
         if(this.props.hero.stats) {
-            let wins = this.props.hero.stats.wins;
-            let losses = this.props.hero.stats.losses;
-            let winPercentage = parseFloat(wins/(wins+losses) * 100.0).toFixed(1);
+            let wins = this.props.hero.stats.wins || 0;
+            let losses = this.props.hero.stats.losses || 0;
+            let winPercentage =  (wins + losses) ? parseFloat(wins/(wins+losses) * 100.0).toFixed(1) : 0;
+
             statLine = (
                 <div className="sub-title">
                     <span>{this.props.hero.skillRating} SR</span>
                     <span> | </span><span>{winPercentage}% WR</span>
                 </div>
             );
+        } else {
+            statLine = (
+                <div className="sub-title">
+                    <span>{this.props.hero.skillRating} SR</span>
+                </div>
+            );
         }
-
 
     return (
         <div className="HeroCard flex align-center">
@@ -112,8 +118,8 @@ HeroCard.propTypes = {
         platformDisplayName: PropTypes.string.isRequired,
         skillRating: PropTypes.number.isRequired,
         stats: PropTypes.shape({
-            wins: PropTypes.number.isRequired,
-            losses: PropTypes.number.isRequired,
+            wins: PropTypes.number,
+            losses: PropTypes.number,
         })
     }),
     user: PropTypes.shape({

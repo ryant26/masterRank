@@ -32,23 +32,23 @@ const HeroStatsListItem = ({hero}) => {
                     <div className="sub-title">{hero.stats.hoursPlayed} hours played</div>
                 </div>
                 <div className="flex justify-between record">
-                    <RecordStat stat={hero.stats.wins} statName={statNames.wins}/>
-                    <RecordStat stat={hero.stats.losses} statName={statNames.losses}/>
-                    <RecordStat stat={hero.stats.kdRatio.toFixed(2)} statName={statNames.kdRatio}/>
+                    <RecordStat stat={hero.stats.wins || 0} statName={statNames.wins}/>
+                    <RecordStat stat={hero.stats.losses || 0} statName={statNames.losses}/>
+                    <RecordStat stat={(hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)} statName={statNames.kdRatio}/>
                 </div>
             </div>
             <div className="flex wrap justify-between">
-                <HeroStat stat={hero.stats.damagePerMin}
+                <HeroStat stat={hero.stats.damagePerMin || 0}
                           percentile={hero.stats.pDamagePerMin} statLabel={statLabels.perMinute} statName={statNames.damage}/>
-                <HeroStat stat={hero.stats.healingPerMin}
+                <HeroStat stat={hero.stats.healingPerMin || 0}
                           percentile={hero.stats.pHealingPerMin} statLabel={statLabels.perMinute} statName={statNames.healing}/>
-                <HeroStat stat={hero.stats.blockedPerMin}
+                <HeroStat stat={hero.stats.blockedPerMin || 0}
                           percentile={hero.stats.pBlockedPerMin} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
-                <HeroStat stat={hero.stats.avgObjElims}
+                <HeroStat stat={hero.stats.avgObjElims || 0}
                           percentile={hero.stats.pAvgObjElims} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
-                <HeroStat stat={hero.stats.avgObjTime}
+                <HeroStat stat={hero.stats.avgObjTime || 0}
                           percentile={hero.stats.pAvgObjTime} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
-                <HeroStat stat={hero.stats.accuracy}
+                <HeroStat stat={hero.stats.accuracy || 0}
                           percentile={hero.stats.pAccuracy} statLabel={statLabels.percent} statName={statNames.accuracy}/>
             </div>
         </div>
