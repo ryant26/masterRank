@@ -4,8 +4,6 @@ import React, {
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
@@ -14,7 +12,6 @@ import PropTypes from 'prop-types';
 import { PrivateRoute } from '../components/Routes/PrivateRoute';
 import { PublicRoute } from '../components/Routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
-import LoginPage from '../pages/LoginPage/LoginPage';
 import Authentication from '../components/Authentication/Authentication';
 
 class App extends Component {
