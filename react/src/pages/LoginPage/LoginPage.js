@@ -43,8 +43,6 @@ export default class LoginPage extends Component {
                         users: response
                     });
                 }
-            }).catch((error) => {
-                throw error;
             });
     }
 

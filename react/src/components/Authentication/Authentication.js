@@ -47,9 +47,6 @@ class Authentication extends Component {
                 .then(response => response.json())
                 .then(response => {
                     this.props.updateUserAction(response);
-                })
-                .catch((error) => {
-                    throw error;
                 });
         }
     }
