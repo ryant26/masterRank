@@ -12,5 +12,5 @@ export default combineReducers({
   user: UserReducer,
   group: GroupReducer,
   groupInvites: GroupInvitesReducer,
-  heroFilters: HeroFiltersReducer
+  heroFilters: HeroFiltersReducer,
 });

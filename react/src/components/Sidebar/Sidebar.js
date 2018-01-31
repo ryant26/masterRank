@@ -1,22 +1,22 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Title from './Title/Title';
 import UserCard from '../UserCard/UserCard';
 import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
 import Invites from './Invites/InvitesContainer';
 import Group from './Groups/GroupContainer/GroupContainer';
-import SidebarFooter from './sidebar-footer/sidebar-footer';
+import SidebarFooter from './SidebarFooter/SidebarFooter';
 
-const Sidebar = (props) => {
+const Sidebar = ({user}) => {
     return (
         <div className="Sidebar flex flex-column">
             <div className="header">
                 <Title/>
             </div>
             <div className="body">
-                <UserCard user={props.user} />
+                <UserCard user={user} />
                 <PreferredHeroes/>
                 <Invites/>
                 <Group />
@@ -32,4 +32,10 @@ Sidebar.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default Sidebar;
+const mapStateToProps = function(state){
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(Sidebar);

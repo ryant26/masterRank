@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import SidebarFooter from './sidebar-footer';
+import SidebarFooter from './SidebarFooter';
 
 describe('SelectorButton Component',()=> {
     it('should render without exploding', () => {

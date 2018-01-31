@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const UserCard = ({user}) => {
+const UserCard = ({user, onClick}) => {
 
     function addComma(x) {
         return x.toLocaleString();
@@ -26,7 +26,9 @@ const UserCard = ({user}) => {
     }
 
     return (
-        <div className="UserCard sidebar-card">
+        //TODO: Add new unit tests
+        //TODO: In the future for PSN and Xbox users, handleClick() will pass user, handleClick(user)
+         <div className="UserCard sidebar-card" onClick={() => {onClick();}}>
             <img src={user.portrait}/>
             <div className="ImagePadding">
                 <div className="heroInfo">
@@ -47,7 +49,12 @@ const UserCard = ({user}) => {
 };
 
 UserCard.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    onClick: PropTypes.func
+};
+
+UserCard.defaultProps = {
+  onClick: () => {}
 };
 
 export default UserCard;

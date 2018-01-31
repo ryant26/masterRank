@@ -17,7 +17,7 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
-    socket.on(clientEvents.authenticated, () => loadPreferredHeroesFromLocalStorage());
+    socket.on(clientEvents.initialData, () => loadPreferredHeroesFromLocalStorage());
     socket.on(clientEvents.initialData, (players) => _addHeroesToStore(players));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));            
@@ -123,7 +123,6 @@ const _groupCancelErrorHandler = function(err) {
 };
 
 const loadPreferredHeroesFromLocalStorage = () => {
-    //TODO: Ryan, does socket.addHero(heroName, preference), in the backend, check if the hero has been added yet?
     let preferredHeroes = store.getState().preferredHeroes.heroes;
     preferredHeroes.forEach((hero, key) => {
         addPreferredHero(hero, (key+1));

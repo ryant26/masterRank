@@ -17,7 +17,8 @@ describe('User Card Component', () => {
     });
 
     it('should render skill rating when present', () => {
-        let userWithSkillRating = users.users[0]['skillRating'] = 2450;
+        let userWithSkillRating = users.users[0];
+        userWithSkillRating['skillRating'] = 2450;
         const wrapper = mount(
             <UserCard user={userWithSkillRating}/>
         );

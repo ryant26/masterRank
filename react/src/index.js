@@ -6,14 +6,12 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import App from './app/App';
 import store from './model/store';
-import { StateLoader } from "./model/StateLoader";
+import { saveState } from "./model/reduxSerializer";
 
 require('./stylesheets/main.scss');
 
-let stateLoader = new StateLoader();
-
 store.subscribe(() => {
-    stateLoader.saveState(store.getState());
+    saveState(store.getState());
 });
 
 render(

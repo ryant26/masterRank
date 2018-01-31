@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import { users as arrayUsers} from '../../resources/users';
 import UserSelector from './UserSelector';
-import UserButton from './UserButton/UserButton';
+import UserCard from '../UserCard/UserCard';
 
 describe('UserSelector', () => {
     let UserSelectorComponent;
@@ -19,8 +19,8 @@ describe('UserSelector', () => {
     });
 
     it('should render a UserButton component for the users that where passed in', () => {
-        expect(UserSelectorComponent.find(UserButton)).toHaveLength(2);
-        expect(UserSelectorComponent.find(UserButton).at(0).prop('user')).toBe(arrayUsers[0]);
-        expect(UserSelectorComponent.find(UserButton).at(1).prop('user')).toBe(arrayUsers[1]);
+        expect(UserSelectorComponent.find(UserCard)).toHaveLength(2);
+        expect(UserSelectorComponent.find(UserCard).at(0).prop('user')).toBe(arrayUsers[0]);
+        expect(UserSelectorComponent.find(UserCard).at(1).prop('user')).toBe(arrayUsers[1]);
     });
 });
