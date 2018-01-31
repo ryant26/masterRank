@@ -13,7 +13,7 @@ let searchUrl = `${playerUrl}/search`;
 chai.use(chaiHttp);
 
 describe('Player Tests', function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
     describe('Players/Search', function () {
         it('should return valid object with valid platformDisplayName', function() {

@@ -4,9 +4,10 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoginPage from '../../pages/LoginPage/LoginPage';
 
 import {updateUser as updateUserAction} from "../../actions/user";
+import LoginPage from '../../pages/LoginPage/LoginPage';
+
 
 const decode  = require('jwt-decode');
 
@@ -35,7 +36,7 @@ class Authentication extends Component {
             deleteCookie('access_token');
             localStorage.setItem('accessToken', accessToken);
             let decodedToken = decode(accessToken);
-            fetch(this.urlForUserSearch(decodedToken.platformDisplayName))
+            fetch(this.urlForUserSearch(decodedToken))
                 .then(response => {
                   if (!response.ok) {
                     throw Error("Network request failed");
@@ -45,22 +46,27 @@ class Authentication extends Component {
                 })
                 .then(response => response.json())
                 .then(response => {
-                    this.props.updateUserAction(response[0]);
+                    this.props.updateUserAction(response);
                 });
         }
     }
 
-    urlForUserSearch(displayName) {
-        return `/api/players/search?platformDisplayName=${displayName}`;
+    urlForUserSearch(token) {
+        let platformDisplayName = encodeURIComponent(token.platformDisplayName);
+        return `/api/players?platformDisplayName=${platformDisplayName}&platform=${token.platform}&region=${token.region}`;
     }
 
     render() {
-        return (!this.state.accessToken && <LoginPage /> );
+        return (
+            <div>
+                { !this.state.accessToken && <LoginPage/> }
+            </div>
+        );
     }
 }
 
 Authentication.propTypes = {
-    updateUserAction: PropTypes.func.isRequired
+    updateUserAction: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = function (dispatch) {

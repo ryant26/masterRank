@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
 
         return (
             <div className="Dashboard flex stretch">
-                <Sidebar user={this.props.user} />
+                <Sidebar />
                 <ContentArea/>
             </div>
         );

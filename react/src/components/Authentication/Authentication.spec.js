@@ -18,8 +18,11 @@ describe('Authentication', () => {
         AuthenticationComponent = AuthenticationContainer.dive();
     });
 
-    it('should render login page when state access token is defined', () => {
-        AuthenticationComponent.setState({accessToken: undefined});
+    it('should render login page when state access token is undefined ', () => {
+        AuthenticationComponent.setState({
+            accessToken: undefined,
+        });
+
         expect(AuthenticationComponent.find(LoginPage)).toHaveLength(1);
     });
 });
