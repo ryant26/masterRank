@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import Store from '../../model/store';
 import { users as arrayUsers} from '../../resources/users';
 import UserSelector from './UserSelector';
 import UserCard from '../UserCard/UserCard';
@@ -10,8 +11,8 @@ describe('UserSelector', () => {
 
     beforeEach(() => {
         UserSelectorComponent = shallow(
-            <UserSelector users={arrayUsers} />
-        );
+            <UserSelector users={arrayUsers} store={Store}/>
+        ).dive();
     });
 
     it('should render', () => {

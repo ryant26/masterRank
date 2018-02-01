@@ -1,8 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
-
-import LoginPage from '../../pages/LoginPage/LoginPage';
 
 const PlatformSelectionPage = ({region}) => {
 
