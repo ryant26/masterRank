@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserStatsContainer Component should match the snapshot 1`] = `
+exports[`GroupStatsContainer Component should match the snapshot 1`] = `
 <div
-  className="UserStatsContainer"
+  className="GroupStatsContainer"
 >
   <div
     className="header"
@@ -11,31 +11,33 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
       className="flex justify-between align-center"
     >
       <div>
-        <h3>
-          PwNShoPP#1662
-        </h3>
+        <div
+          className="title flex align-center"
+        >
+          <h3>
+            luckbomb#1234's
+          </h3>
+          <h3
+            className="regular"
+          >
+            Group
+          </h3>
+        </div>
         <span
           className="sub-title"
         >
           <b>
-            2400
+            2700
           </b>
-           SR
+           Group SR
         </span>
-        <span
-          className="sub-title"
-        >
-          <b>
-            22
-          </b>
-           WINS
-        </span>
+        
       </div>
       <div
         className="HeroImages flex"
       >
         <img
-          alt="hanzo icon"
+          alt="genji icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -45,17 +47,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           }
         />
         <img
-          alt="dva icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-        <img
-          alt="zenyatta icon"
+          alt="widowmaker icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -81,7 +73,16 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <img
-              alt="dva icon"
+              alt="leader-icon"
+              className="crown"
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <img
+              alt="genji icon"
               className="HeroImage"
               onClick={undefined}
               src={
@@ -93,13 +94,12 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           </div>
           <div>
             <h3>
-              
-              Dva
+              luckbomb#1234 - 
+              Genji
             </h3>
             <div
               className="sub-title"
             >
-              3
                hours played
             </div>
           </div>
@@ -112,7 +112,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
               <div
                 className="stat"
               >
-                11
+                0
               </div>
               <div
                 className="sub-title"
@@ -126,7 +126,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
               <div
                 className="stat"
               >
-                7
+                0
               </div>
               <div
                 className="sub-title"
@@ -140,7 +140,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
               <div
                 className="stat"
               >
-                2.99
+                0.00
               </div>
               <div
                 className="sub-title"
@@ -156,18 +156,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                1339
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -175,7 +168,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -189,18 +182,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                148
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -208,7 +194,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -248,18 +234,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                11
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -267,7 +246,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -281,18 +260,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                56
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -300,7 +272,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -314,18 +286,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                36
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                %
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -333,7 +298,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -354,7 +319,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <img
-              alt="zenyatta icon"
+              alt="widowmaker icon"
               className="HeroImage"
               onClick={undefined}
               src={
@@ -366,13 +331,12 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           </div>
           <div>
             <h3>
-              
-              Zenyatta
+              wismo0#1234 - 
+              Widowmaker
             </h3>
             <div
               className="sub-title"
             >
-              3
                hours played
             </div>
           </div>
@@ -385,7 +349,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
               <div
                 className="stat"
               >
-                11
+                0
               </div>
               <div
                 className="sub-title"
@@ -399,7 +363,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
               <div
                 className="stat"
               >
-                7
+                0
               </div>
               <div
                 className="sub-title"
@@ -413,7 +377,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
               <div
                 className="stat"
               >
-                2.99
+                0.00
               </div>
               <div
                 className="sub-title"
@@ -429,18 +393,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                1339
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -448,7 +405,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -462,18 +419,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                148
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -481,7 +431,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -521,18 +471,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                11
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -540,7 +483,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -554,18 +497,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                56
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                /min
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -573,7 +509,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -587,18 +523,11 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
           <div
             className="HeroStat flex flex-column"
           >
-            <div>
-              <span
-                className="stat"
-              >
-                36
-              </span>
-              <span
-                className="stat-label sub-title"
-              >
-                %
-              </span>
-            </div>
+            <span
+              className="stat"
+            >
+              -
+            </span>
             <div
               className="indicator"
             >
@@ -606,7 +535,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
                 className="indicator-level"
                 style={
                   Object {
-                    "width": "100%",
+                    "width": "0%",
                   }
                 }
               />
@@ -622,15 +551,25 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
     </div>
   </div>
   <div
-    className="footer flex justify-end align-center"
+    className="footer flex justify-between align-center"
   >
     <div
-      className="button-secondary flex align-center"
+      className="sub-title"
+    >
+      <b>
+        Players joined: 
+        2
+        /
+        4
+      </b>
+    </div>
+    <div
+      className="button-six flex align-center"
     >
       <div
         className="button-content"
       >
-        INVITE TO GROUP
+        LEAVE GROUP
       </div>
     </div>
   </div>

@@ -1,0 +1,25 @@
+.GroupStatsContainer {
+  .header {
+    span {
+      padding-right: 10px;
+    }
+    .title {
+      h3 {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  div.body {
+    max-height: 400px;
+    overflow-y: auto;
+
+    .HeroStatsListItem:first-child {
+      margin-top: -18px;
+    }
+  }
+
+  .button-six {
+    height: 30px;
+  }
+}

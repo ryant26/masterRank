@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import GroupHeroCard from '../GroupHeroCard/GroupHeroCard';
 import Model from '../../../../model/model';
+import Modal from "../../../Modal/Modal";
+import GroupStatsContainer from "../../../Stats/GroupStatsContainer";
 
 export class GroupContainer extends Component {
 
@@ -13,7 +15,12 @@ export class GroupContainer extends Component {
         this.createGroup = this.createGroup.bind(this);   
         this.leaveGroup = this.leaveGroup.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
+        this.showGroupStats = this.showGroupStats.bind(this);
+        this.hideGroupStats = this.hideGroupStats.bind(this);
         this.pendingHeroes = [];
+        this.state = {
+            modalOpen: false
+        };
     }
 
     componentDidUpdate() {
@@ -47,8 +54,21 @@ export class GroupContainer extends Component {
     }
 
     showGroupStats() {
-
+        this.setState(() => {
+            return {
+                modalOpen: true
+            };
+        });
     }
+
+    hideGroupStats() {
+        this.setState(() => {
+            return {
+                modalOpen: false
+            };
+        });
+    }
+
     
     getPendingHeroesFromStore() {
         return this.props.group.pending;
@@ -95,7 +115,7 @@ export class GroupContainer extends Component {
                     {renderMemberCards}
                     {renderPendingCards}
                     <br/>
-                    <button className="button-four flex align-center justify-center">
+                    <button className="button-four flex align-center justify-center" onClick={this.showGroupStats}>
                         <div className="button-content">
                             Team Stats
                         </div>
@@ -138,6 +158,9 @@ export class GroupContainer extends Component {
             <div className="GroupContainer sidebar-card flex flex-column">
                 <div className="sidebar-title">Your Group</div>
                 {groupHeroCards}
+                <Modal modalOpen={this.state.modalOpen} closeModal={this.hideGroupStats}>
+                    <GroupStatsContainer group={this.props.group} isLeading={true}/>
+                </Modal>
             </div>
         );
     }
