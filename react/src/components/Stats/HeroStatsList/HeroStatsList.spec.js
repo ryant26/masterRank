@@ -49,4 +49,52 @@ describe('HeroStatsList Component', () => {
             expect(cardHeroName).toEqual(heroName);
         });
     });
+
+    it('should show the empty message when no stats can be shown', () => {
+        const msg = 'empty message';
+        wrapper = mount(
+            <HeroStatsList emptyMessage={msg} heroes={[]}/>
+        );
+
+        expect(wrapper.find('.sub-title').text()).toEqual(msg);
+    });
+
+    it('should show a default message when none is passed', () => {
+        const msg = 'empty message';
+        wrapper = mount(
+            <HeroStatsList emptyMessage={msg} heroes={[]}/>
+        );
+
+        expect(wrapper.find('.sub-title').length).toBeTruthy();
+    });
+
+    it('should pass platformDisplayName prop down to list item', () => {
+        wrapper = mount(
+            <HeroStatsList showPlatformDisplayName={true} heroes={getHeroes()}/>
+        );
+
+        expect(wrapper.find(HeroStatsListItem).first().props().showPlatformDisplayName).toBeTruthy();
+
+        wrapper = mount(
+            <HeroStatsList showPlatformDisplayName={false} heroes={getHeroes()}/>
+        );
+
+        expect(wrapper.find(HeroStatsListItem).first().props().showPlatformDisplayName).toBeFalsy();
+    });
+
+    it('should pass the proper isLeader prop to list item', () => {
+        let heroes = getHeroes();
+        wrapper = mount(
+            <HeroStatsList groupLeader={heroes[0].platformDisplayName} heroes={heroes}/>
+        );
+
+        expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBeTruthy();
+
+        wrapper = mount(
+            <HeroStatsList groupLeader={'notTheRightName'} heroes={heroes}/>
+        );
+
+        expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBeFalsy();
+
+    });
 });
