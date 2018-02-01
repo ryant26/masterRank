@@ -68,7 +68,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
         <div
           className="groupSR sub-title flex align-center justify-center"
         >
-          2,700
+          2700
            Group SR
         </div>
       </div>
@@ -123,7 +123,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
                  | 
               </span>
               <span>
-                NaN
+                0
                 % WR
               </span>
             </div>
@@ -187,7 +187,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
                  | 
               </span>
               <span>
-                NaN
+                0
                 % WR
               </span>
             </div>

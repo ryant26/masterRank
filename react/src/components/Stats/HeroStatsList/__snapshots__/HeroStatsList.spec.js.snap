@@ -10,18 +10,21 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
     <div
       className="flex align-center"
     >
-      <img
-        alt="soldier76 icon"
-        className="HeroImage"
-        onClick={undefined}
-        src={
-          Object {
-            "process": [Function],
+      <div>
+        <img
+          alt="soldier76 icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
           }
-        }
-      />
+        />
+      </div>
       <div>
         <h3>
+          
           Soldier76
         </h3>
         <div
@@ -280,18 +283,21 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
     <div
       className="flex align-center"
     >
-      <img
-        alt="hanzo icon"
-        className="HeroImage"
-        onClick={undefined}
-        src={
-          Object {
-            "process": [Function],
+      <div>
+        <img
+          alt="hanzo icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
           }
-        }
-      />
+        />
+      </div>
       <div>
         <h3>
+          
           Hanzo
         </h3>
         <div
@@ -550,18 +556,21 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
     <div
       className="flex align-center"
     >
-      <img
-        alt="dva icon"
-        className="HeroImage"
-        onClick={undefined}
-        src={
-          Object {
-            "process": [Function],
+      <div>
+        <img
+          alt="dva icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
           }
-        }
-      />
+        />
+      </div>
       <div>
         <h3>
+          
           Dva
         </h3>
         <div
@@ -820,18 +829,21 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
     <div
       className="flex align-center"
     >
-      <img
-        alt="zenyatta icon"
-        className="HeroImage"
-        onClick={undefined}
-        src={
-          Object {
-            "process": [Function],
+      <div>
+        <img
+          alt="zenyatta icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
           }
-        }
-      />
+        />
+      </div>
       <div>
         <h3>
+          
           Zenyatta
         </h3>
         <div
