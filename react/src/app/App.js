@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { PrivateRoute } from '../components/Routes/PrivateRoute';
 import { PublicRoute } from '../components/Routes/PublicRoute';
 import Dashboard from '../pages/Dashboard';
-import Authentication from '../components/Authentication/Authentication';
+import LoginPage from '../pages/LoginPage/LoginPage';
 
 class App extends Component {
     constructor(props) {
@@ -35,7 +35,8 @@ class App extends Component {
                         <PublicRoute
                             exact
                             path="/login"
-                            component={Authentication}
+                            component={LoginPage}
+                            region={this.props.store.region}
                         />
                         <PrivateRoute
                             path="/"

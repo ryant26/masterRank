@@ -1,5 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
+
+import LoginPage from '../../pages/LoginPage/LoginPage';
 
 const PlatformSelectionPage = ({region}) => {
 
@@ -14,7 +17,6 @@ const PlatformSelectionPage = ({region}) => {
     }
 
     function redirectBlizzardAuthUrl() {
-        //TODO: Decide what to do about region and unhard code "us" here
         return `/auth/bnet/callback?region=${region}`;
     }
 

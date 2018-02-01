@@ -1,14 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export const PublicRoute = ({ component, ...rest }) => {
+export const PublicRoute = ({ component, region }) => {
   return (
     <Route
-      {...rest}
-      render={routeProps => {
-        return React.createElement(component, Object.assign(routeProps, rest));
-      }}
+      render={() => (
+        region
+            ? React.createElement(component)
+            : <Redirect to='/' />
+      )}
     />
   );
 };

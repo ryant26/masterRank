@@ -28,7 +28,7 @@ const UserCard = ({user, onClick}) => {
     return (
         //TODO: Add new unit tests
         //TODO: In the future for PSN and Xbox users, handleClick() will pass user, handleClick(user)
-         <div className="UserCard sidebar-card" onClick={() => {onClick();}}>
+         <div className="UserCard sidebar-card" onClick={() => {onClick(user);}}>
             <img src={user.portrait}/>
             <div className="ImagePadding">
                 <div className="heroInfo">
