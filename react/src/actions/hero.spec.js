@@ -20,3 +20,13 @@ describe('addHeroes', () => {
             });
     });
 });
+
+describe('remove', () => {
+    it ('should create the REMOVE_HEROES action', () => {
+        expect(HeroActionCreators.removeHero({name:"orisa", stat: "just doing my job"}))
+            .toEqual({
+                type: HeroActionTypes.REMOVE_HERO,
+                hero: {name:"orisa", stat: "just doing my job"}
+            });
+    });
+});

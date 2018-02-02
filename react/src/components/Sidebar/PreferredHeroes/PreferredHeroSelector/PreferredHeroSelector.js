@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import HeroSelector from '../../../ContentArea/DashboardHome/HeroSelector/HeroSelector';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import HeroSlot from '../HeroSlot/HeroSlot';
-import Model from '../../../../model/model';
 
 class PreferredHeroSelector extends Component {
 
@@ -11,36 +9,51 @@ class PreferredHeroSelector extends Component {
         super(props);
         this.state = {
             selectedHero: props.preferredHeroes[props.selectedHeroSlot - 1],
-            continueButtonDisabled: true
+            heroForLastAction: '',
+            lastActionTaken: ''
         };
 
         this.maxSlots = 5;
         this.setSelectedHero = this.setSelectedHero.bind(this);
-        this.setPreferredHero = this.setPreferredHero.bind(this);
         this.setSelectedSlot = this.setSelectedSlot.bind(this);
+        this.setHeroPreference = this.setHeroPreference.bind(this);
+        this.clearHeroPreference = this.clearHeroPreference.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setSelectedHero(this.props.preferredHeroes[nextProps.selectedHeroSlot -1]);
     }
 
     setSelectedHero(heroName) {
-        let continueButtonDisabled = false;
-
-        if(this.props.preferredHeroes.includes(heroName) || !heroName) {
-            continueButtonDisabled = true;
-        }
-
         this.setState({
-            selectedHero: heroName,
-            continueButtonDisabled
+            selectedHero: heroName
         });
     }
 
-    setSelectedSlot(slot) {
-        Model.setSelectedSlotInStore(slot);
-        this.setSelectedHero(this.props.preferredHeroes[slot - 1]);
+    clearHeroPreference() {
+        this.setState({
+            heroForLastAction: this.state.selectedHero,
+            lastActionTaken: `has been removed`
+        });
+
+        this.props.clearHeroPreference();
     }
 
-    setPreferredHero() {
-        Model.addPreferredHero(this.state.selectedHero, this.props.selectedHeroSlot);
-        this.setSelectedHero(undefined);
+    setHeroPreference(heroName) {
+        if(!this.props.preferredHeroes.includes(heroName)){
+            this.props.setHeroPreference(heroName);
+
+            this.setState({
+                heroForLastAction: heroName,
+                lastActionTaken: `saved as preferred hero #${this.props.selectedHeroSlot}`
+            });
+
+            this.setSelectedSlot(this.props.selectedHeroSlot + 1);
+        }
+    }
+
+    setSelectedSlot(slot) {
+        this.props.setSelectedHeroSlot(slot);
     }
 
     render() {
@@ -69,19 +82,30 @@ class PreferredHeroSelector extends Component {
                     </div>
                 </div>
                 <div className="body">
-                    <HeroSelector selectedHeroes={[this.state.selectedHero]} onHeroSelected={this.setSelectedHero}/>
+                    <HeroSelector selectedHeroes={[this.state.selectedHero]} onHeroSelected={this.setHeroPreference}/>
                 </div>
-                <div className="footer flex justify-end">
-                    <div className="flex align-center button-tertiary" onClick={this.props.done}>
-                        <div>
-                            Done
-                        </div>
+                <div className="footer flex align-center">
+                    <div className="last-action-taken">
+                        <b>{this.state.heroForLastAction.charAt(0).toUpperCase() + this.state.heroForLastAction.slice(1)}</b>{this.state.lastActionTaken}
                     </div>
-                    <button type="button" className="button-primary flex align-center" onClick={this.setPreferredHero} disabled={this.state.continueButtonDisabled}>
-                        <div className="button-content">
-                            Continue
-                        </div>
-                    </button>
+                    <div className="button-group flex">
+                        {this.props.preferredHeroes[this.props.selectedHeroSlot - 1] ? (
+                            <div className="flex align-center button-six" onClick={this.clearHeroPreference}>
+                                <div className="button-content">
+                                    REMOVE
+                                </div>
+                            </div>
+                        ) : undefined
+                        }
+                        {this.props.preferredHeroes.length ? (
+                            <div className="save-button button-primary flex align-center" onClick={this.props.closeModal}>
+                                <div className="button-content">
+                                    SAVE
+                                </div>
+                            </div>
+                        ) : undefined}
+
+                    </div>
                 </div>
             </div>
         );
@@ -91,16 +115,10 @@ class PreferredHeroSelector extends Component {
 PreferredHeroSelector.propTypes = {
     selectedHeroSlot: PropTypes.number.isRequired,
     preferredHeroes: PropTypes.array.isRequired,
-    changeSelectedHeroSlot: PropTypes.func.isRequired,
-    done: PropTypes.func.isRequired
+    setSelectedHeroSlot: PropTypes.func.isRequired,
+    setHeroPreference: PropTypes.func.isRequired,
+    clearHeroPreference: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-    return {
-        preferredHeroes: state.preferredHeroes.heroes,
-        selectedHeroSlot: state.preferredHeroes.selectedSlot
-    };
-};
-
-
-export default connect(mapStateToProps)(PreferredHeroSelector);
+export default PreferredHeroSelector;

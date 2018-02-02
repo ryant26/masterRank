@@ -21,6 +21,21 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
       className="flex justify-between hero-slots"
     >
       <div
+        className="HeroSlot flex align-center justify-center selected"
+        onClick={[Function]}
+      >
+        <img
+          alt="doomfist icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
         className="HeroSlot flex align-center justify-center"
         onClick={[Function]}
       >
@@ -40,7 +55,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="tracer icon"
+          alt="mccree icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -55,7 +70,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="winston icon"
+          alt="pharah icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -70,22 +85,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
-          alt="mei icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
-      <div
-        className="HeroSlot flex align-center justify-center selected"
-        onClick={[Function]}
-      >
-        <img
-          alt="phara icon"
+          alt="reaper icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -104,7 +104,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
       className="HeroSelector flex wrap"
     >
       <div
-        className="HeroButton"
+        className="HeroButton selected"
         onClick={[Function]}
       >
         <img
@@ -496,28 +496,40 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
     </div>
   </div>
   <div
-    className="footer flex justify-end"
+    className="footer flex align-center"
   >
     <div
-      className="flex align-center button-tertiary"
-      onClick={[Function]}
+      className="last-action-taken"
     >
-      <div>
-        Done
-      </div>
+      <b>
+        
+      </b>
+      
     </div>
-    <button
-      className="button-primary flex align-center"
-      disabled={true}
-      onClick={[Function]}
-      type="button"
+    <div
+      className="button-group flex"
     >
       <div
-        className="button-content"
+        className="flex align-center button-six"
+        onClick={[Function]}
       >
-        Continue
+        <div
+          className="button-content"
+        >
+          REMOVE
+        </div>
       </div>
-    </button>
+      <div
+        className="save-button button-primary flex align-center"
+        onClick={[Function]}
+      >
+        <div
+          className="button-content"
+        >
+          SAVE
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -973,28 +985,19 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
     </div>
   </div>
   <div
-    className="footer flex justify-end"
+    className="footer flex align-center"
   >
     <div
-      className="flex align-center button-tertiary"
-      onClick={[Function]}
+      className="last-action-taken"
     >
-      <div>
-        Done
-      </div>
+      <b>
+        
+      </b>
+      
     </div>
-    <button
-      className="button-primary flex align-center"
-      disabled={true}
-      onClick={[Function]}
-      type="button"
-    >
-      <div
-        className="button-content"
-      >
-        Continue
-      </div>
-    </button>
+    <div
+      className="button-group flex"
+    />
   </div>
 </div>
 `;

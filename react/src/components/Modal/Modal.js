@@ -26,7 +26,7 @@ const FireTeamModal = (props) => {
                     </div> :
                     undefined
                 }
-                {props.children}
+                {React.cloneElement(props.children, { closeModal: props.closeModal })}
             </div>
         </Modal>
     );
