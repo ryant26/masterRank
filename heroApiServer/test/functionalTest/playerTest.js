@@ -85,5 +85,15 @@ describe('Player Tests', function() {
                     assert.equal(err.response.body.message, 'Player could not be found');
                 });
         });
+
+        it('should find console players', function() {
+            let platformDisplayName = 'Wiinter_455';
+            return chai.request(server)
+                .get(playerUrl)
+                .query({platformDisplayName, region, platform: 'psn'})
+                .then((res) => {
+                    assert.equal(res.body.platformDisplayName, platformDisplayName);
+                });
+        });
     });
 });
