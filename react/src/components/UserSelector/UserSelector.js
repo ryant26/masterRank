@@ -13,10 +13,12 @@ const UserSelector = ({users, region}) => {
     function authenticationUrl(user) {
         let platform = user.platform;
         let username = user.platformDisplayName;
+        let xhttp = new XMLHttpRequest();
         //TODO: Password can be anything but it must be passed, Make this cleaner
-        return `/auth/${platform}/callback?region=${region}&username=${username}&password=password`;
+        xhttp.open("POST", `auth/${platform}/callback?region=${region}&username=${username}&password=password`,true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
     }
-
 
     return (
         <div className="UserSelector">

@@ -37,6 +37,7 @@ class App extends Component {
                             path="/login"
                             component={LoginPage}
                             region={this.props.store.region}
+                            user={this.props.store.user}
                         />
                         <PrivateRoute
                             path="/"
