@@ -11,7 +11,7 @@ describe('UserSelector', () => {
 
     beforeEach(() => {
         UserSelectorComponent = shallow(
-            <UserSelector users={arrayUsers} store={Store}/>
+            <UserSelector users={arrayUsers} region={'us'} store={Store}/>
         ).dive();
     });
 
