@@ -8,16 +8,17 @@ export const addHero = (hero, preference) => {
   };
 };
 
-export const removeHero = (hero) => {
+export const removeHero = (hero, preference) => {
     return {
         type: PreferredHeroActionsTypes.REMOVE_HERO,
-        hero
+        hero,
+        preference
     };
 };
 
-export const setSelectedSlot = (slot) => {
+export const updateHeroes = (heroes) => {
     return {
-        type: PreferredHeroActionsTypes.SET_SELECTED_SLOT,
-        slot
+        type: PreferredHeroActionsTypes.UPDATE_HEROES,
+        heroes
     };
 };

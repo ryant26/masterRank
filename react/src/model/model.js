@@ -1,8 +1,11 @@
-import { addHero as addHeroAction, addHeroes as addHeroesAction } from "../actions/hero";
+import { addHero as addHeroAction,
+    addHeroes as addHeroesAction,
+    removeHero as removeHeroAction
+} from "../actions/hero";
 import {
     addHero as addPreferredHeroAction,
     removeHero as removePreferredHeroAction,
-    setSelectedSlot as setSelectedSlotAction
+    updateHeroes as updatePreferredHeroesAction
 } from "../actions/preferredHeroes";
 import { updateUser as updateUserAction } from "../actions/user";
 import { addFilter as addFilterAction, removeFilter as removeFilterAction } from "../actions/heroFilters";
@@ -20,7 +23,8 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.initialData, () => loadPreferredHeroesFromLocalStorage());
     socket.on(clientEvents.initialData, (players) => _addHeroesToStore(players));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
-    socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));            
+    socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
+    socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));
     socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));    
     socket.on(clientEvents.playerInvited, (groupInvitePendingObject) => _updateGroupData(groupInvitePendingObject));
     socket.on(clientEvents.groupHeroLeft, (groupHeroLeftObject) => _updateGroupData(groupHeroLeftObject));        
@@ -43,8 +47,12 @@ const addPreferredHeroToStore = function(heroName, preference) {
     store.dispatch(addPreferredHeroAction(heroName, preference));
 };
 
-const removePreferredHeroFromStore = function(heroName) {
-    store.dispatch(removePreferredHeroAction(heroName));
+const removePreferredHeroFromStore = function(heroName, preference) {
+    store.dispatch(removePreferredHeroAction(heroName, preference));
+};
+
+const updatePreferredHeroesInStore = function(heroes) {
+    store.dispatch(updatePreferredHeroesAction(heroes));
 };
 
 const addPreferredHero = function(heroName, preference) {
@@ -52,8 +60,26 @@ const addPreferredHero = function(heroName, preference) {
     addPreferredHeroToStore(heroName, preference);
 };
 
-const setSelectedSlotInStore = function (slot) {
-    store.dispatch(setSelectedSlotAction(slot));
+const updatePreferredHeroes = function(heroes) {
+    let currentPreferredHeroes = store.getState().preferredHeroes.heroes;
+    let numberOfHeroesToCheck = Math.max(heroes.length, currentPreferredHeroes.length);
+
+    for (let i = 0; i < numberOfHeroesToCheck; i++) {
+        let currentPreferredHero = store.getState().preferredHeroes.heroes[i];
+        let newPreferredHero = heroes[i];
+
+        if (currentPreferredHero !== newPreferredHero){
+            if (currentPreferredHero) {
+                socket.removeHero(currentPreferredHero);
+            }
+
+            if (newPreferredHero) {
+                socket.addHero(newPreferredHero, i+1);
+            }
+        }
+    }
+
+    updatePreferredHeroesInStore(heroes);
 };
 
 const updateUser = function(user) {
@@ -86,6 +112,13 @@ const _addHeroToStore = function(hero) {
     // will need a server event to promote this users new hero as the leader
     if (store.getState().preferredHeroes.heroes[0] === hero.heroName) {
         createNewGroup(store.getState().preferredHeroes.heroes[0]);
+    }
+};
+
+const _removeHeroFromStore = function(hero) {
+    store.dispatch(removeHeroAction(hero));
+    if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
+        removePreferredHeroFromStore(hero.heroName, hero.priority);
     }
 };
 
@@ -132,9 +165,9 @@ const loadPreferredHeroesFromLocalStorage = () => {
 const Actions = {
     initialize,
     addPreferredHero,
+    updatePreferredHeroes,
     addHeroFilterToStore,
     removeHeroFilterFromStore,
-    setSelectedSlotInStore,
     updateUser,
     leaveGroup,
     inviteUserToGroup,

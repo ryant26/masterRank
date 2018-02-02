@@ -5,17 +5,9 @@ exports[`<PreferredHeroesContainer/> Should render in the correct format with pr
   className="PreferredHeroes-HeroList sidebar-card flex flex-column"
 >
   <div
-    className="flex justify-between"
+    className="sidebar-title"
   >
-    <div
-      className="sidebar-title"
-    >
-      Preferred Heroes
-    </div>
-    <span
-      aria-hidden={true}
-      className="fa fa-cog"
-    />
+    Heroes I'll Play
   </div>
   <div
     className="flex justify-between"
@@ -79,17 +71,9 @@ exports[`<PreferredHeroesContainer/> Should render in the correct format without
   className="PreferredHeroes-HeroList sidebar-card flex flex-column"
 >
   <div
-    className="flex justify-between"
+    className="sidebar-title"
   >
-    <div
-      className="sidebar-title"
-    >
-      Preferred Heroes
-    </div>
-    <span
-      aria-hidden={true}
-      className="fa fa-cog"
-    />
+    Heroes I'll Play
   </div>
   <div
     className="flex justify-between"
