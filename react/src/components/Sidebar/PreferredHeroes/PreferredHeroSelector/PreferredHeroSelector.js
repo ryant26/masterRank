@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeroSelector from '../../../ContentArea/HeroSelector/HeroSelector';
+import HeroSelector from '../../../ContentArea/DashboardHome/HeroSelector/HeroSelector';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import HeroSlot from '../HeroSlot/HeroSlot';

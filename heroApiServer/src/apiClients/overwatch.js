@@ -30,7 +30,7 @@ let searchForPlayer = function(token) {
 
 let getPlayerStats = function(token) {
     let playerId = _normalizeId(token.platformDisplayName);
-    return ow.playerStats(playerId, token.region, token.platform);
+    return ow.playerStats(playerId, null, token.platform);
 };
 
 let _normalizeId = function(platformDisplayName) {

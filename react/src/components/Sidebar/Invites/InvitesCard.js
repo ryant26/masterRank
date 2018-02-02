@@ -1,15 +1,19 @@
 import React from 'react';
-import Badge from '../Badge/Badge';
+import Badge from '../../Badge/Badge';
 import InvitesList from './InvitesList';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+import {allInvites} from "../../Routes/links";
 
 let InvitesCard = ({groupInvites}) => {
   let button = groupInvites.length ? (
-    <div className="button-secondary flex align-center justify-center">
-      <div className="button-content">
-        All Invites
-      </div>
-    </div>
+      <Link to={allInvites} style={{ textDecoration: 'none' }}>
+        <div className="button-secondary flex align-center justify-center">
+          <div className="button-content">
+            All Invites
+          </div>
+        </div>
+      </Link>
   ) : '';
 
   return (
