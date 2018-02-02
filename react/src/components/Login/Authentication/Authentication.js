@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {updateUser as updateUserAction} from "../../../actions/user";
-import RegionSelection from '../RegionSelection/RegionSelection';
-import PlatformSelection from '../PlatformSelection/PlatformSelection';
+import LoginPage from '../../../pages/LoginPage/LoginPage';
 
 const decode  = require('jwt-decode');
 
@@ -57,15 +56,9 @@ class Authentication extends Component {
     }
 
     render() {
-        return (
-            <div>
-                { !this.props.region
-                    ? <RegionSelection/>
-                    : !this.state.accessToken &&
-                        <PlatformSelection region={this.props.region}/>
-                }
-            </div>
-        );
+        if(!this.state.accessToken) {
+            return ( <LoginPage/> );
+        }
     }
 }
 

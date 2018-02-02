@@ -1,80 +1,67 @@
 import React, {
   Component
 } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import UserSelector from '../../components/UserSelector/UserSelector';
+import PlatformSelection from '../../components/Login/PlatformSelection/PlatformSelection';
+import RegionSelection from '../../components/Login/RegionSelection/RegionSelection';
+import ConsoleUserSearch from '../../components/Login/ConsoleUserSearch/ConsoleUserSearch';
+import BlizzardOAuth from '../../components/Login/BlizzardOAuth/BlizzardOAuth';
+import {updateRegion as updateRegionAction} from '../../actions/region';
 
-export default class LoginPage extends Component {
+
+class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayName: '',
-            placeholder: 'Enter Full Battletag, PSN, or Xbox Gamertag...'
+            platform: 'pc',
+            region: 'us',
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onPlatformClick = this.onPlatformClick.bind(this);
+        this.onRegionClick = this.onRegionClick.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({displayName: event.target.value});
+    onPlatformClick(event) {
+        this.setState({
+            platform: event.target.value,
+        });
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-
-        fetch(this.urlForUserSearch(this.state.displayName))
-            .then(response => {
-              if (!response.ok) {
-                throw Error("Network request failed");
-              }
-
-              return response;
-            })
-            .then(response => response.json())
-            .then(response => {
-                if(response.length == 0) {
-                    this.setState({
-                        displayName: '',
-                        placeholder: 'No matches found! please try again'
-                    });
-                } else {
-                    this.setState({
-                        users: response
-                    });
-                }
-            }).catch((error) => {
-                throw error;
-            });
-    }
-
-    urlForUserSearch(displayName) {
-        return `/api/players/search?platformDisplayName=${this.sanitize(displayName)}`;
-    }
-
-    sanitize(displayName) {
-        return displayName.replace(/#/g, '-');
+    onRegionClick(event) {
+        //TODO: we want region in the store correct? we need it for selection later i believe.
+        //TODO: Should i default region to NA?
+        //TODO: should we have default platforms and region?
+        this.props.updateRegionAction(event.target.value);
+        this.setState({
+            region: event.target.value,
+        });
     }
 
     render() {
         return (
-            <div className="LoginPage flex">
-                <div className="input-component skew">
-                    <form onSubmit={this.handleSubmit} className="validate">
-                        <div className="input-container">
-                            <input
-                                type="text"
-                                value={this.state.displayName}
-                                onChange={this.handleChange}
-                                placeholder={this.state.placeholder}
-                                className="unskew stretch"
-                            />
-                            <input type="submit" value="Search" className="input-button" disabled={!this.state.displayName} />
-                        </div>
-                    </form>
-                    { this.state.users && ( <UserSelector users={this.state.users}/> )}
-                 </div>
+            <div className="LoginPage">
+                <PlatformSelection onClick={this.onPlatformClick}/>
+                <RegionSelection onClick={this.onRegionClick}/>
+                { this.state.platform === 'pc'
+                    ? <BlizzardOAuth region={this.state.region}/>
+                    : <ConsoleUserSearch/>
+                }
             </div>
         );
     }
 }
+
+LoginPage.propTypes = {
+    updateRegionAction: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = function (dispatch) {
+  return bindActionCreators({
+    updateRegionAction: updateRegionAction,
+  }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);

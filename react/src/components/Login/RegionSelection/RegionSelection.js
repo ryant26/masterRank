@@ -1,42 +1,20 @@
-import React, {
-    Component
-} from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import {updateRegion as updateRegionAction} from '../../../actions/region';
-
-class RegionSelection extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onClick(region) {
-        this.props.updateRegionAction(region);
-        window.location.assign('/');
-    }
-
-    render() {
-        return(
-            <div className="RegionSelection">
-                <button onClick={() => {this.onClick('us');}}>Us</button>
-                <button onClick={() => {this.onClick('apac');}}>Asia</button>
-                <button onClick={() => {this.onClick('eu');}}>Europe</button>
-            </div>
-        );
-    }
-}
-
+const RegionSelection = ({onClick}) => {
+    //TODO: Disable ability to click outside of radio, makes state undefined
+    //TODO: remove hardcoded region values
+    return(
+        <div className="RegionSelection" onClick={(event) => {onClick(event);}}>
+            <input type="radio" name="region" value="us" defaultChecked />NA
+            <input type="radio" name="region" value="apac" />APAC
+            <input type="radio" name="region" value="eu" />EU
+        </div>
+    );
+};
 
 RegionSelection.propTypes = {
-    updateRegionAction: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-    updateRegionAction: updateRegionAction,
-  }, dispatch);
-};
-
-export default connect(null, mapDispatchToProps)(RegionSelection);
+export default RegionSelection;

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import UserCard from '../UserCard/UserCard';
+import UserCard from '../../UserCard/UserCard';
 
 const UserSelector = ({users, region}) => {
 
@@ -11,6 +11,8 @@ const UserSelector = ({users, region}) => {
     }
 
     function authenticationUrl(user) {
+        //TODO: DO we want to get platform from the user clicked on or the radio selected?
+        //I think we should get it from user, but search should be filtred by xbl or psn
         let platform = user.platform;
         let username = user.platformDisplayName;
         let xhttp = new XMLHttpRequest();

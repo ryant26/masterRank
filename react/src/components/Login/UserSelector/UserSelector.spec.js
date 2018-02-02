@@ -1,14 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Store from '../../model/store';
-import { users as arrayUsers} from '../../resources/users';
+import Store from '../../../model/store';
+import { users as arrayUsers} from '../../../resources/users';
 import UserSelector from './UserSelector';
-import UserCard from '../UserCard/UserCard';
+import UserCard from '../../UserCard/UserCard';
 
 describe('UserSelector', () => {
     let UserSelectorComponent;
-
+    //TODO: figure out how to set region in Store before test
     beforeEach(() => {
         UserSelectorComponent = shallow(
             <UserSelector users={arrayUsers} region={'us'} store={Store}/>

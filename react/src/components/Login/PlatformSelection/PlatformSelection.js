@@ -1,33 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlatformSelection = ({region}) => {
-
-    function onClick(platform) {
-        switch(platform) {
-            case 'pc':
-                window.location.assign(redirectBlizzardAuthUrl());
-                break;
-            default:
-                window.location.assign('/login');
-        }
-    }
-
-    function redirectBlizzardAuthUrl() {
-        return `/auth/bnet/callback?region=${region}`;
-    }
-
+const PlatformSelection = ({onClick}) => {
+     //TODO: Disable ability to click outside of radio, makes state undefined
+     //TODO: remove hardcoding of pc, xbl, pxn
      return(
-        <div className="PlatformSelection">
-            <button onClick={() => {onClick('pc');}}>PC</button>
-            <button onClick={() => {onClick('xbl');}}>Xbox</button>
-            <button onClick={() => {onClick('psn');}}>Play Station</button>
+        <div className="PlatformSelection" onClick={(event) => {onClick(event);}}>
+            <input type="radio" name="platform" value="pc" defaultChecked/>Battle.net
+            <input type="radio" name="platform" value="xbl" />XBL
+            <input type="radio" name="platform" value="psn" />PSN
         </div>
     );
 };
 
 PlatformSelection.propTypes = {
-    region: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default PlatformSelection;

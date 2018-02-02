@@ -1,10 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Authentication from './Authentication';
-import PlatformSelection from '../PlatformSelection/PlatformSelection';
-import RegionSelection from '../RegionSelection/RegionSelection';
 import Store from '../../../model/store';
+import Authentication from './Authentication';
+import LoginPage from '../../../pages/LoginPage/LoginPage';
 
 describe('Authentication', () => {
     let AuthenticationContainer;
@@ -19,29 +18,18 @@ describe('Authentication', () => {
         AuthenticationComponent = AuthenticationContainer.dive();
     });
 
-    it('should render region selection page when region is undefined', () => {
-        AuthenticationComponent.setProps({
-            region: undefined,
-        });
-        expect(AuthenticationComponent.find(RegionSelection)).toHaveLength(1);
-        expect(AuthenticationComponent.find(PlatformSelection)).toHaveLength(0);
-    });
-
-    it('should render platform selection page when state access token is undefined and region is defined', () => {
+    it('should render login page when state access token is undefined', () => {
         AuthenticationComponent.setState({
             accessToken: undefined,
         });
-        AuthenticationComponent.setProps({
-            region: 'us',
-        });
-        expect(AuthenticationComponent.find(PlatformSelection)).toHaveLength(1);
-        expect(AuthenticationComponent.find(RegionSelection)).toHaveLength(0);
+
+        expect(AuthenticationComponent.find(LoginPage)).toHaveLength(1);
     });
 
-    it('should not render platform selection page when state access token is defined', () => {
+    it('should not render login page when state access token is defined', () => {
         AuthenticationComponent.setState({
             accessToken: 'mock_token',
         });
-        expect(AuthenticationComponent.find(PlatformSelection)).toHaveLength(0);
+        expect(AuthenticationComponent.find(LoginPage)).toHaveLength(0);
     });
 });
