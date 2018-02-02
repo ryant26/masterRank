@@ -113,6 +113,24 @@ describe('Model', () => {
             });
         });
 
+        describe('heroRemoved', () => {
+            it('should add the new hero to the store', function() {
+                let hero = generateHero();
+                socket.socketClient.emit(clientEvents.heroAdded, hero);
+                expect(store.getState().heroes).toEqual([hero]);
+                socket.socketClient.emit(clientEvents.heroRemoved, hero);
+                expect(store.getState().heroes).toEqual([]);
+            });
+
+            it('should remove heroes from the preferred hero array too', function() {
+                let hero = generateHero();
+                socket.socketClient.emit(clientEvents.heroAdded, hero);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
+                socket.socketClient.emit(clientEvents.heroRemoved, hero);
+                expect(store.getState().preferredHeroes.heroes).toEqual([]);
+            });
+        });
+
         describe('Group invite received', () => {
             it('should add the group invite to the list', () => {
                 let invite = generateInvite();
@@ -189,56 +207,62 @@ describe('Model', () => {
                 model.addPreferredHero(hero.heroName, 2);
                 expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
             });
+        });
 
-            it('should increment the selectedSlot', function() {
-                let hero = generateHero();
-                model.addPreferredHero(hero.heroName, 1);
-                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
-                expect(store.getState().preferredHeroes.selectedSlot).toEqual(2);
+        describe('updatePreferredHeroes', function() {
+            beforeEach(() => {
+                socket.removeHero = () => {}; //Stub
             });
 
-            it('should not increment the selectedSlot passed the maximum slots', function() {
+            it('should update the preferred heroes array to the argument', function() {
+                let hero = generateHero();
+                let hero2 = generateHero('hero2');
+                model.updatePreferredHeroes([hero.heroName, hero2.heroName]);
+                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName, hero2.heroName]);
+            });
+
+            it('Should send the removeHero socket event for missing heroes', function(done) {
                 let hero = generateHero('winston');
+                socket.removeHero = function(heroName) {
+                    expect(heroName).toBe('genji');
+                    done();
+                };
+
                 model.addPreferredHero(generateHero('genji').heroName, 1);
                 model.addPreferredHero(generateHero('tracer').heroName, 2);
                 model.addPreferredHero(generateHero('widowmaker').heroName, 3);
-                model.addPreferredHero(generateHero('soldier76').heroName, 4);
 
-                model.addPreferredHero(hero.heroName, 5);
-                expect(store.getState().preferredHeroes.selectedSlot).toEqual(5);
+                model.updatePreferredHeroes([hero.heroName, 'tracer', 'widowmaker']);
             });
 
-            it('should not increment the selectedSlot when passed a duplicate hero', function() {
+            it('should send the addHero socket event for new heroes', function(done) {
+                let hero = generateHero('winston');
+
                 model.addPreferredHero(generateHero('genji').heroName, 1);
-                model.addPreferredHero(generateHero('genji').heroName, 2);
+                model.addPreferredHero(generateHero('tracer').heroName, 2);
+                model.addPreferredHero(generateHero('widowmaker').heroName, 3);
 
-                expect(store.getState().preferredHeroes.selectedSlot).toEqual(2);
-            });
-        });
+                socket.addHero = function(heroName, preference) {
+                    expect(heroName).toBe('winston');
+                    expect(preference).toBe(1);
+                    done();
+                };
 
-        describe('setSelectedSlotInStore', function() {
-            let setupStore = function(numHeroes) {
-                for (let i = 0; i < numHeroes; i++) {
-                    model.addPreferredHero(generateHero(`hero${i + 1}`), i + 1);
-                }
-            };
-
-            it('should select any slot for which a hero is chosen', function(done) {
-                let selectedSlot = 3;
-                setupStore(5);
-                model.setSelectedSlotInStore(selectedSlot);
-
-                expect(store.getState().preferredHeroes.selectedSlot).toEqual(selectedSlot);
-                done();
+                model.updatePreferredHeroes([hero.heroName, 'tracer', 'widowmaker']);
             });
 
-            it('should choose the lowest empty slot when a higher slot is chosen', function(done) {
-                let selectedSlot = 4;
-                setupStore(2);
-                model.setSelectedSlotInStore(selectedSlot);
+            it('should remove extra heroes when the new array is shorter', (done) => {
 
-                expect(store.getState().preferredHeroes.selectedSlot).toEqual(3);
-                done();
+                model.addPreferredHero(generateHero('genji').heroName, 1);
+                model.addPreferredHero(generateHero('tracer').heroName, 2);
+                model.addPreferredHero(generateHero('widowmaker').heroName, 3);
+
+                socket.removeHero = function(heroName) {
+                    expect(heroName).toBe('widowmaker');
+                    done();
+                };
+
+                model.updatePreferredHeroes(['genji', 'tracer']);
             });
         });
 

@@ -4,7 +4,6 @@ import HeroImage from '../../HeroImage/HeroImage';
 import AddHeroIcon from './AddHeroIcon';
 import Modal from '../../Modal/Modal';
 import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
-import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
 import Model from '../../../model/model';
 
@@ -14,18 +13,66 @@ class PreferredHeroesContainer extends Component {
         super(props);
         this.state = {
             modalOpen: false,
+            selectedSlot: 1,
+            pendingPreferredHeroes: [...props.heroes]
         };
 
+        this.maxSlots = 5;
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.setHeroPreference = this.setHeroPreference.bind(this);
+        this.setSelectedSlot = this.setSelectedSlot.bind(this);
+        this.clearHeroPreference = this.clearHeroPreference.bind(this);
     }
-    
+
+    setHeroPreference(heroName) {
+        // In-place operation
+        this.state.pendingPreferredHeroes.splice(this.state.selectedSlot - 1, 1, heroName);
+
+        // Propigate change
+        this.setState((state) => {
+            return {
+                pendingPreferredHeroes: state.pendingPreferredHeroes
+            };
+        });
+    }
+
+    clearHeroPreference() {
+        // In-place operation
+        this.state.pendingPreferredHeroes.splice(this.state.selectedSlot - 1, 1);
+
+        // Propigate change
+        this.setState((state) => {
+            return {
+                pendingPreferredHeroes: state.pendingPreferredHeroes
+            };
+        });
+    }
+
+
+    setSelectedSlot(slot) {
+        let maxAllowableSlot = this.state.pendingPreferredHeroes.length + 1;
+        let newSlot = maxAllowableSlot;
+
+        if(slot <= this.maxSlots) {
+
+            if (slot <= maxAllowableSlot) {
+                newSlot = slot;
+            }
+
+            this.setState({
+                selectedSlot: newSlot
+            });
+        }
+    }
+
     openModalWithSlot(slot) {
         return () => {
-            Model.setSelectedSlotInStore(slot);
+            this.setSelectedSlot(slot);
             this.openModal();
         };
     }
+
 
     openModal() {
         this.setState(() => {
@@ -36,6 +83,7 @@ class PreferredHeroesContainer extends Component {
     }
 
     closeModal() {
+        Model.updatePreferredHeroes(this.state.pendingPreferredHeroes);
         this.setState(() => {
             return {
                 modalOpen: false
@@ -56,15 +104,18 @@ class PreferredHeroesContainer extends Component {
 
         return (
             <div className="PreferredHeroes-HeroList sidebar-card flex flex-column">
-                <div className="flex justify-between">
-                    <div className="sidebar-title">Preferred Heroes</div>
-                    <FontAwesome name="cog"/>
-                </div>
+                <div className="sidebar-title">Heroes I'll Play</div>
                 <div className="flex justify-between">
                     {heroThumbnails}
                 </div>
                 <Modal closeModal={this.closeModal} modalOpen={this.state.modalOpen}>
-                    <PreferredHeroSelector changeSelectedHeroSlot={Model.setSelectedSlotInStore} done={this.closeModal}/>
+                    <PreferredHeroSelector
+                        setSelectedHeroSlot={this.setSelectedSlot}
+                        setHeroPreference={this.setHeroPreference}
+                        clearHeroPreference={this.clearHeroPreference}
+                        preferredHeroes={this.state.pendingPreferredHeroes}
+                        selectedHeroSlot={this.state.selectedSlot}
+                    />
                 </Modal>
             </div>
         );
@@ -73,13 +124,11 @@ class PreferredHeroesContainer extends Component {
 
 PreferredHeroesContainer.propTypes = {
     heroes: PropTypes.array.isRequired,
-    selectedSlot: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        heroes: state.preferredHeroes.heroes,
-        selectedSlot: state.preferredHeroes.selectedSlot
+        heroes: state.preferredHeroes.heroes
     };
 };
 

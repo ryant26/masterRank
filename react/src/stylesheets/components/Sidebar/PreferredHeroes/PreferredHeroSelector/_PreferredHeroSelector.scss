@@ -28,8 +28,37 @@ $border: 1px solid $gray6;
   }
 
   .footer {
-    & > div:first-child {
-      padding: 10px 20px;
+    height: 39px;
+
+    .button-six {
+      height: 28px;
+      margin-left: auto;
+    }
+
+    .button-group {
+      margin-left: auto;
+      margin-right: 5px;
+
+      div {
+        margin-right: 10px;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .button-primary {
+      padding: 2px 18px 2px 18px;
+    }
+
+    .last-action-taken {
+      font-style: italic;
+      color: $blue4;
+
+      b {
+        margin-right: 5px;
+      }
     }
   }
 }

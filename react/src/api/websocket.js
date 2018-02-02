@@ -6,6 +6,7 @@ export const clientEvents = {
     initialData: 'initialData',
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
+    heroRemoved: 'heroRemoved',
     groupPromotedLeader: 'groupPromotedLeader',
     groupInviteReceived: 'groupInviteRecieved',
     groupHeroLeft: 'groupHeroLeft',
@@ -22,6 +23,7 @@ export const clientEvents = {
 const serverEvents = {
     authenticate: 'authenticate',
     addHero: 'addHero',
+    removeHero: 'removeHero',
     createGroup: 'createGroup',
     groupInviteSend: 'groupInviteSend',
     groupLeave: 'groupLeave',
@@ -53,6 +55,10 @@ export default class Websocket {
 
     addHero(heroName, priority) {
         this.emit(serverEvents.addHero, {heroName, priority});
+    }
+
+    removeHero(heroName) {
+        this.emit(serverEvents.removeHero, heroName);
     }
 
     groupInviteSend(userObject) {
