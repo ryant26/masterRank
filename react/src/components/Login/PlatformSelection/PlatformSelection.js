@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlatformSelectionPage = ({region}) => {
+const PlatformSelection = ({region}) => {
 
     function onClick(platform) {
         switch(platform) {
@@ -18,7 +18,7 @@ const PlatformSelectionPage = ({region}) => {
     }
 
      return(
-        <div className="PlatformSelectionPage">
+        <div className="PlatformSelection">
             <button onClick={() => {onClick('pc');}}>PC</button>
             <button onClick={() => {onClick('xbl');}}>Xbox</button>
             <button onClick={() => {onClick('psn');}}>Play Station</button>
@@ -26,8 +26,8 @@ const PlatformSelectionPage = ({region}) => {
     );
 };
 
-PlatformSelectionPage.propTypes = {
+PlatformSelection.propTypes = {
     region: PropTypes.string.isRequired,
 };
 
-export default PlatformSelectionPage;
+export default PlatformSelection;

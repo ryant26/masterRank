@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {updateRegion as updateRegionAction} from '../../actions/region';
+import {updateRegion as updateRegionAction} from '../../../actions/region';
 
-class RegionSelectionPage extends Component {
+class RegionSelection extends Component {
     constructor(props) {
         super(props);
     }
@@ -19,7 +19,7 @@ class RegionSelectionPage extends Component {
 
     render() {
         return(
-            <div className="RegionSelectionPage">
+            <div className="RegionSelection">
                 <button onClick={() => {this.onClick('us');}}>Us</button>
                 <button onClick={() => {this.onClick('apac');}}>Asia</button>
                 <button onClick={() => {this.onClick('eu');}}>Europe</button>
@@ -29,7 +29,7 @@ class RegionSelectionPage extends Component {
 }
 
 
-RegionSelectionPage.propTypes = {
+RegionSelection.propTypes = {
     updateRegionAction: PropTypes.func.isRequired
 };
 
@@ -39,4 +39,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(RegionSelectionPage);
+export default connect(null, mapDispatchToProps)(RegionSelection);

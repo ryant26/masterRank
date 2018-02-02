@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {updateUser as updateUserAction} from "../../actions/user";
-import RegionSelectionPage from '../../pages/RegionSelectionPage/RegionSelectionPage';
-import PlatformSelectionPage from '../../pages/PlatformSelectionPage/PlatformSelectionPage';
+import {updateUser as updateUserAction} from "../../../actions/user";
+import RegionSelection from '../RegionSelection/RegionSelection';
+import PlatformSelection from '../PlatformSelection/PlatformSelection';
 
 const decode  = require('jwt-decode');
 
@@ -60,9 +60,9 @@ class Authentication extends Component {
         return (
             <div>
                 { !this.props.region
-                    ? <RegionSelectionPage/>
+                    ? <RegionSelection/>
                     : !this.state.accessToken &&
-                        <PlatformSelectionPage region={this.props.region}/>
+                        <PlatformSelection region={this.props.region}/>
                 }
             </div>
         );
