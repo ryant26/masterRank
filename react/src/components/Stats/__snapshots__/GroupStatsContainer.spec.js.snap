@@ -1,0 +1,577 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroupStatsContainer Component should match the snapshot 1`] = `
+<div
+  className="GroupStatsContainer"
+>
+  <div
+    className="header"
+  >
+    <div
+      className="flex justify-between align-center"
+    >
+      <div>
+        <div
+          className="title flex align-center"
+        >
+          <h3>
+            luckbomb#1234's
+          </h3>
+          <h3
+            className="regular"
+          >
+            Group
+          </h3>
+        </div>
+        <span
+          className="sub-title"
+        >
+          <b>
+            2700
+          </b>
+           Group SR
+        </span>
+        
+      </div>
+      <div
+        className="HeroImages flex"
+      >
+        <img
+          alt="genji icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <img
+          alt="widowmaker icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="body"
+  >
+    <div
+      className="HeroStatsList"
+    >
+      <div
+        className="HeroStatsListItem"
+      >
+        <div
+          className="flex align-center"
+        >
+          <div>
+            <img
+              alt="leader-icon"
+              className="crown"
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <img
+              alt="genji icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+          </div>
+          <div>
+            <h3>
+              luckbomb#1234 - 
+              Genji
+            </h3>
+            <div
+              className="sub-title"
+            >
+               hours played
+            </div>
+          </div>
+          <div
+            className="flex justify-between record"
+          >
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                WINS
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                LOSSES
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0.00
+              </div>
+              <div
+                className="sub-title"
+              >
+                K/D
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex wrap justify-between"
+        >
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              DAMAGE
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              HEALING
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              BLOCKED
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. KILLS
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. TIME
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              ACCURACY
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="HeroStatsListItem"
+      >
+        <div
+          className="flex align-center"
+        >
+          <div>
+            <img
+              alt="widowmaker icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+          </div>
+          <div>
+            <h3>
+              wismo0#1234 - 
+              Widowmaker
+            </h3>
+            <div
+              className="sub-title"
+            >
+               hours played
+            </div>
+          </div>
+          <div
+            className="flex justify-between record"
+          >
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                WINS
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                LOSSES
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0.00
+              </div>
+              <div
+                className="sub-title"
+              >
+                K/D
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex wrap justify-between"
+        >
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              DAMAGE
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              HEALING
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              BLOCKED
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. KILLS
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. TIME
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              ACCURACY
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="footer flex justify-between align-center"
+  >
+    <div
+      className="sub-title"
+    >
+      <b>
+        Players joined: 
+        2
+        /
+        4
+      </b>
+    </div>
+    <div
+      className="button-six flex align-center"
+    >
+      <div
+        className="button-content"
+      >
+        LEAVE GROUP
+      </div>
+    </div>
+  </div>
+</div>
+`;

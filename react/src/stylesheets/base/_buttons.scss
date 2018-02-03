@@ -33,6 +33,10 @@
   @include button($gray10, $gray11);
 }
 
+.button-six {
+  @include button($red1, $red2);
+}
+
 .button-four {
   @include button($blue2, $blue3);
   width:100%;

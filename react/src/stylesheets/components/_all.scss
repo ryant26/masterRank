@@ -2,9 +2,11 @@
 @import "ContentArea/DashboardHome/HeroSelector/HeroButton/HeroButton";
 @import "ContentArea/DashboardHome/HeroSelector/HeroSelectorCard";
 @import "ContentArea/DashboardHome/HeroRolesContainer/HeroRolesList/HeroCard/HeroCard";
-@import "ContentArea/DashboardHome/HeroRolesContainer/HeroRolesList/HeroStatsList/HeroStatsList";
-@import "ContentArea/DashboardHome/HeroRolesContainer/HeroRolesList/HeroStatsListItem/HeroStatsListItem";
-@import "ContentArea/DashboardHome/HeroRolesContainer/HeroRolesList/HeroStatsListItem/HeroStat";
+@import "Stats/HeroStatsListItem/HeroStatsListItem";
+@import "Stats/HeroStatsListItem/HeroStat";
+@import "Stats/HeroImages/HeroImages";
+@import "Stats/UserStatsContainer";
+@import "Stats/GroupStatsContainer";
 @import "ContentArea/DashboardHome/DashboardHome";
 @import "ContentArea/InvitesGrid/InvitesGrid";
 @import "ContentArea/InvitesGrid/InvitesGridItem";
