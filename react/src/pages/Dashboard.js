@@ -1,7 +1,6 @@
 import React, {
   Component
 } from 'react';
-import PropTypes from 'prop-types';
 
 import Sidebar from '../components/Sidebar/Sidebar';
 import ContentArea from '../components/ContentArea/ContentArea';
