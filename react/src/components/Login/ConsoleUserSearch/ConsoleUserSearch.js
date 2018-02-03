@@ -10,15 +10,28 @@ export default class ConsoleUserSearch extends Component {
         super(props);
         this.state = {
             displayName: '',
-            placeholder: 'Enter Full Battletag, PSN, or Xbox Gamertag...'
+            placeholder: 'Enter Full Battletag, PSN, or Xbox Gamertag...',
+            isSearching: false,
         };
 
+        this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            users: undefined,
+        });
     }
 
     handleChange(event) {
         this.setState({displayName: event.target.value});
+    }
+
+    onClick() {
+        this.setState({isSearching: true});
     }
 
     handleSubmit(event) {
@@ -37,11 +50,13 @@ export default class ConsoleUserSearch extends Component {
                 if(response.length == 0) {
                     this.setState({
                         displayName: '',
-                        placeholder: 'No matches found! please try again'
+                        placeholder: 'No matches found! please try again',
+                        isSearching: false,
                     });
                 } else {
                     this.setState({
-                        users: response
+                        users: response,
+                        isSearching: false,
                     });
                 }
             }).catch((error) => {
@@ -70,9 +85,16 @@ export default class ConsoleUserSearch extends Component {
                                 placeholder={this.state.placeholder}
                                 className="unskew stretch"
                             />
-                            <input type="submit" value="Search" className="input-button" disabled={!this.state.displayName} />
+                            <input
+                                type="submit"
+                                value="Search"
+                                className="input-button"
+                                onClick={this.onClick}
+                                disabled={!this.state.displayName}
+                            />
                         </div>
                     </form>
+                    { this.state.isSearching && <div>Searching for User</div> }
                     { this.state.users && ( <UserSelector users={this.state.users}/> )}
                  </div>
             </div>

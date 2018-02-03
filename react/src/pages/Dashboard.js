@@ -33,7 +33,3 @@ export default class Dashboard extends Component {
         );
     }
 }
-
-Dashboard.propTypes = {
-    user: PropTypes.object.isRequired
-};

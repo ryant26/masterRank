@@ -28,11 +28,10 @@ class Authentication extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let accessToken = this.state.accessToken;
-
+        //TODO: sometimes the cookie is not set when calling the xbl and psn endpoints
         if (accessToken) {
-            deleteCookie('access_token');
             localStorage.setItem('accessToken', accessToken);
             let decodedToken = decode(accessToken);
             fetch(this.urlForUserSearch(decodedToken))
@@ -46,19 +45,22 @@ class Authentication extends Component {
                 .then(response => response.json())
                 .then(response => {
                     this.props.updateUserAction(response);
+                    deleteCookie('access_token');
                 });
         }
     }
 
     urlForUserSearch(token) {
         let platformDisplayName = encodeURIComponent(token.platformDisplayName);
-        return `/api/players?platformDisplayName=${platformDisplayName}&platform=${token.platform}&region=${token.region}`;
+        return `/api/players?platformDisplayName=${platformDisplayName}&platform=${token.platform}&region=${this.props.region}`;
     }
 
     render() {
-        if(!this.state.accessToken) {
-            return ( <LoginPage/> );
-        }
+        return (
+            <div>
+                { !this.state.accessToken && <LoginPage/> }
+            </div>
+        );
     }
 }
 

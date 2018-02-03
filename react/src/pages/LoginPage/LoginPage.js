@@ -19,6 +19,7 @@ class LoginPage extends Component {
             platform: 'pc',
             region: 'us',
         };
+        this.props.updateRegionAction(this.state.region);
 
         this.onPlatformClick = this.onPlatformClick.bind(this);
         this.onRegionClick = this.onRegionClick.bind(this);
