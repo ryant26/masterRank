@@ -1,6 +1,7 @@
 import React, {
   Component
 } from 'react';
+import PropTypes from 'prop-types';
 
 import UserSelector from '../UserSelector/UserSelector';
 
@@ -49,7 +50,7 @@ export default class ConsoleUserSearch extends Component {
     }
 
     urlForUserSearch(displayName) {
-        return `/api/players/search?platformDisplayName=${this.sanitize(displayName)}`;
+        return `/api/players/search?platformDisplayName=${this.sanitize(displayName)}&platform=${this.props.platform}`;
     }
 
     sanitize(displayName) {
@@ -78,3 +79,7 @@ export default class ConsoleUserSearch extends Component {
         );
     }
 }
+
+ConsoleUserSearch.propTypes = {
+    platform: PropTypes.string.isRequired,
+};
