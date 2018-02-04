@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
 import {updateUser as updateUserAction} from "../../../actions/user";
@@ -58,7 +59,10 @@ class Authentication extends Component {
     render() {
         return (
             <div>
-                { !this.state.accessToken && <LoginPage/> }
+                { !this.state.accessToken
+                    ? <LoginPage/>
+                    : <Redirect to='/'/>
+                }
             </div>
         );
     }
