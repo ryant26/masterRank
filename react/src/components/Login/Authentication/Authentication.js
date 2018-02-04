@@ -57,7 +57,7 @@ class Authentication extends Component {
 
     render() {
         return (
-            <div>
+            <div className="Authentication flex grow">
                 { !this.state.accessToken
                     ? <LoginPage/>
                     : <Redirect to="/"/>

@@ -1,0 +1,12 @@
+.UserSelector {
+  .UserCard {
+    background-color: white;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    border: solid 1px #d8dadf;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

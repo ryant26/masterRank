@@ -43,13 +43,30 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <div className="LoginPage">
-                <PlatformSelection onClick={this.onPlatformClick}/>
-                <RegionSelection onClick={this.onRegionClick}/>
+            <div className="LoginPage flex flex-column align-center grow">
+                <div className="title flex align-center">
+                    <img className="logo" src={require('../../assets/logo-icon.svg')} alt="logo icon"/>
+                    <h1>FIRETEAM.GG</h1>
+                </div>
+
+                <div className="sub-title">Find like-minded Overwatch players to improve your skills and climb to Grand Masters.</div>
+                <div className="preferences-container card flex flex-column stretch justify-center">
+                    <div className="flex justify-center">
+                        <h3>Find your Battle.net, PSN, or XBL account</h3>
+                    </div>
+                    <div className="preference-selectors flex justify-around">
+                        <PlatformSelection onClick={this.onPlatformClick}/>
+                        <RegionSelection onClick={this.onRegionClick}/>
+                    </div>
+                </div>
                 { this.state.platform === 'pc'
                     ? <BlizzardOAuth region={this.state.region}/>
                     : <ConsoleUserSearch platform={this.state.platform}/>
                 }
+
+                <div className="copyright-box">
+                    Copyright &copy; Fireteam.gg 2018. All Rights Reserved
+                </div>
             </div>
         );
     }

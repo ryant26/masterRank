@@ -4,13 +4,15 @@ import React, {
 import PropTypes from 'prop-types';
 
 import UserSelector from '../UserSelector/UserSelector';
+import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 
 export default class ConsoleUserSearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
             displayName: '',
-            placeholder: 'Enter Full XBL or PSN Gamertag...',
+            placeholder: 'Enter your PSN, or Xbox gamertag',
+            lastSearch: '',
             isSearching: false,
         };
 
@@ -31,7 +33,11 @@ export default class ConsoleUserSearch extends Component {
     }
 
     onClick() {
-        this.setState({isSearching: true});
+        this.setState({
+            isSearching: true,
+            lastSearch: this.state.displayName,
+            users: undefined
+        });
     }
 
     handleSubmit(event) {
@@ -74,29 +80,51 @@ export default class ConsoleUserSearch extends Component {
 
     render() {
         return (
-            <div className="ConsoleUserSearch flex">
-                <div className="input-component skew">
-                    <form onSubmit={this.handleSubmit} className="validate">
-                        <div className="input-container">
-                            <input
-                                type="text"
-                                value={this.state.displayName}
-                                onChange={this.handleChange}
-                                placeholder={this.state.placeholder}
-                                className="unskew stretch"
-                            />
-                            <input
+            <div className="ConsoleUserSearch flex flex-column stretch-self stretch grow">
+                <div className="flex justify-center">
+                    <div className="input-component grow">
+                        <form onSubmit={this.handleSubmit} className="flex grow">
+                            <div className="input-container flex grow">
+                                <input
+                                    type="text"
+                                    name="userSearch"
+                                    value={this.state.displayName}
+                                    onChange={this.handleChange}
+                                    placeholder={this.state.placeholder}
+                                    className="button-content grow"
+                                />
+                            </div>
+                            <button
                                 type="submit"
-                                value="Search"
                                 className="input-button"
                                 onClick={this.onClick}
                                 disabled={!this.state.displayName}
-                            />
+                            >
+                                <div className="button-content">
+                                    SEARCH
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div className="flex flex-column results-area grow">
+                    { this.state.isSearching &&
+                        <div className="flex align-center justify-center grow">
+                            <LoadingSpinner/>
                         </div>
-                    </form>
-                    { this.state.isSearching && <div className="isSearching">Searching for User</div> }
-                    { this.state.users && ( <UserSelector users={this.state.users}/> )}
-                 </div>
+                    }
+                    { this.state.users && (
+                        <div className="flex flex-column grow">
+                            <h3>Results for: {this.state.lastSearch}</h3>
+                            <UserSelector users={this.state.users}/>
+                        </div>
+                    )}
+                    { !this.state.users && !this.state.isSearching && this.state.lastSearch && (
+                        <div className="flex flex-column grow">
+                            <h3>No Results for: {this.state.lastSearch}</h3>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }

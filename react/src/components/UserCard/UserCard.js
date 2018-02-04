@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const UserCard = ({user, onClick}) => {
+const UserCard = ({user, onClick, region}) => {
 
-    function addComma(x) {
-        return x.toLocaleString();
-    }
 
     function addIcon(sr) {
         if(sr < 1500) {
@@ -28,20 +25,26 @@ const UserCard = ({user, onClick}) => {
     return (
         //TODO: Add new unit tests
         //TODO: In the future for PSN and Xbox users, handleClick() will pass user, handleClick(user)
-         <div className="UserCard sidebar-card" onClick={() => {onClick(user);}}>
+         <div className="UserCard sidebar-card flex align-center" onClick={() => {onClick(user);}}>
             <img src={user.portrait}/>
-            <div className="ImagePadding">
-                <div className="heroInfo">
-                    <div>{user.platformDisplayName}</div>
-                    { user.skillRating &&
-                        <div className="rank">
+            <div className="player-info">
+                <div className="display-name">{user.platformDisplayName}</div>
+                <div className="flex align-center">
+                    { user.skillRating ?
+                        <div className="account-detail flex align-center">
                             <img src={addIcon(user.skillRating)}/>
-                            {addComma(user.skillRating)}
+                            {user.skillRating}
+                        </div> :
+                        <div className="account-detail flex">Unranked</div>
+                    }
+                    <div className="account-detail flex align-center">
+                        <div>{user.platform.toUpperCase()}</div>
+                    </div>
+                    {region &&
+                        <div className="account-detail flex align-center">
+                            <div>{region.toUpperCase()}</div>
                         </div>
                     }
-                </div>
-                <div className="metaLabels">
-                    <div>{user.platform}</div>
                 </div>
             </div>
         </div>
@@ -50,6 +53,7 @@ const UserCard = ({user, onClick}) => {
 
 UserCard.propTypes = {
     user: PropTypes.object.isRequired,
+    region: PropTypes.string,
     onClick: PropTypes.func
 };
 

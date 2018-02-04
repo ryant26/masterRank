@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="5px" height="20px" viewBox="0 0 5 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>logo-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Dashboard-v6" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-30.000000, -30.000000)">
+        <g id="Left-Column" fill="#BB302C">
+            <g id="Logo" transform="translate(30.000000, 30.000000)">
+                <path d="M0,0 L-4.21884749e-15,0 C2.90728684,0.581457369 5,3.13415704 5,6.09901951 L5,20 L5,20 C2.09271316,19.4185426 2.56793278e-15,16.865843 8.8817842e-16,13.9009805 L0,0 Z" id="logo-icon"></path>
+            </g>
+        </g>
+    </g>
+</svg>
