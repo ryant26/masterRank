@@ -12,7 +12,11 @@ const BlizzardOAuth = ({region}) => {
     }
 
     return(
-        <button onClick={onClick}>LOGIN VIA BATTLE.NET</button>
+        <button className="BlizzardOAuth button-primary" onClick={onClick}>
+            <div className="button-content">
+                LOGIN VIA BATTLE.NET
+            </div>
+        </button>
     );
 };
 

@@ -7,6 +7,12 @@ import UserCard from '../../UserCard/UserCard';
 const UserSelector = ({users, region}) => {
 
     function onClick(user) {
+        authenticationUrl(user);
+    }
+
+    function authenticationUrl(user) {
+        //TODO: DO we want to get platform from the user clicked on or the radio selected?
+        //I think we should get it from user, but search should be filtred by xbl or psn
         let platform = user.platform;
         let username = user.platformDisplayName;
         //TODO: Password can be anything but it must be passed, Make this cleaner
@@ -20,13 +26,16 @@ const UserSelector = ({users, region}) => {
             window.location.assign("/error");
         };
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onload = () => {
+            window.location.assign(xhr.responseURL);
+        };
         xhr.send();
     }
 
     return (
         <div className="UserSelector">
             { users.map((user, i) =>
-                <UserCard user={user} key={i} onClick={onClick} />
+                <UserCard user={user} region={region} key={i} onClick={onClick} />
             )}
         </div>
     );

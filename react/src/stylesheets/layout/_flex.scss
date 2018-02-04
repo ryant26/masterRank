@@ -14,6 +14,10 @@
   @include align-items();
 }
 
+.stretch-self {
+  @include align-self(stretch)
+}
+
 .align-center {
   @include align-items(center)
 }
