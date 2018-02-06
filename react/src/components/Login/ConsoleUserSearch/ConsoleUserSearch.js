@@ -10,7 +10,7 @@ export default class ConsoleUserSearch extends Component {
         super(props);
         this.state = {
             displayName: '',
-            placeholder: 'Enter Full Battletag, PSN, or Xbox Gamertag...',
+            placeholder: 'Enter Full XBL or PSN Gamertag...',
             isSearching: false,
         };
 
@@ -94,7 +94,7 @@ export default class ConsoleUserSearch extends Component {
                             />
                         </div>
                     </form>
-                    { this.state.isSearching && <div>Searching for User</div> }
+                    { this.state.isSearching && <div className="isSearching">Searching for User</div> }
                     { this.state.users && ( <UserSelector users={this.state.users}/> )}
                  </div>
             </div>

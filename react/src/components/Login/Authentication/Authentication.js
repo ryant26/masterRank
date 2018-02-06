@@ -31,7 +31,6 @@ class Authentication extends Component {
 
     componentDidMount() {
         let accessToken = this.state.accessToken;
-        //TODO: sometimes the cookie is not set when calling the xbl and psn endpoints
         if (accessToken) {
             localStorage.setItem('accessToken', accessToken);
             let decodedToken = decode(accessToken);
@@ -61,7 +60,7 @@ class Authentication extends Component {
             <div>
                 { !this.state.accessToken
                     ? <LoginPage/>
-                    : <Redirect to='/'/>
+                    : <Redirect to="/"/>
                 }
             </div>
         );

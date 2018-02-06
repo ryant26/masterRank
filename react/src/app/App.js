@@ -5,13 +5,15 @@ import {
     BrowserRouter as Router,
     Switch,
 } from 'react-router-dom';
+import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
-import { PrivateRoute } from '../components/Routes/PrivateRoute';
+import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
 import Dashboard from '../pages/Dashboard';
-import {home} from '../components/Routes/links';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import { home, error } from '../components/Routes/links';
 
 class App extends Component {
     constructor(props) {
@@ -31,6 +33,12 @@ class App extends Component {
                 />
                 <Router>
                     <Switch>
+                        <Route
+                            path={error}
+                             render={(routeProps) => (
+                                <ErrorPage {...routeProps} errorMessage={'Error: please try again'} />
+                              )}
+                        />
                         <PrivateRoute
                             path={home}
                             component={Dashboard}

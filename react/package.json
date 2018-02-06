@@ -64,7 +64,8 @@
     "webpack-bundle-analyzer": "2.8.2",
     "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "2.18.2",
-    "webpack-md5-hash": "0.0.5"
+    "webpack-md5-hash": "0.0.5",
+    "xhr-mock": "2.0.3"
   },
   "scripts": {
     "start": "npm-run-all --parallel open:src",

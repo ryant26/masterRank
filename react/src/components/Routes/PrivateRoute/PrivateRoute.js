@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Authentication from '../Login/Authentication/Authentication';
+import Authentication from '../../Login/Authentication/Authentication';
 
-export const PrivateRoute = ({ component, user, ...rest }) => {
+const PrivateRoute = ({ component, user, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -21,3 +21,5 @@ PrivateRoute.propTypes = {
     component: PropTypes.func,
     user: PropTypes.object
 };
+
+export default PrivateRoute;
