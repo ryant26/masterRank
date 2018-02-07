@@ -57,4 +57,13 @@ describe('Hero Filters Reducer', () => {
             })).toEqual([heroNames[2]]);
         });
     });
+
+    describe('REMOVE_ALL_FILTERS', () => {
+        it('should return an empty array no matter the current state', () => {
+            initialState = [heroNames[1], heroNames[2], heroNames[3]];
+            expect(HeroFiltersReducer(initialState, {
+                type: actionTypes.REMOVE_ALL_FILTERS
+            })).toEqual([]);
+        });
+    });
 });

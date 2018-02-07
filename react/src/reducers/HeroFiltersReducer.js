@@ -14,6 +14,8 @@ export default function HeroFiltersReducer(state=[], action) {
           return newState;
       }
       return state;
+      case actionsTypes.REMOVE_ALL_FILTERS:
+          return [];
     default:
       return state;
   }

@@ -37,6 +37,16 @@
   @include button($red1, $red2);
 }
 
+.button-seven {
+  @include button(black, black);
+  background-image: none;
+  background-color: transparent;
+  text-shadow: none;
+  box-shadow: none;
+  border: 1px solid $gray3;
+  color: $gray3;
+}
+
 .button-four {
   @include button($blue2, $blue3);
   width:100%;

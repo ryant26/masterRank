@@ -8,7 +8,11 @@ import {
     updateHeroes as updatePreferredHeroesAction
 } from "../actions/preferredHeroes";
 import { updateUser as updateUserAction } from "../actions/user";
-import { addFilter as addFilterAction, removeFilter as removeFilterAction } from "../actions/heroFilters";
+import {
+    addFilter as addFilterAction,
+    removeFilter as removeFilterAction,
+    removeAllFilters as removeAllFiltersAction
+} from "../actions/heroFilters";
 import { updateGroup as updateGroupAction } from '../actions/group';
 import { clientEvents } from "../api/websocket";
 import { addGroupInvite as addGroupInviteAction } from '../actions/groupInvites';
@@ -41,6 +45,10 @@ const addHeroFilterToStore = function(filter) {
 
 const removeHeroFilterFromStore = function(filter) {
     store.dispatch(removeFilterAction(filter));
+};
+
+const removeAllHeroFiltersFromStore = function() {
+    store.dispatch(removeAllFiltersAction());
 };
 
 const addPreferredHeroToStore = function(heroName, preference) {
@@ -168,6 +176,7 @@ const Actions = {
     updatePreferredHeroes,
     addHeroFilterToStore,
     removeHeroFilterFromStore,
+    removeAllHeroFiltersFromStore,
     updateUser,
     leaveGroup,
     inviteUserToGroup,

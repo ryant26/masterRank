@@ -16,8 +16,13 @@ const HeroSelectorCard = ({selectedHeroes}) => {
 
     return (
         <div className="HeroSelectorCard flex flex-column card">
-            <div className="header">
+            <div className="header flex align-center">
                 <h3>Filter by Heroes</h3>
+                <div className="button-seven flex align-center" onClick={model.removeAllHeroFiltersFromStore}>
+                    <div className="button-content">
+                        CLEAR FILTERS
+                    </div>
+                </div>
             </div>
             <div className="body">
                 <HeroSelector selectedHeroes={selectedHeroes} onHeroSelected={onSelectHero}/>
