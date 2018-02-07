@@ -11,6 +11,22 @@
   transform: skewX(-20deg);
   padding: 5px 10px;
   cursor: pointer;
+
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  &:hover {
+    background-image: none;
+    background-color: $color1;
+  }
+
+  &:active {
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.8);
+  }
 }
 
 .button-primary {
@@ -45,6 +61,15 @@
   box-shadow: none;
   border: 1px solid $gray3;
   color: $gray3;
+
+  &:hover {
+    background-color: $gray3;
+    color: white;
+  }
+
+  &:active {
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+  }
 }
 
 .button-four {
