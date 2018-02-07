@@ -61,13 +61,13 @@ describe('heroService', function () {
         return Hero.remove({});
     });
 
-    describe('findAndUpdateOrCreateHero', function () {
+    describe('getHero', function () {
 
         it('should create players that are valid but do not exist', function () {
             return queryForHero(token, heroName).then((result) => {
                 assert.isNull(result);
             }).then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then((hero) => {
                 assert.equal(hero.platformDisplayName, token.platformDisplayName);
             }).then(() => {
@@ -81,7 +81,7 @@ describe('heroService', function () {
             let createdHero;
             return new Hero(getHeroConfig(token, heroName)).save().then((hero) => {
                 createdHero = hero;
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then((hero) => {
                 assert.equal(hero.heroName, createdHero.heroName);
                 assert.equal(hero.platformDisplayName, createdHero.platformDisplayName);
@@ -102,7 +102,7 @@ describe('heroService', function () {
             mockHelpers.stubOverwatchAPI(partialData);
 
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then((hero) => {
                 assert.equal(hero.accuracy, heroConfig.accuracy);
                 assert.equal(hero.pAccuracy, heroConfig.pAccuracy);
@@ -118,7 +118,7 @@ describe('heroService', function () {
             heroConfig.lastModified = date;
 
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then((hero) => {
                 assert.equal(hero.accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
                 assert.notEqual(hero.accuracy, heroConfig.accuracy);
@@ -129,7 +129,7 @@ describe('heroService', function () {
         it('should not update players less than 6 hours old', function () {
             let heroConfig = getHeroConfig(token, heroName);
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then((hero) => {
                 assert.equal(hero.accuracy, heroConfig.accuracy);
                 assert.notEqual(hero.accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
@@ -145,7 +145,7 @@ describe('heroService', function () {
             heroConfig.lastModified = date;
 
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then(() => {
                 return queryForHero(token, myHero);
             }).then((hero) => {
@@ -163,7 +163,7 @@ describe('heroService', function () {
             heroConfig.lastModified = date;
 
             return new Hero(heroConfig).save().then(() => {
-                return heroService.findAndUpdateOrCreateHero(token, heroName);
+                return heroService.getHero(token, heroName);
             }).then((hero) => {
                 assert.equal(hero.accuracy, heroConfig.accuracy);
                 assert.notEqual(hero.accuracy, mockData.playerStats.stats.competitive.soldier76.combat.weapon_accuracy);
@@ -172,7 +172,7 @@ describe('heroService', function () {
 
         it('should return null if the platformDisplayName does not exist', function() {
             mockHelpers.rejectOwGetPlayerStats();
-            return heroService.findAndUpdateOrCreateHero({platformDisplayName: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
+            return heroService.getHero({platformDisplayName: 'doesntexist#1234', region: 'us', platform: 'pc'}, 'someHero').then((result) => {
                 assert.isNull(result);
             });
         });
@@ -185,7 +185,7 @@ describe('heroService', function () {
             return Promise.all(seedPlayers.map((config) => {
                 return new Hero(config).save();
             })).then(() => {
-                return heroService.findAndUpdateOrCreateHero({
+                return heroService.getHero({
                     platformDisplayName: mockPlayer.name,
                     region: mockPlayer.region,
                     platform: mockPlayer.platform
@@ -203,9 +203,35 @@ describe('heroService', function () {
 
         it('should handle malformed reply from ow API', function () {
             mockHelpers.stubOwGetPlayerStats(mockData.mockPlayerMissingHeroAttributes);
-            return heroService.findAndUpdateOrCreateHero(token, heroName).then((hero) => {
+            return heroService.getHero(token, heroName).then((hero) => {
                 assert.isNull(hero);
             });
+        });
+    });
+
+    describe('getTopHeroes', function() {
+        it('should return an empty array when no heroes have stats', function() {
+            mockHelpers.stubOverwatchAPI(mockData.emptyPlayerStats);
+            return heroService.getTopHeroes(token, 5).then((result) => {
+                assert.isArray(result);
+                assert.equal(result.length, 0);
+            });
+        });
+
+        it('should return the top heroes based on games played', function() {
+            mockHelpers.stubOverwatchAPI(mockData.playerStatsMultipleHeroes);
+            return heroService.getTopHeroes(token, 3).then((result) => {
+                assert.equal(result.length, 3);
+                assert.deepEqual(result[0].heroName, 'soldier76');
+            });
+        });
+
+        it('should return the as many heroes as possible when the number is greater than the ammount we have data for', function() {
+            return heroService.getTopHeroes(token, 3).then((result) => {
+                assert.equal(result.length, 1);
+                assert.equal(result[0].heroName, 'soldier76');
+            });
+
         });
     });
 });
