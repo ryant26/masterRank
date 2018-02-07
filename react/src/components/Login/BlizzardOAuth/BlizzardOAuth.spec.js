@@ -18,7 +18,7 @@ describe('BlizzardOAuth', () => {
     });
 
     it('should render a login button with the proper wording when component loads', () => {
-        expect(BlizzardOAuthComponent.html()).toBe('<button>LOGIN VIA BATTLE.NET</button>');
+        expect(BlizzardOAuthComponent.find('.button-content').text()).toBe('LOGIN VIA BATTLE.NET');
     });
 
     it('should redirect to "/auth/bnet/callback?region=ANY_REGION" when button is clicked and props region is ANY_REGION', () => {

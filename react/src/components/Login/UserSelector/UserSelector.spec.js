@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import mock from 'xhr-mock';
 
 import { users as arrayUsers} from '../../../resources/users';
 import UserSelector from './UserSelector';
@@ -19,23 +18,21 @@ const getUserSelectorComponent = (users, region) => {
 };
 
 let open, send, onload, onerror, setRequestHeader;
-
 function createXHRmock() {
     open = jest.fn();
-
+    setRequestHeader = jest.fn();
     // be aware we use *function* because we need to get *this*
     // from *new XmlHttpRequest()* call
     send = jest.fn().mockImplementation(function(){
         onload = this.onload.bind(this);
         onerror = this.onerror.bind(this);
-        setRequestHeader = this.setRequestHeader.bind(this);
     });
 
     const xhrMockClass = function () {
         return {
             open,
             send,
-            setRequestHeader
+            setRequestHeader,
         };
     };
 
@@ -53,13 +50,11 @@ describe('UserSelector', () => {
 
     beforeEach(() => {
         // replace the real XHR object with the mock XHR object before each test
-        mock.setup();
         UserSelectorComponent = getUserSelectorComponent(arrayUsers, 'us');
     });
 
     afterEach(() => {
         // put the real XHR object back and clear the mocks after each test
-        mock.teardown();
     });
 
     it('should render when component loads', () => {
@@ -72,45 +67,34 @@ describe('UserSelector', () => {
         expect(UserSelectorComponent.find(UserCard).at(1).prop('user')).toBe(arrayUsers[1]);
     });
 
-    it('should post the the correct headers and callback url, when UserCard is clicked', async () => {
-        expect.assertions(1);
-        mock.post(consoleCallbackUrl, (req, res) => {
-            expect(req.header('Content-Type')).toEqual('application/x-www-form-urlencoded');
-            return res.status(200).responseURL();
+    describe('when UserCard is clicked', () => {
+
+        beforeEach(() => {
+            createXHRmock();
+            UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
+            expect(open).toBeCalledWith('POST', consoleCallbackUrl, true);
+            expect(send).toBeCalled();
         });
-        UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
+
+        it('should wait to redirect till post is successful', () => {
+            expect(window.location.assign).not.toHaveBeenCalledWith(undefined);
+            onload();
+            expect(window.location.assign).toHaveBeenCalledWith(undefined);
+        });
+
+        it('should post the the correct headers and callback url', () => {
+            expect(setRequestHeader).toBeCalledWith("Content-type", "application/x-www-form-urlencoded");
+        });
+
+        it('should redirect to undefined', () => {
+            onload();
+            //TODO: how to mock xhr.responseURL
+            expect(window.location.assign).toHaveBeenCalledWith(undefined);
+        });
+
+        it('should redirect to {error}', () => {
+            onerror();
+            expect(window.location.assign).toHaveBeenCalledWith({error});
+        });
     });
-
-    it('should redirect to "" when UserCard is clicked and post to console callback is 302', async () => {
-        createXHRmock();
-        UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
-
-        // here you should call GET request
-        expect(open).toBeCalledWith('POST', consoleCallbackUrl, true);
-        expect(send).toBeCalled();
-        // call onload or onerror
-        onload();
-        // here you can make your assertions after onload
-        expect(window.location.assign).toHaveBeenCalledWith();
-    });
-
-    xit('should redirect to {error} when UserCard is clicked and post to console callback is not 302', () => {
-//      let errorMessage = `An error occurred whilst posting to console ${consoleCallbackUrl}`;
-        createXHRmock();
-        // here you should call GET request
-        expect(open).toBeCalledWith('POST', consoleCallbackUrl, true);
-        expect(send).toBeCalled();
-        // call onload or onerror
-        onerror();
-        UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
-        expect(window.location.assign).toHaveBeenCalledWith({error});
-    });
-
-     xit('should wait to redirect till post is complete', () => {
-         mock.post(consoleCallbackUrl, {
-             status:500
-         });
-         UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
-     });
-
 });

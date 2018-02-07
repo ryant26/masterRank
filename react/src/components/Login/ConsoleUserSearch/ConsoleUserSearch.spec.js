@@ -4,6 +4,7 @@ import 'isomorphic-fetch';
 
 import ConsoleUserSearch from './ConsoleUserSearch';
 import UserSelector from '../UserSelector/UserSelector';
+import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 import { users as arrayUsers } from '../../../resources/users';
 
 describe('ConsoleUserSearch', () => {
@@ -21,28 +22,26 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should render search box and button when component mounts', () => {
-        expect(ConsoleUserSearchComponent.find('.input-component')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('form')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('.input-component')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('input')).toHaveLength(2);
+        expect(ConsoleUserSearchComponent.find('input')).toHaveLength(1);
+        expect(ConsoleUserSearchComponent.find('.input-button')).toHaveLength(1);
     });
 
     it('should load search box placeholder to "Enter Full XBL or PSN Gamertag..." when page loads', () => {
-        expect(ConsoleUserSearchComponent.find('input').at(0).prop('placeholder'))
-            .toBe("Enter Full XBL or PSN Gamertag...");
+        expect(ConsoleUserSearchComponent.find('input').prop('placeholder'))
+            .toBe("Enter your PSN, or Xbox gamertag");
     });
 
     it('should disable search button when page loads', () => {
-        expect(ConsoleUserSearchComponent.find('input').at(1).prop('disabled')).toBe(true);
+        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(true);
     });
 
     it('should enable search button once a display name is given', () => {
         ConsoleUserSearchComponent.setState({displayName: arrayUsers[0]});
-        expect(ConsoleUserSearchComponent.find('input').at(1).prop('disabled')).toBe(false);
+        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(false);
     });
 
     it('should change state displayName when a value is input into the search bar', () => {
-        ConsoleUserSearchComponent.find('input').at(0).simulate('change', {target: {value: arrayUsers[0].platformDisplayName}});
+        ConsoleUserSearchComponent.find('input').simulate('change', {target: {value: arrayUsers[0].platformDisplayName}});
         expect(ConsoleUserSearchComponent.state('displayName')).toBe(arrayUsers[0].platformDisplayName);
     });
 
@@ -57,10 +56,9 @@ describe('ConsoleUserSearch', () => {
         ConsoleUserSearchComponent.setState({
             users: arrayUsers,
         });
-        expect(ConsoleUserSearchComponent.find('.input-component')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('form')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('.input-component')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('input')).toHaveLength(2);
+        expect(ConsoleUserSearchComponent.find(UserSelector)).toHaveLength(1);
+        expect(ConsoleUserSearchComponent.find('input')).toHaveLength(1);
+        expect(ConsoleUserSearchComponent.find('.input-button')).toHaveLength(1);
 
         let UserSelectorComponent = ConsoleUserSearchComponent.find(UserSelector);
         expect(UserSelectorComponent).toHaveLength(1);
@@ -85,12 +83,12 @@ describe('ConsoleUserSearch', () => {
         expect(handleSubmitSpy).toHaveBeenCalled();
     });
 
-    it('should render searching message when isSearching is true', () => {
+    it('should render loading spinner when isSearching is true', () => {
         ConsoleUserSearchComponent.setState({
             isSearching: true,
         });
 
-        expect(ConsoleUserSearchComponent.find('.isSearching')).toHaveLength(1);
+        expect(ConsoleUserSearchComponent.find(LoadingSpinner)).toHaveLength(1);
     });
 
     it('should not render searching message when isSearching is false', () => {

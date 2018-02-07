@@ -17,13 +17,21 @@ describe('RegionSelection', () => {
         expect(RegionSelectionComponent).toHaveLength(1);
     });
 
-    it('should render 3 radio inputs with proper values when page loads', () => {
-        expect(RegionSelectionComponent.find('input')).toHaveLength(3);
+    it('should render radio region-1 input and label text when page loads', () => {
         expect(RegionSelectionComponent.find('input').at(0).html())
-                    .toBe('<input type="radio" name="region" value="us" checked=""/>');
+            .toBe('<input type="radio" id="region-1" name="region" value="us" checked=""/>');
+        expect(RegionSelectionComponent.find('label').at(0).text()).toBe('NA');
+    });
+
+    it('should render radio region-2 input and label text when page loads', () => {
         expect(RegionSelectionComponent.find('input').at(1).html())
-                    .toBe('<input type="radio" name="region" value="apac"/>');
+            .toBe('<input type="radio" id="region-2" name="region" value="apac"/>');
+        expect(RegionSelectionComponent.find('label').at(1).text()).toBe('APAC');
+    });
+
+    it('should render radio region-1 input and label text when page loads', () => {
         expect(RegionSelectionComponent.find('input').at(2).html())
-                    .toBe('<input type="radio" name="region" value="eu"/>');
+            .toBe('<input type="radio" id="region-3" name="region" value="eu"/>');
+        expect(RegionSelectionComponent.find('label').at(2).text()).toBe('EU');
     });
 });
