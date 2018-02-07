@@ -6,7 +6,7 @@ import mock from 'xhr-mock';
 import { users as arrayUsers} from '../../../resources/users';
 import UserSelector from './UserSelector';
 import UserCard from '../../UserCard/UserCard';
-import { home, error } from '../../Routes/links';
+import { error } from '../../Routes/links';
 
 const mockStore = configureStore();
 const getUserSelectorComponent = (users, region) => {
@@ -17,6 +17,30 @@ const getUserSelectorComponent = (users, region) => {
         <UserSelector users={users} store={store}/>
     ).dive();
 };
+
+let open, send, onload, onerror, setRequestHeader;
+
+function createXHRmock() {
+    open = jest.fn();
+
+    // be aware we use *function* because we need to get *this*
+    // from *new XmlHttpRequest()* call
+    send = jest.fn().mockImplementation(function(){
+        onload = this.onload.bind(this);
+        onerror = this.onerror.bind(this);
+        setRequestHeader = this.setRequestHeader.bind(this);
+    });
+
+    const xhrMockClass = function () {
+        return {
+            open,
+            send,
+            setRequestHeader
+        };
+    };
+
+    window.XMLHttpRequest = jest.fn().mockImplementation(xhrMockClass);
+}
 
 describe('UserSelector', () => {
     window.location.assign = jest.fn();
@@ -48,29 +72,36 @@ describe('UserSelector', () => {
         expect(UserSelectorComponent.find(UserCard).at(1).prop('user')).toBe(arrayUsers[1]);
     });
 
-    //TODO: With the way our proxies are set I have no clue how redirection is working
-    xit('should post the the correct headers and callback url, when UserCard is clicked', async () => {
+    it('should post the the correct headers and callback url, when UserCard is clicked', async () => {
         expect.assertions(1);
         mock.post(consoleCallbackUrl, (req, res) => {
             expect(req.header('Content-Type')).toEqual('application/x-www-form-urlencoded');
-            return res.status(200);
+            return res.status(200).responseURL();
         });
         UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
     });
 
-    xit('should redirect to {home} when UserCard is clicked and post to console callback is 302', async () => {
-        mock.post(consoleCallbackUrl, {
-            status:200
-        });
+    it('should redirect to "" when UserCard is clicked and post to console callback is 302', async () => {
+        createXHRmock();
         UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
-        expect(window.location.assign).toHaveBeenCalledWith({home});
+
+        // here you should call GET request
+        expect(open).toBeCalledWith('POST', consoleCallbackUrl, true);
+        expect(send).toBeCalled();
+        // call onload or onerror
+        onload();
+        // here you can make your assertions after onload
+        expect(window.location.assign).toHaveBeenCalledWith();
     });
 
     xit('should redirect to {error} when UserCard is clicked and post to console callback is not 302', () => {
 //      let errorMessage = `An error occurred whilst posting to console ${consoleCallbackUrl}`;
-        mock.post(consoleCallbackUrl, {
-            status:500
-        });
+        createXHRmock();
+        // here you should call GET request
+        expect(open).toBeCalledWith('POST', consoleCallbackUrl, true);
+        expect(send).toBeCalled();
+        // call onload or onerror
+        onerror();
         UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
         expect(window.location.assign).toHaveBeenCalledWith({error});
     });

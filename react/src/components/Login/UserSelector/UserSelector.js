@@ -11,9 +11,14 @@ const UserSelector = ({users, region}) => {
         let username = user.platformDisplayName;
         //TODO: Password can be anything but it must be passed, Make this cleaner
         let consoleCallbackUrl = `auth/${platform}/callback?region=${region}&username=${username}&password=none`;
-
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", consoleCallbackUrl, false);
+        xhr.open("POST", consoleCallbackUrl, true);
+        xhr.onload = () => {
+            window.location.assign(xhr.responseURL);
+        };
+        xhr.onerror = () => {
+            window.location.assign("/error");
+        };
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send();
     }
