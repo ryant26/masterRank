@@ -7,6 +7,8 @@ const platformDisplayName = 'iddqd#2884';
 const region = 'us';
 const platform = 'pc';
 const heroName = 'soldier76';
+const filterBy = 'top';
+const limit = 5;
 
 let server = require('../../src/app');
 
@@ -81,4 +83,85 @@ describe('Hero Tests', function() {
                 });
         });
     });
+
+    describe('/heros/:heroName', function () {
+        it('should return 401 if no token is in req', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .query({platformDisplayName, region,  platform, filterBy, limit})
+                .then(() => {
+                    throw new Error('Should have been UNAUTHORIZED');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.message, 'Unauthorized');
+                });
+        });
+
+        it('should have status of 400 when all query params are not supplied', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .then(() => {
+                    throw new Error('Should have been BAD REQUEST');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 400);
+                    assert.equal(err.response.body.message, 'Missing or malformed query parameter');
+                });
+        });
+
+        it('should have status of 400 when an invalid filterBy is passed', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform, limit, filterBy: 'bottom'})
+                .then(() => {
+                    throw new Error('Should have been BAD REQUEST');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 400);
+                    assert.equal(err.response.body.message, 'Missing or malformed query parameter');
+                });
+        });
+
+        it('should have status of 400 when an invalid limit is passed', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform, filterBy, limit: 0})
+                .then(() => {
+                    throw new Error('Should have been BAD REQUEST');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 400);
+                    assert.equal(err.response.body.message, 'Missing or malformed query parameter');
+                });
+        });
+
+        it('should have status of 400 when an invalid limit is passed', function() {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform, filterBy, limit: 51})
+                .then(() => {
+                    throw new Error('Should have been BAD REQUEST');
+                })
+                .catch((err) => {
+                    assert.equal(err.status, 400);
+                    assert.equal(err.response.body.message, 'Missing or malformed query parameter');
+                });
+        });
+
+        it('should return an array of heroes on valid request', function () {
+            return chai.request(server)
+                .get('/api/heros')
+                .set('authorization', authHeader)
+                .query({platformDisplayName, region,  platform, filterBy, limit})
+                .then((result) => {
+                    assert.isArray(result.body);
+                });
+        });
+    });
+
 });

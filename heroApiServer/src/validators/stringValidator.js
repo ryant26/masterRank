@@ -1,4 +1,4 @@
-let validators = {
+let chainableValidators = {
     isString: function(arg) {
         return typeof arg === 'string';
     },
@@ -8,11 +8,17 @@ let validators = {
     }
 };
 
+let nonChainableValidators = {
+    equalIgnoreCase: function(arg, testString) {
+        return arg.toLowerCase() === testString.toLowerCase();
+    }
+};
+
 
 let allValidators = function(...args) {
     let result = true;
 
-    for (let keyVal of Object.entries(validators)) {
+    for (let keyVal of Object.entries(chainableValidators)) {
         let validator = keyVal[1];
         args.forEach((arg) => {
             result = result && validator(arg);
@@ -22,7 +28,7 @@ let allValidators = function(...args) {
     return result;
 };
 
-let out = Object.assign({}, validators);
+let out = Object.assign({}, chainableValidators, nonChainableValidators);
 out.allValidators = allValidators;
 
 module.exports = out;
