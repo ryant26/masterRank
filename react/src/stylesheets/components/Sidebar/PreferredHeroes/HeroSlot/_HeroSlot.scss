@@ -2,6 +2,7 @@ $width: 43px;
 $height: 43px;
 
 .HeroSlot {
+  margin: 1px;
   width: $width;
   height: $height;
   background-color: $gray1;
@@ -10,6 +11,10 @@ $height: 43px;
   cursor: pointer;
 
   &.selected {@include selected}
+
+  &:hover {
+    @include selected;
+  }
 
   .HeroImage {
     height: $width;
