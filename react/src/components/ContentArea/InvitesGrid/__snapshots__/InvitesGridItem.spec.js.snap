@@ -163,7 +163,7 @@ exports[`InvitesGridItem Component should match the snapshot 1`] = `
     className="button-group flex justify-around"
   >
     <div
-      className="button button-five flex justify-center align-center"
+      className="button button-six flex justify-center align-center"
     >
       <div
         className="button-content"
