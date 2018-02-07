@@ -1,4 +1,6 @@
 @mixin square() {
+  min-width: 50px;
+  min-height: 50px;
   width: 50px;
   height: 50px;
 }
@@ -24,6 +26,7 @@
   }
 
   .invitePlayerButton {
+    @include square();
     overflow: hidden;
     border-radius: 3px;
   }
