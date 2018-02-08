@@ -8,6 +8,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const RateLimit = require('express-rate-limit');
+const forceSSL = require('express-force-ssl');
 
 module.exports = function(app) {
 
@@ -20,6 +21,11 @@ module.exports = function(app) {
             windowMs: 60*1000,
             max: 15
         }));
+
+        app.use(forceSSL);
+        app.set('forceSSLOptions', {
+            trustXFPHeader: true
+        });
     }
 
     app.use(logger(config.get('loggingLevel'), {stream: logAggregator.stream}));
