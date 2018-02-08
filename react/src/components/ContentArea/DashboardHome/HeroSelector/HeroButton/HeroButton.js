@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import HeroImage from '../../../../HeroImage/HeroImage';
 const classNames = require('classnames');
 
-const SelectorButton = ({heroName, selected, onClick}) => {
+const SelectorButton = ({heroName, selected, disabled, onClick}) => {
 
   let classes = classNames({
       HeroButton: true,
       selected: selected,
+      disabled: disabled
   });
 
   let clickHandler = () => {
@@ -24,7 +25,12 @@ const SelectorButton = ({heroName, selected, onClick}) => {
 SelectorButton.propTypes = {
   heroName: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func
+};
+
+SelectorButton.defaultProps = {
+    disabled: false
 };
 
 export default SelectorButton;

@@ -14,6 +14,20 @@ export default function HeroReducer(state=[], action) {
 
           return out;
       }
+      case HeroActionTypes.REMOVE_HERO: {
+          let heroIndex = state.findIndex((hero) => {
+              return hero.heroName === action.hero.heroName &&
+                  hero.platformDisplayName === action.hero.platformDisplayName;
+          });
+
+          if (heroIndex >= 0) {
+              let out = [...state];
+              out.splice(heroIndex, 1);
+              return out;
+          }
+
+          return state;
+      }
       case HeroActionTypes.ADD_HEROES: {
           let out = [...state];
 

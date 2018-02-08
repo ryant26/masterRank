@@ -2,27 +2,11 @@ import * as PreferredHeroActionTypes from '../actiontypes/preferredHeroes';
 
 const initialState = {
     heroes: [],
-    selectedSlot: 1
-};
-
-const maxSlots = 5;
-
-const incrementSelectedSlot = (newState) => {
-    if (newState.selectedSlot < maxSlots) {
-        newState.selectedSlot++;
-    }
-};
-
-const decrementSelectedSlot = (newState) => {
-    if (newState.selectedSlot > 0) {
-        newState.selectedSlot--;
-    }
 };
 
 const copyState = (oldState) => {
     return {
         heroes: [...oldState.heroes],
-        selectedSlot: oldState.selectedSlot
     };
 };
 
@@ -32,40 +16,27 @@ export default function PreferredHeroesReducer(state=initialState, action) {
         if (!state.heroes.includes(action.hero)) {
             let newState = copyState(state);
             newState.heroes.splice(action.preference - 1, 1, action.hero);
-            incrementSelectedSlot(newState);
 
             return newState;
         }
         return state;
       case PreferredHeroActionTypes.REMOVE_HERO: {
           let index = state.heroes.indexOf(action.hero);
+          let preference = action.preference;
 
-          if (index > -1) {
+          if (typeof preference !== 'number' || index === preference - 1) {
               let newState = copyState(state);
               newState.heroes.splice(index, 1);
-              decrementSelectedSlot(newState);
 
               return newState;
           }
           return state;
       }
-    case PreferredHeroActionTypes.SET_SELECTED_SLOT: {
-        let newState = copyState(state);
-        let newSlot;
-
-        if(action.slot <= maxSlots) {
-            if (action.slot <= state.heroes.length + 1) {
-                newSlot = action.slot;
-            } else {
-                newSlot = state.heroes.length + 1;
-            }
-        } else {
-            newSlot = maxSlots;
-        }
-
-        newState.selectedSlot = newSlot;
-        return newState;
-    }
+      case PreferredHeroActionTypes.UPDATE_HEROES: {
+          return {
+              heroes: [...action.heroes]
+          };
+      }
     default:
       return state;
   }

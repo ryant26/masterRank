@@ -20,10 +20,13 @@ const FireTeamModal = (props) => {
             }}
         >
             <div className="FireTeamModal flex flex-column stretch">
-                <div className="close-button" onClick={props.closeModal}>
-                    <i className="fa fa-times"/>
-                </div>
-                {props.children}
+                {props.closable ?
+                    <div className="close-button" onClick={props.closeModal}>
+                        <i className="fa fa-times"/>
+                    </div> :
+                    undefined
+                }
+                {React.cloneElement(props.children, { closeModal: props.closeModal })}
             </div>
         </Modal>
     );
@@ -32,7 +35,12 @@ const FireTeamModal = (props) => {
 FireTeamModal.propTypes = {
     modalOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    closable: PropTypes.bool
+};
+
+FireTeamModal.defaultProps = {
+    closable: true
 };
 
 export default FireTeamModal;

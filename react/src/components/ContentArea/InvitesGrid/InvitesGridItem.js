@@ -26,7 +26,7 @@ const InvitesGridItem = ({invite}) => {
             </div>
             <div className="body flex flex-column">{groupHeroes}</div>
             <div className="button-group flex justify-around">
-                <div className="button button-five flex justify-center align-center">
+                <div className="button button-six flex justify-center align-center">
                     <div className="button-content">
                         DECLINE
                     </div>

@@ -2,6 +2,12 @@
   border-bottom: 1px solid $gray6;
   padding: 15px 0;
 
+  .crown {
+    position: relative;
+    left: -65px;
+    top: -15px;
+  }
+
   .HeroImage {
     width: 50px;
     height: 50px;

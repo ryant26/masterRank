@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import Dashboard from './Dashboard';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ContentArea from '../../components/ContentArea/ContentArea';
+import GroupInfoModal from '../../components/Modal/GroupInfoModal';
 import Module from '../../model/model';
 
 jest.mock('../../api/websocket', () => {
@@ -42,5 +43,9 @@ describe('Dashboard', () => {
 
     it('should render ContentArea when component loads', () => {
         expect(DashboardComponent.find(ContentArea)).toHaveLength(1);
+    });
+
+    it('should render GroupInfoModal when component loads', () => {
+        expect(DashboardComponent.find(GroupInfoModal)).toHaveLength(1);
     });
 });

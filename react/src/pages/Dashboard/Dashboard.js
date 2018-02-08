@@ -4,6 +4,7 @@ import React, {
 
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ContentArea from '../../components/ContentArea/ContentArea';
+import GroupInfoModal from '../../components/Modal/GroupInfoModal';
 import Websocket from '../../api/websocket';
 import Model from '../../model/model';
 import store from '../../model/store';
@@ -28,6 +29,7 @@ export default class Dashboard extends Component {
             <div className="Dashboard flex stretch grow">
                 <Sidebar />
                 <ContentArea/>
+                <GroupInfoModal/>
             </div>
         );
     }

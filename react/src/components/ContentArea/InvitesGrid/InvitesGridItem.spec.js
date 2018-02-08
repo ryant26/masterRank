@@ -4,8 +4,6 @@ import renderer from 'react-test-renderer';
 import InvitesGridItem from './InvitesGridItem';
 import groupInvites from '../../../resources/groupInvites';
 
-
-
 describe('InvitesGridItem Component', () => {
     it('should render without exploding', () => {
         const wrapper = mount(

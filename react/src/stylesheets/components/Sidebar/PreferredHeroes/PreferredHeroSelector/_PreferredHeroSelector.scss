@@ -3,6 +3,7 @@ $border: 1px solid $gray6;
 @mixin selected() {
   border: 1px solid $blue4;
   box-shadow: 0 0 8px 0 $blue4;
+  margin: 0;
 }
 
 .PreferredHeroSelector {
@@ -11,9 +12,15 @@ $border: 1px solid $gray6;
   }
 
   .HeroImage {
+    margin: 1px;
     height: 50px;
     width: 50px;
     border-radius: 3px;
+
+    &:hover {
+      @include selected;
+      cursor: pointer;
+    }
   }
 
   div.body {
@@ -28,8 +35,37 @@ $border: 1px solid $gray6;
   }
 
   .footer {
-    & > div:first-child {
-      padding: 10px 20px;
+    height: 39px;
+
+    .button-six {
+      height: 28px;
+      margin-left: auto;
+    }
+
+    .button-group {
+      margin-left: auto;
+      margin-right: 5px;
+
+      div {
+        margin-right: 10px;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .button-primary {
+      padding: 2px 18px 2px 18px;
+    }
+
+    .last-action-taken {
+      font-style: italic;
+      color: $blue4;
+
+      b {
+        margin-right: 5px;
+      }
     }
   }
 }

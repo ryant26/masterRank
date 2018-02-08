@@ -47,6 +47,15 @@ describe('HeroSelector Component',()=> {
         expect(wrapper.find(".HeroButton").at(0).hasClass('selected')).toBeTruthy();
     });
 
+    it('should add the disabled class to disabled HeroButtons', () => {
+        expect(wrapper.find(".HeroButton").at(0).hasClass('disabled')).toBeFalsy();
+
+        wrapper = mount(
+            <HeroSelector disabledHeroes={['doomfist']} selectedHeroes={[]} onHeroSelected={() => {}}/>
+        );
+        expect(wrapper.find(".HeroButton").at(0).hasClass('disabled')).toBeTruthy();
+    });
+
     it('should call the onHeroSelected function when a hero is clicked', () => {
         let func = jest.fn();
         wrapper = mount(

@@ -22,3 +22,12 @@ describe('removeFilter', () => {
             });
     });
 });
+
+describe('removeAllFilter', () => {
+    it ('should create the REMOVE_FILTER action', () => {
+        expect(HeroFilterActionCreators.removeAllFilters())
+            .toEqual({
+                type: heroFiltersActionType.REMOVE_ALL_FILTERS
+            });
+    });
+});

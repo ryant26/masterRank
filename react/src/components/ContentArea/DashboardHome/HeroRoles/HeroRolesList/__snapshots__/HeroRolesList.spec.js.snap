@@ -2,7 +2,7 @@
 
 exports[`HeroRoles Component should match the snapshot 1`] = `
 <div
-  className="HeroRolesList card flex flex-column"
+  className="HeroRolesList card flex flex-column grow"
 >
   <div
     className="header flex justify-between"
@@ -36,7 +36,7 @@ exports[`HeroRoles Component should match the snapshot 1`] = `
 
 exports[`HeroRoles Component should match the snapshot 2`] = `
 <div
-  className="HeroRolesList card flex flex-column"
+  className="HeroRolesList card flex flex-column grow"
 >
   <div
     className="header flex justify-between"

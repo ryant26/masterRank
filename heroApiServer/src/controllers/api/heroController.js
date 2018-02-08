@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const heroService = require('../../services/heroService');
 const playerService = require('../../services/playerService');
-const stringValidator = require('../../validators/stringValidator').allValidators;
+const stringValidators = require('../../validators/stringValidator');
+const stringValidator = stringValidators.allValidators;
 const heroNameValidator = require('../../validators/heroNameValidator').validateHeroName;
+const numberValidator = require('../../validators/numberValidator').allValidators;
 const authenticationService = require('../../services/authenticationService');
 
 const getTokenFromQueryParams = function(req) {
@@ -28,6 +30,26 @@ router.use(function(req, res, next) {
     }
 });
 
+router.get('', function(req, res, next) {
+    if (!stringValidator(req.query.filterBy) ||
+        !stringValidators.equalIgnoreCase(req.query.filterBy, 'top') || !numberValidator(Number.parseInt(req.query.limit), 0, 51)){
+        let error = new Error('Missing or malformed query parameter');
+        error.status = 400;
+        next(error);
+    } else {
+        req.query.limit = Number.parseInt(req.query.limit);
+        next();
+    }
+});
+
+router.get('', function(req, res, next) {
+    return heroService.getTopHeroes(getTokenFromQueryParams(req), req.query.limit).then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        next(err);
+    });
+});
+
 router.get('/:heroName', function (req, res, next) {
     if (!heroNameValidator(req.params.heroName)) {
         let error = new Error('Invalid hero name');
@@ -41,7 +63,7 @@ router.get('/:heroName', function (req, res, next) {
 
 router.get('/:heroName', function (req, res, next) {
     let user = getTokenFromQueryParams(req);
-    return Promise.all([heroService.findAndUpdateOrCreateHero(user, req.params.heroName), playerService.findOrCreatePlayer(user)]).then((results) => {
+    return Promise.all([heroService.getHero(user, req.params.heroName), playerService.findOrCreatePlayer(user)]).then((results) => {
         let hero = results[0];
         let player = results[1];
 

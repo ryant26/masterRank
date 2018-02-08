@@ -25,6 +25,18 @@ describe('Websocket API', () => {
         });
     });
 
+    describe('removeHero', () => {
+        it('should emit the removeHero event', (done) => {
+            let heroName = 'soldier76';
+            websocket.socket.emit = function(event, heroData) {
+                expect(event).toEqual('removeHero');
+                expect(heroData).toEqual(heroName);
+                done();
+            };
+            websocket.removeHero(heroName);
+        });
+    });
+
     describe('groupInviteSend', () => {
         it('should emit the groupInviteSend event', (done) => {
             const user = {

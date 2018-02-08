@@ -8,20 +8,34 @@ const config = require('config');
 const reloadThreshold = config.get('reloadThreshold');
 const gamesPlayedThreshold = config.get('minimumGamesPlayed');
 
-let findAndUpdateOrCreateHero = function(token, heroName) {
+let getHero = function(token, heroName) {
     let queryForHero = function() {
         return Hero.findOne(_getHeroNameQueryCriteria(token, heroName), '-_id');
     };
 
-    return queryForHero().then((result) => {
-        if (!result) {
-            return _updatePlayerHeroes(token).then(() => queryForHero());
+    return _runQuery(token, queryForHero);
+};
+
+let getTopHeroes = function(token, number) {
+    let queryForHeroes = function() {
+        return Hero.find(_getAllUserHeroesQueryCriteria(token)).sort({gamesPlayed: -1}).limit(number);
+    };
+
+    return _runQuery(token, queryForHeroes);
+};
+
+let _runQuery = function(token, query) {
+    return query().then((result) => {
+        let sample = Array.isArray(result) ? result[0] : result;
+
+        if (!sample) {
+            return _updatePlayerHeroes(token).then(() => query());
         }
 
-        if (_isDateOlderThan(result.lastModified, reloadThreshold)) {
-            return _updatePlayerHeroes(token).then(() => queryForHero()).then((hero) => {
-                if (hero) {
-                    return hero;
+        if (_isDateOlderThan(sample.lastModified, reloadThreshold)) {
+            return _updatePlayerHeroes(token).then(() => query()).then((result2) => {
+                if (result2) {
+                    return result2;
                 }
             });
         }
@@ -216,5 +230,6 @@ let _getPercentileKey = function(key) {
 
 
 module.exports = {
-    findAndUpdateOrCreateHero
+    getHero,
+    getTopHeroes
 };

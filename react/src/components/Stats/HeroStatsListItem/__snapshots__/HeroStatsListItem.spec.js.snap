@@ -7,18 +7,21 @@ exports[`HeroStatsListItem component should match the snapshot 1`] = `
   <div
     className="flex align-center"
   >
-    <img
-      alt="soldier76 icon"
-      className="HeroImage"
-      onClick={undefined}
-      src={
-        Object {
-          "process": [Function],
+    <div>
+      <img
+        alt="soldier76 icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
         }
-      }
-    />
+      />
+    </div>
     <div>
       <h3>
+        
         Soldier76
       </h3>
       <div
