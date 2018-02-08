@@ -52,8 +52,8 @@ export default class ConsoleUserSearch extends Component {
               return response;
             })
             .then(response => response.json())
-            .then(response => {
-                if(response.length == 0) {
+            .then(users => {
+                if(users.length == 0) {
                     this.setState({
                         displayName: '',
                         placeholder: 'No matches found! please try again',
@@ -61,7 +61,7 @@ export default class ConsoleUserSearch extends Component {
                     });
                 } else {
                     this.setState({
-                        users: response,
+                        users: users,
                         isSearching: false,
                     });
                 }

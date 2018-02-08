@@ -11,7 +11,7 @@ import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
 import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '../pages/Dashboard/Dashboard';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import { home, error } from '../components/Routes/links';
 

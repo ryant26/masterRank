@@ -6,8 +6,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
-import {updateUser as updateUserAction} from "../../../actions/user";
 import LoginPage from '../../../pages/LoginPage/LoginPage';
+import {updateUser as updateUserAction} from "../../../actions/user";
+import { home } from '../../Routes/links';
 
 const decode  = require('jwt-decode');
 
@@ -29,11 +30,12 @@ class Authentication extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         let accessToken = this.state.accessToken;
         if (accessToken) {
             localStorage.setItem('accessToken', accessToken);
             let decodedToken = decode(accessToken);
+
             fetch(this.urlForUserSearch(decodedToken))
                 .then(response => {
                   if (!response.ok) {
@@ -43,16 +45,17 @@ class Authentication extends Component {
                   return response;
                 })
                 .then(response => response.json())
-                .then(response => {
-                    this.props.updateUserAction(response);
+                .then(user => {
+                    this.props.updateUserAction(user);
                     deleteCookie('access_token');
                 });
         }
     }
 
     urlForUserSearch(token) {
-        let platformDisplayName = encodeURIComponent(token.platformDisplayName);
-        return `/api/players?platformDisplayName=${platformDisplayName}&platform=${token.platform}&region=${this.props.region}`;
+        let encodedDisplayName = encodeURIComponent(token.platformDisplayName);
+        //TODO: should we get region form token or store? I can think of a few edge cases either way
+        return `/api/players?platformDisplayName=${encodedDisplayName}&platform=${token.platform}&region=${token.region}`;
     }
 
     render() {
@@ -60,7 +63,7 @@ class Authentication extends Component {
             <div className="Authentication flex grow">
                 { !this.state.accessToken
                     ? <LoginPage/>
-                    : <Redirect to="/"/>
+                    : <Redirect to={home}/>
                 }
             </div>
         );
@@ -68,14 +71,7 @@ class Authentication extends Component {
 }
 
 Authentication.propTypes = {
-    region: PropTypes.string,
     updateUserAction: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = function(state){
-  return {
-    region: state.region,
-  };
 };
 
 const mapDispatchToProps = function (dispatch) {
@@ -84,4 +80,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
+export default connect(null, mapDispatchToProps)(Authentication);

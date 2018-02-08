@@ -7,14 +7,32 @@ import UserSelector from '../UserSelector/UserSelector';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 import { users as arrayUsers } from '../../../resources/users';
 
+const mockResponse = (status, statusText, jsonObj) => {
+    return new Response(JSON.stringify(jsonObj), {
+        status: status,
+        statusText: statusText,
+        headers: {
+            'Content-type': 'application/json'
+        }
+    });
+};
+
+const getConsoleUserSearchComponent = (platform) => {
+    return shallow(
+        <ConsoleUserSearch platform={platform}/>
+    );
+};
+
 describe('ConsoleUserSearch', () => {
-    let ConsoleUserSearchComponent;
     const handleSubmitSpy = jest.spyOn(ConsoleUserSearch.prototype, "handleSubmit");
+    let ConsoleUserSearchComponent;
+    let platform = 'xbl';
+    let displayName = arrayUsers[0].platformDisplayName;
+    let sanitizeDisplayName = displayName.replace(/#/g, '-');
+    let fetchUrl = `/api/players/search?platformDisplayName=${sanitizeDisplayName}&platform=${platform}`;
 
     beforeEach(() => {
-        ConsoleUserSearchComponent = shallow(
-            <ConsoleUserSearch platform="xbl"/>)
-        ;
+        ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform);
     });
 
     it('should render when component loads', () => {
@@ -33,11 +51,6 @@ describe('ConsoleUserSearch', () => {
 
     it('should disable search button when page loads', () => {
         expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(true);
-    });
-
-    it('should enable search button once a display name is given', () => {
-        ConsoleUserSearchComponent.setState({displayName: arrayUsers[0]});
-        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(false);
     });
 
     it('should change state displayName when a value is input into the search bar', () => {
@@ -66,21 +79,11 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should return api url with sanitized display name when passed display names', () => {
-        let platform = 'xbl';
         ConsoleUserSearchComponent.setProps({
             platform: platform,
         });
-        let displayName = arrayUsers[0].platformDisplayName;
-        let sanitizeDisplayName = displayName.replace(/#/g, '-');
         expect(ConsoleUserSearchComponent.instance().sanitize(displayName)).toEqual(sanitizeDisplayName);
-        expect(ConsoleUserSearchComponent.instance().urlForUserSearch(displayName))
-            .toEqual(`/api/players/search?platformDisplayName=${sanitizeDisplayName}&platform=${platform}`);
-    });
-
-    it('should call handleSubmit when search button is clicked', () => {
-        window.fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
-        ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
-        expect(handleSubmitSpy).toHaveBeenCalled();
+        expect(ConsoleUserSearchComponent.instance().urlForUserSearch(displayName)).toEqual(fetchUrl);
     });
 
     it('should render loading spinner when isSearching is true', () => {
@@ -110,23 +113,89 @@ describe('ConsoleUserSearch', () => {
         expect(ConsoleUserSearchComponent.state().users).toBeUndefined();
     });
 
-    xit('should display "No matches found! please try again" when no users match the displayName given', () => {
-        const mockResponse = (status, statusText, response) => {
-                    return new Response(response, {
-                        status: status,
-                        statusText: statusText,
-                        headers: {
-                            'Content-type': 'application/json'
-                        }
-                    });
-                };
+    it('should enable search button once a display name is given', () => {
+        ConsoleUserSearchComponent.setState({
+            displayName: arrayUsers[0].platformDisplayName
+        });
+        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(false);
+    });
 
-        window.fetch = jest.fn().mockImplementation(() => Promise.resolve(
-            mockResponse(200, null, JSON.stringify([]))
-        ));
+    describe('when displayName is entered and search button is clicked', () => {
 
-        ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
-        expect(ConsoleUserSearchComponent.find('input').at(0).prop('placeholder')).toBe("No matches found! please try again");
-        expect(ConsoleUserSearchComponent.state().placeholder).toBe("No matches found! please try again");
+        beforeEach(() => {
+            ConsoleUserSearchComponent.setState({
+                displayName: displayName
+            });
+            window.fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
+            ConsoleUserSearchComponent.find('.input-button').simulate('click');
+        });
+
+        it('should set state isSearching to true', () => {
+            expect(ConsoleUserSearchComponent.state().isSearching).toBe(true);
+        });
+
+        it('should set state lastSearch to state display name', () => {
+            expect(ConsoleUserSearchComponent.state().lastSearch).toBe(displayName);
+        });
+
+        it('should set state users to true', () => {
+            expect(ConsoleUserSearchComponent.state().users).toBe(undefined);
+        });
+    });
+
+    describe('when display name is set form is submitted and fetch returns no users', () => {
+
+        beforeEach( async () => {
+            window.fetch = jest.fn().mockImplementation(() => Promise.resolve(
+                mockResponse(200, null, [])
+            ));
+            ConsoleUserSearchComponent.setState({
+                displayName: displayName
+            });
+
+            await ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+        });
+
+        it('should call handleSubmit', () => {
+            expect(handleSubmitSpy).toHaveBeenCalled();
+        });
+
+        it('should fetch from the correct url', () => {
+            expect(window.fetch).toHaveBeenCalledWith(fetchUrl);
+        });
+
+        it('should display "No matches found! please try again"', () => {
+            expect(ConsoleUserSearchComponent.state().placeholder).toBe("No matches found! please try again");
+        });
+
+        it('should set state isSearching to false', () => {
+            expect(ConsoleUserSearchComponent.state().isSearching).toBe(false);
+        });
+    });
+
+    describe('when display name is set and form is submitted and fetch returns users', () => {
+
+        beforeEach(async () => {
+            window.fetch = jest.fn().mockImplementation(() => Promise.resolve(
+                mockResponse(200, null, arrayUsers)
+            ));
+            ConsoleUserSearchComponent.setState({
+                displayName: displayName
+            });
+
+            await ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+        });
+
+        it('should fetch from the correct url', () => {
+            expect(window.fetch).toHaveBeenCalledWith(fetchUrl);
+        });
+
+        it('should set state users equal users fetch response users', () => {
+            expect(ConsoleUserSearchComponent.state().users).toEqual(arrayUsers);
+        });
+
+        it('should set state isSearching to false', () => {
+            expect(ConsoleUserSearchComponent.state().isSearching).toBe(false);
+        });
     });
 });

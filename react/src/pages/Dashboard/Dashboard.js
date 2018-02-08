@@ -2,11 +2,11 @@ import React, {
   Component
 } from 'react';
 
-import Sidebar from '../components/Sidebar/Sidebar';
-import ContentArea from '../components/ContentArea/ContentArea';
-import Websocket from '../api/websocket';
-import Model from '../model/model';
-import store from '../model/store';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import ContentArea from '../../components/ContentArea/ContentArea';
+import Websocket from '../../api/websocket';
+import Model from '../../model/model';
+import store from '../../model/store';
 
 export default class Dashboard extends Component {
     constructor(props) {

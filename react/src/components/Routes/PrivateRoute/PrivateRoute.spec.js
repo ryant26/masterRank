@@ -8,7 +8,7 @@ import configureStore from 'redux-mock-store';
 
 import PrivateRoute from './PrivateRoute';
 import Authentication from '../../Login/Authentication/Authentication';
-import PlatformSelection from '../../Login/PlatformSelection/PlatformSelection';
+import Title from '../../Sidebar/Title/Title';
 import { users as arrayUsers} from '../../../resources/users';
 
 const getPrivateRouteComponent = (component, user) => {
@@ -27,7 +27,7 @@ describe('PrivateRoute', () => {
     let PrivateRouteComponent;
 
     beforeEach(() => {
-        PrivateRouteComponent = getPrivateRouteComponent(PlatformSelection, arrayUsers[0]);
+        PrivateRouteComponent = getPrivateRouteComponent(Title, arrayUsers[0]);
     });
 
     it('should render when component loads', () => {
@@ -38,12 +38,12 @@ describe('PrivateRoute', () => {
         expect(PrivateRouteComponent.find(Route)).toHaveLength(1);
     });
 
-    it('should render the PlatformSelection component passed in props when user is defined', () => {
-        expect(PrivateRouteComponent.find(PlatformSelection)).toHaveLength(1);
+    it('should render the Title component passed in props when user is defined', () => {
+        expect(PrivateRouteComponent.find(Title)).toHaveLength(1);
     });
 
     it('should render Authentication component when user is not defined', () => {
-        PrivateRouteComponent = getPrivateRouteComponent(PlatformSelection, undefined);
+        PrivateRouteComponent = getPrivateRouteComponent(Title, undefined);
         expect(PrivateRouteComponent.find(Authentication)).toHaveLength(1);
     });
 });
