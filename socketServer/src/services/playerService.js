@@ -2,6 +2,8 @@ const logger = require('./logger').sysLogger;
 const clientEvents = require('../socketEvents/clientEvents');
 const PlayerClient = require('../apiClients/PlayerClient');
 const RedisClient = require('../apiClients/RedisClient');
+const SocketError = require('../validators/exceptions/SocketError');
+const exceptions = require('../validators/exceptions/exceptions');
 const _ = require('lodash');
 
 /**
@@ -31,8 +33,16 @@ let sendInitialData = function (token, rank, socket) {
  */
 let addHeroByName = function(token, rank, namespace, clientData) {
     let heroStats;
-    return PlayerClient.getHeroStats(token.platformDisplayName, token.region, token.platform, clientData.heroName).then((stats) => {
-        heroStats = stats;
+    return Promise.all([
+        PlayerClient.getHeroStats(token.platformDisplayName, token.region, token.platform, clientData.heroName),
+        RedisClient.getPlayerHeros(token.platformDisplayName, token.platform)
+    ]).then((results) => {
+
+        if (results[1].length >= 10) {
+            throw `Player [${token.platformDisplayName}] has too many heroes`;
+        }
+
+        heroStats = results[0];
         heroStats.priority = clientData.priority;
         return Promise.all([RedisClient.addPlayerHero(token.platformDisplayName, token.platform, heroStats),
             RedisClient.addMetaHero(rank, token.platform, token.region, heroStats)]);
