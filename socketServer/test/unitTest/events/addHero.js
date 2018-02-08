@@ -184,4 +184,15 @@ describe(serverEvents.addHero, function() {
 
         socket.emit(serverEvents.addHero, {heroName: 'genji', priority: 1});
     });
+
+    it('should not allow anyone to have more than 10 heroes', function(done) {
+        const heroNames = ['genji', 'tracer', 'dva', 'mercy', 'winston', 'zarya', 'roadhog', 'doomfist', 'ana', 'hanzo', 'junkrat'];
+
+        socket.on(clientEvents.error.addHero, (error) => {
+            assert.equal(error.err, exceptions.errorAddingHero);
+            done();
+        });
+
+        heroNames.map((heroName) => socket.emit(serverEvents.addHero, {heroName, priority: 1}));
+    });
 });
