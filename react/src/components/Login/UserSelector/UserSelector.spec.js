@@ -47,12 +47,7 @@ describe('UserSelector', () => {
     let consoleCallbackUrl = `auth/${platform}/callback?region=${region}&username=${username}&password=none`;
 
     beforeEach(() => {
-        // replace the real XHR object with the mock XHR object before each test
         UserSelectorComponent = getUserSelectorComponent(arrayUsers, 'us');
-    });
-
-    afterEach(() => {
-        // put the real XHR object back and clear the mocks after each test
     });
 
     it('should render when component loads', () => {
