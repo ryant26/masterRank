@@ -1,6 +1,7 @@
 const logger = require('../services/logger').sysLogger;
 const EventEmitter = require('eventemitter2').EventEmitter2;
 const clientEvents = require('../socketEvents/clientEvents');
+const RateLimiter = require('limiter').RateLimiter;
 
 module.exports = class BaseController {
 
@@ -11,6 +12,7 @@ module.exports = class BaseController {
         this.namespace = config.namespace;
         this.token = config.token || {};
         this._socketEvents = {};
+        this.limiter = new RateLimiter(25, 'minute');
     }
 
     /**
@@ -83,6 +85,10 @@ module.exports = class BaseController {
                     'config': this.config,
                     eventData
                 };
+
+                if(!this.limiter.tryRemoveTokens(1)) {
+                    this.socket.disconnect();
+                }
 
                 this.eventEmitter.emitAsync(this._getBeforeEvent(event), data).then(() => {
                     return this.eventEmitter.emitAsync(this._getOnEvent(event), data);

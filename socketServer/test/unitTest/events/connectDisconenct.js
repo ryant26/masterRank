@@ -84,4 +84,12 @@ describe('disconnect', function() {
             done();
         });
     });
+
+    it('should disconnect the socket when you send more than 25 requests in a minute', (done) => {
+        socket.on('disconnect', () => done());
+
+        for (let i = 0; i < 30; i++) {
+            socket.emit(serverEvents.addHero, {heroName: 'tracer', priority: 1});
+        }
+    });
 });
