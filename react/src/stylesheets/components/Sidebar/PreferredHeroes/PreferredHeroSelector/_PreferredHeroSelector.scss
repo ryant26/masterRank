@@ -3,6 +3,7 @@ $border: 1px solid $gray6;
 @mixin selected() {
   border: 1px solid $blue4;
   box-shadow: 0 0 8px 0 $blue4;
+  margin: 0;
 }
 
 .PreferredHeroSelector {
@@ -11,9 +12,15 @@ $border: 1px solid $gray6;
   }
 
   .HeroImage {
+    margin: 1px;
     height: 50px;
     width: 50px;
     border-radius: 3px;
+
+    &:hover {
+      @include selected;
+      cursor: pointer;
+    }
   }
 
   div.body {

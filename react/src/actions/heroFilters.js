@@ -13,3 +13,9 @@ export const removeFilter = (heroName) => {
         heroName
     };
 };
+
+export const removeAllFilters = () => {
+    return {
+        type: HeroFilterActionTypes.REMOVE_ALL_FILTERS
+    };
+};

@@ -1,5 +1,10 @@
-.sidebar-footer {
+.SidebarFooter {
   a {
-    color: $gray3;
+    color: $gray4;
+
+    &:hover {
+      color: $gray3;
+      cursor: pointer;
+    }
   }
 }

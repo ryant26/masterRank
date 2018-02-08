@@ -1,4 +1,9 @@
 .HeroSelectorCard {
+  .button-seven {
+    margin-left: auto;
+    height: 20px;
+  }
+
   .HeroSelector {
     .HeroButton {
       &::after {
@@ -8,6 +13,10 @@
         height: 100%;
         width: 100%;
         background-color: $transparentGray1;
+      }
+
+      &:hover::after {
+        background-color: $transparentGray2;
       }
 
       &.selected:after {
