@@ -7,10 +7,20 @@ const rootPath = path.normalize(__dirname + '/..');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const RateLimit = require('express-rate-limit');
 
 module.exports = function(app) {
 
     app.use(helmet());
+
+    if (app.get('env') === 'production') {
+        app.use('trust proxy');
+
+        app.use(new RateLimit({
+            windowMs: 60*1000,
+            max: 15
+        }));
+    }
 
     app.use(logger(config.get('loggingLevel'), {stream: logAggregator.stream}));
 
