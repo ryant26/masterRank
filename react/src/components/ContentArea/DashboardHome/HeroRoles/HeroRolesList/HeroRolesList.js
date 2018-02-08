@@ -25,7 +25,7 @@ export default class HeroRoles extends Component {
         }
 
         return (
-            <div className="HeroRolesList card flex flex-column">
+            <div className="HeroRolesList card flex flex-column grow">
                 <div className="header flex justify-between">
                     <h3>{role}</h3>
                     <img className="role-icon"
