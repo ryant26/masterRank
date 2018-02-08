@@ -6,8 +6,11 @@ const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
 module.exports = function(app) {
+
+    app.use(helmet());
 
     app.use(logger(config.get('loggingLevel'), {stream: logAggregator.stream}));
 
