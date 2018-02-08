@@ -1,6 +1,6 @@
 let app;
 
-if (process.env.NODE_ENV === 'develop') {
+if (process.env.NODE_ENV !== 'production') {
     const fs = require('fs');
     const options = {
         key: fs.readFileSync('../certs/key.pem'),
