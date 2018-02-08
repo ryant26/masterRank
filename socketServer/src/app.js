@@ -1,10 +1,18 @@
-const fs = require('fs');
-const options = {
-    key: fs.readFileSync('../certs/key.pem'),
-    cert: fs.readFileSync('../certs/cert.pem')
-};
-const app = require('https').createServer(options);
-const io = require('socket.io')(app);
+let app;
+
+if (process.env.NODE_ENV === 'develop') {
+    const fs = require('fs');
+    const options = {
+        key: fs.readFileSync('../certs/key.pem'),
+        cert: fs.readFileSync('../certs/cert.pem')
+    };
+    app = require('https').createServer(options);
+} else {
+    app = require('http').createServer();
+}
+
+
+const io = require('socket.io')(app, {maxHttpBufferSize: 1000});
 const redisAdapter = require('socket.io-redis');
 const config = require('config');
 const logger = require('./services/logger').sysLogger;
