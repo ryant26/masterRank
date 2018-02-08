@@ -18,6 +18,7 @@
     "express": "^4.13.3",
     "express-jwt": "^5.3.0",
     "glob": "^6.0.4",
+    "helmet": "^3.10.0",
     "jade": "^1.11.0",
     "jsonwebtoken": "^8.0.1",
     "method-override": "^2.3.0",
