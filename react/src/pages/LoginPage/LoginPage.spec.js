@@ -33,13 +33,13 @@ describe('Login Page', () => {
 
     it('should render PlatformSelection with prop onClick equal to this.onPlatformClick when component loads', () => {
         expect(LoginPageComponent.find(PlatformSelection)).toHaveLength(1);
-        expect(LoginPageComponent.find(PlatformSelection).props().onClick)
+        expect(LoginPageComponent.find(PlatformSelection).props().handleOptionChange)
             .toBe(LoginPageComponent.instance().onPlatformClick);
     });
 
     it('should render RegionSelection with prop onClick equal to this.onRegionClick when component loads', () => {
         expect(LoginPageComponent.find(RegionSelection)).toHaveLength(1);
-        expect(LoginPageComponent.find(RegionSelection).props().onClick)
+        expect(LoginPageComponent.find(RegionSelection).props().handleOptionChange)
             .toBe(LoginPageComponent.instance().onRegionClick);
     });
 
