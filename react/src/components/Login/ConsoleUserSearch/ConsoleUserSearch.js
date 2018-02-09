@@ -109,7 +109,7 @@ export default class ConsoleUserSearch extends Component {
                 </div>
                 <div className="flex flex-column results-area grow">
                     { this.state.isSearching &&
-                        <div className="flex align-center justify-center grow">
+                        <div className="flex flex-column align-center justify-center grow">
                             <LoadingSpinner/>
                         </div>
                     }
