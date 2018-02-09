@@ -96,7 +96,7 @@ export default class ConsoleUserSearch extends Component {
                             </div>
                             <button
                                 type="submit"
-                                className="input-button"
+                                className="button-primary"
                                 onClick={this.onClick}
                                 disabled={!this.state.displayName}
                             >
