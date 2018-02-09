@@ -1,10 +1,11 @@
 import React from 'react';
+import { home } from '../../../Routes/links';
 
 const LogoutButton = () => {
 
     function onClick() {
         localStorage.clear();
-        window.location.assign('/login');
+        window.location.assign(home);
     }
 
     return (
