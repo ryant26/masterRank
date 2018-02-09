@@ -3,7 +3,8 @@ const EventEmitter = require('eventemitter2').EventEmitter2;
 const clientEvents = require('../socketEvents/clientEvents');
 const serverEvents = require('../socketEvents/serverEvents');
 const RateLimiter = require('limiter').RateLimiter;
-
+const config = require('config');
+const eventLimit = config.get('eventsAllowedPerMinute');
 
 module.exports = class BaseController {
 
@@ -14,7 +15,7 @@ module.exports = class BaseController {
         this.namespace = config.namespace;
         this.token = config.token || {};
         this._socketEvents = {};
-        this.limiter = new RateLimiter(50, 'minute');
+        this.limiter = new RateLimiter(eventLimit, 'minute');
     }
 
     /**

@@ -3,6 +3,7 @@
   "url": "https://localhost",
   "redisUrl": "redis://localhost",
   "keyExpiry": 7200,
+  "eventsAllowedPerMinute": 50,
   "logstash": {
     "host": "127.0.0.1",
     "systemPort": 28778
