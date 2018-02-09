@@ -19,7 +19,7 @@ describe('RegionSelection', () => {
 
     it('should render radio region-1 input and label text when page loads', () => {
         expect(RegionSelectionComponent.find('input').at(0).html())
-            .toBe('<input type="radio" id="region-1" name="region" value="us" checked=""/>');
+            .toBe('<input type="radio" id="region-1" name="region" value="us"/>');
         expect(RegionSelectionComponent.find('label').at(0).text()).toBe('NA');
     });
 
