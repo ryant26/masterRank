@@ -5,6 +5,7 @@ import React, {
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ContentArea from '../../components/ContentArea/ContentArea';
 import GroupInfoModal from '../../components/Modal/GroupInfoModal';
+import FullScreenLoadingSpinner from '../../components/LoadingSpinner/FullPageLoadingSpinner';
 import Websocket from '../../api/websocket';
 import Model from '../../model/model';
 import store from '../../model/store';
@@ -30,6 +31,7 @@ export default class Dashboard extends Component {
                 <Sidebar />
                 <ContentArea/>
                 <GroupInfoModal/>
+                <FullScreenLoadingSpinner/>
             </div>
         );
     }

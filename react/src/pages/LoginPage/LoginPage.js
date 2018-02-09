@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import PlatformSelection from '../../components/Login/PlatformSelection/PlatformSelection';
 import RegionSelection from '../../components/Login/RegionSelection/RegionSelection';
+import FullPageLoadingSpinner from '../../components/LoadingSpinner/FullPageLoadingSpinner';
 import ConsoleUserSearch from '../../components/Login/ConsoleUserSearch/ConsoleUserSearch';
 import BlizzardOAuth from '../../components/Login/BlizzardOAuth/BlizzardOAuth';
 import {updateRegion as updateRegionAction} from '../../actions/region';
@@ -64,6 +65,7 @@ class LoginPage extends Component {
                 <div className="copyright-box">
                     Copyright &copy; Fireteam.gg 2018. All Rights Reserved
                 </div>
+                <FullPageLoadingSpinner/>
             </div>
         );
     }
