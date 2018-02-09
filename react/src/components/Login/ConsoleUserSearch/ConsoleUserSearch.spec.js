@@ -25,11 +25,11 @@ const getConsoleUserSearchComponent = (platform) => {
 
 describe('ConsoleUserSearch', () => {
     const handleSubmitSpy = jest.spyOn(ConsoleUserSearch.prototype, "handleSubmit");
+    const platform = 'xbl';
+    const displayName = arrayUsers[0].platformDisplayName;
+    const sanitizeDisplayName = displayName.replace(/#/g, '-');
+    const fetchUrl = `/api/players/search?platformDisplayName=${sanitizeDisplayName}&platform=${platform}`;
     let ConsoleUserSearchComponent;
-    let platform = 'xbl';
-    let displayName = arrayUsers[0].platformDisplayName;
-    let sanitizeDisplayName = displayName.replace(/#/g, '-');
-    let fetchUrl = `/api/players/search?platformDisplayName=${sanitizeDisplayName}&platform=${platform}`;
 
     beforeEach(() => {
         ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform);

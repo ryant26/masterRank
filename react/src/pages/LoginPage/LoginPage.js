@@ -32,9 +32,6 @@ class LoginPage extends Component {
     }
 
     onRegionClick(event) {
-        //TODO: we want region in the store correct? we need it for selection later i believe.
-        //TODO: Should i default region to NA?
-        //TODO: should we have default platforms and region?
         this.props.updateRegionAction(event.target.value);
         this.setState({
             region: event.target.value,

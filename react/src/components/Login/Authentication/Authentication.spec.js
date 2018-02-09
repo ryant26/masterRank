@@ -19,10 +19,9 @@ const getConnectAuthenticationContainer = () => {
 };
 
 const mockLocalStorage = () => {
-    const localStorageMock = {
+    window.localStorage = {
         setItem: jest.fn()
     };
-    window.localStorage = localStorageMock;
 };
 
 const setCookie = (key, value) => {
