@@ -6,6 +6,7 @@ import UserReducer from './UserReducer';
 import GroupReducer from './GroupReducer';
 import HeroFiltersReducer from './HeroFiltersReducer';
 import RegionReducer from './RegionReducer';
+import LoadingReducer from './LoadingReducer';
 
 export default combineReducers({
   heroes: HeroReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   groupInvites: GroupInvitesReducer,
   heroFilters: HeroFiltersReducer,
   region: RegionReducer,
+  loading: LoadingReducer
 });

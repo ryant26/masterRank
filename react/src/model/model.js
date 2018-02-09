@@ -16,6 +16,10 @@ import {
 import { updateGroup as updateGroupAction } from '../actions/group';
 import { clientEvents } from "../api/websocket";
 import { addGroupInvite as addGroupInviteAction } from '../actions/groupInvites';
+import {
+    pushBlockingEvent as pushBlockingLoadingAction,
+    popBlockingEvent as popBlockingLoadingAction,
+} from "../actions/loading";
 
 let socket;
 let store;
@@ -24,8 +28,9 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
-    socket.on(clientEvents.initialData, () => loadPreferredHeroesFromLocalStorage());
-    socket.on(clientEvents.initialData, (players) => _addHeroesToStore(players));
+    store.dispatch(pushBlockingLoadingAction());
+
+    socket.on(clientEvents.initialData, (players) => _handleInitialData(players));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
     socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));
@@ -108,6 +113,12 @@ const leaveGroup = function(groupId) {
 
 const cancelInvite = function(userObject) {
     socket.groupInviteCancel(userObject);
+};
+
+const _handleInitialData = function(heroes) {
+    loadPreferredHeroesFromLocalStorage();
+    _addHeroesToStore(heroes);
+    store.dispatch(popBlockingLoadingAction());
 };
 
 const _addHeroToStore = function(hero) {

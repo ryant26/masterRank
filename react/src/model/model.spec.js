@@ -40,6 +40,12 @@ describe('Model', () => {
         model.updateUser(token);
     });
 
+    describe('Constructor', () => {
+        it('should set the loading state', () => {
+            expect(store.getState().loading.blockUI).toBeTruthy();
+        });
+    });
+
     describe('Socket Events', () => {
         describe('Authenticated', () => {
             xit('should add preferred heroes from local storage', () => {
@@ -66,6 +72,18 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.initialData, [generateHero(heroName)]);
 
                 expect(store.getState().preferredHeroes.heroes).toEqual([heroName]);
+            });
+
+            it('should clear the loading state', () => {
+                expect(store.getState().loading.blockUI).toBeTruthy();
+
+                let heroArray = [
+                    generateHero('hero1', 'someUser'),
+                    generateHero('hero2', 'someUser')
+                ];
+                socket.socketClient.emit(clientEvents.initialData, heroArray);
+
+                expect(store.getState().loading.blockUI).toBeFalsy();
             });
         });
 
