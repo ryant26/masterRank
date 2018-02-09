@@ -14,7 +14,7 @@ module.exports = class BaseController {
         this.namespace = config.namespace;
         this.token = config.token || {};
         this._socketEvents = {};
-        this.limiter = new RateLimiter(25, 'minute');
+        this.limiter = new RateLimiter(50, 'minute');
     }
 
     /**
