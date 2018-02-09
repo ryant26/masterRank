@@ -52,8 +52,8 @@ class LoginPage extends Component {
                         <h3>Find your Battle.net, PSN, or XBL account</h3>
                     </div>
                     <div className="preference-selectors flex justify-around">
-                        <PlatformSelection onClick={this.onPlatformClick}/>
-                        <RegionSelection onClick={this.onRegionClick}/>
+                        <PlatformSelection handleOptionChange={this.onPlatformClick} selectedPlatform={this.state.platform}/>
+                        <RegionSelection handleOptionChange={this.onRegionClick} selectedRegion={this.state.region}/>
                     </div>
                 </div>
                 { this.state.platform === 'pc'
