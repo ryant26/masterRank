@@ -66,6 +66,7 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should render UserSelector, search box, and button when when state users is defined', () => {
+        expect(ConsoleUserSearchComponent.find(UserSelector)).toHaveLength(0);
         ConsoleUserSearchComponent.setState({
             users: arrayUsers,
         });
@@ -87,10 +88,10 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should render loading spinner when isSearching is true', () => {
+        expect(ConsoleUserSearchComponent.find(LoadingSpinner)).toHaveLength(0);
         ConsoleUserSearchComponent.setState({
             isSearching: true,
         });
-
         expect(ConsoleUserSearchComponent.find(LoadingSpinner)).toHaveLength(1);
     });
 
@@ -114,6 +115,7 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should enable search button once a display name is given', () => {
+        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(true);
         ConsoleUserSearchComponent.setState({
             displayName: arrayUsers[0].platformDisplayName
         });

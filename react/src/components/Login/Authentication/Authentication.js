@@ -54,7 +54,6 @@ class Authentication extends Component {
 
     urlForUserSearch(token) {
         let encodedDisplayName = encodeURIComponent(token.platformDisplayName);
-        //TODO: should we get region form token or store? I can think of a few edge cases either way
         return `/api/players?platformDisplayName=${encodedDisplayName}&platform=${token.platform}&region=${token.region}`;
     }
 

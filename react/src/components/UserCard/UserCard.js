@@ -23,8 +23,6 @@ const UserCard = ({user, onClick, region}) => {
     }
 
     return (
-        //TODO: Add new unit tests
-        //TODO: In the future for PSN and Xbox users, handleClick() will pass user, handleClick(user)
          <div className="UserCard sidebar-card flex align-center" onClick={() => {onClick(user);}}>
             <img src={user.portrait}/>
             <div className="player-info">

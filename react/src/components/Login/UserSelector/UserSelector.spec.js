@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { users as arrayUsers} from '../../../resources/users';
 import UserSelector from './UserSelector';
 import UserCard from '../../UserCard/UserCard';
-import { error } from '../../Routes/links';
+import { home, error } from '../../Routes/links';
 
 const mockStore = configureStore();
 const getUserSelectorComponent = (users, region) => {
@@ -17,34 +17,38 @@ const getUserSelectorComponent = (users, region) => {
     ).dive();
 };
 
-let open, send, onload, onerror, setRequestHeader;
-function createXHRmock() {
+let open, send, onload, onerror, setRequestHeader, responseURL;
+const getXhrMockClass = () => {
     open = jest.fn();
-    setRequestHeader = jest.fn();
     send = jest.fn().mockImplementation(function(){
         onload = this.onload.bind(this);
         onerror = this.onerror.bind(this);
     });
+    setRequestHeader = jest.fn();
+    responseURL = home;
 
-    const xhrMockClass = function () {
+    return function () {
         return {
             open,
             send,
             setRequestHeader,
+            responseURL,
         };
     };
+};
 
+const mockXMLHttpRequest = (xhrMockClass) => {
     window.XMLHttpRequest = jest.fn().mockImplementation(xhrMockClass);
 }
 
 describe('UserSelector', () => {
     window.location.assign = jest.fn();
+    const region = 'us';
+    const user = arrayUsers[0];
+    const platform = user.platform;
+    const username = user.platformDisplayName;
+    const consoleCallbackUrl = `auth/${platform}/callback?region=${region}&username=${username}&password=none`;
     let UserSelectorComponent;
-    let region = 'us';
-    let user = arrayUsers[0];
-    let platform = user.platform;
-    let username = user.platformDisplayName;
-    let consoleCallbackUrl = `auth/${platform}/callback?region=${region}&username=${username}&password=none`;
 
     beforeEach(() => {
         UserSelectorComponent = getUserSelectorComponent(arrayUsers, 'us');
@@ -61,18 +65,20 @@ describe('UserSelector', () => {
     });
 
     describe('when UserCard is clicked', () => {
+        let mockXhr;
 
         beforeEach(() => {
-            createXHRmock();
+            mockXhr = getXhrMockClass();
+            mockXMLHttpRequest(mockXhr);
             UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
             expect(open).toBeCalledWith('POST', consoleCallbackUrl, true);
             expect(send).toBeCalled();
         });
 
         it('should wait to redirect till post is successful', () => {
-            expect(window.location.assign).not.toHaveBeenCalledWith(undefined);
+            expect(window.location.assign).not.toHaveBeenCalledWith(responseURL);
             onload();
-            expect(window.location.assign).toHaveBeenCalledWith(undefined);
+            expect(window.location.assign).toHaveBeenCalledWith(responseURL);
         });
 
         it('should post the the correct headers and callback url', () => {
@@ -81,13 +87,12 @@ describe('UserSelector', () => {
 
         it('should redirect to undefined', () => {
             onload();
-            //TODO: how to mock xhr.responseURL
-            expect(window.location.assign).toHaveBeenCalledWith(undefined);
+            expect(window.location.assign).toHaveBeenCalledWith(responseURL);
         });
 
-        it('should redirect to {error}', () => {
+        it('should redirect to error path', () => {
             onerror();
-            expect(window.location.assign).toHaveBeenCalledWith({error});
+            expect(window.location.assign).toHaveBeenCalledWith(error);
         });
     });
 });

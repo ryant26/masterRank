@@ -8,7 +8,6 @@ import RegionSelection from '../../components/Login/RegionSelection/RegionSelect
 import BlizzardOAuth from '../../components/Login/BlizzardOAuth/BlizzardOAuth';
 import ConsoleUserSearch from '../../components/Login/ConsoleUserSearch/ConsoleUserSearch';
 
-//TODO: need to updat test to match new logic
 describe('Login Page', () => {
     const mockStore = configureStore();
     let LoginPageComponent;
