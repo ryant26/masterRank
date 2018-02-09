@@ -1,14 +1,13 @@
 import React, {
   Component
 } from 'react';
-import PropTypes from 'prop-types';
 
-import Sidebar from '../components/Sidebar/Sidebar';
-import ContentArea from '../components/ContentArea/ContentArea';
-import GroupInfoModal from '../components/Modal/GroupInfoModal';
-import Websocket from '../api/websocket';
-import Model from '../model/model';
-import store from '../model/store';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import ContentArea from '../../components/ContentArea/ContentArea';
+import GroupInfoModal from '../../components/Modal/GroupInfoModal';
+import Websocket from '../../api/websocket';
+import Model from '../../model/model';
+import store from '../../model/store';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -35,7 +34,3 @@ export default class Dashboard extends Component {
         );
     }
 }
-
-Dashboard.propTypes = {
-    user: PropTypes.object.isRequired
-};

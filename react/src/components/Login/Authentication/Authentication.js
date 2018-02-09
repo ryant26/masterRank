@@ -3,11 +3,12 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
-import {updateUser as updateUserAction} from "../../actions/user";
-import LoginPage from '../../pages/LoginPage/LoginPage';
-
+import LoginPage from '../../../pages/LoginPage/LoginPage';
+import {updateUser as updateUserAction} from "../../../actions/user";
+import { home } from '../../Routes/links';
 
 const decode  = require('jwt-decode');
 
@@ -31,11 +32,10 @@ class Authentication extends Component {
 
     componentWillMount() {
         let accessToken = this.state.accessToken;
-
         if (accessToken) {
-            deleteCookie('access_token');
             localStorage.setItem('accessToken', accessToken);
             let decodedToken = decode(accessToken);
+
             fetch(this.urlForUserSearch(decodedToken))
                 .then(response => {
                   if (!response.ok) {
@@ -45,21 +45,25 @@ class Authentication extends Component {
                   return response;
                 })
                 .then(response => response.json())
-                .then(response => {
-                    this.props.updateUserAction(response);
+                .then(user => {
+                    this.props.updateUserAction(user);
+                    deleteCookie('access_token');
                 });
         }
     }
 
     urlForUserSearch(token) {
-        let platformDisplayName = encodeURIComponent(token.platformDisplayName);
-        return `/api/players?platformDisplayName=${platformDisplayName}&platform=${token.platform}&region=${token.region}`;
+        let encodedDisplayName = encodeURIComponent(token.platformDisplayName);
+        return `/api/players?platformDisplayName=${encodedDisplayName}&platform=${token.platform}&region=${token.region}`;
     }
 
     render() {
         return (
-            <div>
-                { !this.state.accessToken && <LoginPage/> }
+            <div className="Authentication flex grow">
+                { !this.state.accessToken
+                    ? <LoginPage/>
+                    : <Redirect to={home}/>
+                }
             </div>
         );
     }

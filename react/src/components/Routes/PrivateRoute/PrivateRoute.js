@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Authentication from '../Authentication/Authentication';
+import Authentication from '../../Login/Authentication/Authentication';
 
-export const PrivateRoute = ({ component, authed, ...rest }) => {
+const PrivateRoute = ({ component, user, ...rest }) => {
   return (
     <Route
       {...rest}
       render={routeProps =>
-        authed ? (
+        user ? (
           React.createElement(component, Object.assign(routeProps, rest))
         ) : (
           <Authentication />
@@ -19,5 +19,7 @@ export const PrivateRoute = ({ component, authed, ...rest }) => {
 
 PrivateRoute.propTypes = {
     component: PropTypes.func,
-    authed: PropTypes.object
+    user: PropTypes.object
 };
+
+export default PrivateRoute;

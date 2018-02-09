@@ -9,14 +9,14 @@ import Invites from './Invites/InvitesContainer';
 import Group from './Groups/GroupContainer/GroupContainer';
 import SidebarFooter from './SidebarFooter/SidebarFooter';
 
-const Sidebar = ({user}) => {
+const Sidebar = ({user, region}) => {
     return (
         <div className="Sidebar flex flex-column">
             <div className="header">
                 <Title/>
             </div>
             <div className="body">
-                <UserCard user={user} />
+                <UserCard user={user} region={region}/>
                 <PreferredHeroes/>
                 <Invites/>
                 <Group />
@@ -30,11 +30,13 @@ const Sidebar = ({user}) => {
 
 Sidebar.propTypes = {
   user: PropTypes.object.isRequired,
+  region: PropTypes.string.isRequired
 };
 
 const mapStateToProps = function(state){
   return {
     user: state.user,
+    region: state.region
   };
 };
 

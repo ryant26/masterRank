@@ -29,7 +29,7 @@ matrix:
       after_script:
         - cd ..
     - language: node_js
-      node_js: "7.4.0"
+      node_js: "7.5.0"
       before_script:
         - cd react/
         - npm install 

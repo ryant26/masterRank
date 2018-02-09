@@ -1,0 +1,52 @@
+.LoginPage {
+  .title {
+    margin-top: 16vh;
+    margin-bottom: 19px;
+
+    h1 {
+      color: $blue1;
+      font-size: 36pt;
+      margin: 0 0 0 10px;
+    }
+
+    .logo {
+      height: 36pt;
+      margin-right: 10px;
+    }
+  }
+
+  .sub-title {
+    font-size: 16px;
+    color: $gray3;
+    margin-bottom: 75px;
+  }
+
+  .preferences-container {
+    background-color: white;
+    min-width: 500px;
+    width: 44%;
+    min-height: 150px;
+    margin-bottom: 40px;
+
+    h3 {
+      margin-bottom: 16px;
+    }
+
+    .RegionSelection {
+      min-width: 212px;
+      width: 30%;
+    }
+
+    .PlatformSelection {
+      width: 50%;
+    }
+  }
+
+  .copyright-box {
+    margin-top: auto;
+    margin-bottom: 20px;
+    color: $gray3;
+  }
+
+
+}

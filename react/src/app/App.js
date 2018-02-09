@@ -3,17 +3,17 @@ import React, {
 } from 'react';
 import {
     BrowserRouter as Router,
-    Switch
+    Switch,
 } from 'react-router-dom';
+import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
-import { PrivateRoute } from '../components/Routes/PrivateRoute';
-import { PublicRoute } from '../components/Routes/PublicRoute';
-import Dashboard from '../pages/Dashboard';
-import LoginPage from '../pages/LoginPage/LoginPage';
-import {login, home} from '../components/Routes/links';
+import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import { home, error } from '../components/Routes/links';
 
 class App extends Component {
     constructor(props) {
@@ -33,16 +33,16 @@ class App extends Component {
                 />
                 <Router>
                     <Switch>
-                        <PublicRoute
-                          exact
-                          path={login}
-                          component={LoginPage}
+                        <Route
+                            path={error}
+                             render={(routeProps) => (
+                                <ErrorPage {...routeProps} errorMessage={'Error: please try again'} />
+                              )}
                         />
                         <PrivateRoute
-                          path={home}
-                          component={Dashboard}
-                          authed={this.props.store.user}
-                          user={this.props.store.user}
+                            path={home}
+                            component={Dashboard}
+                            user={this.props.store.user}
                         />
                     </Switch>
                 </Router>
@@ -53,7 +53,8 @@ class App extends Component {
 
 App.propTypes = {
     store: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
+    region: PropTypes.string,
 };
 
 const mapStateToProps = function(state){

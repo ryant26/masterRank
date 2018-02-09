@@ -1,3 +1,5 @@
+$skewDegrees: -20deg;
+
 .card {
   border-radius: 3px;
   background: white;
@@ -11,5 +13,95 @@
 
   & > .body {
     padding: 6px;
+  }
+}
+
+.toggle-buttons {
+  @include flexbox();
+
+  transform: skewX($skewDegrees);
+  border: 1px solid $gray13;
+  border-radius: 3px;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"] + label {
+    @include flex(1);
+    @include flexbox();
+    @include justify-content(center);
+    font-weight: bold;
+    color: $gray12;
+    padding: 10px 15px;
+    box-shadow: -1px 0 0 0 $gray14;
+    background-image: linear-gradient(to bottom, $gray15, $gray16);
+    @include selectable(none);
+
+    &:first-of-type {
+      border-radius: 3px 0 0 3px;
+    }
+
+    &:last-of-type {
+      border-radius: 0 3px 3px 0;
+
+    }
+  }
+
+  input[type="radio"]:checked + label {
+    color: white;
+    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    background-image: linear-gradient(-180deg, $yellow2 0%, $yellow3 100%);
+  }
+}
+
+.input-component {
+  background: white;
+  max-width: 43%;
+  min-width: 500px;
+  padding: 10px;
+  transform: skewX($skewDegrees);
+  border-radius: 3px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+  margin: 0 -5px 0 -5px;
+
+
+  .input-container {
+    border-radius: 3px;
+    padding: 10px;
+    background: $gray17;
+    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    margin: 0 5px 0 5px;
+  }
+
+  .input-button {
+    margin: 0 5px 0 5px;
+    padding: 10px 20px;
+    background-image: linear-gradient(to bottom, #14d6fa, #338bf6);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    color: white;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  input[type="text"] {
+    background-color: transparent;
+    border: none;
+
+    &::-webkit-input-placeholder {
+      color: #999FA8;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    &:focus {
+      outline: none !important;
+    }
   }
 }
