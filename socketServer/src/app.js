@@ -25,7 +25,7 @@ const serverEvents = require('./socketEvents/serverEvents');
 
 const port = config.get('port');
 const regionNamespaces = ['us', 'eu', 'apac'];
-const platformNamespaces = ['pc', 'ps', 'xb'];
+const platformNamespaces = ['pc', 'psn', 'xbl'];
 
 dependencyMocker.mockAllDependenciesForEnvironment();
 dataMocker.mockDataForEnvironment();
