@@ -29,7 +29,7 @@ describe('UserSelector', () => {
 
     beforeEach(() => {
         window.location.assign = jest.fn();
-        UserSelectorComponent = getUserSelectorComponent(arrayUsers, 'us');
+        UserSelectorComponent = getUserSelectorComponent(arrayUsers, region);
     });
 
     it('should render when component loads', () => {

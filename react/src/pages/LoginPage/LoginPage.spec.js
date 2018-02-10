@@ -31,16 +31,16 @@ describe('Login Page', () => {
         expect(LoginPageComponent.find('.LoginPage')).toHaveLength(1);
     });
 
-    it('should render PlatformSelection with prop onClick equal to this.onPlatformClick when component loads', () => {
+    it('should render PlatformSelection with prop onClick equal to this.onPlatformChange when component loads', () => {
         expect(LoginPageComponent.find(PlatformSelection)).toHaveLength(1);
-        expect(LoginPageComponent.find(PlatformSelection).props().handleOptionChange)
-            .toBe(LoginPageComponent.instance().onPlatformClick);
+        expect(LoginPageComponent.find(PlatformSelection).props().onChange)
+            .toBe(LoginPageComponent.instance().onPlatformChange);
     });
 
-    it('should render RegionSelection with prop onClick equal to this.onRegionClick when component loads', () => {
+    it('should render RegionSelection with prop onClick equal to this.onRegionChange when component loads', () => {
         expect(LoginPageComponent.find(RegionSelection)).toHaveLength(1);
-        expect(LoginPageComponent.find(RegionSelection).props().handleOptionChange)
-            .toBe(LoginPageComponent.instance().onRegionClick);
+        expect(LoginPageComponent.find(RegionSelection).props().onChange)
+            .toBe(LoginPageComponent.instance().onRegionChange);
     });
 
     it('should render BlizzardOAuth with props region equal to eu when state platform is pc and region is eu', () => {
