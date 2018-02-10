@@ -15,7 +15,10 @@ import {
 } from "../actions/heroFilters";
 import { updateGroup as updateGroupAction } from '../actions/group';
 import { clientEvents } from "../api/websocket";
-import { addGroupInvite as addGroupInviteAction } from '../actions/groupInvites';
+import {
+    addGroupInvite as addGroupInviteAction,
+    removeGroupInvite as removeGroupInviteAction
+} from '../actions/groupInvites';
 
 let socket;
 let store;
@@ -29,7 +32,8 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
     socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));
-    socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));    
+    socket.on(clientEvents.groupInviteCanceled, (groupInviteCanceledObject) => _removeGroupInviteAction(groupInviteCanceledObject));
+    socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));
     socket.on(clientEvents.playerInvited, (groupInvitePendingObject) => _updateGroupData(groupInvitePendingObject));
     socket.on(clientEvents.groupHeroLeft, (groupHeroLeftObject) => _updateGroupData(groupHeroLeftObject));        
     socket.on(clientEvents.groupInviteCanceled, (groupHeroCancelledObject) => _updateGroupData(groupHeroCancelledObject));
@@ -149,6 +153,9 @@ const _addGroupInvite = function(groupInviteObject) {
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 
+const _removeGroupInviteAction = function(groupInviteObject) {
+    store.dispatch(removeGroupInviteAction(groupInviteObject));
+};
 const _updateGroupData = function(updatedGroupData) {
     store.dispatch(updateGroupAction(updatedGroupData));
 };

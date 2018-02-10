@@ -21,7 +21,6 @@ const Sidebar = ({user, region}) => {
                 <PreferredHeroes/>
                 <Invites/>
                 <GroupContainer />
-                <Group />
             </div>
             <div className="footer">
                 <SidebarFooter/>
