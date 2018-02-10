@@ -147,15 +147,15 @@ describe('ConsoleUserSearch', () => {
 
     describe('when display name is set form is submitted and fetch returns no users', () => {
 
-        beforeEach( async () => {
-            window.fetch = jest.fn().mockImplementation(() => Promise.resolve(
-                mockResponse(200, null, [])
-            ));
+        beforeEach(() => {
+            let fetchPromise = Promise.resolve(mockResponse(200, null, []));
+            window.fetch = jest.fn().mockImplementation(() => fetchPromise);
             ConsoleUserSearchComponent.setState({
                 displayName: displayName
             });
 
-            await ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+            ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+            return fetchPromise;
         });
 
         it('should call handleSubmit', () => {
@@ -177,15 +177,15 @@ describe('ConsoleUserSearch', () => {
 
     describe('when display name is set and form is submitted and fetch returns users', () => {
 
-        beforeEach(async () => {
-            window.fetch = jest.fn().mockImplementation(() => Promise.resolve(
-                mockResponse(200, null, arrayUsers)
-            ));
+        beforeEach(() => {
+            let fetchPromise = Promise.resolve(mockResponse(200, null, arrayUsers));
+            window.fetch = jest.fn().mockImplementation(() => fetchPromise);
             ConsoleUserSearchComponent.setState({
                 displayName: displayName
             });
 
-            await ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+            ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+            return fetchPromise;
         });
 
         it('should fetch from the correct url', () => {
