@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {pushBlockingEvent as pushBlockingEventAction} from '../../../actions/loading';
 
-const BlizzardOAuth = ({region}) => {
+const BlizzardOAuth = ({region, setLoading}) => {
 
     function onClick() {
+        setLoading();
         window.location.assign(redirectBlizzardAuthUrl());
     }
 
@@ -22,6 +26,13 @@ const BlizzardOAuth = ({region}) => {
 
 BlizzardOAuth.propTypes = {
     region: PropTypes.string.isRequired,
+    setLoading: PropTypes.func.isRequired,
 };
 
-export default BlizzardOAuth;
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        setLoading: pushBlockingEventAction
+    }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(BlizzardOAuth);
