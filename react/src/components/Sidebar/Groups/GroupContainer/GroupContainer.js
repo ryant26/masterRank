@@ -35,11 +35,19 @@ export class GroupContainer extends Component {
                 } 
             }
             setTimeout(() => {
-                    this.cancelInvite(this.pendingHeroes[0]);
-                    this.pendingHeroes.shift();
+                // if the user does not exist in the members store and user exists in the pending store
+                // it means he has not joined as a member or been cancelled earlier
+                // so we cancel the invite after the timeout
+                if ((!this.props.group.members || this.props.group.members.indexOf(this.pendingHeroes[0]) === -1) &&
+                    this.props.group.pending.indexOf(this.pendingHeroes[0] !== -1)) {
+                        this.cancelInvite(this.pendingHeroes[0]);
+                }
+                this.pendingHeroes.shift();
             }, 30000);
         }
     }
+
+    clearTimeouts() {}
 
     createGroup() {
         Model.createNewGroup(this.props.preferredHeroes.heroes[0]);
@@ -101,7 +109,7 @@ export class GroupContainer extends Component {
             return <GroupHeroCard hero={hero} number={i} userName={usersName} key={i} />;
         });
 
-        renderPendingCards = this.props.group.pending.map((hero) => {
+        renderPendingCards = this.pendingHeroes.map((hero) => {
             i = i + 1;
             let usersName = hero.platformDisplayName;
             if (this.props.user.platformDisplayName === usersName) {
