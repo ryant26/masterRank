@@ -9,7 +9,7 @@ export default class GroupHeroCard extends Component {
     constructor(props) {
         super(props); 
         this.state = {
-             count: 30
+             count: props.count
         };
         this.pending = props.pending;
         this.leader = props.leader;
@@ -27,6 +27,12 @@ export default class GroupHeroCard extends Component {
 
     tick () {
         this.setState({count: (this.state.count - 1)});
+        this.props.parentTick(this.props.hero, this.state.count);
+        // console.log(this.props.count);
+        if(this.state.count == 0) {
+            this.setState({count: (this.props.count)});
+            // clearInterval(this.timer);
+        }
     }
 
     render() {
