@@ -115,6 +115,7 @@ class PreferredHeroesContainer extends Component {
                         clearHeroPreference={this.clearHeroPreference}
                         preferredHeroes={this.state.pendingPreferredHeroes}
                         selectedHeroSlot={this.state.selectedSlot}
+                        closeModal={this.closeModal}
                     />
                 </Modal>
             </div>
