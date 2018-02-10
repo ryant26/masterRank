@@ -7,6 +7,7 @@ import UserCard from '../UserCard/UserCard';
 import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
 import Invites from './Invites/InvitesContainer';
 import Group from './Groups/GroupContainer/GroupContainer';
+import GroupContainer from '../GroupContainer/GroupContainer';
 import SidebarFooter from './SidebarFooter/SidebarFooter';
 
 const Sidebar = ({user, region}) => {
@@ -19,6 +20,7 @@ const Sidebar = ({user, region}) => {
                 <UserCard user={user} region={region}/>
                 <PreferredHeroes/>
                 <Invites/>
+                <GroupContainer />
                 <Group />
             </div>
             <div className="footer">

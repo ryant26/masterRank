@@ -12,7 +12,7 @@ import GroupReducer from '../../../../reducers/GroupReducer';
 
 const mockStore = configureStore();
 
-describe('Group Hero Container',() => {
+xdescribe('Group Hero Container',() => {
     let store;
 
     beforeEach(() => {
