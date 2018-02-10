@@ -72,15 +72,17 @@ describe('Authentication', () => {
     describe('when fetching a user', () => {
         let connectAuthenticationContainer;
 
-        beforeEach( async () => {
+        beforeEach( () => {
             mockLocalStorage();
             setCookie('access_token', token);
-            window.fetch = jest.fn().mockImplementation(() => Promise.resolve(
+            let fetchPromise = Promise.resolve(
                 mockResponse(200, null, user)
-            ));
+            );
+            window.fetch = jest.fn().mockImplementation(() => fetchPromise);
 
             connectAuthenticationContainer = getConnectAuthenticationContainer();
-            await connectAuthenticationContainer.dive();
+            connectAuthenticationContainer.dive();
+            return fetchPromise;
         });
 
         it('should move access token in cookies to local storage', () => {
