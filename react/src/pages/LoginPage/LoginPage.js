@@ -22,17 +22,17 @@ class LoginPage extends Component {
         };
         this.props.updateRegionAction(this.state.region);
 
-        this.onPlatformClick = this.onPlatformClick.bind(this);
-        this.onRegionClick = this.onRegionClick.bind(this);
+        this.onPlatformChange = this.onPlatformChange.bind(this);
+        this.onRegionChange = this.onRegionChange.bind(this);
     }
 
-    onPlatformClick(event) {
+    onPlatformChange(event) {
         this.setState({
             platform: event.target.value,
         });
     }
 
-    onRegionClick(event) {
+    onRegionChange(event) {
         this.props.updateRegionAction(event.target.value);
         this.setState({
             region: event.target.value,
@@ -53,8 +53,8 @@ class LoginPage extends Component {
                         <h3>Find your Battle.net, PSN, or XBL account</h3>
                     </div>
                     <div className="preference-selectors flex justify-around">
-                        <PlatformSelection handleOptionChange={this.onPlatformClick} selectedPlatform={this.state.platform}/>
-                        <RegionSelection handleOptionChange={this.onRegionClick} selectedRegion={this.state.region}/>
+                        <PlatformSelection onChange={this.onPlatformChange} selectedPlatform={this.state.platform}/>
+                        <RegionSelection onChange={this.onRegionChange} selectedRegion={this.state.region}/>
                     </div>
                 </div>
                 { this.state.platform === 'pc'
