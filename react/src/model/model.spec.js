@@ -115,12 +115,10 @@ describe('Model', () => {
 
             it('should create a new group for the current user if the hero added is the first preferred hero', () => {
                 // TODO: this test is kinda hard to do
-                // how to mock socket event? 
             });
 
             xit('should promote leader of the group for the current user if the hero added replaces the first preferred hero', () => {
                 // TODO: this test is kinda hard to do
-                // how to mock socket event? 
             });
         });
 
@@ -370,7 +368,6 @@ describe('Model', () => {
             });
             xit('should set a new group in the state with your hero as group leader', () => {
                 // TODO: this test is kinda hard to do
-               // how to mock socket event? 
             });
         });
 
@@ -380,7 +377,6 @@ describe('Model', () => {
             });
             xit('should set a new group in the state with invited user', () => {
                 // TODO: this test is kinda hard to do
-               // how to mock socket event? 
             });
         });
 
@@ -390,7 +386,6 @@ describe('Model', () => {
             });
             xit('should remove the current user from the group specified', () => {
                 // TODO: this test is kinda hard to do
-                // how to mock socket event? 
             });
         });
 
@@ -400,7 +395,6 @@ describe('Model', () => {
             });
             xit('should set a new group in the state with pending user missing', () => {
                 // TODO: this test is kinda hard to do
-                // how to mock socket event? 
             });
         });
 
