@@ -5,16 +5,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Model from '../../../model/model';
-import HeroImage from '../../HeroImage/HeroImage';
+import Model from '../../../../model/model';
+import HeroImage from '../../../HeroImage/HeroImage';
+import MemberCardInfo from './MemberCardInfo/MemberCardInfo';
 
 const classNames = require('classnames');
 
-class TimerMemberCard extends Component {
+class MemberCard extends Component {
 
     constructor(props) {
         super(props);
-        //TODO: unhardcode counter
+        //TODO: Where should i define the invite time out value? hardcoded here, or pulled out somewhere?
         this.state = {
             timer: null,
             inviteTimeoutSeconds: 5
@@ -42,7 +43,6 @@ class TimerMemberCard extends Component {
     }
 
     cancelInvite() {
-        alert(`${this.props.member.heroName}`);
         Model.cancelInvite({
            platformDisplayName: this.props.member.platformDisplayName,
            heroName: this.props.member.heroName
@@ -58,7 +58,7 @@ class TimerMemberCard extends Component {
         });
 
         return (
-            <div className="GroupHeroCard flex align-center">
+            <div className="MemberCard flex align-center">
                 <div className="numberBox flex align-center sidebar-title numbers">{this.props.number}</div>
 
                 <div className="countdownTimer">
@@ -70,20 +70,18 @@ class TimerMemberCard extends Component {
                     </div>
                 </div>
 
-                <div className="imageStylePadding">
-                    <div className="flex justify-between">
-                        {this.props.member.platformDisplayName}
-                    </div>
-                    <div className="inLine1">
-                        <div>{this.props.member.heroName}</div>
-                    </div>
-                </div>
+                <MemberCardInfo
+                    platformDisplayName={this.props.member.platformDisplayName}
+                    heroName={this.props.member.heroName}
+                    pending={this.props.pending}
+                    leader={this.props.leader}
+                />
             </div>
         );
     }
 };
 
-TimerMemberCard.propTypes = {
+MemberCard.propTypes = {
     member: PropTypes.shape({
         heroName: PropTypes.string.isRequired,
         platformDisplayName: PropTypes.string.isRequired,
@@ -92,4 +90,4 @@ TimerMemberCard.propTypes = {
     }).isRequired
 };
 
-export default TimerMemberCard;
+export default MemberCard;
