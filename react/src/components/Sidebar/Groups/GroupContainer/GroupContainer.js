@@ -18,16 +18,24 @@ export class GroupContainer extends Component {
         this.cancelInvite = this.cancelInvite.bind(this);
         this.showGroupStats = this.showGroupStats.bind(this);
         this.hideGroupStats = this.hideGroupStats.bind(this);
+
         this.parentTick = this.parentTick.bind(this);
+        this.setTimers = this.setTimers.bind(this);
+
         this.pendingHeroes = [];
         this.state = {
             modalOpen: false,
-            pendingHeroCounts: {}
+            pendingHeroCounts: {},
+            timers: {}
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setTimers(nextProps);
+    }
+
     componentDidUpdate() {
-        if (this.props.group.pending.length > this.pendingHeroes.length) {
+        if (this.props.group.pending.length >= this.pendingHeroes.length) {
             for (let i = 0; i < this.props.group.pending.length; i++) {
                 if (!this.containsPlatformDisplayName(this.props.group.pending[i].platformDisplayName, this.pendingHeroes)) {
                     let heroObject = {
@@ -35,36 +43,49 @@ export class GroupContainer extends Component {
                         heroName: this.props.group.pending[i].heroName
                     };
                     this.pendingHeroes.push(heroObject);
-                    this.setState(() => {
-                        pendingHeroCounts: this.state.pendingHeroCounts[heroObject.platformDisplayName] = 30;
-                    });
                 } 
             }
+        }
+    }
+
+    componentWillUnmount() {
+        Model.leaveGroup(this.props.group.groupId);
+        for(let key in this.state.timers) {
+            clearInterval(this.state.timers[key]);
+        }
+    }
 
 
-            // setTimeout(() => {
-            //     // if the user does not exist in the members store and user exists in the pending store
-            //     // it means he has not joined as a member or been cancelled earlier
-            //     // so we cancel the invite after the timeout
-            //     if ((!this.props.group.members || this.props.group.members.indexOf(this.pendingHeroes[0]) === -1) &&
-            //         this.props.group.pending.indexOf(this.pendingHeroes[0] !== -1)) {
-            //             this.cancelInvite(this.pendingHeroes[0]);
-            //     }
-            //     this.pendingHeroes.shift();
-            // }, 30000);
+    setTimers(nextProps) {
+        if(nextProps.group.pending){
+            let currentTimers = this.state.timers;
+            nextProps.group.pending.map((member) => {
+                let currentCounts = this.state.pendingHeroCounts;
+                if (!currentCounts[member.platformDisplayName] || currentCounts[member.platformDisplayName]<=1) {
+                    currentCounts[member.platformDisplayName] = 10;
+                }
+                this.setState({
+                    pendingHeroCounts: currentCounts
+                });
+            });
+
+            this.setState({
+                timers: currentTimers
+            });
         }
     }
 
     parentTick (hero, currentTime) {
-        this.setState(() => {
-                pendingHeroCounts: this.state.pendingHeroCounts[hero.platformDisplayName] = currentTime;
+        let currentCounts = this.state.pendingHeroCounts;
+        currentCounts[hero.platformDisplayName] = currentTime;
+        this.setState({
+            pendingHeroCounts: currentCounts
         });
-
         if ((!this.props.group.members || this.props.group.members.indexOf(this.pendingHeroes[0]) === -1) &&
         this.props.group.pending.indexOf(this.pendingHeroes[0] !== -1)) {
-            if (this.state.pendingHeroCounts[hero.platformDisplayName] === 0) {
+            if (this.state.pendingHeroCounts[hero.platformDisplayName] <= 0) {
                 this.cancelInvite(this.pendingHeroes[0]);
-                this.pendingHeroes.shift();
+                this.pendingHeroes.shift();                
             }
         }
     }
@@ -137,8 +158,9 @@ export class GroupContainer extends Component {
             if (this.props.user.platformDisplayName === usersName) {
                 usersName = 'You';
             }
-
-            return <GroupHeroCard hero={hero} number={i} userName={usersName} key={i} pending={true} count={this.state.pendingHeroCounts[hero.platformDisplayName]} parentTick={this.parentTick}/>;
+            if (this.state.pendingHeroCounts[hero.platformDisplayName] !== 0){
+                return <GroupHeroCard hero={hero} number={i} userName={usersName} key={i} pending={true} count={this.state.pendingHeroCounts[hero.platformDisplayName]} parentTick={this.parentTick}/>;
+            }
         });
 
         renderGroupAndButtons = 
@@ -198,9 +220,9 @@ export class GroupContainer extends Component {
 }
 
 GroupContainer.propTypes = {
-    group: PropTypes.object.isRequired,
-    preferredHeroes: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    group: PropTypes.object,
+    preferredHeroes: PropTypes.object,
+    user: PropTypes.object
 };
 
 const mapStateToProps = (state) => {

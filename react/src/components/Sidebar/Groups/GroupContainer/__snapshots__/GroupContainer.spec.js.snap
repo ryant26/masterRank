@@ -38,9 +38,7 @@ exports[`Group Hero Container should not render leave group when you are the lea
             className="countdown-container flex align-center justify-center"
             onClick={undefined}
           >
-            <div>
-              30
-            </div>
+            <div />
           </div>
         </div>
       </div>
@@ -88,9 +86,7 @@ exports[`Group Hero Container should not render leave group when you are the lea
               className="countdown-container flex align-center justify-center"
               onClick={undefined}
             >
-              <div>
-                30
-              </div>
+              <div />
             </div>
           </div>
         </div>
@@ -149,9 +145,7 @@ exports[`Group Hero Container should render a group leader as first member 1`] =
             className="countdown-container flex align-center justify-center"
             onClick={undefined}
           >
-            <div>
-              30
-            </div>
+            <div />
           </div>
         </div>
       </div>
@@ -236,9 +230,7 @@ exports[`Group Hero Container should render four pending members plus you and th
             className="countdown-container flex align-center justify-center"
             onClick={undefined}
           >
-            <div>
-              30
-            </div>
+            <div />
           </div>
         </div>
       </div>

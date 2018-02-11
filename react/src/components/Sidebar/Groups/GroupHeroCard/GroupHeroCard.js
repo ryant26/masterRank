@@ -13,6 +13,7 @@ export default class GroupHeroCard extends Component {
         };
         this.pending = props.pending;
         this.leader = props.leader;
+        this.oldFuck = props.userName;
     }
 
     componentDidMount() {
@@ -21,18 +22,22 @@ export default class GroupHeroCard extends Component {
         }
     }
 
+    shouldComponentUpdate() {
+        if (this.props.userName != this.oldFuck) {
+            this.oldFuck = this.props.userName;
+            this.setState({count: (this.props.count)});
+            return false;
+        }
+        return true;
+    }
+
     componentWillUnmount () {
         clearInterval(this.timer);
     }
 
     tick () {
-        this.setState({count: (this.state.count - 1)});
+        this.setState({count: (this.state.count - 1)});            
         this.props.parentTick(this.props.hero, this.state.count);
-        // console.log(this.props.count);
-        if(this.state.count == 0) {
-            this.setState({count: (this.props.count)});
-            // clearInterval(this.timer);
-        }
     }
 
     render() {
@@ -71,7 +76,6 @@ export default class GroupHeroCard extends Component {
                     </div>
                     <div className="inLine1">
                         <div>{hero.heroName}</div>
-                        
                     </div>
                 </div>
             );
@@ -96,10 +100,12 @@ export default class GroupHeroCard extends Component {
 
 GroupHeroCard.propTypes = {
     hero: PropTypes.shape({
-        heroName: PropTypes.string.isRequired
-    }).isRequired,
-    number: PropTypes.number.isRequired,
-    userName: PropTypes.string.isRequired,
+        heroName: PropTypes.string
+    }),
+    number: PropTypes.number,
+    userName: PropTypes.string,
     pending: PropTypes.bool,
-    leader: PropTypes.bool
+    leader: PropTypes.bool,
+    count: PropTypes.number,
+    parentTick: PropTypes.function
 };
