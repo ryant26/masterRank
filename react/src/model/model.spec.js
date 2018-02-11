@@ -13,6 +13,16 @@ const initializeSocket = function() {
     return websocket;
 };
 
+const _groupLeader = {
+    platformDisplayName: 'PwNShoPP',
+    heroName: 'genji'
+};
+
+const _groupMember = {
+    platformDisplayName: 'wisesm0#1147',
+    heroName: 'dva'
+};
+
 let generateHero = function(heroName='hero', platformDisplayName=token.platformDisplayName, preference=1) {
     return {platformDisplayName, heroName, preference};
 };
@@ -25,9 +35,14 @@ let generateUser = function(platformDisplayName=token.platformDisplayName, regio
     return {platformDisplayName, region, platform};
 };
 
-// let generateGroup = function() {
-
-// };
+let generateGroup = function(groupId=1, leader=_groupLeader, members=[], pending=[]) {
+    return {
+        groupId: groupId,
+        leader: leader,
+        members: members,
+        pending: pending
+    };
+};
 
 describe('Model', () => {
     let store;
@@ -116,18 +131,12 @@ describe('Model', () => {
                 expect(store.getState().preferredHeroes.heroes).toEqual([]);
             });
 
-            xit('should create a new group for the current user if the hero added is the first preferred hero', () => {
-                let heroObject = 'hero';
-                model.addPreferredHero(heroObject, 1);
-                socket.socketClient.emit(clientEvents.createGroup, heroObject);
-                expect(store.getState().group.leader).toEqual({
-                    platformDisplayName: 'PwNShoPP', 
-                    heroName: heroObject
-                });
+            it('should create a new group for the current user if the hero added is the first preferred hero', () => {
+                // TODO: this test is kinda hard to do
             });
 
             xit('should promote leader of the group for the current user if the hero added replaces the first preferred hero', () => {
-
+                // TODO: this test is kinda hard to do
             });
         });
 
@@ -165,37 +174,86 @@ describe('Model', () => {
         });
 
         describe('Group Promoted Leader', () => {
-            xit('should update the group with a new leader', () => {
-                // let promotedLeaderObject = generateLeaderGroup();
-                // socket.socketClient.emit(clientEvents.groupPromotedLeader, promotedLeaderObject);
-                // expect(store.getState().group).toEqual(promotedLeaderObject);
+            let initialLeader;
+            let promotedLeaderObject;
+
+            beforeEach(() => {
+                initialLeader = store.getState().group.leader;
+                promotedLeaderObject = generateGroup();
+                socket.socketClient.emit(clientEvents.groupPromotedLeader, promotedLeaderObject);                
+            });
+
+            it('should update the group', () => {
+                expect(store.getState().group).toEqual(promotedLeaderObject);
+            });
+
+            it('should change store group leader', () => {
+                expect(store.getState().group.leader).not.toEqual(initialLeader);
             });
         });
 
         describe('Player Invited', () => {
-            xit('should update the group with a new pending user', () => {
-            //     let groupInvitePendingObject = generatePendingObject();
-            //     socket.socketClient.emit(clientEvents.groupPromotedLeader, groupInvitePendingObject);
-            //     expect(store.getState().group).toEqual(groupInvitePendingObject);
+            let initialPending;
+            let groupInvitePendingObject;
+
+            beforeEach(() => {
+                initialPending = store.getState().group.pending;
+                groupInvitePendingObject = generateGroup(1,_groupLeader,[],[_groupMember]);
+                socket.socketClient.emit(clientEvents.playerInvited, groupInvitePendingObject);
+            });
+
+            it('should update the group store with passed object pending', () => {
+                expect(store.getState().group).toEqual(groupInvitePendingObject);
+            });
+
+            it ('should change the store group pending object', () => {
+                expect(store.getState().group.pending).not.toEqual(initialPending);
             });
         });
 
         describe('Group Hero Left', () => {
-            xit('should update the group by removing the specified user', () => {
-            //     let groupHeroExistsObject = generateCurrentGroup();
-            //     expect(store.getState().group).toEqual(groupHeroExistsObject);
+            let initialMembers;
+            let groupHeroLeftObject;
 
-            //     let groupHeroLeftObject = generateLeftObject();
-            //     socket.socketClient.emit(clientEvents.groupPromotedLeader, groupHeroLeftObject);
-            //     expect(store.getState().group).toEqual(groupHeroLeftObject);
+            beforeEach(() => {
+                initialMembers = store.getState().group.members;
+                groupHeroLeftObject = generateGroup(1,_groupLeader,[_groupMember],[]);
+                socket.socketClient.emit(clientEvents.groupHeroLeft, groupHeroLeftObject);
+            });
+
+            it('should update the group', () => {
+                expect(store.getState().group).toEqual(groupHeroLeftObject);
+            });
+
+            it('should change the store group member object', () => {
+                expect(store.getState().group.members).not.toEqual(initialMembers);
+             });
+
+             xit('should handle group leave error event', () => {
+                // TODO: does nothing right now
             });
         });
 
         describe('Group Invite Canceled', () => {
-            xit('should remove the specified pending hero from the group', () => {
-            //     let groupHeroCancelledObject = generateCanceledObject();
-            //     socket.socketClient.emit(clientEvents.groupInviteCanceled, groupHeroCancelledObject);
-            //     expect(store.getState().group).toEqual(groupHeroCancelledObject);
+            let initialPending;
+            let groupHeroCancelledObject;
+
+            beforeEach(() => {
+                initialPending = store.getState().group.pending;
+                groupHeroCancelledObject = generateGroup(1,_groupLeader,[],[_groupMember]);
+                socket.socketClient.emit(clientEvents.groupInviteCanceled, groupHeroCancelledObject);
+            });
+
+            it('should update the group', () => {
+                expect(store.getState().group).toEqual(groupHeroCancelledObject);
+            });
+
+            it('should change the store group pending object', () => {
+                expect(store.getState().group.pending).not.toEqual(initialPending);
+            });
+
+            xit('should handle group cancel error event', () => {
+                // TODO: does nothing right now
             });
         });
     });
@@ -324,10 +382,10 @@ describe('Model', () => {
 
         describe('createNewGroup', () => {
             xit('should fire createGroup socket event', () => {
-
+                // expect(socket.createGroup).isCalled();
             });
-            xit('should set a new group in the state with group leader', () => {
-
+            xit('should set a new group in the state with your hero as group leader', () => {
+                // TODO: this test is kinda hard to do
             });
         });
 
@@ -336,7 +394,7 @@ describe('Model', () => {
 
             });
             xit('should set a new group in the state with invited user', () => {
-
+                // TODO: this test is kinda hard to do
             });
         });
 
@@ -344,8 +402,8 @@ describe('Model', () => {
             xit('should fire groupLeave socket event', () => {
 
             });
-            xit('should return the same group with the missing user', () => {
-
+            xit('should remove the current user from the group specified', () => {
+                // TODO: this test is kinda hard to do
             });
         });
 
@@ -354,7 +412,7 @@ describe('Model', () => {
 
             });
             xit('should set a new group in the state with pending user missing', () => {
-
+                // TODO: this test is kinda hard to do
             });
         });
 
