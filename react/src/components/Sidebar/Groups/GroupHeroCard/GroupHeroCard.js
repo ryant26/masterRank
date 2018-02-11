@@ -1,32 +1,98 @@
-import React from 'react';
+import React, { Component } from 'react';
 import HeroImage from '../../../HeroImage/HeroImage';
 import PropTypes from 'prop-types';
 
-const GroupHeroCard = ({hero, number, userName, pending, leader}) =>  {
+const classNames = require('classnames');
 
-    if (pending) {
-        userName = userName + ' - Pending';
+export default class GroupHeroCard extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+             count: props.count
+        };
+        this.pending = props.pending;
+        this.leader = props.leader;
     }
 
-    if (leader) {
-        userName = userName + ' - Leader';
+    componentDidMount() {
+        if (this.pending) {
+            this.timer = setInterval(this.tick.bind(this), 1000);
+        }
     }
 
-    return (
-        <div className="GroupHeroCard flex align-center">
-            <div className="numberBox flex align-center sidebar-title numbers">{number}</div>
-            <HeroImage className="HeroImage" heroName={hero.heroName}/>
-            <div className="imageStylePadding">
-                <div className="flex justify-between">
-                    {userName}   
+    componentWillUnmount () {
+        clearInterval(this.timer);
+    }
+
+    tick () {
+        this.setState({count: (this.state.count - 1)});
+        this.props.parentTick(this.props.hero, this.state.count);
+        // console.log(this.props.count);
+        if(this.state.count == 0) {
+            this.setState({count: (this.props.count)});
+            // clearInterval(this.timer);
+        }
+    }
+
+    render() {
+        let hero = this.props.hero;
+        let number = this.props.number;
+        let userName = this.props.userName;
+        let isPending = this.props.pending;
+        let leader = this.props.leader;
+        let userText;
+
+        const classses = classNames({
+            overlay: true,
+            pending: this.props.pending
+        });
+
+        if (leader) {
+            userName = userName + ' - Leader';
+            userText = (
+                <div className="imageStylePadding">
+                    <div className="flex justify-between">
+                        {userName}
+                    </div>
+                    <div className="inLine1">
+                        <div>{hero.heroName}</div>
+                    </div>
                 </div>
-                <div className="inLine1">
-                    <div>{hero.heroName}</div>
+            );
+        }
+
+        if (isPending) {
+            userName = userName + ' - Pending';
+            userText = (
+                <div className="imageStylePadding">
+                    <div className="flex justify-between">
+                        {userName}
+                    </div>
+                    <div className="inLine1">
+                        <div>{hero.heroName}</div>
+
+                    </div>
                 </div>
+            );
+        }
+
+        return (
+            <div className="GroupHeroCard flex align-center">
+                <div className="numberBox flex align-center sidebar-title numbers">{number}</div>
+                <div className="countdownTimer">
+                    <HeroImage className="HeroImage" heroName={hero.heroName}/>
+                    <div className={classses}>
+                        <div className="countdown-container flex align-center justify-center" onClick={this.invitePlayer}>
+                            <div>{this.state.count}</div>
+                        </div>
+                    </div>
+                </div>
+                {userText}
             </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
 GroupHeroCard.propTypes = {
     hero: PropTypes.shape({
@@ -37,5 +103,3 @@ GroupHeroCard.propTypes = {
     pending: PropTypes.bool,
     leader: PropTypes.bool
 };
-
-export default GroupHeroCard;
