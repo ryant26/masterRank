@@ -19,7 +19,7 @@ describe('PlatformSelection', () => {
 
     it('should render plat-1 input and label text when page loads', () => {
         expect(PlatformSelectionComponent.find('input').at(0).html())
-            .toBe('<input type="radio" id="plat-1" name="platform" value="pc" checked=""/>');
+            .toBe('<input type="radio" id="plat-1" name="platform" value="pc"/>');
         expect(PlatformSelectionComponent.find('label').at(0).text()).toBe('Battle.net');
     });
 

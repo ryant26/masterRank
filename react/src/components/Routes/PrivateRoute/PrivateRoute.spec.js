@@ -13,7 +13,9 @@ import { users as arrayUsers} from '../../../resources/users';
 
 const getPrivateRouteComponent = (component, user) => {
     let mockStore = configureStore();
-    let store = mockStore({});
+    let store = mockStore({
+        loading: {blockUI: 0}
+    });
     return mount(
         <Provider  store={store}>
             <MemoryRouter>
