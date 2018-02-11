@@ -21,7 +21,13 @@ class GroupContainer extends Component {
     }
 
     componentDidMount() {
-        Model.createNewGroup(this.props.preferredHeroes.heroes[0]);
+        //TODO: should it create a new group every refresh
+        //TODO: What should happen if user has no preferred heroes?
+        //TODO: when should we make the group then?
+        alert(this.props.group.groupId)
+        if(!this.props.group.groupId) {
+            Model.createNewGroup(this.props.preferredHeroes.heroes[0]);
+        }
     }
 
     componentWillUnmount() {
@@ -52,23 +58,23 @@ class GroupContainer extends Component {
                         />
                     }
                     { members &&
-                        members.map((member, i) => {
+                        members.map((member, i) =>
                             <MemberCard
                                 member={member}
                                 number={(i + 2)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
-                        })
+                        )
                     }
                     { pendingMembers &&
-                        pendingMembers.map((member, i) => {
+                        pendingMembers.map((member, i) =>
                             <MemberCard
                                 member={member}
                                 number={(i + 2)}
                                 pending={true}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
-                        })
+                        )
                     }
                     <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
                         <div className="button-content">
