@@ -2,15 +2,20 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import BlizzardOAuth from './BlizzardOAuth';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore();
 
 describe('BlizzardOAuth', () => {
 
     let BlizzardOAuthComponent;
+    let store;
 
     beforeEach(() => {
+        store = mockStore({});
         BlizzardOAuthComponent = shallow(
-            <BlizzardOAuth region="us"/>
-        );
+            <BlizzardOAuth region="us" store={store}/>
+        ).dive();
     });
 
     it('should render when component loads', () => {
@@ -28,5 +33,14 @@ describe('BlizzardOAuth', () => {
         });
         BlizzardOAuthComponent.find('button').simulate('click');
         expect(window.location.assign).toHaveBeenCalledWith('/auth/bnet/callback?region=ANY_REGION');
+    });
+
+    it('should call the setLoading function when button is clicked', () => {
+        let setLoading = jest.fn();
+        BlizzardOAuthComponent.setProps({setLoading});
+
+        expect(setLoading).not.toHaveBeenCalled();
+        BlizzardOAuthComponent.find('button').simulate('click');
+        expect(setLoading).toHaveBeenCalled();
     });
 });

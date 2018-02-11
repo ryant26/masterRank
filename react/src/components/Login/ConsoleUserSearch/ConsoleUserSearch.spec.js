@@ -41,7 +41,7 @@ describe('ConsoleUserSearch', () => {
 
     it('should render search box and button when component mounts', () => {
         expect(ConsoleUserSearchComponent.find('input')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('.input-button')).toHaveLength(1);
+        expect(ConsoleUserSearchComponent.find('.button-primary')).toHaveLength(1);
     });
 
     it('should load search box placeholder to "Enter Full XBL or PSN Gamertag..." when page loads', () => {
@@ -50,7 +50,7 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should disable search button when page loads', () => {
-        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(true);
+        expect(ConsoleUserSearchComponent.find('.button-primary').prop('disabled')).toBe(true);
     });
 
     it('should change state displayName when a value is input into the search bar', () => {
@@ -72,7 +72,7 @@ describe('ConsoleUserSearch', () => {
         });
         expect(ConsoleUserSearchComponent.find(UserSelector)).toHaveLength(1);
         expect(ConsoleUserSearchComponent.find('input')).toHaveLength(1);
-        expect(ConsoleUserSearchComponent.find('.input-button')).toHaveLength(1);
+        expect(ConsoleUserSearchComponent.find('.button-primary')).toHaveLength(1);
 
         let UserSelectorComponent = ConsoleUserSearchComponent.find(UserSelector);
         expect(UserSelectorComponent).toHaveLength(1);
@@ -115,11 +115,11 @@ describe('ConsoleUserSearch', () => {
     });
 
     it('should enable search button once a display name is given', () => {
-        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(true);
+        expect(ConsoleUserSearchComponent.find('.button-primary').prop('disabled')).toBe(true);
         ConsoleUserSearchComponent.setState({
             displayName: arrayUsers[0].platformDisplayName
         });
-        expect(ConsoleUserSearchComponent.find('.input-button').prop('disabled')).toBe(false);
+        expect(ConsoleUserSearchComponent.find('.button-primary').prop('disabled')).toBe(false);
     });
 
     describe('when displayName is entered and search button is clicked', () => {
@@ -129,7 +129,7 @@ describe('ConsoleUserSearch', () => {
                 displayName: displayName
             });
             window.fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
-            ConsoleUserSearchComponent.find('.input-button').simulate('click');
+            ConsoleUserSearchComponent.find('.button-primary').simulate('click');
         });
 
         it('should set state isSearching to true', () => {
