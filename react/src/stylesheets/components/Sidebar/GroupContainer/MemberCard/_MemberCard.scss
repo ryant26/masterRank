@@ -8,17 +8,8 @@
     border: solid 1px $gray6;
     max-height: 60px;
 
-    .imageStylePadding {
-        padding: 10px 10px 10px 10px;
-        width:100%;
-    }
-
     .HeroImage {
         @include square;
-    }
-
-    .inLine1 {
-        color: $gray3;
     }
 
     .numberBox {

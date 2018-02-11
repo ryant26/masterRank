@@ -1,8 +1,6 @@
 import React, {
     Component
 } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Model from '../../../../model/model';
@@ -18,8 +16,8 @@ class MemberCard extends Component {
         //TODO: Where should i define the invite time out value? hardcoded here, or pulled out somewhere?
         this.state = {
             timer: null,
-            inviteTimeoutSeconds: 5
-        }
+            inviteTimeoutSeconds: 30
+        };
 
         this.tick = this.tick.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
@@ -37,9 +35,9 @@ class MemberCard extends Component {
     tick() {
         if(this.state.inviteTimeoutSeconds <= 0) {
             this.cancelInvite();
+        } else {
+            this.setState({inviteTimeoutSeconds: (this.state.inviteTimeoutSeconds - 1)});
         }
-
-        this.setState({inviteTimeoutSeconds: (this.state.inviteTimeoutSeconds - 1)});
     }
 
     cancelInvite() {
@@ -79,7 +77,7 @@ class MemberCard extends Component {
             </div>
         );
     }
-};
+}
 
 MemberCard.propTypes = {
     member: PropTypes.shape({
@@ -87,7 +85,10 @@ MemberCard.propTypes = {
         platformDisplayName: PropTypes.string.isRequired,
         skillRating: PropTypes.number,
         stats: PropTypes.object,
-    }).isRequired
+    }).isRequired,
+    number: PropTypes.number.isRequired,
+    pending: PropTypes.bool,
+    leader: PropTypes.bool,
 };
 
 export default MemberCard;

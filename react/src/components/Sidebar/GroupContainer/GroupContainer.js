@@ -15,7 +15,7 @@ class GroupContainer extends Component {
         super(props);
         this.state = {
             showModal: false
-        }
+        };
 
         this.toggleModal = this.toggleModal.bind(this);
     }
@@ -52,23 +52,23 @@ class GroupContainer extends Component {
                         />
                     }
                     { members &&
-                        members.map((member, i) =>
+                        members.map((member, i) => {
                             <MemberCard
                                 member={member}
                                 number={(i + 2)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
-                        )
+                        })
                     }
                     { pendingMembers &&
-                        pendingMembers.map((member, i) =>
+                        pendingMembers.map((member, i) => {
                             <MemberCard
                                 member={member}
                                 number={(i + 2)}
                                 pending={true}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
-                        )
+                        })
                     }
                     <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
                         <div className="button-content">
@@ -82,7 +82,7 @@ class GroupContainer extends Component {
             </div>
         );
     }
-};
+}
 
 GroupContainer.propTypes = {
     group: PropTypes.shape({

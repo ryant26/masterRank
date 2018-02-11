@@ -14,7 +14,7 @@ const getGroupContainerComponent = () => {
     );
 };
 
-describe('GroupContainer', () => {
+xdescribe('GroupContainer', () => {
     let GroupContainerComponent;
 
     beforeEach(() => {

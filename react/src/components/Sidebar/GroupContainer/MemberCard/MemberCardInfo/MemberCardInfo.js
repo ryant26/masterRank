@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const MemberCardInfo = ({ platformDisplayName, heroName, pending, leader }) => {
 
     return (
-        <div className="imageStylePadding">
-            <div className="flex justify-between">
+        <div className="MemberCardInfo">
+            <div className="display-name flex justify-between">
                 { pending
                     ? platformDisplayName + ' - Pending'
                     : leader
@@ -13,7 +13,7 @@ const MemberCardInfo = ({ platformDisplayName, heroName, pending, leader }) => {
                         : platformDisplayName
                 }
             </div>
-            <div className="inLine1">
+            <div className="hero-name">
                 <div>{heroName}</div>
             </div>
         </div>
@@ -23,6 +23,8 @@ const MemberCardInfo = ({ platformDisplayName, heroName, pending, leader }) => {
 MemberCardInfo.propTypes = {
     platformDisplayName: PropTypes.string.isRequired,
     heroName: PropTypes.string.isRequired,
+    pending: PropTypes.bool,
+    leader: PropTypes.bool,
 };
 
 export default MemberCardInfo;
