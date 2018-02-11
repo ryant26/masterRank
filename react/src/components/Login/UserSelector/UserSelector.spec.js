@@ -39,7 +39,7 @@ const getXhrMockClass = () => {
 
 const mockXMLHttpRequest = (xhrMockClass) => {
     window.XMLHttpRequest = jest.fn().mockImplementation(xhrMockClass);
-}
+};
 
 describe('UserSelector', () => {
     window.location.assign = jest.fn();
