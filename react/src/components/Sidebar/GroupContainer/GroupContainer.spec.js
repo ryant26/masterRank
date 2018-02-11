@@ -4,21 +4,34 @@ import configureStore from 'redux-mock-store';
 
 import GroupContainer from './GroupContainer';
 
+import group from '../../../resources/group';
+import { users } from '../../../resources/users';
 
 const mockStore = configureStore();
-const getGroupContainerComponent = () => {
+const getGroupContainerComponent = (group, preferredHeroes, user) => {
     let store = mockStore({});
 
     return shallow(
-       <GroupContainer store={store}/>
+        <GroupContainer
+            group={group}
+            preferredHeroes={preferredHeroes}
+            user={user}
+            store={store}
+        />
     );
 };
 
-xdescribe('GroupContainer', () => {
+describe('GroupContainer', () => {
     let GroupContainerComponent;
+    const user = users[0];
+    const preferredHeroes = [
+        "tracer",
+        "genji",
+        "winston"
+    ];
 
     beforeEach(() => {
-        GroupContainerComponent = getGroupContainerComponent();
+        GroupContainerComponent = getGroupContainerComponent(group, preferredHeroes, user);
     });
 
     it('should render when component loads', () => {

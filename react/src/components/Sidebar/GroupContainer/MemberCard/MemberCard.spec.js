@@ -83,7 +83,7 @@ describe('MemberCard', () => {
     describe('when component will mount', () => {
 
         it('should call setInterval()', () => {
-            jest.useFakeTimers()
+            jest.useFakeTimers();
             expect(setInterval.mock.calls.length).toBe(0);
             MemberCardComponent = getMemberCardComponent(member, number, pending, leader);
             expect(setInterval.mock.calls.length).toBe(1);
@@ -93,7 +93,7 @@ describe('MemberCard', () => {
     describe('when component will unmount', () => {
 
         it('should call clearInterval()', () => {
-            jest.useFakeTimers()
+            jest.useFakeTimers();
             MemberCardComponent = getMemberCardComponent(member, number, pending, leader);
             expect(clearInterval.mock.calls.length).toBe(0);
             MemberCardComponent.unmount();
