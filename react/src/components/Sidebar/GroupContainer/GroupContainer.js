@@ -21,11 +21,7 @@ class GroupContainer extends Component {
     }
 
     componentDidMount() {
-        //TODO: should it create a new group every refresh
-        //TODO: What should happen if user has no preferred heroes?
-        //TODO: when should we make the group then?
-        alert(this.props.group.groupId)
-        if(!this.props.group.groupId) {
+        if(this.props.preferredHeroes) {
             Model.createNewGroup(this.props.preferredHeroes.heroes[0]);
         }
     }
@@ -53,6 +49,7 @@ class GroupContainer extends Component {
                         <MemberCard
                             member={leader}
                             leader={true}
+                            pending={false}
                             number={1}
                             key={[leader.platformDisplayName, leader.heroName]}
                         />
@@ -61,6 +58,8 @@ class GroupContainer extends Component {
                         members.map((member, i) =>
                             <MemberCard
                                 member={member}
+                                leader={false}
+                                pending={false}
                                 number={(i + 2)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
@@ -70,8 +69,9 @@ class GroupContainer extends Component {
                         pendingMembers.map((member, i) =>
                             <MemberCard
                                 member={member}
-                                number={(i + 2)}
+                                leader={false}
                                 pending={true}
+                                number={(members.length + 2 + i)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
                         )
