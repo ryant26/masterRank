@@ -565,6 +565,7 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
     </div>
     <div
       className="button-six flex align-center"
+      onClick={[Function]}
     >
       <div
         className="button-content"

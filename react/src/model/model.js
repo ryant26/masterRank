@@ -15,10 +15,7 @@ import {
 } from "../actions/heroFilters";
 import { updateGroup as updateGroupAction } from '../actions/group';
 import { clientEvents } from "../api/websocket";
-import {
-    addGroupInvite as addGroupInviteAction,
-    removeGroupInvite as removeGroupInviteAction
-} from '../actions/groupInvites';
+import { addGroupInvite as addGroupInviteAction } from '../actions/groupInvites';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
