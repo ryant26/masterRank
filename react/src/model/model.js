@@ -38,7 +38,8 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.playerInvited, (groupInvitePendingObject) => _updateGroupData(groupInvitePendingObject));
     socket.on(clientEvents.groupHeroLeft, (groupHeroLeftObject) => _updateGroupData(groupHeroLeftObject));        
     socket.on(clientEvents.groupInviteCanceled, (groupHeroCancelledObject) => _updateGroupData(groupHeroCancelledObject));
-    
+//    socket.on(clientEvents.groupInviteAccepted, (groupHeroAcceptedObject) => _updateGroupData(groupHeroAcceptedObject));
+
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
     socket.on(clientEvents.error.groupLeave, _groupLeaveErrorHandler);    
     socket.on(clientEvents.error.groupInviteCancel, _groupCancelErrorHandler);
