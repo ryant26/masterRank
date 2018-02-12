@@ -1,11 +1,13 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import {MemoryRouter} from 'react-router-dom';
 import renderer from 'react-test-renderer';
+import { mount } from 'enzyme';
+
 import InvitesGrid from './InvitesGrid';
 import {createStore} from "../../../model/store";
 import groupInvites from '../../../resources/groupInvites';
 import {addGroupInvite} from "../../../actions/groupInvites";
-import {MemoryRouter} from 'react-router-dom';
 
 const getStore = () => {
     let store = createStore();
@@ -17,17 +19,21 @@ const getStore = () => {
 
 const mountWithStore = (store=getStore()) => {
     return mount(
-        <MemoryRouter>
-            <InvitesGrid store={store}/>
-        </MemoryRouter>
+        <Provider store={store}>
+            <MemoryRouter>
+                <InvitesGrid store={store}/>
+            </MemoryRouter>
+        </Provider>
     );
 };
 
 const renderWithStore = (store=getStore()) => {
     return renderer.create(
-        <MemoryRouter>
-            <InvitesGrid store={store}/>
-        </MemoryRouter>
+        <Provider store={store}>
+            <MemoryRouter>
+                <InvitesGrid store={store}/>
+            </MemoryRouter>
+        </Provider>
     );
 };
 

@@ -20,12 +20,6 @@ class GroupContainer extends Component {
         this.toggleModal = this.toggleModal.bind(this);
     }
 
-    componentDidMount() {
-        if(this.props.preferredHeroes) {
-            Model.createNewGroup(this.props.preferredHeroes.heroes[0]);
-        }
-    }
-
     componentWillUnmount() {
         Model.leaveGroup(this.props.group.groupId);
     }
@@ -36,7 +30,6 @@ class GroupContainer extends Component {
         });
     }
 
-    //TODO: make the numbering more obvious leader is always 1, therefore members always start at 2
     render() {
         let leader = this.props.group.leader;
         let members =  this.props.group.members;
@@ -107,9 +100,6 @@ GroupContainer.propTypes = {
             stats: PropTypes.object,
         }),
     }),
-    preferredHeroes: PropTypes.shape({
-        heroes: PropTypes.array
-    }).isRequired,
     user: PropTypes.object.isRequired
 };
 

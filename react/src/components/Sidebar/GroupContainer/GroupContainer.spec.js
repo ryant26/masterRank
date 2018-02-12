@@ -27,6 +27,7 @@ const getGroupContainerComponent = (group, preferredHeroes, user) => {
 describe('GroupContainer', () => {
     let GroupContainerComponent;
     //Make a group with multiple pending and multiple members
+    const group = groupInvites[0];
     const user = users[0];
     const preferredHeroes = {
         heroes: [
@@ -35,26 +36,6 @@ describe('GroupContainer', () => {
             "winston"
         ]
     };
-    const group = groupInvites[0];
-
-
-    describe('when component mounts', () => {
-
-        beforeEach(() => {
-            Model.createNewGroup = jest.fn();
-        });
-
-        it('should not call Model.createNewGroup when prop preferredHeroes is undefined', () => {
-            GroupContainerComponent = getGroupContainerComponent(group, undefined, user);
-            expect(Model.createNewGroup).not.toHaveBeenCalled();
-
-        });
-
-        it('should call Model.createNewGroup when prop preferredHeroes is defined', () => {
-            GroupContainerComponent = getGroupContainerComponent(group, preferredHeroes, user);
-            expect(Model.createNewGroup).toHaveBeenCalledWith(preferredHeroes.heroes[0]);
-        });
-    });
 
     describe('when component unmounts', () => {
 
