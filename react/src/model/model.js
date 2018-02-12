@@ -37,7 +37,6 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
     socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));
-    socket.on(clientEvents.groupInviteCanceled, (groupInviteCanceledObject) => _removeGroupInviteAction(groupInviteCanceledObject));
     socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));
     socket.on(clientEvents.playerInvited, (groupInvitePendingObject) => _updateGroupData(groupInvitePendingObject));
     socket.on(clientEvents.groupHeroLeft, (groupHeroLeftObject) => _updateGroupData(groupHeroLeftObject));        
@@ -164,9 +163,6 @@ const _addGroupInvite = function(groupInviteObject) {
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 
-const _removeGroupInviteAction = function(groupInviteObject) {
-    store.dispatch(removeGroupInviteAction(groupInviteObject));
-};
 const _updateGroupData = function(updatedGroupData) {
     store.dispatch(updateGroupAction(updatedGroupData));
 };

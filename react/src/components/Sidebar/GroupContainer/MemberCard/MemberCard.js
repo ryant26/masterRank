@@ -13,7 +13,6 @@ class MemberCard extends Component {
 
     constructor(props) {
         super(props);
-        //TODO: Where should i define the invite time out value? hardcoded here, or pulled out somewhere?
         this.state = {
             timer: null,
             inviteTimeoutSeconds: 30

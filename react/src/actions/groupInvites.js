@@ -6,10 +6,3 @@ export const addGroupInvite = (invite) => {
     invite
   };
 };
-
-export const removeGroupInvite = (invite) => {
-  return {
-    type: GroupInviteActionTypes.REMOVE_GROUP_INVITE,
-    invite
-  };
-};
