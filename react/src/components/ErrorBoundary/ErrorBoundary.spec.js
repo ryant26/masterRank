@@ -5,7 +5,7 @@ import ErrorBoundary from './ErrorBoundary';
 
 const SomethingsWrong = () => {
   throw Error('Error something went wrong');
-}
+};
 
 const mountErrorBoundaryWithError= () => {
     return mount(

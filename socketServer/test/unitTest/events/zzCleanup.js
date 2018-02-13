@@ -10,7 +10,7 @@ describe('Cleanup Tests', function() {
     let client;
 
     before(function() {
-        let redisUrl = config.get('redisUrl');
+        let redisUrl = `redis://${config.get('redis.host')}:${config.get('redis.port')}`;
         logger.info(`Opening new connection to redis [${redisUrl}]`);
 
         client = redis.createClient({
