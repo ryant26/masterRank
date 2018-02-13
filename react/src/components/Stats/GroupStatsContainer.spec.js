@@ -71,19 +71,34 @@ describe('GroupStatsContainer Component', () => {
        expect(wrapper.find('span.sub-title > b').first().text()).toEqual('2700');
     });
 
-    it('should call Model.leaveGroup when button-six is clicked', () => {
-        Model.leaveGroup = jest.fn();
-        Model.createNewGroup = jest.fn();
-        expect(Model.leaveGroup).not.toHaveBeenCalled();
-        wrapper.find('.button-six').simulate('click');
-        expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
-    });
+    describe('when button-six is clicked', () => {
+        let toggleModal;
 
-    it('should call Model.createNewGroup when button-six is clicked', () => {
-        Model.leaveGroup = jest.fn();
-        Model.createNewGroup = jest.fn();
-        expect(Model.createNewGroup).not.toHaveBeenCalled();
-        wrapper.find('.button-six').simulate('click');
-        expect(Model.createNewGroup).toHaveBeenCalledWith(group.leader);
+        beforeEach(() => {
+            Model.leaveGroup = jest.fn();
+            Model.createNewGroup = jest.fn();
+            toggleModal = jest.fn();
+            wrapper = mount(
+                <GroupStatsContainer group={group} isLeading={false} toggleModal={toggleModal}/>
+            );
+            expect(Model.leaveGroup).not.toHaveBeenCalled();
+            expect(Model.createNewGroup).not.toHaveBeenCalled();
+            expect(toggleModal).not.toHaveBeenCalled();
+        });
+
+        it('should call Model.leaveGroup', () => {
+            wrapper.find('.button-six').simulate('click');
+            expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
+        });
+
+        it('should call Model.createNewGroup', () => {
+            wrapper.find('.button-six').simulate('click');
+            expect(Model.createNewGroup).toHaveBeenCalledWith(group.leader.heroName);
+        });
+
+        it('should call toggleModal', () => {
+            wrapper.find('.button-six').simulate('click');
+            expect(toggleModal).toHaveBeenCalled();
+        });
     });
 });

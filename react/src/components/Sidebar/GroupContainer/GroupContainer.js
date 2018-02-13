@@ -76,7 +76,7 @@ class GroupContainer extends Component {
                     </button>
                  </div>
                  <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
-                     <GroupStatsContainer group={this.props.group} isLeading={true}/>
+                     <GroupStatsContainer group={this.props.group} isLeading={true} toggleModal={this.toggleModal}/>
                  </Modal>
             </div>
         );

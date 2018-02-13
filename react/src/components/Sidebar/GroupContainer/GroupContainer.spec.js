@@ -74,6 +74,8 @@ describe('GroupContainer', () => {
             expect(GroupContainerComponent.find(GroupStatsContainer)).toHaveLength(1);
             expect(GroupContainerComponent.find(GroupStatsContainer).prop('group')).toBe(group);
             expect(GroupContainerComponent.find(GroupStatsContainer).prop('isLeading')).toBe(true);
+            expect(GroupContainerComponent.find(GroupStatsContainer).prop('toggleModal'))
+                .toBe(GroupContainerComponent.instance().toggleModal);
         });
     });
 
