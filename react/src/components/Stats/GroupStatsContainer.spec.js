@@ -1,8 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
+
 import groups from '../../resources/groupInvites';
 import GroupStatsContainer from './GroupStatsContainer';
+import Model from '../../model/model';
 
 describe('GroupStatsContainer Component', () => {
     let wrapper;
@@ -67,5 +69,12 @@ describe('GroupStatsContainer Component', () => {
 
     it('should calculate group SR correctly', () => {
        expect(wrapper.find('span.sub-title > b').first().text()).toEqual('2700');
+    });
+
+    it('should call Model.leaveGroup when button-six is clicked', () => {
+        Model.leaveGroup = jest.fn();
+        expect(Model.leaveGroup).not.toHaveBeenCalled();
+        wrapper.find('.button-six').simulate('click');
+        expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
     });
 });

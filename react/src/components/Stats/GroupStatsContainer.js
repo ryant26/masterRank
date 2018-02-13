@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
+import Model from '../../model/model';
 
 const GroupStatsContainer = ({group, isLeading}) => {
     const groupHeroes = [group.leader, ...group.members];
@@ -23,6 +25,10 @@ const GroupStatsContainer = ({group, isLeading}) => {
 
     const groupWinRate = (totalGames ? wins / totalGames : 0) * 100;
     const groupSr = groupHeroes.reduce((sr, hero) => sr + hero.skillRating, 0) / groupHeroes.length;
+
+    const leaveGroup = () => {
+        Model.leaveGroup(group.groupId);
+    };
 
     return (
         <div className="GroupStatsContainer">
@@ -52,7 +58,7 @@ const GroupStatsContainer = ({group, isLeading}) => {
                     <div className="sub-title">
                         <b>Players joined: {groupHeroes.length}/{group.groupSize}</b>
                     </div>
-                    <div className="button-six flex align-center">
+                    <div className="button-six flex align-center" onClick={leaveGroup}>
                         <div className="button-content">
                             LEAVE GROUP
                         </div>
