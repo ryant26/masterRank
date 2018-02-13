@@ -28,6 +28,7 @@ const GroupStatsContainer = ({group, isLeading}) => {
 
     const leaveGroup = () => {
         Model.leaveGroup(group.groupId);
+        Model.createNewGroup(group.leader);
     };
 
     return (

@@ -73,8 +73,17 @@ describe('GroupStatsContainer Component', () => {
 
     it('should call Model.leaveGroup when button-six is clicked', () => {
         Model.leaveGroup = jest.fn();
+        Model.createNewGroup = jest.fn();
         expect(Model.leaveGroup).not.toHaveBeenCalled();
         wrapper.find('.button-six').simulate('click');
         expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
+    });
+
+    it('should call Model.createNewGroup when button-six is clicked', () => {
+        Model.leaveGroup = jest.fn();
+        Model.createNewGroup = jest.fn();
+        expect(Model.createNewGroup).not.toHaveBeenCalled();
+        wrapper.find('.button-six').simulate('click');
+        expect(Model.createNewGroup).toHaveBeenCalledWith(group.leader);
     });
 });
