@@ -28,7 +28,7 @@ const GroupStatsContainer = ({group, isLeading}) => {
 
     const leaveGroup = () => {
         Model.leaveGroup(group.groupId);
-    }
+    };
 
     return (
         <div className="GroupStatsContainer">

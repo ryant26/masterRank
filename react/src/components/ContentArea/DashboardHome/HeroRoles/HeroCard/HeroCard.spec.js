@@ -20,18 +20,34 @@ const getHeroCardComponent = (user, hero, group) => {
 };
 
 describe('HeroCard Component',()=> {
+
+    const containsHero = (members, hero) => {
+        let result = members.find((member) => {
+            return member.platformDisplayName === hero.platformDisplayName;
+        });
+
+        if (result) return true;
+        return false;
+    };
+
     let HeroCardComponent;
     const group = groupInvites[0];
     let user;
     let hero;
 
     beforeEach(() => {
-        user = users[0];
-        hero = heroes[0];
+        user = Object.create(users[0]);
+        hero = Object.create(heroes[0]);
         HeroCardComponent = getHeroCardComponent(user, hero, group);
     });
 
     it('should render without exploding', () => {
+        expect(HeroCardComponent).toHaveLength(1);
+    });
+
+    it('should handle when hero\'s stats object is null', () => {
+        hero.stats = null;
+        HeroCardComponent = getHeroCardComponent(user, hero, group);
         expect(HeroCardComponent).toHaveLength(1);
     });
 
@@ -58,12 +74,6 @@ describe('HeroCard Component',()=> {
         expect(user.platformDisplayName).not.toEqual(hero.platformDisplayName);
         expect(HeroCardComponent.find('.invitable')).toHaveLength(1);
     });
-
-    const containsHero = (members, hero) => {
-        return members.map((member) => {
-            return member.platformDisplayName
-        }).indexOf(hero.platformDisplayName) > -1;
-    }
 
     it('should not set invitable class when hero is already a member in user\'s group', () => {
         hero = group.members[0];

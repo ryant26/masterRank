@@ -65,7 +65,7 @@ class GroupContainer extends Component {
                                 leader={false}
                                 pending={true}
                                 number={(members.length + 2 + i)}
-                                key={[member.platformDisplayName, member.heroName]}
+                                key={member.platformDisplayName}
                             />
                         )
                     }

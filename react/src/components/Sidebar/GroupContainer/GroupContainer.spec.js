@@ -8,7 +8,6 @@ import MemberCard from './MemberCard/MemberCard';
 import Modal from "../../Modal/Modal";
 import GroupStatsContainer from "../../Stats/GroupStatsContainer";
 
-//TODO: why do we even have groups.js, does it match any datastructure we have? or is it a relic?
 import groupInvites from '../../../resources/groupInvites';
 import { users } from '../../../resources/users';
 
@@ -26,7 +25,6 @@ const getGroupContainerComponent = (group, preferredHeroes, user) => {
 
 describe('GroupContainer', () => {
     let GroupContainerComponent;
-    //Make a group with multiple pending and multiple members
     const group = groupInvites[0];
     const user = users[0];
     const preferredHeroes = {
@@ -85,7 +83,7 @@ describe('GroupContainer', () => {
         expect(GroupContainerComponent.find(MemberCard).at(index).prop('leader')).toBe(leader);
         expect(GroupContainerComponent.find(MemberCard).at(index).prop('pending')).toBe(pending);
         expect(GroupContainerComponent.find(MemberCard).at(index).prop('number')).toBe(number);
-        //TODO: key is very important but react is not really made in  away that is confvient to test key.
+        //TODO: key is very important but react is not really made in  away that is convenient to test key.
 //        expect(GroupContainerComponent.find(MemberCard).at(index).key)
 //            .toBe([member.platformDisplayName,member.heroName]);
     };

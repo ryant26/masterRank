@@ -33,10 +33,14 @@ class HeroCard extends Component {
 
     isInvitable(props) {
         const containsHero = (members, hero) => {
-            return members.map((member) => {
-                return member.platformDisplayName
-            }).indexOf(hero.platformDisplayName) > -1;
-        }
+            let result = members.find((member) => {
+                return member.platformDisplayName === hero.platformDisplayName;
+            });
+
+            if (result) return true;
+            return false;
+        };
+
 
         let isUser = props.hero.platformDisplayName === props.user.platformDisplayName;
         let isMemberOfGroup = containsHero(props.group.members, props.hero);

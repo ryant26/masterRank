@@ -51,30 +51,6 @@ describe('HeroRoles Component', () => {
         expect(wrapper.dive().find(HeroCard)).toHaveLength(1);
     });
 
-    it('should match the snapshot', () => {
-        let mockStore = configureStore();
-        let store = mockStore({
-            group: groupInvites[0]
-        })
-        let component = renderer.create(
-            <Provider store={store}>
-                <HeroRoles heroes={heroes} role="tank" user={{platformDisplayName: 'myName'}}/>
-            </Provider>
-        );
-
-        let tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-
-        component = renderer.create(
-            <Provider store ={store}>
-                <HeroRoles heroes={[heroes[0]]} role="offensive" user={{platformDisplayName: 'myName'}}/>
-            </Provider>
-        );
-
-        tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-    });
-
     it('should render container with one hero with correct role', () => {
         const { output } = setup();
         expect(output.props.role).toBe('tank');
@@ -83,5 +59,41 @@ describe('HeroRoles Component', () => {
     it('should render container with one hero with correct name', () => {
         const { output } = setup();
         expect(output.props.heroes[0].heroName).toBe('soldier76');
+    });
+
+    describe('should match the snapshot', () => {
+        const getHeroRolesTree = (heroes) => {
+            let component = renderer.create(
+                <Provider store={store}>
+                    <HeroRoles heroes={heroes} role="tank" user={{platformDisplayName: 'myName'}}/>
+                </Provider>
+            );
+
+            return component.toJSON();
+        };
+
+        const mockStore = configureStore();
+        let store;
+
+        beforeEach(() =>{
+            store = mockStore({
+                group: groupInvites[0]
+            });
+        });
+
+        it('multiple heroes', () => {
+            let tree = getHeroRolesTree(heroes);
+            expect(tree).toMatchSnapshot();
+        });
+
+        it('single hero', () => {
+            let tree = getHeroRolesTree([heroes[0]]);
+            expect(tree).toMatchSnapshot();
+        });
+
+        it('no heroes', () => {
+            let tree = getHeroRolesTree([]);
+            expect(tree).toMatchSnapshot();
+        });
     });
 }); 

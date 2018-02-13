@@ -21,7 +21,7 @@ const mountWithStore = (store=getStore()) => {
     return mount(
         <Provider store={store}>
             <MemoryRouter>
-                <InvitesGrid store={store}/>
+                <InvitesGrid/>
             </MemoryRouter>
         </Provider>
     );
@@ -31,7 +31,7 @@ const renderWithStore = (store=getStore()) => {
     return renderer.create(
         <Provider store={store}>
             <MemoryRouter>
-                <InvitesGrid store={store}/>
+                <InvitesGrid/>
             </MemoryRouter>
         </Provider>
     );
