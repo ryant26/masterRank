@@ -84,20 +84,18 @@ describe('GroupStatsContainer Component', () => {
             expect(Model.leaveGroup).not.toHaveBeenCalled();
             expect(Model.createNewGroup).not.toHaveBeenCalled();
             expect(toggleModal).not.toHaveBeenCalled();
+            wrapper.find('.button-six').simulate('click');
         });
 
         it('should call Model.leaveGroup', () => {
-            wrapper.find('.button-six').simulate('click');
             expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
         });
 
         it('should call Model.createNewGroup', () => {
-            wrapper.find('.button-six').simulate('click');
             expect(Model.createNewGroup).toHaveBeenCalledWith(group.leader.heroName);
         });
 
         it('should call toggleModal', () => {
-            wrapper.find('.button-six').simulate('click');
             expect(toggleModal).toHaveBeenCalled();
         });
     });
