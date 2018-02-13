@@ -1,31 +1,50 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
+import { mount } from 'enzyme';
+
 import InvitesGridItem from './InvitesGridItem';
 import groupInvites from '../../../resources/groupInvites';
 
-describe('InvitesGridItem Component', () => {
-    it('should render without exploding', () => {
-        const wrapper = mount(
-            <InvitesGridItem invite={groupInvites[0]}/>
-        );
-        const InvitesGridComponent = wrapper.find(InvitesGridItem);
-        expect(InvitesGridComponent).toBeTruthy();
+
+const mockStore = configureStore();
+const getHeroCardComponent = (group) => {
+    let store = mockStore({
+        group: group,
     });
 
+    return mount(
+        <Provider store={store}>
+            <InvitesGridItem invite={group}/>
+        </Provider>
+    );
+};
+
+describe('InvitesGridItem Component', () => {
+    const group = groupInvites[0];
+
     it('should match the snapshot', () => {
+        let store = mockStore({
+            group: group,
+        });
         const component = renderer.create(
-            <InvitesGridItem invite={groupInvites[0]}/>
+            <Provider  store={store}>
+                <InvitesGridItem invite={group}/>
+            </Provider>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
 
-    it('should show the correct group SR', () => {
-        const wrapper = mount(
-            <InvitesGridItem invite={groupInvites[0]}/>
-        );
+    it('should render without exploding', () => {
+        const wrapper = getHeroCardComponent(group);
+        const InvitesGridComponent = wrapper.find(InvitesGridItem);
+        expect(InvitesGridComponent).toBeTruthy();
+    });
 
+    it('should show the correct group SR', () => {
+        const wrapper = getHeroCardComponent(group);
         expect(wrapper.find('.groupSR').text()).toEqual('2700 Group SR');
     });
 
@@ -44,10 +63,7 @@ describe('InvitesGridItem Component', () => {
             pending: []
         };
 
-        const wrapper = mount(
-            <InvitesGridItem invite={groupInvite}/>
-        );
-
+        const wrapper = getHeroCardComponent(groupInvite);
         expect(wrapper.find('.groupSR').text()).toEqual('900 Group SR');
     });
 });

@@ -1,11 +1,21 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
+
 import HeroRolesContainer from './HeroRolesContainer';
 import {createStore} from '../../../../model/store';
 import {addHero} from '../../../../actions/hero';
 import {addFilter} from '../../../../actions/heroFilters';
 import {updateUser} from '../../../../actions/user';
 import {users} from '../../../../resources/users';
+
+const getHeroRolesContainer = (store) => {
+    return mount(
+        <Provider store={store}>
+            <HeroRolesContainer/>
+        </Provider>
+    );
+};
 
 describe('Hero Roles Container', () => {
     let wrapper;
@@ -32,7 +42,7 @@ describe('Hero Roles Container', () => {
         store.dispatch(addHero(getHeroConfig('reinhardt')));
         store.dispatch(addHero(getHeroConfig('mercy')));
         store.dispatch(updateUser(users[0]));
-        wrapper = mount(<HeroRolesContainer store={store}/>);
+        wrapper = getHeroRolesContainer(store);
     });
 
     it ('should render without exploding', () => {
@@ -50,6 +60,7 @@ describe('Hero Roles Container', () => {
             )
         );
     });
+
     it('should render defense characters in the correct HeroRole Component', () => {
         const HeroRolesComponent = wrapper.find("[role='Defense']");
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
@@ -59,8 +70,8 @@ describe('Hero Roles Container', () => {
                 ]
             )
         );
-        
     });
+
     it('should render tank characters in the correct HeroRole Component', () => {
         const HeroRolesComponent = wrapper.find("[role='Tank']");
         expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
@@ -86,14 +97,14 @@ describe('Hero Roles Container', () => {
 
     it('should filter out characters when filters are enabled', () => {
         store.dispatch(addFilter('mccree'));
-        wrapper = mount(<HeroRolesContainer store={store}/>);
+        wrapper = getHeroRolesContainer(store);
         const offensiveList = wrapper.find("[role='Offense']");
         expect(offensiveList.props().heroes.length).toBe(0);
     });
 
     it('should not filter heroes for other roles', () => {
         store.dispatch(addFilter('mccree'));
-        wrapper = mount(<HeroRolesContainer store={store}/>);
+        wrapper = getHeroRolesContainer(store);
         const defensiveList = wrapper.find("[role='Defense']");
         expect(defensiveList.props().heroes.length).toBe(1);
     });

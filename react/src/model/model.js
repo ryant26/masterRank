@@ -34,11 +34,11 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
     socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));
-    socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));    
+    socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));
     socket.on(clientEvents.playerInvited, (groupInvitePendingObject) => _updateGroupData(groupInvitePendingObject));
     socket.on(clientEvents.groupHeroLeft, (groupHeroLeftObject) => _updateGroupData(groupHeroLeftObject));        
     socket.on(clientEvents.groupInviteCanceled, (groupHeroCancelledObject) => _updateGroupData(groupHeroCancelledObject));
-    
+
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
     socket.on(clientEvents.error.groupLeave, _groupLeaveErrorHandler);    
     socket.on(clientEvents.error.groupInviteCancel, _groupCancelErrorHandler);

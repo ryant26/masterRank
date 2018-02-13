@@ -1,59 +1,64 @@
 import React, {
   Component
 } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import UserStatsContainer from '../../../../Stats/UserStatsContainer';
 import HeroImage from '../../../../HeroImage/HeroImage';
-import PropTypes from 'prop-types';
 import Modal from '../../../../Modal/Modal';
 import Model from '../../../../../model/model';
 
 const classNames = require('classnames');
 
-
-export default class HeroCard extends Component {
+class HeroCard extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isStatsToggleOn: false,
-            modalOpen: false,
-            invitable: props.hero.platformDisplayName !== props.user.platformDisplayName
+            showModal: false,
+            invitable: this.isInvitable(props)
         };
 
-        this.toggleStats = this.toggleStats.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.isInvitable = this.isInvitable.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
         this.invitePlayer = this.invitePlayer.bind(this);
     }
 
-    toggleStats() {
-        this.setState(prevState => ({
-            isStatsToggleOn: !prevState.isStatsToggleOn
-        }));
-    }
-
-    invitePlayer() {
-        const userObject = {
-            "platformDisplayName": this.props.hero.platformDisplayName,
-            "heroName": this.props.hero.heroName
-        };
-        Model.inviteUserToGroup(userObject);
-    }
-
-    openModal() {
-        this.setState(() => {
-            return {
-                modalOpen: true
-            };
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            invitable: this.isInvitable(nextProps)
         });
     }
 
-    closeModal() {
-        this.setState(() => {
-            return {
-                modalOpen: false
-            };
+    isInvitable(props) {
+        const containsHero = (members, hero) => {
+            let result = members.find((member) => {
+                return member.platformDisplayName === hero.platformDisplayName;
+            });
+
+            if (result) return true;
+            return false;
+        };
+
+
+        let isUser = props.hero.platformDisplayName === props.user.platformDisplayName;
+        let isMemberOfGroup = containsHero(props.group.members, props.hero);
+        let isPendingMemberOfGroup = containsHero(props.group.pending, props.hero);
+
+        return !(isUser || isMemberOfGroup || isPendingMemberOfGroup);
+    }
+
+    invitePlayer() {
+        Model.inviteUserToGroup({
+            platformDisplayName: this.props.hero.platformDisplayName,
+            heroName: this.props.hero.heroName
+        });
+    }
+
+    toggleModal() {
+        this.setState({
+            showModal: !this.state.showModal
         });
     }
 
@@ -98,15 +103,14 @@ export default class HeroCard extends Component {
                 <div className="display-name">{this.props.hero.platformDisplayName}</div>
                 {statLine}
             </div>
-            <div className="button-primary" onClick={this.openModal}>
+            <div className="button-primary" onClick={this.toggleModal}>
                 <div className="button-content">
                     stats
                 </div>
             </div>
-            <Modal modalOpen={this.state.modalOpen} closeModal={this.closeModal}>
+            <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
                 <UserStatsContainer hero={this.props.hero} invitable={this.state.invitable}/>
             </Modal>
-
         </div>
     );
     }
@@ -121,8 +125,16 @@ HeroCard.propTypes = {
             wins: PropTypes.number,
             losses: PropTypes.number,
         })
-    }),
+    }).isRequired,
     user: PropTypes.shape({
         platformDisplayName: PropTypes.string.isRequired
     })
 };
+
+const mapStateToProps = (state) => {
+    return {
+      group: state.group,
+    };
+};
+
+export default connect(mapStateToProps)(HeroCard);
