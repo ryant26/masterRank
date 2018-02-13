@@ -14,7 +14,7 @@ describe('UserSelector', () => {
     const user = arrayUsers[0];
     const platform = user.platform;
     const username = user.platformDisplayName;
-    const consoleCallbackUrl = `auth/${platform}/callback?region=${region}&username=${username}&password=none`;
+    const consoleCallbackUrl = `/auth/${platform}/callback?region=${region}&username=${username}&password=none`;
     let store;
     let UserSelectorComponent;
 

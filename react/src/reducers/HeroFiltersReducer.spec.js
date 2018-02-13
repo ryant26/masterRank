@@ -1,6 +1,6 @@
 import HeroFiltersReducer from './HeroFiltersReducer';
 import * as actionTypes from '../actiontypes/heroFilters';
-const heroNames = require('../../../shared/allHeroNames').names;
+const heroNames = require('../../../shared/libs/allHeroNames').names;
 
 
 

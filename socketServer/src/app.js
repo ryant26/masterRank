@@ -1,18 +1,18 @@
-let app;
+let server;
+const app = require('express')();
 
-if (process.env.NODE_ENV !== 'production') {
+if (!['production', 'test'].includes(process.env.NODE_ENV)) {
     const fs = require('fs');
     const options = {
         key: fs.readFileSync('../certs/key.pem'),
         cert: fs.readFileSync('../certs/cert.pem')
     };
-    app = require('https').createServer(options);
+    server = require('https').createServer(options, app);
 } else {
-    app = require('http').createServer();
+    server = require('http').createServer(app);
 }
 
-
-const io = require('socket.io')(app, {maxHttpBufferSize: 1000});
+const io = require('socket.io')(server, {maxHttpBufferSize: 1000});
 const redisAdapter = require('socket.io-redis');
 const config = require('config');
 const logger = require('./services/logger').sysLogger;
@@ -47,8 +47,8 @@ let setupRegion = function(namespace) {
     });
 };
 
-io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
-app.listen(port, () => {
+io.adapter(redisAdapter({ host: config.get('redis.host'), port: config.get('redis.port') }));
+server.listen(port, () => {
     logger.info(`listening on port ${port}`);
 });
 
@@ -58,3 +58,9 @@ regionNamespaces.forEach((region) => {
         setupRegion(namespace);
     });
 });
+
+app.get('/health', function (req, res) {
+    res.send('healthy');
+});
+
+module.exports = app;

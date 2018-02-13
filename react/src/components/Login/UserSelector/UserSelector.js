@@ -14,7 +14,7 @@ const UserSelector = ({users, region, setLoading, clearLoading}) => {
     function onClick(user) {
         const platform = user.platform;
         const username = user.platformDisplayName;
-        const consoleCallbackUrl = `auth/${platform}/callback?region=${region}&username=${username}&password=none`;
+        const consoleCallbackUrl = `/auth/${platform}/callback?region=${region}&username=${username}&password=none`;
 
         setLoading();
 

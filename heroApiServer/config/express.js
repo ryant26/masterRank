@@ -7,20 +7,12 @@ const rootPath = path.normalize(__dirname + '/..');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const forceSSL = require('express-force-ssl');
 
 module.exports = function(app) {
 
     app.use(helmet());
 
-    if (app.get('env') === 'production') {
-        app.use('trust proxy');
-
-        app.use(forceSSL);
-        app.set('forceSSLOptions', {
-            trustXFPHeader: true
-        });
-    }
+    app.set('trust proxy');
 
     app.use(logger(config.get('loggingLevel'), {stream: logAggregator.stream}));
 

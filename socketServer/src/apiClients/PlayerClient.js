@@ -1,10 +1,10 @@
 const request = require('request-promise');
 const config = require('config');
-
+const apiRouter = require('./apiRouter');
 
 // const heroUrl = config.get('heroApi.url');
-const playerUrl = `${config.get('playerApi.baseUrl')}:${config.get('playerApi.port')}${config.get('playerApi.endpoint')}`;
-const heroUrl = `${config.get('heroApi.baseUrl')}:${config.get('heroApi.port')}${config.get('heroApi.endpoint')}`;
+const playerUrl = apiRouter.getEndpoint(config.get('playerApi.baseUrl'), config.get('playerApi.port'), config.get('playerApi.endpoint'));
+const heroUrl = apiRouter.getEndpoint(config.get('heroApi.baseUrl'), config.get('heroApi.port'), config.get('heroApi.endpoint'));
 const token = config.get('heroApi.token');
 
 let getPlayerRank = function(platformDisplayName, region, platform) {
