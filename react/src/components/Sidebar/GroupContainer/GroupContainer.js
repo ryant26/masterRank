@@ -48,7 +48,7 @@ class GroupContainer extends Component {
                         />
                     }
                     { members &&
-                        members.map((member, i) =>
+                        members.map((member, i) => (
                             <MemberCard
                                 member={member}
                                 leader={false}
@@ -56,10 +56,10 @@ class GroupContainer extends Component {
                                 number={(i + 2)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
-                        )
+                        ))
                     }
                     { pendingMembers &&
-                        pendingMembers.map((member, i) =>
+                        pendingMembers.map((member, i) => (
                             <MemberCard
                                 member={member}
                                 leader={false}
@@ -67,7 +67,7 @@ class GroupContainer extends Component {
                                 number={(members.length + 2 + i)}
                                 key={member.platformDisplayName}
                             />
-                        )
+                        ))
                     }
                     <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
                         <div className="button-content">

@@ -1,8 +1,6 @@
 {
   "port": 3000,
   "port2": 3001,
-  "url": "https://localhost",
-  "redisUrl": "redis://localhost",
   "keyExpiry": 7200
 
 }

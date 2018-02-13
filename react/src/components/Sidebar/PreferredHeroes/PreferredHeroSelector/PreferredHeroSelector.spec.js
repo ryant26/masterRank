@@ -6,7 +6,7 @@ import HeroSlot from '../HeroSlot/HeroSlot';
 import PreferredHeroSelector from './PreferredHeroSelector';
 import HeroSelector from '../../../ContentArea/DashboardHome/HeroSelector/HeroSelector';
 
-const heroNames = require('../../../../../../shared/allHeroNames').names;
+const heroNames = require('../../../../../../shared/libs/allHeroNames').names;
 
 const getNames = () => {
     return [heroNames[0], heroNames[1], heroNames[2], heroNames[3], heroNames[4]];
