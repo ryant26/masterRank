@@ -2,9 +2,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import InvitesGridItem from './InvitesGridItem';
+import Model from '../../../model/model';
 import groupInvites from '../../../resources/groupInvites';
 
 
@@ -14,10 +15,8 @@ const getHeroCardComponent = (group) => {
         group: group,
     });
 
-    return mount(
-        <Provider store={store}>
-            <InvitesGridItem invite={group}/>
-        </Provider>
+    return shallow(
+        <InvitesGridItem invite={group} store={store}/>
     );
 };
 
@@ -65,5 +64,31 @@ describe('InvitesGridItem Component', () => {
 
         const wrapper = getHeroCardComponent(groupInvite);
         expect(wrapper.find('.groupSR').text()).toEqual('900 Group SR');
+    });
+
+    describe('when accept button is clicked', () => {
+        let HeroCardComponent;
+
+        beforeEach(() => {
+            Model.leaveGroup = jest.fn();
+            Model.acceptInvite = jest.fn();
+            HeroCardComponent = getHeroCardComponent(group);
+            HeroCardComponent.find('.button-secondary').simulate('click');
+        });
+
+        it('should call Model.leaveGroup with group id', () => {
+            expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
+        });
+
+        it('should call Model.acceptInvite with group id', () => {
+            expect(Model.acceptInvite).toHaveBeenCalledWith(group.groupId);
+        });
+    });
+
+    it('should call Model.declineInvite when decline button is clicked', () => {
+        Model.declineInvite = jest.fn();
+        const wrapper = getHeroCardComponent(group);
+        wrapper.find('.button-six').simulate('click');
+        expect(Model.declineInvite).toHaveBeenCalledWith(group.groupId);
     });
 });

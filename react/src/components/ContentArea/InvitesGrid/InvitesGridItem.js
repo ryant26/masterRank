@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import HeroCard from '../DashboardHome/HeroRoles/HeroCard/HeroCard';
+import Model from '../../../model/model';
 
 const InvitesGridItem = ({invite}) => {
     let numberOfMembers = invite.members.length + 1;
@@ -12,6 +14,16 @@ const InvitesGridItem = ({invite}) => {
     invite.members.forEach((member) => {
         groupHeroes.push(<HeroCard key={member.platformDisplayName} user={member} hero={member}/>);
     });
+
+    const declineInvite = () => {
+        Model.declineInvite(invite.groupId);
+    };
+
+    const acceptInvite = () => {
+        //Ryan, will this be deterministic, or our the socket calls async?
+        Model.leaveGroup(invite.groupId);
+        Model.acceptInvite(invite.groupId);
+    };
 
     return (
         <div className="InvitesGridItem flex flex-column card">
@@ -26,12 +38,18 @@ const InvitesGridItem = ({invite}) => {
             </div>
             <div className="body flex flex-column">{groupHeroes}</div>
             <div className="button-group flex justify-around">
-                <div className="button button-six flex justify-center align-center">
+                <div
+                    className="button button-six flex justify-center align-center"
+                    onClick={() => {declineInvite();}}
+                >
                     <div className="button-content">
                         DECLINE
                     </div>
                 </div>
-                <div className="button button-secondary flex justify-center align-center">
+                <div
+                    className="button button-secondary flex justify-center align-center"
+                    onClick={() => {acceptInvite();}}
+                >
                     <div className="button-content">
                         ACCEPT
                     </div>
