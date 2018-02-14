@@ -3,36 +3,111 @@ import { shallow } from 'enzyme';
 
 import PlatformSelection from './PlatformSelection';
 
+const getPlatformSelectionComponent = (selectedPlatform) => {
+    let onChange = jest.fn();
+
+    return shallow(
+       <PlatformSelection onChange={onChange} selectedPlatform={selectedPlatform}/>
+    );
+};
+
 describe('PlatformSelection', () => {
     let PlatformSelectionComponent;
-    let onClick = jest.fn();
 
-    beforeEach(() => {
-        PlatformSelectionComponent = shallow(
-            <PlatformSelection onClick={onClick}/>
-        );
+    describe('when component renders', () => {
+        const selectedPlatform = 'pc';
+
+        beforeEach(() => {
+            PlatformSelectionComponent = getPlatformSelectionComponent(selectedPlatform);
+        });
+
+        it('should render', () => {
+            expect(PlatformSelectionComponent).toHaveLength(1);
+        });
+
+        it('pc radio button should have value of pc', () => {
+            expect(PlatformSelectionComponent.find('#platform-pc').prop('value')).toBe('pc');
+        });
+
+        it('psn radio button should have value of psn', () => {
+            expect(PlatformSelectionComponent.find('#platform-psn').prop('value')).toBe('psn');
+        });
+
+        it('xbl radio button should have value of xbl', () => {
+            expect(PlatformSelectionComponent.find('#platform-xbl').prop('value')).toBe('xbl');
+        });
+
+        it('pc radio button should have text Battle.net', () => {
+            expect(PlatformSelectionComponent.find('.button-content').at(0).text()).toBe('Battle.net');
+        });
+
+        it('psn radio button should have text PSN', () => {
+            expect(PlatformSelectionComponent.find('.button-content').at(1).text()).toBe('PSN');
+        });
+
+        it('xbl radio button should have text XBL', () => {
+            expect(PlatformSelectionComponent.find('.button-content').at(2).text()).toBe('XBL');
+        });
     });
 
-    it('should render', () => {
-        expect(PlatformSelectionComponent).toHaveLength(1);
+    describe('when selected platform is pc', () => {
+        const selectedPlatform = 'pc';
+
+        beforeEach(() => {
+            PlatformSelectionComponent = getPlatformSelectionComponent(selectedPlatform);
+        });
+
+        it('pc checkbox should be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-pc').prop('checked')).toBe(true);
+        });
+
+        it('psn checkbox should not be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-psn').prop('checked')).toBe(false);
+        });
+
+        it('xbl checkbox should not be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-xbl').prop('checked')).toBe(false);
+        });
     });
 
-    it('should render plat-1 input and label text when page loads', () => {
-        expect(PlatformSelectionComponent.find('input').at(0).html())
-            .toBe('<input type="radio" id="plat-1" name="platform" value="pc"/>');
-        expect(PlatformSelectionComponent.find('label').at(0).text()).toBe('Battle.net');
+    describe('when selected platform is psn', () => {
+        const selectedPlatform = 'psn';
+
+        beforeEach(() => {
+            PlatformSelectionComponent = getPlatformSelectionComponent(selectedPlatform);
+        });
+
+        it('pc checkbox should not be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-pc').prop('checked')).toBe(false);
+        });
+
+        it('psn checkbox should be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-psn').prop('checked')).toBe(true);
+        });
+
+        it('xbl checkbox should not be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-xbl').prop('checked')).toBe(false);
+        });
     });
 
-    it('should render plat-2 input and label text when page loads', () => {
-        expect(PlatformSelectionComponent.find('input').at(1).html())
-            .toBe('<input type="radio" id="plat-2" name="platform" value="psn"/>');
-        expect(PlatformSelectionComponent.find('label').at(1).text()).toBe('PSN');
-    });
+    describe('when selected platform is xbl', () => {
+        const selectedPlatform = 'xbl';
 
-    it('should render plat-3 input and label text when page loads', () => {
-        expect(PlatformSelectionComponent.find('input').at(2).html())
-            .toBe('<input type="radio" id="plat-3" name="platform" value="xbl"/>');
-        expect(PlatformSelectionComponent.find('label').at(2).text()).toBe('XBL');
+        beforeEach(() => {
+            PlatformSelectionComponent = getPlatformSelectionComponent(selectedPlatform);
+        });
+
+        it('pc checkbox should not be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-pc').prop('checked')).toBe(false);
+        });
+
+        it('psn checkbox should not be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-psn').prop('checked')).toBe(false);
+        });
+
+        it('xbl checkbox should be checked', () => {
+            expect(PlatformSelectionComponent.find('#platform-xbl').prop('checked')).toBe(true);
+        });
     });
 });
 

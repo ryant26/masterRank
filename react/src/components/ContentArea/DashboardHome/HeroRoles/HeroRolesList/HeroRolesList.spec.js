@@ -15,7 +15,7 @@ import {users} from '../../../../../resources/users';
 import groupInvites from '../../../../../resources/groupInvites';
 
 
-const realStore = createStore(combineReducers({heroes:HeroReducer}),{group: groupInvites[0]});
+const realStore = createStore(combineReducers({heroes:HeroReducer}),{});
 const setup = propOverrides => {
     const props = Object.assign({
         role: 'tank',        
