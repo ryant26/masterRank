@@ -16,13 +16,12 @@ const InvitesGridItem = ({invite}) => {
     });
 
     const declineInvite = () => {
-        Model.declineInvite(invite.groupId);
+        Model.declineInvite(invite);
     };
 
     const acceptInvite = () => {
-        //Ryan, will this be deterministic, or our the socket calls async?
         Model.leaveGroup(invite.groupId);
-        Model.acceptInvite(invite.groupId);
+        Model.acceptInvite(invite);
     };
 
     return (

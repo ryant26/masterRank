@@ -18,7 +18,8 @@ export const clientEvents = {
         addHero: 'error.addHero',
         groupLeave: 'error.groupLeave',
         groupInviteAccept: 'error.groupInviteAccept',
-        groupInviteCancel: 'error.groupInviteCancel'
+        groupInviteCancel: 'error.groupInviteCancel',
+        groupInviteDeclined: 'error.groupInviteDeclined'
     }
 };
 
@@ -29,9 +30,9 @@ const serverEvents = {
     createGroup: 'createGroup',
     groupLeave: 'groupLeave',
     groupInviteSend: 'groupInviteSend',
+    groupInviteDecline: 'groupInviteDecline',
     groupInviteAccept: 'groupInviteAccept',
-    groupInviteCancel: 'groupInviteCancel',
-    groupInviteDecline: 'groupInviteDecline'
+    groupInviteCancel: 'groupInviteCancel'
 };
 
 const websocketPort = '3004';

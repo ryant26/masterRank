@@ -11,3 +11,13 @@ describe('add Group Invites', () => {
       });
   });
 });
+
+describe('remove Group Invites', () => {
+  it ('should create the REMOVE_GROUP_INVITE action', () => {
+    expect(GroupInviteActionCreators.removeGroupInvite(Invite))
+      .toEqual({
+        type: GroupInvitesActionType.REMOVE_GROUP_INVITE,
+        invite: Invite
+      });
+  });
+});

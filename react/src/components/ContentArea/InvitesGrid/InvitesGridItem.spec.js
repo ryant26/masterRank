@@ -10,26 +10,26 @@ import groupInvites from '../../../resources/groupInvites';
 
 
 const mockStore = configureStore();
-const getHeroCardComponent = (group) => {
+const getHeroCardComponent = (groupInvite) => {
     let store = mockStore({
-        group: group,
+        group: groupInvite,
     });
 
     return shallow(
-        <InvitesGridItem invite={group} store={store}/>
+        <InvitesGridItem invite={groupInvite} store={store}/>
     );
 };
 
 describe('InvitesGridItem Component', () => {
-    const group = groupInvites[0];
+    const groupInvite = groupInvites[0];
 
     it('should match the snapshot', () => {
         let store = mockStore({
-            group: group,
+            group: groupInvite,
         });
         const component = renderer.create(
             <Provider  store={store}>
-                <InvitesGridItem invite={group}/>
+                <InvitesGridItem invite={groupInvite}/>
             </Provider>
         );
         let tree = component.toJSON();
@@ -37,13 +37,13 @@ describe('InvitesGridItem Component', () => {
     });
 
     it('should render without exploding', () => {
-        const wrapper = getHeroCardComponent(group);
+        const wrapper = getHeroCardComponent(groupInvite);
         const InvitesGridComponent = wrapper.find(InvitesGridItem);
         expect(InvitesGridComponent).toBeTruthy();
     });
 
     it('should show the correct group SR', () => {
-        const wrapper = getHeroCardComponent(group);
+        const wrapper = getHeroCardComponent(groupInvite);
         expect(wrapper.find('.groupSR').text()).toEqual('2700 Group SR');
     });
 
@@ -72,23 +72,23 @@ describe('InvitesGridItem Component', () => {
         beforeEach(() => {
             Model.leaveGroup = jest.fn();
             Model.acceptInvite = jest.fn();
-            HeroCardComponent = getHeroCardComponent(group);
+            HeroCardComponent = getHeroCardComponent(groupInvite);
             HeroCardComponent.find('.button-secondary').simulate('click');
         });
 
         it('should call Model.leaveGroup with group id', () => {
-            expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
+            expect(Model.leaveGroup).toHaveBeenCalledWith(groupInvite.groupId);
         });
 
         it('should call Model.acceptInvite with group id', () => {
-            expect(Model.acceptInvite).toHaveBeenCalledWith(group.groupId);
+            expect(Model.acceptInvite).toHaveBeenCalledWith(groupInvite);
         });
     });
 
     it('should call Model.declineInvite when decline button is clicked', () => {
         Model.declineInvite = jest.fn();
-        const wrapper = getHeroCardComponent(group);
+        const wrapper = getHeroCardComponent(groupInvite);
         wrapper.find('.button-six').simulate('click');
-        expect(Model.declineInvite).toHaveBeenCalledWith(group.groupId);
+        expect(Model.declineInvite).toHaveBeenCalledWith(groupInvite);
     });
 });
