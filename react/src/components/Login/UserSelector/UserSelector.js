@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import UserCard from '../../UserCard/UserCard';
-import { error } from '../../Routes/links';
 import {
     pushBlockingEvent as pushLoadingEventAction,
     popBlockingEvent as popLoadingEventAction
@@ -27,7 +26,6 @@ const UserSelector = ({users, region, setLoading, clearLoading}) => {
             clearLoading();
         };
         xhr.onerror = () => {
-            window.location.assign(error);
             clearLoading();
         };
         xhr.send();
