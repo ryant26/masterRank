@@ -82,7 +82,18 @@ describe('MemberCard', () => {
 
     describe('when component will mount', () => {
 
-        it('should call setInterval()', () => {
+        it('should set timer to null when is not pending', () => {
+            MemberCardComponent = getMemberCardComponent(member, number, false, leader);
+            expect(MemberCardComponent.state().timer).toBe(null);
+        });
+
+        it('should set timer to  when is not pending', () => {
+            jest.useFakeTimers();
+            MemberCardComponent = getMemberCardComponent(member, number, pending, leader);
+            expect(MemberCardComponent.state().timer).not.toBe(null);
+        });
+
+        it('should call setInterval() when is pending', () => {
             jest.useFakeTimers();
             expect(setInterval.mock.calls.length).toBe(0);
             MemberCardComponent = getMemberCardComponent(member, number, pending, leader);

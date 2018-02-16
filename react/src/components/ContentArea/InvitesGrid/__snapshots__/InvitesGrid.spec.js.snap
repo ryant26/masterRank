@@ -209,6 +209,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
       >
         <div
           className="button button-six flex justify-center align-center"
+          onClick={[Function]}
         >
           <div
             className="button-content"
@@ -218,6 +219,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
         </div>
         <div
           className="button button-secondary flex justify-center align-center"
+          onClick={[Function]}
         >
           <div
             className="button-content"

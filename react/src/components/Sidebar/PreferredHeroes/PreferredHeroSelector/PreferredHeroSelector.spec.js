@@ -89,7 +89,7 @@ describe('<PreferredHeroSelector/>', () => {
 
         it('Should call the setHeroPreference function', () => {
             let callback = jest.fn();
-            wrapper = mount(getPreferredHeroSelector([], undefined, undefined, callback));
+            wrapper = mount(getPreferredHeroSelector([], 1, jest.fn(), callback));
             wrapper.find(HeroButton).first().simulate('click');
 
             expect(callback).toHaveBeenCalledWith('doomfist');
@@ -97,7 +97,7 @@ describe('<PreferredHeroSelector/>', () => {
 
         it('Should not call the setHeroPreference for duplicate heroes', () => {
             let callback = jest.fn();
-            wrapper = mount(getPreferredHeroSelector(['doomfist'], undefined, undefined, callback));
+            wrapper = mount(getPreferredHeroSelector(['doomfist'], 1, jest.fn(), callback));
             wrapper.find(HeroButton).first().simulate('click');
 
             expect(callback).not.toHaveBeenCalled();
@@ -105,7 +105,7 @@ describe('<PreferredHeroSelector/>', () => {
 
         it('Should set the hero and message for the save action', () => {
             let callback = jest.fn();
-            wrapper = mount(getPreferredHeroSelector([], undefined, undefined, callback));
+            wrapper = mount(getPreferredHeroSelector([], 1, jest.fn(), callback));
             wrapper.find(HeroButton).first().simulate('click');
 
             expect(wrapper.state(['heroForLastAction'])).toBe('doomfist');
@@ -114,7 +114,7 @@ describe('<PreferredHeroSelector/>', () => {
 
         it('Should call the setSelectedHeroSlot function with an incremented slot', () => {
             let callback = jest.fn();
-            wrapper = mount(getPreferredHeroSelector([], undefined, undefined, undefined, callback));
+            wrapper = mount(getPreferredHeroSelector([], 1, jest.fn(), jest.fn(), callback));
             wrapper.find(HeroButton).first().simulate('click');
 
             expect(callback).toHaveBeenCalledWith(2);
@@ -124,7 +124,7 @@ describe('<PreferredHeroSelector/>', () => {
     describe('Clicking on a hero slot', () => {
         it('Should call the setSelectedHeroSlot function', () => {
             let callback = jest.fn();
-            wrapper = mount(getPreferredHeroSelector(undefined, undefined, undefined, undefined, callback));
+            wrapper = mount(getPreferredHeroSelector([], 1, jest.fn(), jest.fn(), callback));
             wrapper.find(HeroSlot).at(2).simulate('click');
             expect(callback).toHaveBeenCalledWith(3);
         });
@@ -162,7 +162,7 @@ describe('<PreferredHeroSelector/>', () => {
         it('Should close the modal', () => {
             let callback = jest.fn();
 
-            wrapper = mount(getPreferredHeroSelector(['doomfist'], 1, null, null, null, callback));
+            wrapper = mount(getPreferredHeroSelector(['doomfist'], 1, jest.fn(), jest.fn(), jest.fn(), callback));
             expect(callback).not.toHaveBeenCalled();
             wrapper.find('.button-primary').simulate('click');
             expect(callback).toHaveBeenCalled();

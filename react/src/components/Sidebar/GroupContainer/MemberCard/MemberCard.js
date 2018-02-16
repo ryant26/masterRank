@@ -23,8 +23,10 @@ class MemberCard extends Component {
     }
 
     componentWillMount() {
-        let timer = setInterval(this.tick, 1000);
-        this.setState({timer});
+        if(this.props.pending) {
+            let timer = setInterval(this.tick, 1000);
+            this.setState({timer});
+        }
     }
 
     componentWillUnmount() {

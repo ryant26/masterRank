@@ -1,15 +1,23 @@
 import model from './model';
 import {createStore} from './store';
 import {clientEvents} from '../api/websocket';
+
 const mockSocket = require('socket-io-mock');
 const names = require('../../../shared/allHeroNames').names;
 
+import groupInvites from '../resources/groupInvites';
 
 const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
 const initializeSocket = function() {
     let websocket = new mockSocket();
-    websocket.addHero = function() {}; //stub
-    websocket.createGroup = function() {}; // stub
+    websocket.addHero = jest.fn();
+    websocket.removeHero = jest.fn();
+    websocket.createGroup = jest.fn();
+    websocket.groupInviteSend = jest.fn();
+    websocket.groupLeave = jest.fn();
+    websocket.groupInviteAccept = jest.fn();
+    websocket.groupInviteCancel = jest.fn();
+    websocket.groupInviteDecline = jest.fn();
     return websocket;
 };
 
@@ -17,17 +25,9 @@ let generateHero = function(heroName='hero', platformDisplayName=token.platformD
     return {platformDisplayName, heroName, preference};
 };
 
-let generateInvite = function(id=1, groupLeader='PwNShoPP') {
-    return {id, groupLeader};
-};
-
 let generateUser = function(platformDisplayName=token.platformDisplayName, region=token.region, platform=token.platform) {
     return {platformDisplayName, region, platform};
 };
-
-// let generateGroup = function() {
-
-// };
 
 describe('Model', () => {
     let store;
@@ -47,14 +47,6 @@ describe('Model', () => {
     });
 
     describe('Socket Events', () => {
-        describe('Authenticated', () => {
-            xit('should add preferred heroes from local storage', () => {
-                model.loadPreferredHeroesFromLocalStorage = jest.fn();
-                //Todo: cant figure out how to mock our websocket.js constructor
-                socket.socketClient.emit(clientEvents.authenticated, true);
-                expect(model.loadPreferredHeroesFromLocalStorage).toHaveBeenCalled();
-            });
-        });
 
         describe('Initial Data', () => {
             it('should add all heroes to the store', () => {
@@ -149,53 +141,90 @@ describe('Model', () => {
             });
         });
 
-        describe('Group invite received', () => {
-            it('should add the group invite to the list', () => {
-                let invite = generateInvite();
-                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
-                expect(store.getState().groupInvites).toEqual([invite]);
+        describe('Group', () => {
+            const initialGroup = {
+                groupId: null,
+                members: [],
+                pending: []
+            };
+            groupInvites[0].inviteDate = "2018-02-14T11:12:57.706Z";
+            const group = groupInvites[0];
+            const error = {
+                groupId: group.groupId
+            };
+
+            describe('Group Promoted Leader', () => {
+                it('should update store.group to new group when clientEvents.groupPromotedLeader is emitted', () => {
+                    expect(store.getState().group).toEqual(initialGroup);
+                    socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
+                    expect(store.getState().group).toEqual(group);
+                });
             });
 
-            it('should not add multiple invites with the same id to the list', () => {
-                let invite = generateInvite();
-                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
-                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
-                expect(store.getState().groupInvites).toEqual([invite]);
+            describe('Player Invited', () => {
+                it('should update store.group to new group when clientEvents.playerInvited is emitted', () => {
+                    expect(store.getState().group).toEqual(initialGroup);
+                    socket.socketClient.emit(clientEvents.playerInvited, group);
+                    expect(store.getState().group).toEqual(group);
+                });
             });
-        });
 
-        describe('Group Promoted Leader', () => {
-            xit('should update the group with a new leader', () => {
-                // let promotedLeaderObject = generateLeaderGroup();
-                // socket.socketClient.emit(clientEvents.groupPromotedLeader, promotedLeaderObject);
-                // expect(store.getState().group).toEqual(promotedLeaderObject);
+            describe('Group Hero Left', () => {
+                it('should update store.group to new group when clientEvents.groupHeroLeft is emitted', () => {
+                    expect(store.getState().group).toEqual(initialGroup);
+                    socket.socketClient.emit(clientEvents.groupHeroLeft, group);
+                    expect(store.getState().group).toEqual(group);
+                });
             });
-        });
 
-        describe('Player Invited', () => {
-            xit('should update the group with a new pending user', () => {
-            //     let groupInvitePendingObject = generatePendingObject();
-            //     socket.socketClient.emit(clientEvents.groupPromotedLeader, groupInvitePendingObject);
-            //     expect(store.getState().group).toEqual(groupInvitePendingObject);
+            describe('Group invite accepted', () => {
+                it('should update store.group to new group when clientEvents.groupInviteAccepted is emitted', () => {
+                    expect(store.getState().group).toEqual(initialGroup);
+                    socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
+                    expect(store.getState().group).toEqual(group);
+                });
+
+                it('should handle the error event', () => {
+                    window.console.error = jest.fn();
+                    socket.socketClient.emit(clientEvents.error.groupInviteAccept, error);
+                    expect(window.console.error).toHaveBeenCalledWith(error.groupId);
+                });
             });
-        });
 
-        describe('Group Hero Left', () => {
-            xit('should update the group by removing the specified user', () => {
-            //     let groupHeroExistsObject = generateCurrentGroup();
-            //     expect(store.getState().group).toEqual(groupHeroExistsObject);
+            describe('Group Invite Canceled', () => {
+                it('should update store.group to new group when clientEvents.groupInviteCanceled is emitted', () => {
+                     expect(store.getState().group).toEqual(initialGroup);
+                     socket.socketClient.emit(clientEvents.groupInviteCanceled, group);
+                     expect(store.getState().group).toEqual(group);
+                });
 
-            //     let groupHeroLeftObject = generateLeftObject();
-            //     socket.socketClient.emit(clientEvents.groupPromotedLeader, groupHeroLeftObject);
-            //     expect(store.getState().group).toEqual(groupHeroLeftObject);
+                it('should handle the error event', () => {
+                    window.console.error = jest.fn();
+                    socket.socketClient.emit(clientEvents.error.groupInviteCancel, error);
+                    expect(window.console.error).toHaveBeenCalledWith(error.groupId);
+                });
             });
-        });
 
-        describe('Group Invite Canceled', () => {
-            xit('should remove the specified pending hero from the group', () => {
-            //     let groupHeroCancelledObject = generateCanceledObject();
-            //     socket.socketClient.emit(clientEvents.groupInviteCanceled, groupHeroCancelledObject);
-            //     expect(store.getState().group).toEqual(groupHeroCancelledObject);
+            describe('invite received', () => {
+                it('should add the group invite to the list', () => {
+                    expect(store.getState().groupInvites).toEqual([]);
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    expect(store.getState().groupInvites).toEqual([group]);
+                });
+            });
+
+            describe('Group invite declined', () => {
+                it('should update store.group to new group when clientEvents.groupInviteDeclined is emitted', () => {
+                    expect(store.getState().group).toEqual(initialGroup);
+                    socket.socketClient.emit(clientEvents.groupInviteDeclined, group);
+                    expect(store.getState().group).toEqual(group);
+                });
+
+                it('should handle the error event', () => {
+                    window.console.error = jest.fn();
+                    socket.socketClient.emit(clientEvents.error.groupInviteDeclined, error);
+                    expect(window.console.error).toHaveBeenCalledWith(error.groupId);
+                });
             });
         });
     });
@@ -228,9 +257,6 @@ describe('Model', () => {
         });
 
         describe('updatePreferredHeroes', function() {
-            beforeEach(() => {
-                socket.removeHero = () => {}; //Stub
-            });
 
             it('should update the preferred heroes array to the argument', function() {
                 let hero = generateHero();
@@ -323,40 +349,64 @@ describe('Model', () => {
         });
 
         describe('createNewGroup', () => {
-            xit('should fire createGroup socket event', () => {
-
-            });
-            xit('should set a new group in the state with group leader', () => {
-
+            it('should call websocket.createGroup with heroName', () => {
+                model.createNewGroup(groupInvites[0].heroName);
+                expect(socket.createGroup).toHaveBeenCalledWith(groupInvites[0].heroName);
             });
         });
 
         describe('inviteUserToGroup', () => {
-            xit('should fire groupInviteSend socket event', () => {
-
-            });
-            xit('should set a new group in the state with invited user', () => {
-
+            it('should call websocket.groupInviteSend with groupId', () => {
+                let userObject = groupInvites[0].member;
+                model.inviteUserToGroup(userObject);
+                expect(socket.groupInviteSend).toHaveBeenCalledWith(userObject);
             });
         });
 
         describe('leaveGroup', () => {
-            xit('should fire groupLeave socket event', () => {
-
-            });
-            xit('should return the same group with the missing user', () => {
-
+            it('should call websocket.leaveGroup with groupId', () => {
+                model.leaveGroup(groupInvites[0].groupId);
+                expect(socket.groupLeave).toHaveBeenCalledWith(groupInvites[0].groupId);
             });
         });
 
         describe('cancelInvite', () => {
-            xit('should fire cancelInvite socket event', () => {
-
-            });
-            xit('should set a new group in the state with pending user missing', () => {
-
+            it('should call websocket.cancelInvite with groupId', () => {
+                model.cancelInvite(groupInvites[0].groupId);
+                expect(socket.groupInviteCancel).toHaveBeenCalledWith(groupInvites[0].groupId);
             });
         });
 
+        describe('acceptGroupInviteAndRemoveFromStore', () => {
+            const invite = groupInvites[0];
+
+            it('should remove groupInvite from store groupInvites when passed groupInvite object', () => {
+                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
+                expect(store.getState().groupInvites).toEqual([invite]);
+                model.acceptGroupInviteAndRemoveFromStore(invite);
+                expect(store.getState().groupInvites).toEqual([]);
+            });
+
+            it('should call websocket.groupInviteAccept with groupId when passed groupInvite object', () => {
+                model.acceptGroupInviteAndRemoveFromStore(groupInvites[0]);
+                expect(socket.groupInviteAccept).toHaveBeenCalledWith(groupInvites[0].groupId);
+            });
+        });
+
+        describe('declineGroupInviteAndRemoveFromStore', () => {
+            const invite = groupInvites[0];
+
+            it('should remove groupInvite from store groupInvites when passed groupInvite object', () => {
+                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
+                expect(store.getState().groupInvites).toEqual([invite]);
+                model.declineGroupInviteAndRemoveFromStore(invite);
+                expect(store.getState().groupInvites).toEqual([]);
+            });
+
+            it('should call websocket.groupInviteDecline with groupId when passed groupInvite object', () => {
+                model.declineGroupInviteAndRemoveFromStore(groupInvites[0]);
+                expect(socket.groupInviteDecline).toHaveBeenCalledWith(groupInvites[0].groupId);
+            });
+        });
     });
 });
