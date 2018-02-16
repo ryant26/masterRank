@@ -559,8 +559,6 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
       <b>
         Players joined: 
         2
-        /
-        4
       </b>
     </div>
     <div

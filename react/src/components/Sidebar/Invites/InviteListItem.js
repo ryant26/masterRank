@@ -49,7 +49,7 @@ export default class InviteListItem extends Component{
             {details.leader.platformDisplayName}
           </div>
           <div>
-            {details.members.length}/{details.groupSize}
+            {details.members.length  + 1}
           </div>
         </div>
         <div className="sub-title">
