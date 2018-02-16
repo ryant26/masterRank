@@ -16,12 +16,12 @@ const InvitesGridItem = ({invite}) => {
     });
 
     const declineInvite = () => {
-        Model.declineInvite(invite);
+        Model.declineGroupInviteAndRemoveFromStore(invite);
     };
 
     const acceptInvite = () => {
         Model.leaveGroup(invite.groupId);
-        Model.acceptInvite(invite);
+        Model.acceptGroupInviteAndRemoveFromStore(invite);
     };
 
     return (
@@ -39,7 +39,7 @@ const InvitesGridItem = ({invite}) => {
             <div className="button-group flex justify-around">
                 <div
                     className="button button-six flex justify-center align-center"
-                    onClick={() => {declineInvite();}}
+                    onClick={declineInvite}
                 >
                     <div className="button-content">
                         DECLINE
@@ -47,7 +47,7 @@ const InvitesGridItem = ({invite}) => {
                 </div>
                 <div
                     className="button button-secondary flex justify-center align-center"
-                    onClick={() => {acceptInvite();}}
+                    onClick={acceptInvite}
                 >
                     <div className="button-content">
                         ACCEPT

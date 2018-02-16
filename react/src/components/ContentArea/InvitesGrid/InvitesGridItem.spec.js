@@ -70,9 +70,12 @@ describe('InvitesGridItem Component', () => {
         let HeroCardComponent;
 
         beforeEach(() => {
+            //TODO: figure out how to assert that method {X} exists in Model expect(Model.{X}).toExist()
             Model.leaveGroup = jest.fn();
-            Model.acceptInvite = jest.fn();
+            Model.acceptGroupInviteAndRemoveFromStore = jest.fn();
             HeroCardComponent = getHeroCardComponent(groupInvite);
+            expect(Model.leaveGroup).not.toHaveBeenCalled();
+            expect(Model.acceptGroupInviteAndRemoveFromStore).not.toHaveBeenCalled();
             HeroCardComponent.find('.button-secondary').simulate('click');
         });
 
@@ -80,15 +83,15 @@ describe('InvitesGridItem Component', () => {
             expect(Model.leaveGroup).toHaveBeenCalledWith(groupInvite.groupId);
         });
 
-        it('should call Model.acceptInvite with group id', () => {
-            expect(Model.acceptInvite).toHaveBeenCalledWith(groupInvite);
+        it('should call Model.acceptGroupInviteAndRemoveFromStore with group id', () => {
+            expect(Model.acceptGroupInviteAndRemoveFromStore).toHaveBeenCalledWith(groupInvite);
         });
     });
 
-    it('should call Model.declineInvite when decline button is clicked', () => {
-        Model.declineInvite = jest.fn();
+    it('should call Model.declineGroupInviteAndRemoveFromStore when decline button is clicked', () => {
+        Model.declineGroupInviteAndRemoveFromStore = jest.fn();
         const wrapper = getHeroCardComponent(groupInvite);
         wrapper.find('.button-six').simulate('click');
-        expect(Model.declineInvite).toHaveBeenCalledWith(groupInvite);
+        expect(Model.declineGroupInviteAndRemoveFromStore).toHaveBeenCalledWith(groupInvite);
     });
 });

@@ -377,34 +377,34 @@ describe('Model', () => {
             });
         });
 
-        describe('acceptInvite', () => {
+        describe('acceptGroupInviteAndRemoveFromStore', () => {
             const invite = groupInvites[0];
 
             it('should remove groupInvite from store groupInvites when passed groupInvite object', () => {
                 socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
                 expect(store.getState().groupInvites).toEqual([invite]);
-                model.declineInvite(invite);
+                model.acceptGroupInviteAndRemoveFromStore(invite);
                 expect(store.getState().groupInvites).toEqual([]);
             });
 
             it('should call websocket.groupInviteAccept with groupId when passed groupInvite object', () => {
-                model.acceptInvite(groupInvites[0]);
+                model.acceptGroupInviteAndRemoveFromStore(groupInvites[0]);
                 expect(socket.groupInviteAccept).toHaveBeenCalledWith(groupInvites[0].groupId);
             });
         });
 
-        describe('declineInvite', () => {
+        describe('declineGroupInviteAndRemoveFromStore', () => {
             const invite = groupInvites[0];
 
             it('should remove groupInvite from store groupInvites when passed groupInvite object', () => {
                 socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
                 expect(store.getState().groupInvites).toEqual([invite]);
-                model.declineInvite(invite);
+                model.declineGroupInviteAndRemoveFromStore(invite);
                 expect(store.getState().groupInvites).toEqual([]);
             });
 
             it('should call websocket.groupInviteDecline with groupId when passed groupInvite object', () => {
-                model.declineInvite(groupInvites[0]);
+                model.declineGroupInviteAndRemoveFromStore(groupInvites[0]);
                 expect(socket.groupInviteDecline).toHaveBeenCalledWith(groupInvites[0].groupId);
             });
         });
