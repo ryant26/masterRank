@@ -7,7 +7,7 @@ import { mount } from 'enzyme';
 import InvitesGrid from './InvitesGrid';
 import {createStore} from "../../../model/store";
 import groupInvites from '../../../resources/groupInvites';
-import {addGroupInvite} from "../../../actions/groupInvites";
+import {addGroupInvite} from "../../../actionCreators/groupInvites";
 
 const getStore = () => {
     let store = createStore();

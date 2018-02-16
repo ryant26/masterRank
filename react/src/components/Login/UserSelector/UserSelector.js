@@ -7,7 +7,7 @@ import UserCard from '../../UserCard/UserCard';
 import {
     pushBlockingEvent as pushLoadingEventAction,
     popBlockingEvent as popLoadingEventAction
-} from "../../../actions/loading";
+} from "../../../actionCreators/loading";
 
 const UserSelector = ({users, region, setLoading, clearLoading}) => {
 

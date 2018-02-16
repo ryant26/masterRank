@@ -10,7 +10,7 @@ import RegionSelection from '../../components/Login/RegionSelection/RegionSelect
 import FullPageLoadingSpinner from '../../components/LoadingSpinner/FullPageLoadingSpinner';
 import ConsoleUserSearch from '../../components/Login/ConsoleUserSearch/ConsoleUserSearch';
 import BlizzardOAuth from '../../components/Login/BlizzardOAuth/BlizzardOAuth';
-import {updateRegion as updateRegionAction} from '../../actions/region';
+import {updateRegion as updateRegionAction} from '../../actionCreators/region';
 
 
 class LoginPage extends Component {
