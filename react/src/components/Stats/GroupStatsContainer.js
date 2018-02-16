@@ -59,7 +59,7 @@ const GroupStatsContainer = ({group, isLeading, toggleModal}) => {
             {!isLeading ?
                 <div className="footer flex justify-between align-center">
                     <div className="sub-title">
-                        <b>Players joined: {groupHeroes.length}/{group.groupSize}</b>
+                        <b>Players joined: {groupHeroes.length}</b>
                     </div>
                     <div className="button-six flex align-center" onClick={leaveGroup}>
                         <div className="button-content">
