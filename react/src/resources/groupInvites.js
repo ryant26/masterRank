@@ -21,7 +21,7 @@ const groupInvites = [
       {
         platformDisplayName: "andyLin#1234",
         skillRating: 1800,
-        heroName: "trancer",
+        heroName: "tracer",
         stats: {}
       }
     ]
@@ -39,9 +39,9 @@ const groupInvites = [
     members: [],
     pending: [
       {
-        platformDisplayName: "andyLin#1234",
+        platformDisplayName: "cutie#1320",
         skillRating: 1600,
-        heroName: "trancer",
+        heroName: "tracer",
         stats: {}
       }
     ]
@@ -66,7 +66,7 @@ const groupInvites = [
         ],
         pending: [
             {
-                platformDisplayName: "andyLin#1234",
+                platformDisplayName: "cutie#1320",
                 skillrating: 1600,
                 heroName: "winston",
                 stats: {}
@@ -100,7 +100,7 @@ const groupInvites = [
         {
           platformDisplayName: "cutie#1320",
           skillRating: 1800,
-          heroName: "trancer",
+          heroName: "tracer",
           stats: {}
         },{
           platformDisplayName: "pwnShopp#4810",

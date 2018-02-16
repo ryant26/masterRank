@@ -15,7 +15,10 @@ import {
 } from "../actions/heroFilters";
 import { updateGroup as updateGroupAction } from '../actions/group';
 import { clientEvents } from "../api/websocket";
-import { addGroupInvite as addGroupInviteAction } from '../actions/groupInvites';
+import {
+    addGroupInvite as addGroupInviteAction,
+    removeGroupInvite as removeGroupInviteAction
+} from '../actions/groupInvites';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
@@ -33,15 +36,20 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.initialData, (players) => _handleInitialData(players));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
-    socket.on(clientEvents.groupInviteReceived, (groupInviteReceivedObject) => _addGroupInvite(groupInviteReceivedObject));
-    socket.on(clientEvents.groupPromotedLeader, (promotedLeaderObject) => _updateGroupData(promotedLeaderObject));
-    socket.on(clientEvents.playerInvited, (groupInvitePendingObject) => _updateGroupData(groupInvitePendingObject));
-    socket.on(clientEvents.groupHeroLeft, (groupHeroLeftObject) => _updateGroupData(groupHeroLeftObject));        
-    socket.on(clientEvents.groupInviteCanceled, (groupHeroCancelledObject) => _updateGroupData(groupHeroCancelledObject));
+
+    socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
+    socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
-    socket.on(clientEvents.error.groupLeave, _groupLeaveErrorHandler);    
-    socket.on(clientEvents.error.groupInviteCancel, _groupCancelErrorHandler);
+    socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
+    socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
+    socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
+    socket.on(clientEvents.error.groupInviteDeclined, _groupErrorHandler);
 };
 
 const addHeroFilterToStore = function(filter) {
@@ -115,6 +123,16 @@ const cancelInvite = function(userObject) {
     socket.groupInviteCancel(userObject);
 };
 
+const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
+    store.dispatch(removeGroupInviteAction(groupInviteObject));
+    socket.groupInviteAccept(groupInviteObject.groupId);
+};
+
+const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
+    store.dispatch(removeGroupInviteAction(groupInviteObject));
+    socket.groupInviteDecline(groupInviteObject.groupId);
+};
+
 const _handleInitialData = function(heroes) {
     loadPreferredHeroesFromLocalStorage();
     _addHeroesToStore(heroes);
@@ -156,21 +174,16 @@ const _addHeroErrorHandler = function(err) {
     // After this one
 };
 
-const _addGroupInvite = function(groupInviteObject) {
+const _addGroupInviteToStore = function(groupInviteObject) {
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 
-const _updateGroupData = function(updatedGroupData) {
-    store.dispatch(updateGroupAction(updatedGroupData));
+const _updateGroupInStore = function(groupInviteObject) {
+    store.dispatch(updateGroupAction(groupInviteObject));
 };
 
 /*eslint no-console: ["error", { allow: ["log", "error"] }] */
-const _groupLeaveErrorHandler = function(err) {
-    console.error(err.groupId);
-};
-
-/*eslint no-console: ["error", { allow: ["log", "error"] }] */
-const _groupCancelErrorHandler = function(err) {
+const _groupErrorHandler = (err) => {
     console.error(err.groupId);
 };
 
@@ -192,7 +205,9 @@ const Actions = {
     leaveGroup,
     inviteUserToGroup,
     createNewGroup,
-    cancelInvite
+    cancelInvite,
+    acceptGroupInviteAndRemoveFromStore,
+    declineGroupInviteAndRemoveFromStore
 };
 
 export default Actions;

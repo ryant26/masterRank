@@ -1,5 +1,6 @@
 import Websocket from './websocket';
 import token from '../resources/token';
+import groupInvites from '../resources/groupInvites';
 
 describe('Websocket API', () => {
     let websocket;
@@ -66,13 +67,25 @@ describe('Websocket API', () => {
 
     describe('groupLeave', () => {
         it('should emit the groupLeave event', (done) => {
-            const groupId = 10;
+            const groupId = groupInvites[0].groupId;
             websocket.socket.emit = function(event, groupInfo) {
                 expect(event).toEqual('groupLeave');
                 expect(groupInfo).toEqual(groupId);
                 done();
             };
             websocket.groupLeave(groupId);
+        });
+    });
+
+    describe('groupInviteAccept', () => {
+        it('should emit the groupInviteAccept event', (done) => {
+            const groupId = groupInvites[0].groupId;
+            websocket.socket.emit = function(event, groupIdData) {
+                expect(event).toEqual('groupInviteAccept');
+                expect(groupIdData).toEqual(groupId);
+                done();
+            };
+            websocket.groupInviteAccept(groupId);
         });
     });
 
@@ -88,6 +101,18 @@ describe('Websocket API', () => {
                 done();
             };
             websocket.groupInviteCancel(user);
+        });
+    });
+
+    describe('groupInviteDecline', () => {
+        it('should emit the groupInviteDecline event', (done) => {
+            const groupId = groupInvites[0].groupId;
+            websocket.socket.emit = function(event, groupIdData) {
+                expect(event).toEqual('groupInviteDecline');
+                expect(groupIdData).toEqual(groupId);
+                done();
+            };
+            websocket.groupInviteDecline(groupId);
         });
     });
 });

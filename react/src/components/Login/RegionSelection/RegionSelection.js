@@ -8,12 +8,12 @@ const RegionSelection = ({onChange, selectedRegion}) => {
 
     return(
         <form className="RegionSelection toggle-buttons">
-            <input type="radio" id="region-1" name="region" value={us} checked={selectedRegion === us} onChange={onChange}/>
-            <label htmlFor="region-1"><div className="button-content">NA</div></label>
-            <input type="radio" id="region-2" name="region" value={apac} checked={selectedRegion === apac} onChange={onChange}/>
-            <label htmlFor="region-2"><div className="button-content">APAC</div></label>
-            <input type="radio" id="region-3" name="region" value={eu} checked={selectedRegion === eu} onChange={onChange}/>
-            <label htmlFor="region-3"><div className="button-content">EU</div></label>
+            <input type="radio" id="region-us" name="region" value={us} checked={selectedRegion === us} onChange={onChange}/>
+            <label htmlFor="region-us"><div className="button-content">NA</div></label>
+            <input type="radio" id="region-apac" name="region" value={apac} checked={selectedRegion === apac} onChange={onChange}/>
+            <label htmlFor="region-apac"><div className="button-content">APAC</div></label>
+            <input type="radio" id="region-eu" name="region" value={eu} checked={selectedRegion === eu} onChange={onChange}/>
+            <label htmlFor="region-eu"><div className="button-content">EU</div></label>
         </form>
     );
 };
