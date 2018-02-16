@@ -40,9 +40,7 @@ exports[`HeroCard Component should render a single invite 1`] = `
             luckbomb#1234
           </div>
           <div>
-            1
-            /
-            4
+            2
           </div>
         </div>
         <div
@@ -115,30 +113,7 @@ exports[`HeroCard Component should render three invites 1`] = `
             luckbomb#1234
           </div>
           <div>
-            1
-            /
-            4
-          </div>
-        </div>
-        <div
-          className="sub-title"
-        >
-          Just now
-        </div>
-      </div>
-      <div
-        className="InviteListItem flex flex-column justify-center"
-      >
-        <div
-          className="flex justify-between group-details"
-        >
-          <div>
-            luckbomb#1234
-          </div>
-          <div>
-            0
-            /
-            3
+            2
           </div>
         </div>
         <div
@@ -158,8 +133,25 @@ exports[`HeroCard Component should render three invites 1`] = `
           </div>
           <div>
             1
-            /
-            4
+          </div>
+        </div>
+        <div
+          className="sub-title"
+        >
+          Just now
+        </div>
+      </div>
+      <div
+        className="InviteListItem flex flex-column justify-center"
+      >
+        <div
+          className="flex justify-between group-details"
+        >
+          <div>
+            luckbomb#1234
+          </div>
+          <div>
+            2
           </div>
         </div>
         <div
@@ -232,9 +224,7 @@ exports[`HeroCard Component should render two invites 1`] = `
             luckbomb#1234
           </div>
           <div>
-            1
-            /
-            4
+            2
           </div>
         </div>
         <div
@@ -253,9 +243,7 @@ exports[`HeroCard Component should render two invites 1`] = `
             luckbomb#1234
           </div>
           <div>
-            0
-            /
-            3
+            1
           </div>
         </div>
         <div
