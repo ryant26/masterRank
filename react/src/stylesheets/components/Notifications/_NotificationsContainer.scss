@@ -1,0 +1,11 @@
+.NotificationsContainer {
+    width: 385px;
+
+    .JoinedProgress {
+        background: linear-gradient(to right, $blue7, $blue4);
+    }
+
+    .ErrorProgress {
+        background: linear-gradient(to right, $red1, $red2)
+    }
+}

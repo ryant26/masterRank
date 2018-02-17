@@ -24,6 +24,11 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 
+import {
+    joinGroupNotification,
+    errorNotification
+} from '../components/Notifications/Notifications';
+
 let socket;
 let store;
 
@@ -134,6 +139,9 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 };
 
 const _handleInitialData = function(heroes) {
+    joinGroupNotification();
+    errorNotification();
+
     loadPreferredHeroesFromLocalStorage();
     _addHeroesToStore(heroes);
     store.dispatch(popBlockingLoadingAction());

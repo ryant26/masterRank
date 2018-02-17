@@ -9,9 +9,12 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
 import Dashboard from '../pages/Dashboard/Dashboard';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+
+import { ToastContainer} from 'react-toastify';
+
 import { home } from '../components/Routes/links';
 
 class App extends Component {
@@ -31,6 +34,7 @@ class App extends Component {
                     ]}
                 />
                 <ErrorBoundary>
+                    <ToastContainer className="NotificationsContainer"/>
                     <Router>
                         <Switch>
                             <PrivateRoute
