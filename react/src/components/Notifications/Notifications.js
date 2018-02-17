@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import JoinedGroup from './JoinedGroup';
-import Error from './Error';
+import JoinedGroup from './JoinedGroup/JoinedGroup';
+import Error from './Error/Error';
 
 export const joinGroupNotification = () => {
     toast(<JoinedGroup/>, {
