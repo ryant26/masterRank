@@ -7,7 +7,7 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
 import LoginPage from '../../../pages/LoginPage/LoginPage';
-import {updateUser as updateUserAction} from "../../../actions/user";
+import {updateUser as updateUserAction} from "../../../actionCreators/user";
 import { home } from '../../Routes/links';
 
 const decode  = require('jwt-decode');

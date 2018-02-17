@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import { users as arrayUsers} from '../../../resources/users';
 import UserSelector from './UserSelector';
 import UserCard from '../../UserCard/UserCard';
-import { home, error } from '../../Routes/links';
+import { home } from '../../Routes/links';
 
 const mockStore = configureStore();
 
@@ -91,11 +91,6 @@ describe('UserSelector', () => {
         it('should redirect to undefined', () => {
             mockXhr.onload();
             expect(window.location.assign).toHaveBeenCalledWith(mockXhr.responseURL);
-        });
-
-        it('should redirect to error path', () => {
-            mockXhr.onerror();
-            expect(window.location.assign).toHaveBeenCalledWith(error);
         });
     });
 });

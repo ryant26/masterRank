@@ -9,7 +9,7 @@ import { shallow} from 'enzyme';
 import HeroRoles from './HeroRolesList';
 import HeroCard from '../HeroCard/HeroCard';
 import HeroReducer from '../../../../../reducers/HeroReducer';
-import {addHero} from "../../../../../actions/hero";
+import {addHero} from "../../../../../actionCreators/hero";
 import heroes from '../../../../../resources/heroes';
 import {users} from '../../../../../resources/users';
 import groupInvites from '../../../../../resources/groupInvites';

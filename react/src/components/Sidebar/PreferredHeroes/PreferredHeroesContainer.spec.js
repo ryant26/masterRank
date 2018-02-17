@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import {createStore} from '../../../model/store';
 import Model from '../../../model/model';
-import {addHero} from '../../../actions/preferredHeroes';
+import {addHero} from '../../../actionCreators/preferredHeroes';
 import AddHeroIcon from './AddHeroIcon';
 import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
 

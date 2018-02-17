@@ -3,8 +3,8 @@ import { mount } from 'enzyme';
 import GroupModal from './GroupInfoModal';
 import Modal from './Modal';
 import {createStore} from "../../model/store";
-import {updateUser} from "../../actions/user";
-import {updateGroup} from "../../actions/group";
+import {updateUser} from "../../actionCreators/user";
+import {updateGroup} from "../../actionCreators/group";
 import groups from '../../resources/groupInvites';
 import {users} from '../../resources/users';
 
