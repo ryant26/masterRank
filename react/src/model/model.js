@@ -49,7 +49,7 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
-    socket.on(clientEvents.error.groupInviteDeclined, _groupErrorHandler);
+    socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
 };
 
 const addHeroFilterToStore = function(filter) {

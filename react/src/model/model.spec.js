@@ -220,9 +220,9 @@ describe('Model', () => {
                     expect(store.getState().group).toEqual(group);
                 });
 
-                it('should handle the error event', () => {
+                it('should handle event error.groupInviteDecline', () => {
                     window.console.error = jest.fn();
-                    socket.socketClient.emit(clientEvents.error.groupInviteDeclined, error);
+                    socket.socketClient.emit(clientEvents.error.groupInviteDecline, error);
                     expect(window.console.error).toHaveBeenCalledWith(error.groupId);
                 });
             });

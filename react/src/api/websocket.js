@@ -19,7 +19,7 @@ export const clientEvents = {
         groupLeave: 'error.groupLeave',
         groupInviteAccept: 'error.groupInviteAccept',
         groupInviteCancel: 'error.groupInviteCancel',
-        groupInviteDeclined: 'error.groupInviteDeclined'
+        groupInviteDecline: 'error.groupInviteDecline'
     }
 };
 
