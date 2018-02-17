@@ -26,7 +26,7 @@ import {
 
 import {
     joinGroupNotification,
-    errorNotification
+    errorNotification,
 } from '../components/Notifications/Notifications';
 
 let socket;

@@ -2,6 +2,8 @@ import io from 'socket.io-client';
 import logger from '../utilities/logger';
 const decode  = require('jwt-decode');
 
+import { disconnectedNotification } from '../components/Notifications/Notifications';
+
 export const clientEvents = {
     initialData: 'initialData',
     authenticated: 'authenticated',
@@ -55,6 +57,7 @@ export default class Websocket {
     }
 
     disconnect() {
+        disconnectedNotification();
         this.socket.close();
     }
 

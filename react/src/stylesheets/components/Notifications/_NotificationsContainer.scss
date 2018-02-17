@@ -8,4 +8,8 @@
     .ErrorProgress {
         background: linear-gradient(to right, $red1, $red2)
     }
+
+    .DisconnectedProgress {
+        background: linear-gradient(to right, $yellow1, $yellow2)
+    }
 }
