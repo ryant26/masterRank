@@ -1,22 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Error = () => {
+const Error = ({ error }) => {
 
     return (
         <div className="Error">
             <div className="icon-container">
-                <i className="icon fa fa-exclamation"></i>
+                <i className="icon fa fa-exclamation"/>
             </div>
             <div className="body">
                 <div className="title">
                     {`Something went wrong!`}
                 </div>
                 <div className="message">
-                    {`Error adding hero "tracer", please try again or refresh page`}
+                    { error }
                 </div>
             </div>
         </div>
     );
+};
+
+Error.propTypes = {
+    error: PropTypes.string.isRequired
 };
 
 export default Error;

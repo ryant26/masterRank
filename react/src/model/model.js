@@ -130,6 +130,7 @@ const cancelInvite = function(userObject) {
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     store.dispatch(removeGroupInviteAction(groupInviteObject));
+    joinGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 
@@ -139,9 +140,6 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 };
 
 const _handleInitialData = function(heroes) {
-    joinGroupNotification();
-    errorNotification();
-
     loadPreferredHeroesFromLocalStorage();
     _addHeroesToStore(heroes);
     store.dispatch(popBlockingLoadingAction());
@@ -191,8 +189,9 @@ const _updateGroupInStore = function(groupInviteObject) {
 };
 
 /*eslint no-console: ["error", { allow: ["log", "error"] }] */
-const _groupErrorHandler = (err) => {
-    console.error(err.groupId);
+const _groupErrorHandler = (error) => {
+    errorNotification(error);
+    console.error(error.groupId);
 };
 
 const loadPreferredHeroesFromLocalStorage = () => {
