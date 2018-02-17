@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import {getHeroes} from '../../resources/heroes';
 import UserStatsContainer from './UserStatsContainer';
 import {createStore} from "../../model/store";
-import {addHero} from "../../actions/hero";
+import {addHero} from "../../actionCreators/hero";
 
 
 const getMixedHeroes = () => {

@@ -4,9 +4,9 @@ import { mount } from 'enzyme';
 
 import HeroRolesContainer from './HeroRolesContainer';
 import {createStore} from '../../../../model/store';
-import {addHero} from '../../../../actions/hero';
-import {addFilter} from '../../../../actions/heroFilters';
-import {updateUser} from '../../../../actions/user';
+import {addHero} from '../../../../actionCreators/hero';
+import {addFilter} from '../../../../actionCreators/heroFilters';
+import {updateUser} from '../../../../actionCreators/user';
 import {users} from '../../../../resources/users';
 
 const getHeroRolesContainer = (store) => {

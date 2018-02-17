@@ -1,28 +1,28 @@
 import { addHero as addHeroAction,
     addHeroes as addHeroesAction,
     removeHero as removeHeroAction
-} from "../actions/hero";
+} from "../actionCreators/hero";
 import {
     addHero as addPreferredHeroAction,
     removeHero as removePreferredHeroAction,
     updateHeroes as updatePreferredHeroesAction
-} from "../actions/preferredHeroes";
-import { updateUser as updateUserAction } from "../actions/user";
+} from "../actionCreators/preferredHeroes";
+import { updateUser as updateUserAction } from "../actionCreators/user";
 import {
     addFilter as addFilterAction,
     removeFilter as removeFilterAction,
     removeAllFilters as removeAllFiltersAction
-} from "../actions/heroFilters";
-import { updateGroup as updateGroupAction } from '../actions/group';
+} from "../actionCreators/heroFilters";
+import { updateGroup as updateGroupAction } from '../actionCreators/group';
 import { clientEvents } from "../api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
     removeGroupInvite as removeGroupInviteAction
-} from '../actions/groupInvites';
+} from '../actionCreators/groupInvites';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
-} from "../actions/loading";
+} from "../actionCreators/loading";
 
 let socket;
 let store;

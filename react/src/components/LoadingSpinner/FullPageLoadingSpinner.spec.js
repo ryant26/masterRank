@@ -1,7 +1,7 @@
 import React from 'react';
 import FullPageLoadingSpinner from './FullPageLoadingSpinner';
 import LoadingSpinner from './LoadingSpinner';
-import {pushBlockingEvent} from "../../actions/loading";
+import {pushBlockingEvent} from "../../actionCreators/loading";
 import {createStore} from "../../model/store";
 import {mount} from 'enzyme';
 
