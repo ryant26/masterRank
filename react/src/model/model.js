@@ -1,5 +1,4 @@
 import { addHero as addHeroAction,
-    addHeroes as addHeroesAction,
     removeHero as removeHeroAction
 } from "../actionCreators/hero";
 import {
@@ -33,7 +32,7 @@ const initialize = function(passedSocket, passedStore) {
 
     store.dispatch(pushBlockingLoadingAction());
 
-    socket.on(clientEvents.initialData, (players) => _handleInitialData(players));
+    socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
@@ -76,10 +75,6 @@ const updatePreferredHeroesInStore = function(heroes) {
     store.dispatch(updatePreferredHeroesAction(heroes));
 };
 
-const addPreferredHero = function(heroName, preference) {
-    socket.addHero(heroName, preference);
-    addPreferredHeroToStore(heroName, preference);
-};
 
 const updatePreferredHeroes = function(heroes) {
     let currentPreferredHeroes = store.getState().preferredHeroes.heroes;
@@ -133,9 +128,30 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     socket.groupInviteDecline(groupInviteObject.groupId);
 };
 
-const _handleInitialData = function(heroes) {
-    loadPreferredHeroesFromLocalStorage();
-    _addHeroesToStore(heroes);
+const _handleInitialData = function(heroesFromServer) {
+    let userPlatformDisplayName = store.getState().user.platformDisplayName;
+    let localPreferredHeroNames = Object.create(store.getState().preferredHeroes.heroes);
+
+    let preference = 1;
+    heroesFromServer.forEach((hero) => {
+        if(hero.platformDisplayName === userPlatformDisplayName) {
+            let index = localPreferredHeroNames.indexOf(hero.heroName);
+            if(index < 0) {
+                socket.removeHero(hero.heroName);
+            } else {
+                localPreferredHeroNames.splice(index,1);
+                store.dispatch(addHeroAction(hero));
+                preference++;
+            }
+        } else {
+            store.dispatch(addHeroAction(hero));
+        }
+    });
+
+    localPreferredHeroNames.forEach((heroName) => {
+         socket.addHero(heroName, preference);
+    });
+
     store.dispatch(popBlockingLoadingAction());
 };
 
@@ -145,8 +161,6 @@ const _addHeroToStore = function(hero) {
         addPreferredHeroToStore(hero.heroName, hero.preference);
     }
 
-    // this logic also needs to check when user changes his/her preferred hero
-    // will need a server event to promote this users new hero as the leader
     if (store.getState().preferredHeroes.heroes[0] === hero.heroName) {
         createNewGroup(store.getState().preferredHeroes.heroes[0]);
     }
@@ -159,19 +173,8 @@ const _removeHeroFromStore = function(hero) {
     }
 };
 
-const _addHeroesToStore = function(heroes) {
-    store.dispatch(addHeroesAction(heroes));
-    heroes.forEach((hero) => {
-        if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-            addPreferredHeroToStore(hero.heroName, hero.preference);
-        }
-    });
-};
-
 const _addHeroErrorHandler = function(err) {
     removePreferredHeroFromStore(err.heroName);
-    // Do whatever we do to shuffle heroes in the case that multiple were added
-    // After this one
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {
@@ -187,16 +190,9 @@ const _groupErrorHandler = (err) => {
     console.error(err.groupId);
 };
 
-const loadPreferredHeroesFromLocalStorage = () => {
-    let preferredHeroes = store.getState().preferredHeroes.heroes;
-    preferredHeroes.forEach((hero, key) => {
-        addPreferredHero(hero, (key+1));
-    });
-};
-
 const Actions = {
     initialize,
-    addPreferredHero,
+    addPreferredHeroToStore,
     updatePreferredHeroes,
     addHeroFilterToStore,
     removeHeroFilterFromStore,
