@@ -12,7 +12,7 @@ require('../../../src/app');
 describe(serverEvents.groupLeave, function() {
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('should remove the player from the group members', function(done) {
