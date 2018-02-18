@@ -49,13 +49,21 @@ module.exports = class CommonUtilities {
     }
 
     closeOpenedSockets() {
-        this.socketsArray.forEach((socket) => {
-            try{
-                socket.close();
-            } catch (err) {
-                logger.warn('Failed to close a socket');
-            }
-        });
+        let sockets = this.socketsArray;
+        this.socketsArray = [];
+        return Promise.all(sockets.map((socket) => {
+            return new Promise((resolve, reject) => {
+                try{
+                    socket.on('disconnect', () => {
+                        resolve();
+                    });
+                    socket.close();
+                } catch (err) {
+                    logger.warn('Failed to close a socket');
+                    reject();
+                }
+            });
+        }));
     }
 
     getEmptyGroup(region) {
@@ -63,7 +71,7 @@ module.exports = class CommonUtilities {
             let out = {
                 leaderHero: {
                     platformDisplayName: randomString.generate(),
-                    heroName: randomString.generate()
+                    heroName: 'genji'
                 }
             };
 
@@ -108,7 +116,7 @@ module.exports = class CommonUtilities {
                 for (let i = 0; i < numberOfGroupMembers; i++) {
                     let member = {
                         platformDisplayName: randomString.generate(),
-                        heroName: randomString.generate()
+                        heroName: 'mei'
                     };
 
 
@@ -146,7 +154,7 @@ module.exports = class CommonUtilities {
         return new Promise((resolve) => {
             let hero =  {
                 platformDisplayName: platformDisplayName || randomString.generate(),
-                heroName: heroName || randomString.generate()
+                heroName: heroName || 'winston'
             };
 
             this.getAuthenticatedSocket(hero.platformDisplayName, region).then(({socket}) => {

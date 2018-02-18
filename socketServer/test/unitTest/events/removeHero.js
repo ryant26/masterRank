@@ -23,11 +23,11 @@ describe(serverEvents.removeHero, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('should send out hero removed event', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 3;
 
         socket.on(clientEvents.heroAdded, () => {
@@ -44,7 +44,7 @@ describe(serverEvents.removeHero, function() {
     });
 
     it('should remove heros from initalData', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 4;
 
         socket.on(clientEvents.heroAdded, () => {
@@ -62,7 +62,7 @@ describe(serverEvents.removeHero, function() {
     });
 
     it('should call the heroRemoved event on all connected clients', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 4;
 
         commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.connectionUrlUs).then((data) => {
@@ -83,7 +83,7 @@ describe(serverEvents.removeHero, function() {
     });
 
     it('should not call the heroRemoved event for players in other ranks', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 5;
 
         commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us).then((data) => {
@@ -107,7 +107,7 @@ describe(serverEvents.removeHero, function() {
     });
 
     it('should not call the heroRemoved event for players in other regions', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 4;
 
         commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us).then((data) => {

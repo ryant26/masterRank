@@ -21,13 +21,13 @@ describe(serverEvents.groupInviteCancel, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('Should remove a pending hero', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'genji'
         };
 
         socket.on(clientEvents.groupInviteCanceled, (details) => {
@@ -66,7 +66,7 @@ describe(serverEvents.groupInviteCancel, function() {
     it('should not fire event for inviting non-existant hero', function(done) {
         let invite = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'genji'
         };
 
         socket.emit(serverEvents.groupInviteCancel, invite);
