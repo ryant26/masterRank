@@ -8,29 +8,33 @@ import groupInvites from '../../resources/groupInvites';
 
 import {
     joinGroupNotification,
-    errorNotification
+    errorNotification,
+    disconnectedNotification
 } from './Notifications';
 
 
 describe('Notifications', () => {
-    const displayName = groupInvites[0].leader.platformDisplayName;
-    const error = 'Error adding hero "tracer", please try again or refresh page';
 
-    describe('errorNotification', () => {
+    describe('joinGroupNotification', () => {
         it('should call toast with correct props', () => {
+            const displayName = groupInvites[0].leader.platformDisplayName.replace(/#.*/,"");
+            const type = "success";
+            const title = <span>You've joined <b>{displayName}'s</b> group!</span>;
+            const message = <span>Add <b>{displayName}</b> while you wait for other players to join</span>;
+
             joinGroupNotification(displayName);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification
                     icon="fa fa-thumbs-up"
-                    message={<span>Add <b>{displayName}</b> {`while you wait for other players to join`}</span>}
-                    title={<span>{`You've joined `}<b>{displayName.replace(/#.*/,"")}{`'s`}</b>{` group!`}</span>}
-                    type="success"
+                    title={title}
+                    message={message}
+                    type={type}
                 />,
                 {
                     autoClose: 30000,
                     className: "NotificationContainer",
-                    progressClassName: "success-progress"
+                    progressClassName: `${type}-progress`
                 }
             );
         });
@@ -38,20 +42,51 @@ describe('Notifications', () => {
 
    describe('errorNotification with correct props', () => {
         it('should call toast ', () => {
-           errorNotification(error);
-           expect(toast).toHaveBeenCalledWith(
-               <Notification
+            const type = "error";
+            const title = "Something went wrong!";
+            const error = {
+                message: 'Error adding hero "tracer", please try again or refresh page'
+            };
+
+            errorNotification(error);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
                    icon="fa fa-exclamation"
-                   message={error}
-                   title="Something went wrong!"
-                   type="error"
-               />,
-               {
+                   title={title}
+                   message={error.message}
+                   type={type}
+                />,
+                {
                    autoClose: 30000,
                    className: "NotificationContainer",
-                   progressClassName: "error-progress"
-               }
-           );
+                   progressClassName:`${type}-progress`
+                }
+            );
         });
    });
+
+   describe('disconnectedNotification with correct props', () => {
+       it('should call toast ', () => {
+          const type = "warning";
+          const message = "Please wait while we try to reconnect...";
+          const title = "You have been disconnected";
+
+          disconnectedNotification();
+
+          expect(toast).toHaveBeenCalledWith(
+              <Notification
+                  icon="fa fa-plug"
+                  title={title}
+                  message={message}
+                  type={type}
+              />,
+              {
+                  autoClose: 30000,
+                  className: "NotificationContainer",
+                  progressClassName:`${type}-progress`
+              }
+          );
+       });
+  });
 });
