@@ -21,11 +21,11 @@ export const joinGroupNotification = ( displayName ) => {
     });
 };
 
-export const errorNotification = ( error ) => {
+export const errorNotification = ( errorMessage ) => {
     showNotification({
         icon: 'fa fa-exclamation',
         title: 'Something went wrong!',
-        message: error.message,
+        message: errorMessage,
         type: 'error'
     });
 };

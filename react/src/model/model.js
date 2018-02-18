@@ -26,8 +26,7 @@ import {
 
 import {
     joinGroupNotification,
-    errorNotification,
-    disconnectedNotification
+    errorNotification
 } from '../components/Notifications/Notifications';
 
 let socket;
@@ -56,9 +55,6 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
-    joinGroupNotification('PwNShoPP#1662');
-    errorNotification('This is a problem...');
-    disconnectedNotification();
 };
 
 const addHeroFilterToStore = function(filter) {
@@ -178,8 +174,9 @@ const _addHeroesToStore = function(heroes) {
     });
 };
 
-const _addHeroErrorHandler = function(err) {
-    removePreferredHeroFromStore(err.heroName);
+const _addHeroErrorHandler = function(error) {
+    errorNotification(error.heroName);
+    removePreferredHeroFromStore(error.heroName);
     // Do whatever we do to shuffle heroes in the case that multiple were added
     // After this one
 };
@@ -192,10 +189,8 @@ const _updateGroupInStore = function(groupInviteObject) {
     store.dispatch(updateGroupAction(groupInviteObject));
 };
 
-/*eslint no-console: ["error", { allow: ["log", "error"] }] */
 const _groupErrorHandler = (error) => {
-    errorNotification(error);
-    console.error(error.groupId);
+    errorNotification(error.message);
 };
 
 const loadPreferredHeroesFromLocalStorage = () => {

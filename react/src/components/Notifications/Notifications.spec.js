@@ -44,17 +44,15 @@ describe('Notifications', () => {
         it('should call toast ', () => {
             const type = "error";
             const title = "Something went wrong!";
-            const error = {
-                message: 'Error adding hero "tracer", please try again or refresh page'
-            };
+            const errorMessage = 'Error adding hero "tracer", please try again or refresh page';
 
-            errorNotification(error);
+            errorNotification(errorMessage);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification
                    icon="fa fa-exclamation"
                    title={title}
-                   message={error.message}
+                   message={errorMessage}
                    type={type}
                 />,
                 {
