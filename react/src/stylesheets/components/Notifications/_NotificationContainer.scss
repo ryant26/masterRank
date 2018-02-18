@@ -1,36 +1,42 @@
-.ErrorContainer {
+.NotificationContainer {
     background-color: white;
     border-radius: 3px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.05);
     border: solid 1px $gray5;
     overflow: visible;
 
-    .Error {
-        display: flex;
-        justify-content: flex-start;
+    .Notification {
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
 
         .icon-container {
-            display: flex;
-            justify-content: center;
             margin-left: -30px;
             margin-right: 10px;
             transform: skewX(-5deg);
             width: 38px;
             height: 38px;
             border-radius: 3px;
-            background-image: linear-gradient(to bottom, $red1, $red2);
             box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 
+            &.success {
+                background-image: linear-gradient(to bottom, $blue7, $blue4);
+            }
+
+            &.warning {
+                background-image: linear-gradient(to bottom, $yellow1, $yellow2);
+            }
+
+            &.error {
+                background-image: linear-gradient(to bottom, $red1, $red2);
+            }
+
             .icon {
-                align-self: center;
                 color: white;
                 font-family: FontAwesome;
                 font-size: 18px;
-                font-weight: normal;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: normal;
                 text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
             }
         }
@@ -38,25 +44,26 @@
         .body {
             .title {
                 font-size: 18px;
-                font-weight: normal;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: normal;
-                text-align: left;
                 color: $gray3;
             }
 
             .message {
                 font-family: 'Roboto', sans-serif;
                 font-size: 12px;
-                font-weight: normal;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: normal;
-                letter-spacing: normal;
                 color: $gray4;
             }
         }
+    }
+
+    .success-progress {
+        background: linear-gradient(to right, $blue7, $blue4);
+    }
+
+    .error-progress {
+        background: linear-gradient(to right, $red1, $red2)
+    }
+
+    .warning-progress {
+        background: linear-gradient(to right, $yellow1, $yellow2)
     }
 }

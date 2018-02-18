@@ -2,8 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 jest.mock('react-toastify');
 
-import JoinedGroup from './JoinedGroup/JoinedGroup';
-import Error from './Error/Error';
+import Notification from './Notification/Notification';
 
 import groupInvites from '../../resources/groupInvites';
 
@@ -22,11 +21,16 @@ describe('Notifications', () => {
             joinGroupNotification(displayName);
 
             expect(toast).toHaveBeenCalledWith(
-                <JoinedGroup displayName={displayName}/>,
+                <Notification
+                    icon="fa fa-thumbs-up"
+                    message={<span>Add <b>{displayName}</b> {`while you wait for other players to join`}</span>}
+                    title={<span>{`You've joined `}<b>{displayName.replace(/#.*/,"")}{`'s`}</b>{` group!`}</span>}
+                    type="success"
+                />,
                 {
                     autoClose: 30000,
-                    className: "JoinedGroupContainer",
-                    progressClassName: "JoinedProgress"
+                    className: "NotificationContainer",
+                    progressClassName: "success-progress"
                 }
             );
         });
@@ -35,13 +39,17 @@ describe('Notifications', () => {
    describe('errorNotification with correct props', () => {
         it('should call toast ', () => {
            errorNotification(error);
-
            expect(toast).toHaveBeenCalledWith(
-               <Error error={error}/>,
+               <Notification
+                   icon="fa fa-exclamation"
+                   message={error}
+                   title="Something went wrong!"
+                   type="error"
+               />,
                {
                    autoClose: 30000,
-                   className: "ErrorContainer",
-                   progressClassName: "ErrorProgress"
+                   className: "NotificationContainer",
+                   progressClassName: "error-progress"
                }
            );
         });

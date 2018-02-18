@@ -27,6 +27,7 @@ import {
 import {
     joinGroupNotification,
     errorNotification,
+    disconnectedNotification
 } from '../components/Notifications/Notifications';
 
 let socket;
@@ -55,6 +56,9 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
+    joinGroupNotification('PwNShoPP#1662');
+    errorNotification('This is a problem...');
+    disconnectedNotification();
 };
 
 const addHeroFilterToStore = function(filter) {
