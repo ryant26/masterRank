@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import test from '../../assets';
 
 const UserCard = ({user, onClick, region}) => {
 
 
     function addIcon(sr) {
         if(sr < 1500) {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/8/89/Badge_1_Bronze.png?version=ad7998775b2d62d071d7c0200c6f3503";
+            return require(`../../assets/bronze-icon.png`);
         } else if (sr < 2000) {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/b/bb/Badge_2_Silver.png?version=d3c7bb3dbf3d0a095aa67272e6c1d5ca";
+            return require(`../../assets/silver-icon.png`);
         } else if (sr < 2500) {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/b/b8/Badge_3_Gold.png?version=8db92000f05a59cc22fcf3bb859a3f5c";
+            return require(`../../assets/gold-icon.png`);
         } else if (sr < 3000) {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/f/f8/Badge_4_Platinum.png?version=95774c0cbbcfe53dcf06a51988b62ccf";
+            return require(`../../assets/platinum-icon.png`);
         } else if (sr < 3500) {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/2/2f/Badge_5_Diamond.png?version=f1073624c5b242253894b998d858f6ca";
+            return require(`../../assets/diamond-icon.png`);
         } else if (sr < 4000) {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/f/f0/Badge_6_Master.png?version=5ff0ee51ad39830bdb8f81e192644990";
+            return require(`../../assets/master-icon.png`);
         } else {
-            return "https://overwatch.gamepedia.com/media/overwatch.gamepedia.com/8/87/Badge_7_Grandmaster.png?version=06549c9802f5942d753acf5fa1eea998";
+            return require(`../../assets/grandmaster-icon.png`);
         }
     }
 
