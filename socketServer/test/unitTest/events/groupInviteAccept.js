@@ -23,14 +23,14 @@ describe(serverEvents.groupInviteAccept, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
 
     });
 
     it('should inform everyone that a new member was added', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us).then((data) => {
@@ -61,7 +61,7 @@ describe(serverEvents.groupInviteAccept, function() {
     it('should only allow people in group pending to accept invites', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         socket.on(clientEvents.heroAdded, () => {
@@ -93,7 +93,7 @@ describe(serverEvents.groupInviteAccept, function() {
     it('should fire the heroRemoved event to the rank', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         socket.on(clientEvents.heroRemoved, (hero) => {

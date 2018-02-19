@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import logger from '../utilities/logger';
+import {getSocketApiBase} from './apiRouter';
 const decode  = require('jwt-decode');
 
 import { disconnectedNotification } from '../components/Notifications/Notifications';
@@ -37,13 +38,12 @@ const serverEvents = {
     groupInviteCancel: 'groupInviteCancel'
 };
 
-const websocketPort = '3004';
 
 export default class Websocket {
     constructor(token) {
         this.authenticated = false;
         let tokenDecoded = decode(token);
-        this.socket = io(`${window.location.hostname}:${websocketPort}/${tokenDecoded.region}/${tokenDecoded.platform}`);
+        this.socket = io(getSocketApiBase(tokenDecoded));
 
         this.socket.emit(serverEvents.authenticate, token);
 

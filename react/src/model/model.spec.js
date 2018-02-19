@@ -3,7 +3,7 @@ import {createStore} from './store';
 import {clientEvents} from '../api/websocket';
 
 const mockSocket = require('socket-io-mock');
-const names = require('../../../shared/allHeroNames').names;
+const names = require('../../../shared/libs/allHeroNames').names;
 
 import groupInvites from '../resources/groupInvites';
 

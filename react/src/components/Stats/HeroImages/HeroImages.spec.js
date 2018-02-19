@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
 import HeroImages from './HeroImages';
 
-const names = require('../../../../../shared/allHeroNames').names;
+const names = require('../../../../../shared/libs/allHeroNames').names;
 
 describe('HeroCard Component',()=> {
     it('should render without exploding', () => {

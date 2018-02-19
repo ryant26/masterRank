@@ -1,4 +1,4 @@
-const allHeroNames = require('../../../shared/allHeroNames').names;
+const allHeroNames = require('../../../shared/libs/allHeroNames').names;
 
 const validateHeroName = function(heroName) {
     return allHeroNames.includes(heroName);
