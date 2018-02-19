@@ -214,11 +214,26 @@ describe('Model', () => {
                 });
             });
 
-            describe('invite received', () => {
-                it('should add the group invite to the list', () => {
+            describe('Group Invite Received', () => {
+                it('should add group invite to store.groupInvites', () => {
                     expect(store.getState().groupInvites).toEqual([]);
                     socket.socketClient.emit(clientEvents.groupInviteReceived, group);
                     expect(store.getState().groupInvites).toEqual([group]);
+                });
+
+                it('should not add duplicate group invites to store.groupInvites', () => {
+                    expect(store.getState().groupInvites).toEqual([]);
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    expect(store.getState().groupInvites).toEqual([group]);
+                });
+
+                it('should add multiple group invites to store.groupInvites', () => {
+                    expect(store.getState().groupInvites).toEqual([]);
+                    groupInvites.forEach((groupInvite) => {
+                        socket.socketClient.emit(clientEvents.groupInviteReceived, groupInvite);
+                    });
+                    expect(store.getState().groupInvites).toEqual(groupInvites);
                 });
             });
 
