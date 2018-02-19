@@ -207,6 +207,34 @@ describe('heroService', function () {
                 assert.isNull(hero);
             });
         });
+
+        it('should handle missing losses stat', function () {
+            let partialData = JSON.parse(JSON.stringify(mockData.playerStats));
+
+            partialData.stats.competitive.soldier76.game.games_won = 10;
+            partialData.stats.competitive.soldier76.game.games_played = 15;
+            partialData.stats.competitive.soldier76.game.games_lost = undefined;
+
+            mockHelpers.stubOverwatchAPI(partialData);
+
+            return heroService.getHero(token, heroName).then((hero) => {
+                assert.equal(hero.losses, 5);
+            });
+        });
+
+        it('should handle missing losses stat and incorrect games played stat', function () {
+            let partialData = JSON.parse(JSON.stringify(mockData.playerStats));
+
+            partialData.stats.competitive.soldier76.game.games_won = 10;
+            partialData.stats.competitive.soldier76.game.games_played = 9;
+            partialData.stats.competitive.soldier76.game.games_lost = undefined;
+
+            mockHelpers.stubOverwatchAPI(partialData);
+
+            return heroService.getHero(token, heroName).then((hero) => {
+                assert.equal(hero.losses, 0);
+            });
+        });
     });
 
     describe('getTopHeroes', function() {

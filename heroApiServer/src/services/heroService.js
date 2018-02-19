@@ -134,6 +134,15 @@ let _getUpdatedHeroConfigObjects = function(token) {
 };
 
 let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
+    const getLosses = function() {
+        if (typeof heroStats.game.games_lost !== 'number') {
+            let calculatedGamesPlayed = heroStats.game.games_played ? heroStats.game.games_played - heroStats.game.games_won : 0;
+            return calculatedGamesPlayed >= 0 ? calculatedGamesPlayed : 0;
+        }
+
+        return heroStats.game.games_lost;
+    };
+
     return {
         platformDisplayName: token.platformDisplayName,
         platform: token.platform,
@@ -142,7 +151,7 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         heroName,
         hoursPlayed: heroStats.game.time_played,
         wins: heroStats.game.games_won,
-        losses: heroStats.game.games_lost,
+        losses: getLosses(),
         gamesPlayed: heroStats.game.games_played
     };
 };
