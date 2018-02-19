@@ -64,6 +64,13 @@ describe('Model', () => {
 
         describe('Initial Data', () => {
 
+            it('should clear all heroes in meta list from store.heroes', () => {
+                socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[0]);
+                socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[1]);
+                socket.socketClient.emit(clientEvents.initialData, []);
+                expect(store.getState().heroes).toEqual([]);
+            });
+
             it('should clear the loading state', () => {
                 expect(store.getState().loading.blockUI).toBeTruthy();
                 socket.socketClient.emit(clientEvents.initialData, heroesFromServer);

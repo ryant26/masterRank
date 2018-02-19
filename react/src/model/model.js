@@ -1,4 +1,5 @@
-import { addHero as addHeroAction,
+import {
+    addHero as addHeroAction,
     removeHero as removeHeroAction
 } from "../actionCreators/hero";
 import {
@@ -129,6 +130,11 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 };
 
 const _handleInitialData = function(heroesFromServer) {
+    //TODO: create an action to clear heroes from store
+    store.getState().heroes.forEach((hero) => {
+        store.dispatch(removeHeroAction(hero));
+    });
+
     let userPlatformDisplayName = store.getState().user.platformDisplayName;
     let localPreferredHeroNames = Object.create(store.getState().preferredHeroes.heroes);
 
