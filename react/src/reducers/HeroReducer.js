@@ -39,6 +39,9 @@ export default function HeroReducer(state=[], action) {
 
           return out;
       }
+      case HeroActionTypes.CLEAR_ALL_HEROES: {
+          return [];
+      }
     default:
       return state;
   }
