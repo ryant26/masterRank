@@ -16,10 +16,12 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import { ToastContainer} from 'react-toastify';
 
 import { home } from '../components/Routes/links';
+import hotjar from '../utilities/hotjar';
 
 class App extends Component {
     constructor(props) {
         super(props);
+        hotjar();
     }
 
     render() {
