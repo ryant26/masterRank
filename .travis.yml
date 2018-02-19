@@ -1,38 +1,67 @@
+# Environment Variables
+env:
+  global:
+    - secure: "WicfanOHGl9DuZprsJNrccO8CqTb5+Lt96+zersbOyBhU3e6aj3dN3dpFK+7eX434SCLNE1KkQ3ty6LyD6HGSZDGW+836OrDLwe+KBQFtOFTe93a9gzAPyMYhi0Nb5CaZhnttigfOhjNI4obDfMQg5n1dltCuEnx3C7PmLoH7+79xiS84S1IX35RcDKd6Bt1+b9sZpdFpkKzzpxUV4dFvkHzrlGIipI3kqDx2EcwRLq5qFflBbRwJUt96sX6bSJ8OYRnFwfv0IcmixoKpxiFMXDZQbaeJtm5dlfrvbBCKzelTwPbwwAXjjPJZ8SS4DlADfL+Obk031JW6ZbXZCM0pyX9l4+LljrXhu+vJpKjCBp3w8IwwpQ3SRaAKed3zI1YaLrV9tiI/vX3WljAoZF8XTczxqnR7Tl2+4Eik4XLKkgcorIZagD7qnTeholSWz6reKDU5CAa4uhWcydM44C1R/F7/+WHmJAlV3bvntheAldGdKMUwX+3RTTGMYJ95CDCwUNqChX11qAOrjEAjVc2sNgcHz4et6GI5d78y0+J00PKYHSCarfn1u0FzMvbq/fW5nge6pa/pwIi7Evdtn3vXcMbwjVjK0tslcdLr7qMATPJF9oUZr+sIBKnBEIXAOc7dmcyD0oNMW0usomLCe5Zpc9tWiKkaQ3gjxPz2tzS84g="
+    - secure: "FkRjXybkQX88Ke0h5zKyRxUEP6+mJ0fSDZdxcUoENEaJjKNx9gy1cfj94buYDfglj01uXl9hbDPF2luCpssDforxRIY/eueiHdga5lXTo7iUnmD64AFw1Pun5d5T6nVIfaSxzirjkaRyOlsqg5ImDTnFnk0WD24XzncnQn1/nP2DU16t2t0ohesbyJPEe4r96cmhUPe3DFuRsJgTX2jXTh3fCGGEEZuRcut8CpQAgUKzkX8SPziMWZXT7CrtyWRs+RG2Bkhdd5p/iOkh0F30bM8bgotgKpjRZUfV2yHn06Ez51ZWuXSlRAli205/FqmNHQRRYnaAXfkHY26i0syKC3RV/mq+EwMaMHl1McTyJJKTrcKJDc44sGHkgdowDWcfFT3swen6+tmVySUou8qHkvBRd1O6XLDyy8reNps4hGMWuodaGTtpd3/RUJOxfnMZUBehSfdcpmONkUS4p4zMIL4+XwAayWWvs8cJSHKurA/BjRyk17MyphPRbUQ3ZzePkBCES8YEcuc7qEBUEefBeBSdBjC0NnvLdKiOO6SYGEK9bDOLi4rF8OE2XVTTTLDfBt9I7vj8fWVwWv2quvRLrFY98gXtf09y0yaPxaPT6WtZMxHNiG/6dFRk08VcafHNuJriuhFs+41vc8Kg1gfpJmLtcpfUoS39+9FfUQyX/5w="
+sudo: required
+
+# Slack integration
 notifications:
   slack: masterrank:iABmZr4oGqMPDJrrBFaSgA15
+
+# Branch Setup
 branches:
   only:
     - master
+    - develop
+
+# Services & Caching
 services:
   - redis-server
   - mongodb
-matrix:
+  - docker
+
+cache:
+  directories:
+    - heroApiServer/node_modules
+    - react/node_modules
+
+# Conditionally allow deployments
+stages:
+  - name: "test"
+  - name: "deploy - test"
+    if: branch = develop AND type != pull_request
+  - name: "deploy - prod"
+    if: branch = master AND type != pull_request
+
+# Test - Build - Deploy
+language: node_js
+node_js: "8.8.1"
+jobs:
   include:
-    - language: node_js
-      node_js: "7.5.0"
-      before_script:
+    - before_script:
         - cd heroApiServer/
         - npm install
         - cd ../socketServer/
         - npm install
         - npm install -g gulp-cli
       script: gulp
-      after_script:
-        - cd ..
-    - language: node_js
-      node_js: "7.5.0"
-      before_script:
+    - before_script:
         - cd heroApiServer/
         - npm install
         - npm install -g gulp-cli
       script: gulp
-      after_script:
-        - cd ..
-    - language: node_js
-      node_js: "7.5.0"
-      before_script:
+    - before_script:
         - cd react/
-        - npm install 
+        - npm install
       script: npm run prebuild
-      after_script:
-        - cd ..
+    - stage: "deploy - test"
+      before_script:
+        - pip install --user awscli
+        - export PATH=$PATH:$HOME/.local/bin
+      script: shared/buildScripts/push_and_deploy_environment.sh $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY test $TRAVIS_BUILD_NUMBER
+    - stage: "deploy - prod"
+      before_script:
+        - pip install --user awscli
+        - export PATH=$PATH:$HOME/.local/bin
+      script: shared/buildScripts/push_and_deploy_environment.sh $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY prod $TRAVIS_BUILD_NUMBER

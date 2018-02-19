@@ -3,9 +3,15 @@ import {createStore} from './store';
 import {clientEvents} from '../api/websocket';
 
 const mockSocket = require('socket-io-mock');
-const names = require('../../../shared/allHeroNames').names;
+const names = require('../../../shared/libs/allHeroNames').names;
 
 import groupInvites from '../resources/groupInvites';
+
+import {
+    joinGroupNotification,
+    errorNotification
+} from '../components/Notifications/Notifications';
+jest.mock('../components/Notifications/Notifications');
 
 const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
 const initializeSocket = function() {
@@ -173,6 +179,7 @@ describe('Model', () => {
                 expect(store.getState().preferredHeroes.heroes[0]).toEqual(hero);
                 socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
                 expect(store.getState().preferredHeroes.heroes).toEqual([]);
+                expect(errorNotification).toHaveBeenCalledWith(hero);
             });
 
             //TODO: is this something we want to add? can we delete this?
@@ -222,8 +229,15 @@ describe('Model', () => {
             };
             groupInvites[0].inviteDate = "2018-02-14T11:12:57.706Z";
             const group = groupInvites[0];
-            const error = {
-                groupId: group.groupId
+
+            const shouldCallErrorNotification = (errorEvent) => {
+                const error = {
+                    message: "Something went wrong!"
+                };
+                it(`should call errorNotification() with error when ${errorEvent} is emitted`, () => {
+                    socket.socketClient.emit(errorEvent, error);
+                    expect(errorNotification).toHaveBeenCalledWith(error.message);
+                });
             };
 
             describe('Group Promoted Leader', () => {
@@ -256,12 +270,6 @@ describe('Model', () => {
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
                     expect(store.getState().group).toEqual(group);
                 });
-
-                it('should handle the error event', () => {
-                    window.console.error = jest.fn();
-                    socket.socketClient.emit(clientEvents.error.groupInviteAccept, error);
-                    expect(window.console.error).toHaveBeenCalledWith(error.groupId);
-                });
             });
 
             describe('Group Invite Canceled', () => {
@@ -269,12 +277,6 @@ describe('Model', () => {
                      expect(store.getState().group).toEqual(initialGroup);
                      socket.socketClient.emit(clientEvents.groupInviteCanceled, group);
                      expect(store.getState().group).toEqual(group);
-                });
-
-                it('should handle the error event', () => {
-                    window.console.error = jest.fn();
-                    socket.socketClient.emit(clientEvents.error.groupInviteCancel, error);
-                    expect(window.console.error).toHaveBeenCalledWith(error.groupId);
                 });
             });
 
@@ -292,12 +294,13 @@ describe('Model', () => {
                     socket.socketClient.emit(clientEvents.groupInviteDeclined, group);
                     expect(store.getState().group).toEqual(group);
                 });
+            });
 
-                it('should handle the error event', () => {
-                    window.console.error = jest.fn();
-                    socket.socketClient.emit(clientEvents.error.groupInviteDeclined, error);
-                    expect(window.console.error).toHaveBeenCalledWith(error.groupId);
-                });
+            describe('Error', () => {
+                shouldCallErrorNotification(clientEvents.error.groupLeave);
+                shouldCallErrorNotification(clientEvents.error.groupInviteAccept);
+                shouldCallErrorNotification(clientEvents.error.groupInviteDecline);
+                shouldCallErrorNotification(clientEvents.error.groupInviteCancel);
             });
         });
     });
@@ -462,8 +465,13 @@ describe('Model', () => {
             });
 
             it('should call websocket.groupInviteAccept with groupId when passed groupInvite object', () => {
-                model.acceptGroupInviteAndRemoveFromStore(groupInvites[0]);
+                model.acceptGroupInviteAndRemoveFromStore(invite);
                 expect(socket.groupInviteAccept).toHaveBeenCalledWith(groupInvites[0].groupId);
+            });
+
+            it("should call joinGroupNotification with group invite leader's name", () => {
+                model.acceptGroupInviteAndRemoveFromStore(invite);
+                expect(joinGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
             });
         });
 

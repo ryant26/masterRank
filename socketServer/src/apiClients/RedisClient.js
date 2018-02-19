@@ -40,11 +40,15 @@ let redisKeys = {
 
 let timeToLive = config.get('keyExpiry');
 
-let redisUrl = config.get('redisUrl');
+let redisUrl = `redis://${config.get('redis.host')}:${config.get('redis.port')}`;
 logger.info(`Opening new connection to redis [${redisUrl}]`);
 
 let client = redis.createClient({
     url: redisUrl
+});
+
+client.on('error', (error) => {
+    throw new Error(`Error connecting to redis: ${error}`);
 });
 
 let addPlayerHero = function (platformDisplayName, platform, hero) {

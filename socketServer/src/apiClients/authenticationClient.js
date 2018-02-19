@@ -1,8 +1,9 @@
 const request = require('request-promise');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const apiRouter = require('./apiRouter');
 
-const authUrl = `${config.get('authenticationApi.baseUrl')}:${config.get('authenticationApi.port')}${config.get('authenticationApi.endpoint')}`;
+const authUrl = apiRouter.getEndpoint(config.get('authenticationApi.baseUrl'), config.get('authenticationApi.port'), config.get('authenticationApi.endpoint'));
 
 let authenticate = function(tokenString) {
     return request({url: authUrl,

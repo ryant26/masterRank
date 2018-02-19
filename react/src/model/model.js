@@ -24,6 +24,11 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 
+import {
+    joinGroupNotification,
+    errorNotification
+} from '../components/Notifications/Notifications';
+
 let socket;
 let store;
 
@@ -49,7 +54,7 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
-    socket.on(clientEvents.error.groupInviteDeclined, _groupErrorHandler);
+    socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
 };
 
 const addHeroFilterToStore = function(filter) {
@@ -121,6 +126,7 @@ const cancelInvite = function(userObject) {
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     store.dispatch(removeGroupInviteAction(groupInviteObject));
+    joinGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 
@@ -179,8 +185,11 @@ const _removeHeroFromStore = function(hero) {
     }
 };
 
-const _addHeroErrorHandler = function(err) {
-    removePreferredHeroFromStore(err.heroName);
+const _addHeroErrorHandler = function(error) {
+    errorNotification(error.heroName);
+    removePreferredHeroFromStore(error.heroName);
+    // Do whatever we do to shuffle heroes in the case that multiple were added
+    // After this one
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {
@@ -191,9 +200,8 @@ const _updateGroupInStore = function(groupInviteObject) {
     store.dispatch(updateGroupAction(groupInviteObject));
 };
 
-/*eslint no-console: ["error", { allow: ["log", "error"] }] */
-const _groupErrorHandler = (err) => {
-    console.error(err.groupId);
+const _groupErrorHandler = (error) => {
+    errorNotification(error.message);
 };
 
 const Actions = {

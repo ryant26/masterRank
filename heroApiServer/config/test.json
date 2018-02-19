@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "heroapiserver",
+    "hostname": "test.fireteam.gg",
+    "port": 3000
+  },
+  "db": "mongodb://heroapiserver-test:sPIqP5oTMbD7Kn73@fireteamcluster-shard-00-00-bnajc.mongodb.net:27017,fireteamcluster-shard-00-01-bnajc.mongodb.net:27017,fireteamcluster-shard-00-02-bnajc.mongodb.net:27017/heroapiserver-test?ssl=true&replicaSet=FireTeamCluster-shard-0&authSource=admin",
+  "bnet": {
+    "id": "g6en2fzunagqn66xh47rkuf4bft4338s",
+    "secret": "PdjYz4Cg2Rsym8d8NQ8VfACqwRDyWAdB"
+  }
+}
