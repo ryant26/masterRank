@@ -70,6 +70,17 @@ describe('Model', () => {
 
         describe('Initial Data', () => {
 
+            const localStorePreferredHeroes = [
+                'tracer',
+                'phara'
+            ];
+
+            beforeEach(() => {
+                localStorePreferredHeroes.forEach((heroName, i) => {
+                    model.addPreferredHeroToStore(heroName, (i+1));
+                });
+            });
+
             it('should clear all heroes in meta list from store.heroes', () => {
                 socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[0]);
                 socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[1]);
@@ -77,74 +88,35 @@ describe('Model', () => {
                 expect(store.getState().heroes).toEqual([]);
             });
 
+            it("heroes on the server that do not belong to the user should be added to store heroes", () => {
+                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
+            });
+
+            it("heroes on the server that belong to the user should be removed from the server", () => {
+                expect(heroesFromServer[0].platformDisplayName).toBe(userDisplayName);
+                expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
+                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[0].heroName);
+                expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[1].heroName);
+            });
+
+            it("heroes on the server that belong to the user should not be added to store preferred heroes", () => {
+                expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
+                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                expect(store.getState().preferredHeroes.heroes.includes(heroesFromServer[1].heroName)).toBeFalsy();
+            });
+
+            it("user's preferred heroes should be added to the server", () => {
+                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[0], 1);
+                expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[1], 2);
+            });
+
             it('should clear the loading state', () => {
                 expect(store.getState().loading.blockUI).toBeTruthy();
                 socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
                 expect(store.getState().loading.blockUI).toBeFalsy();
-            });
-
-            describe('when local store contains preferred heroes', () => {
-                const serverContainsHero= (heroName) => {
-                    return heroesFromServer.find(function(hero) {
-                        return hero.heroName === heroName
-                            && hero.platformDisplayName === userDisplayName;
-                    });
-                };
-
-                const localStorePreferredHeroes = [
-                    'tracer',
-                    'phara'
-                ];
-
-                beforeEach(() => {
-                    localStorePreferredHeroes.forEach((heroName, i) => {
-                        model.addPreferredHeroToStore(heroName, (i+1));
-                    });
-                });
-
-                it("local store preferred heroes should take precedence over heroes returned from the server for store preferred heroes.", () => {
-                    expect(store.getState().preferredHeroes.heroes).toEqual(localStorePreferredHeroes);
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(store.getState().preferredHeroes.heroes).toEqual(localStorePreferredHeroes);
-
-                    expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
-                    expect(store.getState().preferredHeroes.heroes.includes(heroesFromServer[1].heroName)).toBeFalsy();
-                });
-
-                it("user's preferred heroes should be added to the server when not there already", () => {
-                    expect(serverContainsHero(localStorePreferredHeroes[1])).toBeFalsy();
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(socket.addHero).not.toHaveBeenCalledWith(localStorePreferredHeroes[0], 1);
-                    expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[1], 2);
-                });
-
-                it("heroes from server that belong to the user, but are not in user's preferred heroes should not be added to heroes store.", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    let heroes = heroesFromServer.slice();
-                    heroes.splice(1,1);
-                    expect(store.getState().heroes).toEqual(heroes);
-                });
-            });
-
-            describe('when local store contains no preferred heroes', () => {
-                it("heroes on the server that belong to the user should be removed from the server", () => {
-                    expect(store.getState().preferredHeroes.heroes).toEqual([]);
-                    expect(heroesFromServer[0].platformDisplayName).toBe(userDisplayName);
-                    expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[0].heroName);
-                    expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[1].heroName);
-                });
-
-                it("heroes on the server that belong to the user should not be added to store preferred heroes", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(store.getState().preferredHeroes.heroes).toEqual([]);
-                });
-
-                it("heroes on the server that belong to the user should not be added to store heroes", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
-                });
             });
         });
 
@@ -184,13 +156,7 @@ describe('Model', () => {
 
             //TODO: is this something we want to add? can we delete this?
             xit('should create a new group for the current user if the hero added is the first preferred hero', () => {
-                let heroObject = 'hero';
-                model.addPreferredHeroToStore(heroObject, 1);
-                socket.socketClient.emit(clientEvents.createGroup, heroObject);
-                expect(store.getState().group.leader).toEqual({
-                    platformDisplayName: 'PwNShoPP', 
-                    heroName: heroObject
-                });
+
             });
 
             //TODO: is this something we want to add? can we delete this?

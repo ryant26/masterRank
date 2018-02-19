@@ -142,26 +142,16 @@ const _handleInitialData = function(heroesFromServer) {
     });
 
     let userPlatformDisplayName = store.getState().user.platformDisplayName;
-    let localPreferredHeroNames = Object.create(store.getState().preferredHeroes.heroes);
-
-    let preference = 1;
     heroesFromServer.forEach((hero) => {
-        if(hero.platformDisplayName === userPlatformDisplayName) {
-            let index = localPreferredHeroNames.indexOf(hero.heroName);
-            if(index < 0) {
-                socket.removeHero(hero.heroName);
-            } else {
-                localPreferredHeroNames.splice(index,1);
-                store.dispatch(addHeroAction(hero));
-                preference++;
-            }
-        } else {
+        if(hero.platformDisplayName !== userPlatformDisplayName){
             store.dispatch(addHeroAction(hero));
+        } else  {
+            socket.removeHero(hero.heroName)
         }
     });
 
-    localPreferredHeroNames.forEach((heroName) => {
-         socket.addHero(heroName, preference);
+    store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
+         socket.addHero(heroName, (i+1));
     });
 
     store.dispatch(popBlockingLoadingAction());
