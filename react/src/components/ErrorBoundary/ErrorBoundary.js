@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-export default class ErrorBoundary extends Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,3 +40,5 @@ export default class ErrorBoundary extends Component {
 ErrorBoundary.propTypes = {
     children: PropTypes.node
 };
+
+export default ErrorBoundary;

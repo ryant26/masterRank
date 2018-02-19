@@ -3,6 +3,8 @@ import logger from '../utilities/logger';
 import {getSocketApiBase} from './apiRouter';
 const decode  = require('jwt-decode');
 
+import { disconnectedNotification } from '../components/Notifications/Notifications';
+
 export const clientEvents = {
     initialData: 'initialData',
     authenticated: 'authenticated',
@@ -20,7 +22,7 @@ export const clientEvents = {
         groupLeave: 'error.groupLeave',
         groupInviteAccept: 'error.groupInviteAccept',
         groupInviteCancel: 'error.groupInviteCancel',
-        groupInviteDeclined: 'error.groupInviteDeclined'
+        groupInviteDecline: 'error.groupInviteDecline'
     }
 };
 
@@ -55,6 +57,7 @@ export default class Websocket {
     }
 
     disconnect() {
+        disconnectedNotification();
         this.socket.close();
     }
 

@@ -16,7 +16,8 @@
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "react-toastify": "3.3.4"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
