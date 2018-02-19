@@ -20,3 +20,9 @@ export const addHeroes = (heroes) => {
       heroes
   };
 };
+
+export const clearAllHeroes = () => {
+  return {
+    type: HeroActionTypes.CLEAR_ALL_HEROES
+  };
+};
