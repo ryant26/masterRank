@@ -1,6 +1,7 @@
 import {
     addHero as addHeroAction,
-    removeHero as removeHeroAction
+    removeHero as removeHeroAction,
+    clearAllHeroes as clearAllHeroesAction
 } from "../actionCreators/hero";
 import {
     addHero as addPreferredHeroAction,
@@ -136,17 +137,14 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 };
 
 const _handleInitialData = function(heroesFromServer) {
-    //TODO: create an action to clear heroes from store
-    store.getState().heroes.forEach((hero) => {
-        store.dispatch(removeHeroAction(hero));
-    });
+    store.dispatch(clearAllHeroesAction());
 
     let userPlatformDisplayName = store.getState().user.platformDisplayName;
     heroesFromServer.forEach((hero) => {
         if(hero.platformDisplayName !== userPlatformDisplayName){
             store.dispatch(addHeroAction(hero));
         } else  {
-            socket.removeHero(hero.heroName)
+            socket.removeHero(hero.heroName);
         }
     });
 
