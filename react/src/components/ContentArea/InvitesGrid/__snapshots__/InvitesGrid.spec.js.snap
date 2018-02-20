@@ -38,7 +38,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
         <div
           className="label"
         >
-          1
+          4
         </div>
       </div>
     </div>
@@ -181,6 +181,555 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
             >
               <span>
                 2200
+                 SR
+              </span>
+              <span>
+                 | 
+              </span>
+              <span>
+                0
+                % WR
+              </span>
+            </div>
+          </div>
+          <div
+            className="button-primary"
+            onClick={[Function]}
+          >
+            <div
+              className="button-content"
+            >
+              stats
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="button-group flex justify-around"
+      >
+        <div
+          className="button button-six flex justify-center align-center"
+          onClick={[Function]}
+        >
+          <div
+            className="button-content"
+          >
+            DECLINE
+          </div>
+        </div>
+        <div
+          className="button button-secondary flex justify-center align-center"
+          onClick={[Function]}
+        >
+          <div
+            className="button-content"
+          >
+            ACCEPT
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="InvitesGridItem flex flex-column card"
+    >
+      <div
+        className="header"
+      >
+        <div
+          className="group-title flex align-center justify-center"
+        >
+          <h3>
+            luckbomb#1234
+            's
+          </h3>
+          <h3
+            className="regular"
+          >
+            Group
+          </h3>
+        </div>
+        <div
+          className="groupSR sub-title flex align-center justify-center"
+        >
+          3200
+           Group SR
+        </div>
+      </div>
+      <div
+        className="body flex flex-column"
+      >
+        <div
+          className="HeroCard flex align-center"
+        >
+          <div
+            className="invitePlayerButton"
+          >
+            <img
+              alt="genji icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <div
+              className="overlay"
+            >
+              <div
+                className="plus-container flex align-center justify-center"
+                onClick={[Function]}
+              >
+                <i
+                  className="fa fa-plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="content flex flex-column"
+          >
+            <div
+              className="display-name"
+            >
+              luckbomb#1234
+            </div>
+            <div
+              className="sub-title"
+            >
+              <span>
+                3200
+                 SR
+              </span>
+              <span>
+                 | 
+              </span>
+              <span>
+                0
+                % WR
+              </span>
+            </div>
+          </div>
+          <div
+            className="button-primary"
+            onClick={[Function]}
+          >
+            <div
+              className="button-content"
+            >
+              stats
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="button-group flex justify-around"
+      >
+        <div
+          className="button button-six flex justify-center align-center"
+          onClick={[Function]}
+        >
+          <div
+            className="button-content"
+          >
+            DECLINE
+          </div>
+        </div>
+        <div
+          className="button button-secondary flex justify-center align-center"
+          onClick={[Function]}
+        >
+          <div
+            className="button-content"
+          >
+            ACCEPT
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="InvitesGridItem flex flex-column card"
+    >
+      <div
+        className="header"
+      >
+        <div
+          className="group-title flex align-center justify-center"
+        >
+          <h3>
+            luckbomb#1234
+            's
+          </h3>
+          <h3
+            className="regular"
+          >
+            Group
+          </h3>
+        </div>
+        <div
+          className="groupSR sub-title flex align-center justify-center"
+        >
+          2700
+           Group SR
+        </div>
+      </div>
+      <div
+        className="body flex flex-column"
+      >
+        <div
+          className="HeroCard flex align-center"
+        >
+          <div
+            className="invitePlayerButton"
+          >
+            <img
+              alt="doomfist icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <div
+              className="overlay"
+            >
+              <div
+                className="plus-container flex align-center justify-center"
+                onClick={[Function]}
+              >
+                <i
+                  className="fa fa-plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="content flex flex-column"
+          >
+            <div
+              className="display-name"
+            >
+              luckbomb#1234
+            </div>
+            <div
+              className="sub-title"
+            >
+              <span>
+                3200
+                 SR
+              </span>
+              <span>
+                 | 
+              </span>
+              <span>
+                0
+                % WR
+              </span>
+            </div>
+          </div>
+          <div
+            className="button-primary"
+            onClick={[Function]}
+          >
+            <div
+              className="button-content"
+            >
+              stats
+            </div>
+          </div>
+        </div>
+        <div
+          className="HeroCard flex align-center"
+        >
+          <div
+            className="invitePlayerButton"
+          >
+            <img
+              alt="soldier76 icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <div
+              className="overlay"
+            >
+              <div
+                className="plus-container flex align-center justify-center"
+                onClick={[Function]}
+              >
+                <i
+                  className="fa fa-plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="content flex flex-column"
+          >
+            <div
+              className="display-name"
+            >
+              wismo0#1234
+            </div>
+            <div
+              className="sub-title"
+            >
+              <span>
+                2200
+                 SR
+              </span>
+              <span>
+                 | 
+              </span>
+              <span>
+                0
+                % WR
+              </span>
+            </div>
+          </div>
+          <div
+            className="button-primary"
+            onClick={[Function]}
+          >
+            <div
+              className="button-content"
+            >
+              stats
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="button-group flex justify-around"
+      >
+        <div
+          className="button button-six flex justify-center align-center"
+          onClick={[Function]}
+        >
+          <div
+            className="button-content"
+          >
+            DECLINE
+          </div>
+        </div>
+        <div
+          className="button button-secondary flex justify-center align-center"
+          onClick={[Function]}
+        >
+          <div
+            className="button-content"
+          >
+            ACCEPT
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="InvitesGridItem flex flex-column card"
+    >
+      <div
+        className="header"
+      >
+        <div
+          className="group-title flex align-center justify-center"
+        >
+          <h3>
+            luckbomb#1234
+            's
+          </h3>
+          <h3
+            className="regular"
+          >
+            Group
+          </h3>
+        </div>
+        <div
+          className="groupSR sub-title flex align-center justify-center"
+        >
+          2333
+           Group SR
+        </div>
+      </div>
+      <div
+        className="body flex flex-column"
+      >
+        <div
+          className="HeroCard flex align-center"
+        >
+          <div
+            className="invitePlayerButton"
+          >
+            <img
+              alt="genji icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <div
+              className="overlay"
+            >
+              <div
+                className="plus-container flex align-center justify-center"
+                onClick={[Function]}
+              >
+                <i
+                  className="fa fa-plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="content flex flex-column"
+          >
+            <div
+              className="display-name"
+            >
+              luckbomb#1234
+            </div>
+            <div
+              className="sub-title"
+            >
+              <span>
+                3200
+                 SR
+              </span>
+              <span>
+                 | 
+              </span>
+              <span>
+                0
+                % WR
+              </span>
+            </div>
+          </div>
+          <div
+            className="button-primary"
+            onClick={[Function]}
+          >
+            <div
+              className="button-content"
+            >
+              stats
+            </div>
+          </div>
+        </div>
+        <div
+          className="HeroCard flex align-center"
+        >
+          <div
+            className="invitePlayerButton"
+          >
+            <img
+              alt="widowmaker icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <div
+              className="overlay"
+            >
+              <div
+                className="plus-container flex align-center justify-center"
+                onClick={[Function]}
+              >
+                <i
+                  className="fa fa-plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="content flex flex-column"
+          >
+            <div
+              className="display-name"
+            >
+              wismo0#1234
+            </div>
+            <div
+              className="sub-title"
+            >
+              <span>
+                2200
+                 SR
+              </span>
+              <span>
+                 | 
+              </span>
+              <span>
+                0
+                % WR
+              </span>
+            </div>
+          </div>
+          <div
+            className="button-primary"
+            onClick={[Function]}
+          >
+            <div
+              className="button-content"
+            >
+              stats
+            </div>
+          </div>
+        </div>
+        <div
+          className="HeroCard flex align-center"
+        >
+          <div
+            className="invitePlayerButton"
+          >
+            <img
+              alt="winston icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
+                }
+              }
+            />
+            <div
+              className="overlay"
+            >
+              <div
+                className="plus-container flex align-center justify-center"
+                onClick={[Function]}
+              >
+                <i
+                  className="fa fa-plus"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="content flex flex-column"
+          >
+            <div
+              className="display-name"
+            >
+              andyLin#1234
+            </div>
+            <div
+              className="sub-title"
+            >
+              <span>
+                1600
                  SR
               </span>
               <span>

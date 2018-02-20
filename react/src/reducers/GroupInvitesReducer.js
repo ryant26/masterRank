@@ -5,7 +5,7 @@ export default function GroupInvitesReducer(state=[], action) {
   switch (action.type) {
 
     case actionsTypes.ADD_GROUP_INVITE: {
-      if (!arrayHasDuplicate(state, action.invite, 'id')) {
+      if (!arrayHasDuplicate(state, action.invite, 'groupId')) {
           return [...state, action.invite];
       }
       return state;

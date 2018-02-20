@@ -45,8 +45,11 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+
+    socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
+    socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
@@ -126,13 +129,13 @@ const cancelInvite = function(userObject) {
 };
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
-    store.dispatch(removeGroupInviteAction(groupInviteObject));
+    _removeGroupInviteFromStore(groupInviteObject);
     joinGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 
 const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
-    store.dispatch(removeGroupInviteAction(groupInviteObject));
+    _removeGroupInviteFromStore(groupInviteObject);
     socket.groupInviteDecline(groupInviteObject.groupId);
 };
 
@@ -182,6 +185,10 @@ const _addHeroErrorHandler = function(error) {
 
 const _addGroupInviteToStore = function(groupInviteObject) {
     store.dispatch(addGroupInviteAction(groupInviteObject));
+};
+
+const _removeGroupInviteFromStore = function(groupInviteObject) {
+    store.dispatch(removeGroupInviteAction(groupInviteObject));
 };
 
 const _updateGroupInStore = function(groupInviteObject) {
