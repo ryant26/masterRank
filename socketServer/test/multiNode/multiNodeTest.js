@@ -147,7 +147,7 @@ describe('Multi-Node Tests', function() {
         server1Utilities.getEmptyGroup().then((groupDetails) => {
             let socket = groupDetails.leaderSocket;
 
-            socket.on(clientEvents.groupInviteCanceled, (details) => {
+            socket.on(clientEvents.playerInviteCanceled, (details) => {
                 assert.lengthOf(details.pending, 0);
                 done();
             });
