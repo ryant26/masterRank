@@ -11,7 +11,7 @@ export const clientEvents = {
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
     groupPromotedLeader: 'groupPromotedLeader',
-    groupInviteReceived: 'groupInviteRecieved',
+    groupInviteReceived: 'groupInviteReceived',
     playerInvited: 'playerInvited',
     groupHeroLeft: 'groupHeroLeft',
     groupInviteAccepted: 'groupInviteAccepted',
