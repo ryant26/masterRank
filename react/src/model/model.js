@@ -185,7 +185,6 @@ const _addHeroErrorHandler = function(error) {
 
 const _addGroupInviteToStore = function(groupInviteObject) {
     store.dispatch(addGroupInviteAction(groupInviteObject));
-//    _updateGroupInStore(groupInviteObject);
 };
 
 const _removeGroupInviteFromStore = function(groupInviteObject) {
