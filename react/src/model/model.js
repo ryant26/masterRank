@@ -41,11 +41,12 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
+    //TODO: Emitted when a user joins a group, where hero = the hero they joined as
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    //this should be sent to all pending an remove their invites
+
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
@@ -171,9 +172,10 @@ const _addHeroToStore = function(hero) {
 
 const _removeHeroFromStore = function(hero) {
     store.dispatch(removeHeroAction(hero));
-    if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        removePreferredHeroFromStore(hero.heroName, hero.priority);
-    }
+    //TODO: why is this necessary?
+//    if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
+//        removePreferredHeroFromStore(hero.heroName, hero.priority);
+//    }
 };
 
 const _addHeroErrorHandler = function(error) {
