@@ -14,9 +14,9 @@ scriptsDir=shared/buildScripts
 
 if [ env == prod ]
 then
-    cluster_ecs='Fireteam'
-    heroApiService_ecs='heroapiserver'
-    socketServerService_ecs='socketserver'
+    cluster_ecs='Fireteam-production'
+    heroApiService_ecs='heroapiserver-prod'
+    socketServerService_ecs='socketserver-prod'
     s3Bucket='fireteam.gg'
     buildTag='prod'
 else
