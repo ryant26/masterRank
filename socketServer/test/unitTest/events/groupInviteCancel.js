@@ -31,10 +31,6 @@ describe(serverEvents.groupInviteCancel, function() {
                 heroName: 'genji'
             };
 
-            socket.on(clientEvents.groupInviteCanceled, (details) => {
-                assert.lengthOf(details.pending, 0);
-                done();
-            });
             //TODO: Add test against what is passed to socket.to() and namespace.to() eliminate these types of errors.
             socket.on(clientEvents.playerInviteCanceled, (details) => {
                 assert.lengthOf(details.pending, 0);
