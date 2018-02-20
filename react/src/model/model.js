@@ -45,7 +45,7 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-
+    //this should be sent to all pending an remove their invites
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
@@ -120,8 +120,8 @@ const inviteUserToGroup = function(userObject) {
     socket.groupInviteSend(userObject);
 };
 
-const leaveGroup = function(groupId) {
-    socket.groupLeave(groupId);
+const leaveGroup = function() {
+    socket.groupLeave();
 };
 
 const cancelInvite = function(userObject) {

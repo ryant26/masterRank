@@ -78,8 +78,8 @@ export default class Websocket {
         this.emit(serverEvents.createGroup, {heroName});
     }
 
-    groupLeave(groupId) {
-        this.emit(serverEvents.groupLeave, groupId);
+    groupLeave() {
+        this.emit(serverEvents.groupLeave);
     }
 
     groupInviteAccept(groupId) {

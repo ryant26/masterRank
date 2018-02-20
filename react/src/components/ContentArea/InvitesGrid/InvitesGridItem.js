@@ -20,7 +20,7 @@ const InvitesGridItem = ({invite}) => {
     };
 
     const acceptInvite = () => {
-        Model.leaveGroup(invite.groupId);
+        Model.leaveGroup();
         Model.acceptGroupInviteAndRemoveFromStore(invite);
     };
 

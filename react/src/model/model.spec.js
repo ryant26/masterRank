@@ -431,9 +431,9 @@ describe('Model', () => {
         });
 
         describe('leaveGroup', () => {
-            it('should call websocket.leaveGroup with groupId', () => {
-                model.leaveGroup(groupInvites[0].groupId);
-                expect(socket.groupLeave).toHaveBeenCalledWith(groupInvites[0].groupId);
+            it('should call websocket.leaveGroup', () => {
+                model.leaveGroup();
+                expect(socket.groupLeave).toHaveBeenCalled();
             });
         });
 
