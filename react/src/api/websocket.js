@@ -13,9 +13,10 @@ export const clientEvents = {
     groupPromotedLeader: 'groupPromotedLeader',
     groupInviteReceived: 'groupInviteReceived',
     playerInvited: 'playerInvited',
+    groupInviteCanceled: 'groupInviteCanceled',
+    playerInviteCanceled: 'playerInviteCanceled',
     groupHeroLeft: 'groupHeroLeft',
     groupInviteAccepted: 'groupInviteAccepted',
-    groupInviteCanceled: 'groupInviteCanceled',
     groupInviteDeclined: 'groupInviteDeclined',
     error: {
         addHero: 'error.addHero',

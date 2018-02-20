@@ -200,17 +200,19 @@ describe('Model', () => {
             });
 
             describe('Group Invite Canceled', () => {
-                it('should update store.group to new group when clientEvents.groupInviteCanceled is emitted', () => {
-                     expect(store.getState().group).toEqual(initialGroup);
-                     socket.socketClient.emit(clientEvents.groupInviteCanceled, group);
-                     expect(store.getState().group).toEqual(group);
-                });
-
-                it('should remove groupInvite from store.groupInvites when clientEvents.groupInviteCanceled is emitted', () => {
+                it('should remove groupInvite from store.groupInvites', () => {
                      socket.socketClient.emit(clientEvents.groupInviteReceived, group);
                      expect(store.getState().groupInvites).toEqual([group]);
                      socket.socketClient.emit(clientEvents.groupInviteCanceled, group);
                      expect(store.getState().groupInvites).toEqual([]);
+                });
+            });
+
+            describe('Player Invite Canceled', () => {
+                it("should update all group member's store.group to new group", () => {
+                     expect(store.getState().group).toEqual(initialGroup);
+                     socket.socketClient.emit(clientEvents.playerInviteCanceled, group);
+                     expect(store.getState().group).toEqual(group);
                 });
             });
 
