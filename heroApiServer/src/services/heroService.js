@@ -136,8 +136,8 @@ let _getUpdatedHeroConfigObjects = function(token) {
 let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
     const getLosses = function() {
         if (typeof heroStats.game.games_lost !== 'number') {
-            let calculatedGamesPlayed = heroStats.game.games_played ? heroStats.game.games_played - heroStats.game.games_won : 0;
-            return calculatedGamesPlayed >= 0 ? calculatedGamesPlayed : 0;
+            let calculatedLosses = heroStats.game.games_played ? heroStats.game.games_played - heroStats.game.games_won : 0;
+            return calculatedLosses >= 0 ? calculatedLosses : 0;
         }
 
         return heroStats.game.games_lost;
