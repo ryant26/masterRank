@@ -4,7 +4,7 @@ module.exports = {
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
     playerInvited: 'playerInvited',
-    groupInviteReceived: 'groupInviteRecieved',
+    groupInviteReceived: 'groupInviteReceived',
     groupInviteAccepted: 'groupInviteAccepted',
     groupInviteDeclined: 'groupInviteDeclined',
     groupInviteCanceled: 'groupInviteCanceled',
