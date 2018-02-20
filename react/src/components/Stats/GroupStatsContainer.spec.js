@@ -1,10 +1,18 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import groups from '../../resources/groupInvites';
 import GroupStatsContainer from './GroupStatsContainer';
+import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
+
+import groups from '../../resources/groupInvites';
+
+const shallowGroupStatsContainer = (group, leader, toggleModal) => {
+    return shallow(
+        <GroupStatsContainer group={group} isLeading={leader} toggleModal={toggleModal}/>
+    );
+};
 
 describe('GroupStatsContainer Component', () => {
     let wrapper;
@@ -12,9 +20,7 @@ describe('GroupStatsContainer Component', () => {
 
     beforeEach(() => {
         group = groups[0];
-        wrapper = mount(
-            <GroupStatsContainer group={group} isLeading={false}/>
-        );
+        wrapper = shallowGroupStatsContainer(group, false);
     });
 
     it('should render without exploding', () => {
@@ -28,46 +34,32 @@ describe('GroupStatsContainer Component', () => {
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
-
-    it('should have all the hero images for the users heroes', () => {
-        let heroImages = wrapper.find('.HeroImages').children();
-
-        expect(heroImages.length).toEqual(group.members.length + 1);
-    });
-
-    it('should show the hero images with leader first', () => {
-        let heroImages = wrapper.find('.HeroImages').children();
-
-        expect(heroImages.length).toBeGreaterThan(0);
-
-        expect(heroImages.first().props().heroName).toEqual(group.leader.heroName);
-    });
     
     it('should have the title your group if you are leading', () => {
-        wrapper = mount(
-            <GroupStatsContainer group={group} isLeading={true}/>
-        );
-
+        wrapper = shallowGroupStatsContainer(group, true);
         expect(wrapper.find('.title > h3').first().text().trim()).toEqual('Your');
     });
 
     it('should not show leave button if you are leading', () => {
-        wrapper = mount(
-            <GroupStatsContainer group={group} isLeading={true}/>
-        );
-
+        wrapper = shallowGroupStatsContainer(group, true);
         expect(wrapper.find('.button-six').length).toBeFalsy();
     });
 
     it('should show leave button if you are not leading', () => {
-        wrapper = mount(
-            <GroupStatsContainer group={group} isLeading={false}/>
-        );
-
         expect(wrapper.find('.button-six').length).toBeTruthy();
     });
 
+    it("should show the leader's hero images first", () => {
+        expect(wrapper.find(HeroImages).props().heroNames[0]).toEqual(group.leader.heroName);
+    });
+
     it('should calculate group SR correctly', () => {
+       expect(wrapper.find('span.sub-title > b').first().text()).toEqual('2700');
+    });
+
+    it('should render group SR as a whole number', () => {
+       group.leader.skillRating = 3201.99999;
+       wrapper = shallowGroupStatsContainer(group, false);
        expect(wrapper.find('span.sub-title > b').first().text()).toEqual('2700');
     });
 
@@ -78,9 +70,8 @@ describe('GroupStatsContainer Component', () => {
             Model.leaveGroup = jest.fn();
             Model.createNewGroup = jest.fn();
             toggleModal = jest.fn();
-            wrapper = mount(
-                <GroupStatsContainer group={group} isLeading={false} toggleModal={toggleModal}/>
-            );
+            wrapper = shallowGroupStatsContainer(group, false, toggleModal);
+
             expect(Model.leaveGroup).not.toHaveBeenCalled();
             expect(Model.createNewGroup).not.toHaveBeenCalled();
             expect(toggleModal).not.toHaveBeenCalled();
