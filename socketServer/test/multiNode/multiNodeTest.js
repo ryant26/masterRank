@@ -152,11 +152,6 @@ describe('Multi-Node Tests', function() {
                 done();
             });
 
-            socket.on(clientEvents.playerInviteCanceled, (details) => {
-                assert.lengthOf(details.pending, 0);
-                done();
-            });
-
             server2Utilities.getUserWithAddedHero(invitedHero.platformDisplayName, invitedHero.heroName).then((user) => {
                 user.socket.on(clientEvents.groupInviteReceived, () => {
                     socket.emit(serverEvents.groupInviteCancel, invitedHero);
