@@ -79,7 +79,8 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((groupDetails) => {
-        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: token.platform})).emit(clientEvents.groupInviteReceived, groupDetails);
+        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: token.platform}))
+            .emit(clientEvents.groupInviteReceived, groupDetails);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInvited, groupDetails);
     }).catch((err) => {
         logger.error(`Problem inviting ${hero.platformDisplayName}:${hero.heroName} to group ${groupId}: ${err}`);
@@ -96,7 +97,7 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
  * @param hero
  * @returns {Promise}
  */
-let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
+let cancelInviteToGroup = function(groupLeaderToken, groupId, socket, namespace, hero) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
         logger.info(`Canceling hero ${hero.platformDisplayName}'s invite to group ${groupId}`);
 
@@ -108,8 +109,9 @@ let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        socket.to(getPlayerRoom(hero)).emit(clientEvents.groupInviteCanceled, details);
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteCanceled, details);
+        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: groupLeaderToken.platform}))
+            .emit(clientEvents.groupInviteCanceled, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInviteCanceled, details);
     }).catch((err) => {
         logger.error(`Problem trying to cancel invite to ${hero.platformDisplayName} for group ${groupId}: ${err}`);
         throw err;

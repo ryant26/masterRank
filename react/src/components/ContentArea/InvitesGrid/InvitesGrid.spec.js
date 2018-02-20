@@ -1,24 +1,23 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import {MemoryRouter} from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 
 import InvitesGrid from './InvitesGrid';
-import {createStore} from "../../../model/store";
 import groupInvites from '../../../resources/groupInvites';
-import {addGroupInvite} from "../../../actionCreators/groupInvites";
 
+const mockStore = configureStore();
 const getStore = () => {
-    let store = createStore();
-    groupInvites.forEach((invite) => {
-        store.dispatch(addGroupInvite(invite));
+    return mockStore({
+        group: groupInvites[1],
+        groupInvites: groupInvites
     });
-    return store;
 };
 
-const mountWithStore = (store=getStore()) => {
-    return mount(
+const shallowWithStore = (store=getStore()) => {
+    return shallow(
         <Provider store={store}>
             <MemoryRouter>
                 <InvitesGrid/>
@@ -40,7 +39,7 @@ const renderWithStore = (store=getStore()) => {
 
 describe('InvitesGrid Component', () => {
     it('should render without exploding', () => {
-        const wrapper = mountWithStore();
+        const wrapper = shallowWithStore();
         const InvitesGridComponent = wrapper.find(InvitesGrid);
         expect(InvitesGridComponent).toBeTruthy();
     });

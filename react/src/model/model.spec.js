@@ -239,18 +239,42 @@ describe('Model', () => {
             });
 
             describe('Group Invite Canceled', () => {
-                it('should update store.group to new group when clientEvents.groupInviteCanceled is emitted', () => {
-                     expect(store.getState().group).toEqual(initialGroup);
+                it('should remove groupInvite from store.groupInvites', () => {
+                     socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                     expect(store.getState().groupInvites).toEqual([group]);
                      socket.socketClient.emit(clientEvents.groupInviteCanceled, group);
+                     expect(store.getState().groupInvites).toEqual([]);
+                });
+            });
+
+            describe('Player Invite Canceled', () => {
+                it("should update all group member's store.group to new group", () => {
+                     expect(store.getState().group).toEqual(initialGroup);
+                     socket.socketClient.emit(clientEvents.playerInviteCanceled, group);
                      expect(store.getState().group).toEqual(group);
                 });
             });
 
-            describe('invite received', () => {
-                it('should add the group invite to the list', () => {
+            describe('Group Invite Received', () => {
+                it('should add group invite to store.groupInvites', () => {
                     expect(store.getState().groupInvites).toEqual([]);
                     socket.socketClient.emit(clientEvents.groupInviteReceived, group);
                     expect(store.getState().groupInvites).toEqual([group]);
+                });
+
+                it('should not add duplicate group invites to store.groupInvites', () => {
+                    expect(store.getState().groupInvites).toEqual([]);
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    expect(store.getState().groupInvites).toEqual([group]);
+                });
+
+                it('should add multiple group invites to store.groupInvites', () => {
+                    expect(store.getState().groupInvites).toEqual([]);
+                    groupInvites.forEach((groupInvite) => {
+                        socket.socketClient.emit(clientEvents.groupInviteReceived, groupInvite);
+                    });
+                    expect(store.getState().groupInvites).toEqual(groupInvites);
                 });
             });
 
