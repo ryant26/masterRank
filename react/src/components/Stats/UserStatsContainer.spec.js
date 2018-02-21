@@ -16,9 +16,9 @@ const getMixedHeroes = () => {
 };
 
 const mockStore = configureStore();
-const shallowUserStatsContainer = (store, hero, invitable) => {
+const shallowUserStatsContainer = (store, hero, invitable, toggleModal) => {
     return shallow(
-       <UserStatsContainer store={store} hero={hero} invitable={invitable}/>
+       <UserStatsContainer store={store} hero={hero} invitable={invitable} toggleModal={toggleModal}/>
     ).dive();
 };
 
@@ -31,10 +31,11 @@ describe('UserStatsContainer Component', () => {
         platformDisplayName: heroes[1].platformDisplayName,
         skillRating: heroes[1].skillRating
     };
+    const toggleModal = jest.fn();
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowUserStatsContainer(store, hero, false);
+        wrapper = shallowUserStatsContainer(store, hero, false, toggleModal);
     });
 
     it('should render without exploding', () => {
@@ -54,8 +55,8 @@ describe('UserStatsContainer Component', () => {
         });
     });
 
-    it('should call model invite player when when the plus-container div is clicked', () => {
-        wrapper = shallowUserStatsContainer(store, hero, true);
+    it('should call model invite player with correct heroObj when when the INVITE TO GROUP button is clicked', () => {
+        wrapper = shallowUserStatsContainer(store, hero, true, toggleModal);
         Model.inviteUserToGroup = jest.fn();
         wrapper.find('.button-secondary').simulate('click');
         expect(Model.inviteUserToGroup).toHaveBeenCalledWith({
@@ -64,9 +65,15 @@ describe('UserStatsContainer Component', () => {
         });
     });
 
+    it('should call toggleModal when the INVITE TO GROUP button is clicked', () => {
+        wrapper = shallowUserStatsContainer(store, hero, true, toggleModal);
+        wrapper.find('.button-secondary').simulate('click');
+        expect(toggleModal).toHaveBeenCalled();
+    });
+
     it('should match the snapshot', () => {
         let component = renderer.create(
-            <UserStatsContainer store={store} hero={hero} invitable={true}/>
+            <UserStatsContainer store={store} hero={hero} invitable={true} toggleModal={toggleModal}/>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();

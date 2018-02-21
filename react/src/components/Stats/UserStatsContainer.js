@@ -5,7 +5,7 @@ import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
 
-const UserStatsContainer = ({hero, heroes, invitable}) => {
+const UserStatsContainer = ({hero, heroes, invitable, toggleModal}) => {
     const userHeroes = heroes.filter((userHero) => userHero.platformDisplayName === hero.platformDisplayName).sort((hero1, hero2) => {
         return hero1.priority > hero2.priority;
     });
@@ -25,6 +25,7 @@ const UserStatsContainer = ({hero, heroes, invitable}) => {
             platformDisplayName: hero.platformDisplayName,
             heroName: hero.heroName
         });
+        toggleModal();
     };
 
     return (
@@ -59,7 +60,8 @@ const UserStatsContainer = ({hero, heroes, invitable}) => {
 UserStatsContainer.propTypes = {
     hero: PropTypes.object,
     heroes: PropTypes.array.isRequired,
-    invitable: PropTypes.bool.isRequired
+    invitable: PropTypes.bool.isRequired,
+    toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

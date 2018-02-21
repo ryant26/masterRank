@@ -109,7 +109,11 @@ class HeroCard extends Component {
                 </div>
             </div>
             <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
-                <UserStatsContainer hero={this.props.hero} invitable={this.state.invitable}/>
+                <UserStatsContainer
+                    hero={this.props.hero}
+                    invitable={this.state.invitable}
+                    toggleModal={this.toggleModal}
+                />
             </Modal>
         </div>
     );
