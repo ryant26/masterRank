@@ -16,8 +16,8 @@ let sendInitialData = function (token, rank, socket) {
         ranks.forEach((rank) => socket.join(rank));
         logger.info(`Player [${token.platformDisplayName}] joined ranks ${ranks}`);
         return Promise.all(ranks.map((rank) => RedisClient.getMetaHeros(rank, token.platform, token.region)));
-    }).then((rankHeroes) => {
-        socket.emit(clientEvents.initialData, [].concat(...rankHeroes));
+    }).then((metaListHeroes) => {
+        socket.emit(clientEvents.initialData, [].concat(...metaListHeroes));
     });
 };
 
@@ -115,7 +115,13 @@ let getPlayerRank = function (token) {
 };
 
 let getEligableRankRooms = function (sr) {
-    return [mapSrToRank(sr-500), mapSrToRank(sr), mapSrToRank(sr+500)];
+    let ranks = {};
+
+    ranks[mapSrToRank(sr-500)] = true;
+    ranks[mapSrToRank(sr)] = true;
+    ranks[mapSrToRank(sr+500)] = true;
+
+    return Object.keys(ranks);
 };
 
 
