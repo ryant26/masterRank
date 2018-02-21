@@ -15,7 +15,7 @@
     }
   }
 
-  .sub-title {
+  .info-line {
     font-size: 16px;
     color: $gray3;
     margin-bottom: 75px;
@@ -32,13 +32,18 @@
       margin-bottom: 16px;
     }
 
-    .RegionSelection {
+    .region-selection {
       min-width: 212px;
       width: 30%;
     }
 
-    .PlatformSelection {
+    .platform-selection {
       width: 50%;
+    }
+
+    .selector-label {
+      margin-left: 10px;
+      margin-bottom: 5px;
     }
   }
 
