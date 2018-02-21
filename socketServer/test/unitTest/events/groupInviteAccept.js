@@ -90,33 +90,6 @@ describe(serverEvents.groupInviteAccept, function() {
         });
     });
 
-    it('should fire the heroRemoved event to the rank', function(done) {
-        let invitedHero = {
-            platformDisplayName: randomString.generate(),
-            heroName: 'tracer'
-        };
-
-        socket.on(clientEvents.heroRemoved, (hero) => {
-            assert.equal(hero.heroName, invitedHero.heroName);
-            assert.equal(hero.platformDisplayName, invitedHero.platformDisplayName);
-            done();
-        });
-
-        commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us).then((data) => {
-            let socket2 = data.socket;
-
-            socket.on(clientEvents.heroAdded, () => {
-                socket.emit(serverEvents.groupInviteSend, invitedHero);
-            });
-
-            socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
-                socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
-            });
-
-            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
-        });
-    });
-
     it('should throw an exception for malformed groupID', function(done) {
         socket.on(clientEvents.error.groupInviteAccept, (error) => {
             assert.equal(error.err, exceptions.invalidGroupId);
