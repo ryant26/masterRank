@@ -626,6 +626,7 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
   >
     <div
       className="button-secondary flex align-center"
+      onClick={[Function]}
     >
       <div
         className="button-content"

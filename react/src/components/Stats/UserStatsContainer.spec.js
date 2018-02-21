@@ -1,73 +1,74 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
-import {getHeroes} from '../../resources/heroes';
-import UserStatsContainer from './UserStatsContainer';
-import {createStore} from "../../model/store";
-import {addHero} from "../../actionCreators/hero";
+import configureStore from 'redux-mock-store';
 
+import UserStatsContainer from './UserStatsContainer';
+import HeroImages from './HeroImages/HeroImages';
+import Model from '../../model/model';
+import { getHeroes } from '../../resources/heroes';
 
 const getMixedHeroes = () => {
-    const heroes = getHeroes();
+    let heroes = getHeroes();
     heroes[0].platformDisplayName = 'notMyName';
     heroes[1].stats = undefined;
     return heroes;
 };
 
-const getStore = (heroes=getMixedHeroes()) => {
-    let store = createStore();
-    heroes.forEach((hero) => store.dispatch(addHero(hero)));
-    return store;
+const mockStore = configureStore();
+const shallowUserStatsContainer = (store, hero, invitable) => {
+    return shallow(
+       <UserStatsContainer store={store} hero={hero} invitable={invitable}/>
+    ).dive();
 };
 
 describe('UserStatsContainer Component', () => {
+    const heroes = getMixedHeroes();
+    const store = mockStore({
+        heroes
+    });
+    const hero = {
+        platformDisplayName: heroes[1].platformDisplayName,
+        skillRating: heroes[1].skillRating
+    };
     let wrapper;
-    let hero;
 
     beforeEach(() => {
-        const heroes = getMixedHeroes();
-        hero = {
-            platformDisplayName: heroes[1].platformDisplayName,
-            skillRating: heroes[1].skillRating
-        };
-        wrapper = mount(
-            <UserStatsContainer store={getStore()} hero={hero} invitable={false}/>
-        );
+        wrapper = shallowUserStatsContainer(store, hero, false);
     });
 
     it('should render without exploding', () => {
-        let wrapper = mount(
-            <UserStatsContainer store={getStore()} hero={hero} invitable={false}/>
-        );
-
         expect(wrapper.find(UserStatsContainer)).toBeTruthy();
+    });
+
+    it('should render heroImages', () => {
+        expect(wrapper.find(HeroImages)).toHaveLength(1);
+    });
+
+    it("should pass all hero names that belong to the user to HeroImages' props in order ", () => {
+        let currentUserDisplayName = hero.platformDisplayName;
+        let userHeroes = heroes.filter((hero) => hero.platformDisplayName === currentUserDisplayName);
+
+        wrapper.find(HeroImages).props().heroNames.forEach((heroName, i) => {
+                expect(heroName).toBe(userHeroes[i].heroName);
+        });
+    });
+
+    it('should call model invite player when when the plus-container div is clicked', () => {
+        wrapper = shallowUserStatsContainer(store, hero, true);
+        Model.inviteUserToGroup = jest.fn();
+        wrapper.find('.button-secondary').simulate('click');
+        expect(Model.inviteUserToGroup).toHaveBeenCalledWith({
+            platformDisplayName: hero.platformDisplayName,
+            heroName: hero.heroName
+        });
     });
 
     it('should match the snapshot', () => {
         let component = renderer.create(
-            <UserStatsContainer store={getStore()} hero={hero} invitable={true}/>
+            <UserStatsContainer store={store} hero={hero} invitable={true}/>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
-    });
-
-    it('should have all the hero images for the users heroes', () => {
-        let heroImages = wrapper.find('.HeroImages').children();
-
-        expect(heroImages.length).toEqual(3);
-    });
-
-    it('should show the hero images in the order of preference', () => {
-        let heroImages = wrapper.find('.HeroImages').children();
-        let heroes = getHeroes();
-
-        expect(heroImages.length).toBeGreaterThan(0);
-
-        heroImages.forEach((image, i) => {
-            let imageName = image.props().heroName;
-            let heroName = heroes[i+1].heroName;
-
-            expect(imageName).toEqual(heroName);
-        });
     });
 });
