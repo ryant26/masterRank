@@ -11,14 +11,13 @@ const _ = require('lodash');
  * @param socket
  */
 let sendInitialData = function (token, rank, socket) {
-    return PlayerClient.getPlayerRank(token.platformDisplayName, token.region, token.platform).then((rankObj) => {
-        let rank = rankObj.rank;
-        RedisClient.addPlayerInfo(token.platformDisplayName, token.platform, rankObj);
-        socket.join(rank);
-        logger.info(`Player [${token.platformDisplayName}] joined rank [${rank}]`);
-        return RedisClient.getMetaHeros(rank, token.platform, token.region);
-    }).then((heros) => {
-        socket.emit(clientEvents.initialData, heros);
+    return PlayerClient.getSkillRating(token.platformDisplayName, token.region, token.platform).then((sr) => {
+        let ranks = getEligableRankRooms(sr);
+        ranks.forEach((rank) => socket.join(rank));
+        logger.info(`Player [${token.platformDisplayName}] joined ranks ${ranks}`);
+        return Promise.all(ranks.map((rank) => RedisClient.getMetaHeros(rank, token.platform, token.region)));
+    }).then((rankHeroes) => {
+        socket.emit(clientEvents.initialData, [].concat(...rankHeroes));
     });
 };
 
@@ -110,7 +109,32 @@ let removePlayerInfo = function(token) {
 };
 
 let getPlayerRank = function (token) {
-    return PlayerClient.getPlayerRank(token.platformDisplayName, token.region, token.platform);
+    return PlayerClient.getSkillRating(token.platformDisplayName, token.region, token.platform).then((sr) => {
+        return mapSrToRank(sr);
+    });
+};
+
+let getEligableRankRooms = function (sr) {
+    return [mapSrToRank(sr-500), mapSrToRank(sr), mapSrToRank(sr+500)];
+};
+
+
+let mapSrToRank = function(sr) {
+    if(sr < 1500) {
+        return 'bronze';
+    } else if (sr < 2000) {
+        return 'silver';
+    } else if (sr < 2500) {
+        return 'gold';
+    } else if (sr < 3000) {
+        return 'platinum';
+    } else if (sr < 3500) {
+        return 'diamond';
+    } else if (sr < 4000) {
+        return 'master';
+    } else {
+        return 'grandmaster';
+    }
 };
 
 module.exports = {
