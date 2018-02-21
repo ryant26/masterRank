@@ -6,6 +6,8 @@ import Model from '../../../../../model/model';
 import HeroCard from './HeroCard';
 import Modal from '../../../../Modal/Modal';
 import UserStatsContainer from '../../../../Stats/UserStatsContainer';
+import { inviteNotification } from '../../../../Notifications/Notifications';
+jest.mock('../../../../Notifications/Notifications');
 
 import heroes from '../../../../../resources/heroes';
 import { users } from '../../../../../resources/users';
@@ -94,12 +96,22 @@ describe('HeroCard Component',()=> {
         expect(HeroCardComponent.find('.invitable')).toHaveLength(0);
     });
 
-    it('should call model invite player when when the plus-container div is clicked', () => {
-        Model.inviteUserToGroup = jest.fn();
-        HeroCardComponent.find('.plus-container').simulate('click');
-        expect(Model.inviteUserToGroup).toHaveBeenCalledWith({
-            platformDisplayName: hero.platformDisplayName,
-            heroName: hero.heroName
+    describe("when the heroCard's plus icon is clicked", () => {
+
+        beforeEach(() => {
+            Model.inviteUserToGroup = jest.fn();
+            HeroCardComponent.find('.plus-container').simulate('click');
+        });
+
+        it('should call model invite player', () => {
+            expect(Model.inviteUserToGroup).toHaveBeenCalledWith({
+                platformDisplayName: hero.platformDisplayName,
+                heroName: hero.heroName
+            });
+        });
+
+        it('should send invite notification with correct display name', () => {
+            expect(inviteNotification).toHaveBeenCalledWith(hero.platformDisplayName);
         });
     });
 

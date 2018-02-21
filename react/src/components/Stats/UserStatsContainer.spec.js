@@ -6,7 +6,11 @@ import configureStore from 'redux-mock-store';
 import UserStatsContainer from './UserStatsContainer';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
+import { inviteNotification } from '../Notifications/Notifications';
+jest.mock('../Notifications/Notifications');
+
 import { getHeroes } from '../../resources/heroes';
+
 
 const getMixedHeroes = () => {
     let heroes = getHeroes();
@@ -55,20 +59,28 @@ describe('UserStatsContainer Component', () => {
         });
     });
 
-    it('should call model invite player with correct heroObj when when the INVITE TO GROUP button is clicked', () => {
-        wrapper = shallowUserStatsContainer(store, hero, true, toggleModal);
-        Model.inviteUserToGroup = jest.fn();
-        wrapper.find('.button-secondary').simulate('click');
-        expect(Model.inviteUserToGroup).toHaveBeenCalledWith({
-            platformDisplayName: hero.platformDisplayName,
-            heroName: hero.heroName
-        });
-    });
+    describe('when when the INVITE TO GROUP button is clicked', () => {
 
-    it('should call toggleModal when the INVITE TO GROUP button is clicked', () => {
-        wrapper = shallowUserStatsContainer(store, hero, true, toggleModal);
-        wrapper.find('.button-secondary').simulate('click');
-        expect(toggleModal).toHaveBeenCalled();
+        beforeEach(() => {
+            Model.inviteUserToGroup = jest.fn();
+            wrapper = shallowUserStatsContainer(store, hero, true, toggleModal);
+            wrapper.find('.button-secondary').simulate('click');
+        });
+
+        it('should call model invite player with correct heroObj ', () => {
+            expect(Model.inviteUserToGroup).toHaveBeenCalledWith({
+                platformDisplayName: hero.platformDisplayName,
+                heroName: hero.heroName
+            });
+        });
+
+        it('should call toggleModal', () => {
+            expect(toggleModal).toHaveBeenCalled();
+        });
+
+        it('should send invite notification with correct display name', () => {
+            expect(inviteNotification).toHaveBeenCalledWith(hero.platformDisplayName);
+        });
     });
 
     it('should match the snapshot', () => {

@@ -21,6 +21,15 @@ export const joinGroupNotification = ( displayName ) => {
     });
 };
 
+export const inviteNotification = ( inviteeDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-user-plus',
+        title: `Invite sent to ${inviteeDisplayName}`,
+        message: 'You should see an invite timeout at the bottom left side of your screen',
+        type: 'success'
+    });
+};
+
 export const errorNotification = ( errorMessage ) => {
     showNotification({
         icon: 'fa fa-exclamation',

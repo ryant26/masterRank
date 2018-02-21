@@ -8,6 +8,7 @@ import UserStatsContainer from '../../../../Stats/UserStatsContainer';
 import HeroImage from '../../../../HeroImage/HeroImage';
 import Modal from '../../../../Modal/Modal';
 import Model from '../../../../../model/model';
+import { inviteNotification } from '../../../../Notifications/Notifications';
 
 const classNames = require('classnames');
 
@@ -50,6 +51,7 @@ class HeroCard extends Component {
     }
 
     invitePlayer() {
+        inviteNotification(this.props.hero.platformDisplayName);
         Model.inviteUserToGroup({
             platformDisplayName: this.props.hero.platformDisplayName,
             heroName: this.props.hero.heroName
