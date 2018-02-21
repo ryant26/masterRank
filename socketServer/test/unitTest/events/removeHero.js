@@ -106,7 +106,29 @@ describe(serverEvents.removeHero, function() {
         });
     });
 
-    it('should call the heroRemoved event for players inside +/- 1 rank', function(done) {
+    it('should call the heroRemoved event for players inside + 1 rank', function(done) {
+        let heroName = 'tracer';
+        let priority = 5;
+
+        commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us).then((data) => {
+            commonUtilities.getAuthenticatedSocket('platinumPlayer#1234', commonUtilities.regions.us).then((data2) => {
+                let goldPlayerSocket = data.socket;
+                let platinumPlayerSocket = data2.socket;
+
+                goldPlayerSocket.on(clientEvents.heroAdded, () => {
+                    goldPlayerSocket.emit(serverEvents.removeHero, heroName);
+                });
+
+                platinumPlayerSocket.on(clientEvents.heroRemoved, () => {
+                    done();
+                });
+
+                goldPlayerSocket.emit(serverEvents.addHero, {heroName, priority});
+            });
+        });
+    });
+
+    it('should call the heroRemoved event for players inside - 1 rank', function(done) {
         let heroName = 'tracer';
         let priority = 5;
 

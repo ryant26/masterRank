@@ -4,6 +4,12 @@ const playerService = require('../../../src/services/playerService');
 
 describe('playerService', function() {
     describe('getPlayerRank', function() {
+        const getSkillrating = playerClient.getSkillRating;
+
+        after(function() {
+            playerClient.getSkillRating = getSkillrating;
+        });
+
         let setSkillReturn = function(sr) {
             playerClient.getSkillRating = () => Promise.resolve(sr);
         };
