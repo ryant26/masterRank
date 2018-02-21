@@ -36,7 +36,7 @@ describe(serverEvents.groupInviteCancel, function() {
                 assert.lengthOf(details.pending, 0);
                 done();
             });
-
+            
             commonUtilities.getUserWithAddedHero(invitedHero.platformDisplayName, invitedHero.heroName).then((user) => {
                 user.socket.on(clientEvents.groupInviteReceived, () => {
                     socket.emit(serverEvents.groupInviteCancel, invitedHero);

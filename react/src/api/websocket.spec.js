@@ -78,13 +78,11 @@ describe('Websocket API', () => {
 
     describe('groupLeave', () => {
         it('should emit the groupLeave event', (done) => {
-            const groupId = groupInvites[0].groupId;
-            websocket.socket.emit = function(event, groupInfo) {
+            websocket.socket.emit = function(event) {
                 expect(event).toEqual('groupLeave');
-                expect(groupInfo).toEqual(groupId);
                 done();
             };
-            websocket.groupLeave(groupId);
+            websocket.groupLeave();
         });
     });
 

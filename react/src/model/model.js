@@ -41,6 +41,7 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
+    //TODO: Emitted when a user joins a group, where hero = the hero they joined as
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
@@ -120,8 +121,8 @@ const inviteUserToGroup = function(userObject) {
     socket.groupInviteSend(userObject);
 };
 
-const leaveGroup = function(groupId) {
-    socket.groupLeave(groupId);
+const leaveGroup = function() {
+    socket.groupLeave();
 };
 
 const cancelInvite = function(userObject) {
@@ -171,6 +172,7 @@ const _addHeroToStore = function(hero) {
 
 const _removeHeroFromStore = function(hero) {
     store.dispatch(removeHeroAction(hero));
+    //TODO: Multiple tabs or window messes up preferred heroes. 
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
         removePreferredHeroFromStore(hero.heroName, hero.priority);
     }

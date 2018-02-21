@@ -24,7 +24,7 @@ const GroupStatsContainer = ({group, isLeading, toggleModal}) => {
     }, 0);
 
     const groupWinRate = (totalGames ? wins / totalGames : 0) * 100;
-    const groupSr = groupHeroes.reduce((sr, hero) => sr + hero.skillRating, 0) / groupHeroes.length;
+    const groupSr = Math.floor(groupHeroes.reduce((sr, hero) => sr + hero.skillRating, 0) / groupHeroes.length);
 
     const leaveGroup = () => {
         let preferredHeroName = group.leader.heroName;
