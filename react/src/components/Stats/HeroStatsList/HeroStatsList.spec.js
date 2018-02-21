@@ -50,24 +50,6 @@ describe('HeroStatsList Component', () => {
         });
     });
 
-    it('should show the empty message when no stats can be shown', () => {
-        const msg = 'empty message';
-        wrapper = mount(
-            <HeroStatsList emptyMessage={msg} heroes={[]}/>
-        );
-
-        expect(wrapper.find('.sub-title').text()).toEqual(msg);
-    });
-
-    it('should show a default message when none is passed', () => {
-        const msg = 'empty message';
-        wrapper = mount(
-            <HeroStatsList emptyMessage={msg} heroes={[]}/>
-        );
-
-        expect(wrapper.find('.sub-title').length).toBeTruthy();
-    });
-
     it('should pass platformDisplayName prop down to list item', () => {
         wrapper = mount(
             <HeroStatsList showPlatformDisplayName={true} heroes={getHeroes()}/>
