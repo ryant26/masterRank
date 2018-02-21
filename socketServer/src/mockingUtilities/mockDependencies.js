@@ -15,8 +15,14 @@ let out  = {
         ow.getSkillRating = function(platformDisplayName) {
             let skillRating = 3100;
 
+            if(platformDisplayName === 'grandmasterPlayer#1234') skillRating = 4300;
+            if(platformDisplayName === 'masterPlayer#1234') skillRating = 3800;
+            if(platformDisplayName === 'diamondPlayer#1234') skillRating = 3200;
+            if(platformDisplayName === 'platinumPlayer#1234') skillRating = 2800;
             if(platformDisplayName === 'goldPlayer#1234') skillRating = 2300;
             if(platformDisplayName === 'silverPlayer#1234') skillRating = 1800;
+            if(platformDisplayName === 'bronzePlayer#1234') skillRating = 1300;
+
             return new Promise((resolve) => {
                 resolve(skillRating);
             });
