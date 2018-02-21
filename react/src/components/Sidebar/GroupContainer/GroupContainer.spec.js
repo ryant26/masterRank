@@ -42,7 +42,7 @@ describe('GroupContainer', () => {
             GroupContainerComponent = getGroupContainerComponent(group, preferredHeroes, user);
             expect(Model.leaveGroup).not.toHaveBeenCalled();
             GroupContainerComponent.unmount();
-            expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
+            expect(Model.leaveGroup).toHaveBeenCalled();
         });
     });
 

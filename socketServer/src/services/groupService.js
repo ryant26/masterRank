@@ -226,7 +226,7 @@ let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespac
                         }
                     });
                 } else {
-                    resolve(_deleteGroup(groupId, namespace));
+                    resolve(_deleteGroup(groupId, namespace, token.platform));
                 }
             } else {
                 let hero = getHeroFromListById(groupDetails.members, token.platformDisplayName);
@@ -310,12 +310,13 @@ let _removeHeroFromMembers = function(groupId, namespace, hero) {
  * @param namespace
  * @private
  */
-let _deleteGroup = function(groupId, namespace) {
+let _deleteGroup = function(groupId, namespace, platform) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
         if (details.members.length === 0) {
             return RedisClient.deleteGroup(groupId).then(() => {
                 details.pending.forEach((pendingHero) => {
-                    namespace.to(getPlayerRoom(pendingHero)).emit(clientEvents.groupInviteCanceled, details);
+                    namespace.to(getPlayerRoom({platformDisplayName: pendingHero.platformDisplayName, platform}))
+                        .emit(clientEvents.groupInviteCanceled, details);
                 });
             });
         } else {

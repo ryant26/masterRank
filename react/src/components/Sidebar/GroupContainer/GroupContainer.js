@@ -21,7 +21,7 @@ class GroupContainer extends Component {
     }
 
     componentWillUnmount() {
-        Model.leaveGroup(this.props.group.groupId);
+        Model.leaveGroup();
     }
 
     toggleModal() {

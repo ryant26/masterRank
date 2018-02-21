@@ -57,10 +57,6 @@ module.exports = class GroupController extends BaseController {
                 this.groupId = data.eventData;
                 return Promise.all([groupService.getGroupMemberHeroById(this.token, data.eventData),
                     playerService.getPlayerRank(this.token, this.region)]);
-            }).then((results) => {
-                let hero = results[0];
-                let rank = results[1].rank;
-                return playerService.removePlayerHeros(this.token, rank, this.namespace, hero);
             });
         });
 

@@ -79,8 +79,8 @@ describe('InvitesGridItem Component', () => {
             HeroCardComponent.find('.button-secondary').simulate('click');
         });
 
-        it('should call Model.leaveGroup with group id', () => {
-            expect(Model.leaveGroup).toHaveBeenCalledWith(groupInvite.groupId);
+        it('should call Model.leaveGroup ', () => {
+            expect(Model.leaveGroup).toHaveBeenCalled();
         });
 
         it('should call Model.acceptGroupInviteAndRemoveFromStore with group id', () => {
