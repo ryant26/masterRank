@@ -31,6 +31,8 @@ export const inviteNotification = ( inviteeDisplayName ) => {
 };
 
 export const errorNotification = ( errorMessage ) => {
+    errorMessage = errorMessage ? errorMessage : "please refresh the page";
+
     showNotification({
         icon: 'fa fa-exclamation',
         title: 'Something went wrong!',

@@ -69,7 +69,7 @@ describe('Notifications', () => {
     });
 
     describe('errorNotification with correct props', () => {
-        it('should call toast ', () => {
+        it('should call toast when error message is defined', () => {
             const icon="fa fa-exclamation";
             const title = "Something went wrong!";
             const errorMessage = 'Error adding hero "tracer", please try again or refresh page';
@@ -82,6 +82,29 @@ describe('Notifications', () => {
                    icon={icon}
                    title={title}
                    message={errorMessage}
+                   type={type}
+                />,
+                {
+                   autoClose: 30000,
+                   className: "NotificationContainer",
+                   progressClassName:`${type}-progress`
+                }
+            );
+        });
+
+        it('should call toast when error message is null', () => {
+            const icon="fa fa-exclamation";
+            const title = "Something went wrong!";
+            const errorMessage = null;
+            const type = "error";
+
+            errorNotification(errorMessage);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                   icon={icon}
+                   title={title}
+                   message="please refresh the page"
                    type={type}
                 />,
                 {
