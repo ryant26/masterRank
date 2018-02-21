@@ -18,8 +18,8 @@ module.exports = class PlayerController extends BaseController{
     constructor (config) {
         super(config);
 
-        playerService.getPlayerRank(this.token).then((rankObj) => {
-            this.rank = rankObj.rank;
+        playerService.getPlayerRank(this.token).then((rank) => {
+            this.rank = rank;
             return playerService.sendInitialData(this.token, this.rank, this.socket);
         });
 

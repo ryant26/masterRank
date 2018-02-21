@@ -58,12 +58,10 @@ describe('PlayerClient', function() {
         heroApiServer.kill('SIGKILL');
     });
 
-    describe('getPlayerRank', function() {
+    describe('getSkillRating', function() {
         it('should return a valid object for a valid input', function() {
-            return playerClient.getPlayerRank(platformDisplayName, region, platform).then((result) => {
-                assert.isNotNull(result.rank);
-                assert.equal(result.region, region);
-                assert.equal(result.platform, platform);
+            return playerClient.getSkillRating(platformDisplayName, region, platform).then((result) => {
+                assert.isNotNull(result);
             });
         });
     });
