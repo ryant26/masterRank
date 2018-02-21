@@ -60,7 +60,7 @@ describe(serverEvents.addHero, function() {
         });
     });
 
-    it('should not call the heroAdded event for players in other ranks', function(done) {
+    it('should not call the heroAdded event for players in ranks outside the +/- 1 range', function(done) {
         let heroName = 'tracer';
         let priority = 1;
 
@@ -77,6 +77,44 @@ describe(serverEvents.addHero, function() {
             setTimeout(() => {
                 done();
             }, 100);
+        });
+    });
+
+    it('should call the heroAdded event for players in ranks inside the + 1 range', function(done) {
+        let heroName = 'tracer';
+        let priority = 1;
+
+
+        commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us).then((data) => {
+            commonUtilities.getAuthenticatedSocket('silverPlayer#1234', commonUtilities.regions.us).then((data2) => {
+                let goldPlayerSocket = data.socket;
+                let silverPlayerSocket = data2.socket;
+
+                goldPlayerSocket.on('heroAdded', () => {
+                    done();
+                });
+
+                silverPlayerSocket.emit(serverEvents.addHero, {heroName, priority});
+            });
+        });
+    });
+
+    it('should call the heroAdded event for players in ranks inside the - 1 range', function(done) {
+        let heroName = 'tracer';
+        let priority = 1;
+
+
+        commonUtilities.getAuthenticatedSocket('bronzePlayer#1234', commonUtilities.regions.us).then((data) => {
+            commonUtilities.getAuthenticatedSocket('silverPlayer#1234', commonUtilities.regions.us).then((data2) => {
+                let bronzePlayerSocket = data.socket;
+                let silverPlayerSocket = data2.socket;
+
+                bronzePlayerSocket.on('heroAdded', () => {
+                    done();
+                });
+
+                silverPlayerSocket.emit(serverEvents.addHero, {heroName, priority});
+            });
         });
     });
 
