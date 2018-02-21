@@ -29,43 +29,13 @@ describe('PlayerClient', function() {
         mockingUtility.mockAllDependenciesForEnvironment();
     });
 
-    describe('getPlayerRank', function() {
-        describe('rank', function() {
-            let testRank = function(skillRating, rank) {
-                setPlayerResponse({skillRating});
-                return playerClient.getPlayerRank(platformDisplayName, region, platform).then((result) => {
-                    assert.equal(result.rank, rank);
-                });
-            };
-
-            it('Should return bronze', function() {
-                return testRank(1300, 'bronze');
+    describe('getPlayerSkillRating', function() {
+        it('should return the value retrieved from blizzard', function() {
+            const skillRating = 1789;
+            setPlayerResponse({skillRating});
+            return playerClient.getSkillRating(platformDisplayName, region, platform).then((sr) => {
+                assert.equal(sr, skillRating);
             });
-
-            it('Should return silver', function() {
-                return testRank(1600, 'silver');
-            });
-
-            it('Should return gold', function() {
-                return testRank(2100, 'gold');
-            });
-
-            it('Should return platinum', function() {
-                return testRank(2600, 'platinum');
-            });
-
-            it('Should return diamond', function() {
-                return testRank(3100, 'diamond');
-            });
-
-            it('Should return master', function() {
-                return testRank(3600, 'master');
-            });
-
-            it('Should return grandmaster', function() {
-                return testRank(4100, 'grandmaster');
-            });
-
         });
     });
 });
