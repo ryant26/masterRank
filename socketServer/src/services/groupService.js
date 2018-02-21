@@ -315,7 +315,7 @@ let _deleteGroup = function(groupId, namespace, platform) {
         if (details.members.length === 0) {
             return RedisClient.deleteGroup(groupId).then(() => {
                 details.pending.forEach((pendingHero) => {
-                    namespace.to(getPlayerRoom({platformDisplayName: pendingHero.platformDisplayName, platform: platform}))
+                    namespace.to(getPlayerRoom({platformDisplayName: pendingHero.platformDisplayName, platform}))
                         .emit(clientEvents.groupInviteCanceled, details);
                 });
             });

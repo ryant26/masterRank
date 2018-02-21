@@ -110,4 +110,23 @@ describe('disconnect', function() {
             }
         }
     });
+
+    it('should cancel any pending invites when your group is empty', function(done) {
+        const invitee = 'someDisplayName';
+        const heroName = 'tracer';
+        commonUtilities.getEmptyGroup(commonUtilities.regions.us).then((data) => {
+            commonUtilities.getUserWithAddedHero(invitee, heroName, commonUtilities.regions.us).then((data2) => {
+                const leaderSocket = data.leaderSocket;
+                const inviteeSocket = data2.socket;
+
+                inviteeSocket.on(clientEvents.groupInviteCanceled, () => done());
+
+                inviteeSocket.on(clientEvents.groupInviteReceived, () => {
+                    leaderSocket.disconnect();
+                });
+
+                leaderSocket.emit(serverEvents.groupInviteSend, {platformDisplayName: invitee, heroName});
+            });
+        });
+    });
 });
