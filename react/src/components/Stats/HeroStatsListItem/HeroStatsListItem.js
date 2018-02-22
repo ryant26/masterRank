@@ -29,58 +29,32 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
             alt = "leader-icon"
         />) : undefined;
 
-    let subTitle;
-    let recordStats;
-    let heroStats;
-    if(hero.stats) {
-        subTitle = (
-            <div className="sub-title">{hero.stats.hoursPlayed} hours played</div>
-        );
-        recordStats = (
-            <div className="flex justify-between record">
-                <RecordStat stat={hero.stats.wins || 0} statName={statNames.wins}/>
-                <RecordStat stat={hero.stats.losses || 0} statName={statNames.losses}/>
-                <RecordStat stat={(hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)} statName={statNames.kdRatio}/>
-            </div>
-        );
-        heroStats = (
-            <div className="flex wrap justify-between">
-                <HeroStat stat={hero.stats.damagePerMin || 0}
-                          percentile={hero.stats.pDamagePerMin || 0} statLabel={statLabels.perMinute} statName={statNames.damage}/>
-                <HeroStat stat={hero.stats.healingPerMin || 0}
-                          percentile={hero.stats.pHealingPerMin || 0} statLabel={statLabels.perMinute} statName={statNames.healing}/>
-                <HeroStat stat={hero.stats.blockedPerMin || 0}
-                          percentile={hero.stats.pBlockedPerMin || 0} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
-                <HeroStat stat={hero.stats.avgObjElims || 0}
-                          percentile={hero.stats.pAvgObjElims || 0} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
-                <HeroStat stat={hero.stats.avgObjTime || 0}
-                          percentile={hero.stats.pAvgObjTime || 0} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
-                <HeroStat stat={hero.stats.accuracy || 0}
-                          percentile={hero.stats.pAccuracy || 0} statLabel={statLabels.percent} statName={statNames.accuracy}/>
-            </div>
-        );
-     } else {
-        subTitle = (
-            <div className="sub-title">Hero needs more games played</div>
-        );
-        recordStats = (
-            <div className="flex justify-between record">
-                <RecordStat stat={"N/A"} statName={statNames.wins}/>
-                <RecordStat stat={"N/A"} statName={statNames.losses}/>
-                <RecordStat stat={"N/A"} statName={statNames.kdRatio}/>
-            </div>
-        );
-        heroStats = (
-             <div className="flex wrap justify-between">
-                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.damage}/>
-                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.healing}/>
-                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
-                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
-                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
-                 <HeroStat percentile={0} statLabel={statLabels.percent} statName={statNames.accuracy}/>
-             </div>
-        );
-     }
+    let subTitle = hero.stats
+        ? ( <div className="sub-title">{hero.stats.hoursPlayed} hours played</div> )
+        : ( <div className="sub-title">Hero needs more games played</div> );
+
+    let heroWins            = hero.stats ? hero.stats.wins || 0 : "N/A";
+    let heroLosses          = hero.stats ? hero.stats.losses || 0 : "N/A";
+    let heroKdRatio         = hero.stats
+        ? (hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)
+        : "N/A";
+    let heroDamagePerMin    = hero.stats ? hero.stats.damagePerMin || 0 : undefined;
+    let heroPDamagePerMin  = hero.stats && hero.stats.pDamagePerMin || 0;
+
+    let heroHealingPerMin   = hero.stats ? hero.stats.healingPerMin || 0 : undefined;
+    let heroPHealingPerMin   = hero.stats && hero.stats.pHealingPerMin || 0;
+
+    let heroBlockedPerMin   = hero.stats ? hero.stats.blockedPerMin || 0 : undefined;
+    let heroPBlockedPerMin   = hero.stats && hero.stats.pBlockedPerMin || 0;
+
+    let heroAvgObjElims     = hero.stats ? hero.stats.avgObjElims || 0 : undefined;
+    let heroPAvgObjElims     = hero.stats && hero.stats.pAvgObjElims || 0
+
+    let heroAvgObjTime      = hero.stats ? hero.stats.avgObjTime || 0 : undefined;
+    let heroPAvgObjTime      = hero.stats && hero.stats.pAvgObjTime || 0;
+
+    let heroAccuracy        = hero.stats ? hero.stats.accuracy || 0 : undefined;
+    let heroPAccuracy        = hero.stats && hero.stats.pAccuracy || 0;
 
     return (
         <div className="HeroStatsListItem">
@@ -93,9 +67,26 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
                      <h3>{showPlatformDisplayName ? `${hero.platformDisplayName} - ` : ''}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
                      { subTitle }
                  </div>
-                 { recordStats }
+                 <div className="flex justify-between record">
+                     <RecordStat stat={heroWins} statName={statNames.wins}/>
+                     <RecordStat stat={heroLosses} statName={statNames.losses}/>
+                     <RecordStat stat={heroKdRatio} statName={statNames.kdRatio}/>
+                 </div>
              </div>
-             { heroStats }
+             <div className="flex wrap justify-between">
+                 <HeroStat stat={heroDamagePerMin}
+                       percentile={heroPDamagePerMin} statLabel={statLabels.perMinute} statName={statNames.damage}/>
+                 <HeroStat stat={heroHealingPerMin}
+                       percentile={heroPHealingPerMin} statLabel={statLabels.perMinute} statName={statNames.healing}/>
+                 <HeroStat stat={heroBlockedPerMin}
+                       percentile={heroPBlockedPerMin} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
+                 <HeroStat stat={heroAvgObjElims}
+                       percentile={heroPAvgObjElims} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
+                 <HeroStat stat={heroAvgObjTime}
+                           percentile={heroPAvgObjTime} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
+                 <HeroStat stat={heroAccuracy}
+                       percentile={heroPAccuracy} statLabel={statLabels.percent} statName={statNames.accuracy}/>
+             </div>
          </div>
     );
 };
