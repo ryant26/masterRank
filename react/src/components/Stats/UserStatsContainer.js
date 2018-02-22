@@ -3,8 +3,11 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
+import Model from '../../model/model';
 
-const UserStatsContainer = ({hero, heroes, invitable}) => {
+import { inviteNotification } from '../Notifications/Notifications';
+
+const UserStatsContainer = ({hero, heroes, invitable, toggleModal}) => {
     const userHeroes = heroes.filter((userHero) => userHero.platformDisplayName === hero.platformDisplayName).sort((hero1, hero2) => {
         return hero1.priority > hero2.priority;
     });
@@ -18,6 +21,15 @@ const UserStatsContainer = ({hero, heroes, invitable}) => {
 
     const srNode = hero.skillRating ? <span className="sub-title"><b>{hero.skillRating}</b> SR</span> : '';
     const winsNode = wins ? <span className="sub-title"><b>{wins}</b> WINS</span> : '';
+
+    const invitePlayer = () => {
+        inviteNotification(hero.platformDisplayName);
+        Model.inviteUserToGroup({
+            platformDisplayName: hero.platformDisplayName,
+            heroName: hero.heroName
+        });
+        toggleModal();
+    };
 
     return (
         <div className="UserStatsContainer">
@@ -36,7 +48,7 @@ const UserStatsContainer = ({hero, heroes, invitable}) => {
             </div>
             {invitable ?
                 <div className="footer flex justify-end align-center">
-                    <div className="button-secondary flex align-center">
+                    <div className="button-secondary flex align-center" onClick={invitePlayer}>
                         <div className="button-content">
                             INVITE TO GROUP
                         </div>
@@ -51,7 +63,8 @@ const UserStatsContainer = ({hero, heroes, invitable}) => {
 UserStatsContainer.propTypes = {
     hero: PropTypes.object,
     heroes: PropTypes.array.isRequired,
-    invitable: PropTypes.bool.isRequired
+    invitable: PropTypes.bool.isRequired,
+    toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
