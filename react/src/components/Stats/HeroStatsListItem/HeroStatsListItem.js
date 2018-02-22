@@ -29,72 +29,75 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
             alt = "leader-icon"
         />) : undefined;
 
-    let statsList;
+    let subTitle;
+    let recordStats;
+    let heroStats;
     if(hero.stats) {
-        statsList = (
-            <div className="HeroStatsListItem">
-                <div className="flex align-center">
-                    <div>
-                        {leaderIcon}
-                        <HeroImage heroName={hero.heroName}/>
-                    </div>
-                    <div>
-                        <h3>{showPlatformDisplayName ? `${hero.platformDisplayName} - ` : ''}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
-                        <div className="sub-title">{hero.stats.hoursPlayed} hours played</div>
-                    </div>
-                    <div className="flex justify-between record">
-                        <RecordStat stat={hero.stats.wins || 0} statName={statNames.wins}/>
-                        <RecordStat stat={hero.stats.losses || 0} statName={statNames.losses}/>
-                        <RecordStat stat={(hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)} statName={statNames.kdRatio}/>
-                    </div>
-                </div>
-                <div className="flex wrap justify-between">
-                    <HeroStat stat={hero.stats.damagePerMin || 0}
-                              percentile={hero.stats.pDamagePerMin || 0} statLabel={statLabels.perMinute} statName={statNames.damage}/>
-                    <HeroStat stat={hero.stats.healingPerMin || 0}
-                              percentile={hero.stats.pHealingPerMin || 0} statLabel={statLabels.perMinute} statName={statNames.healing}/>
-                    <HeroStat stat={hero.stats.blockedPerMin || 0}
-                              percentile={hero.stats.pBlockedPerMin || 0} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
-                    <HeroStat stat={hero.stats.avgObjElims || 0}
-                              percentile={hero.stats.pAvgObjElims || 0} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
-                    <HeroStat stat={hero.stats.avgObjTime || 0}
-                              percentile={hero.stats.pAvgObjTime || 0} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
-                    <HeroStat stat={hero.stats.accuracy || 0}
-                              percentile={hero.stats.pAccuracy || 0} statLabel={statLabels.percent} statName={statNames.accuracy}/>
-                </div>
+        subTitle = (
+            <div className="sub-title">{hero.stats.hoursPlayed} hours played</div>
+        );
+        recordStats = (
+            <div className="flex justify-between record">
+                <RecordStat stat={hero.stats.wins || 0} statName={statNames.wins}/>
+                <RecordStat stat={hero.stats.losses || 0} statName={statNames.losses}/>
+                <RecordStat stat={(hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)} statName={statNames.kdRatio}/>
+            </div>
+        );
+        heroStats = (
+            <div className="flex wrap justify-between">
+                <HeroStat stat={hero.stats.damagePerMin || 0}
+                          percentile={hero.stats.pDamagePerMin || 0} statLabel={statLabels.perMinute} statName={statNames.damage}/>
+                <HeroStat stat={hero.stats.healingPerMin || 0}
+                          percentile={hero.stats.pHealingPerMin || 0} statLabel={statLabels.perMinute} statName={statNames.healing}/>
+                <HeroStat stat={hero.stats.blockedPerMin || 0}
+                          percentile={hero.stats.pBlockedPerMin || 0} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
+                <HeroStat stat={hero.stats.avgObjElims || 0}
+                          percentile={hero.stats.pAvgObjElims || 0} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
+                <HeroStat stat={hero.stats.avgObjTime || 0}
+                          percentile={hero.stats.pAvgObjTime || 0} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
+                <HeroStat stat={hero.stats.accuracy || 0}
+                          percentile={hero.stats.pAccuracy || 0} statLabel={statLabels.percent} statName={statNames.accuracy}/>
             </div>
         );
      } else {
-        statsList = (
-             <div className="HeroStatsListItem">
-                 <div className="flex align-center">
-                     <div>
-                         {leaderIcon}
-                         <HeroImage heroName={hero.heroName}/>
-                     </div>
-                     <div>
-                         <h3>{showPlatformDisplayName ? `${hero.platformDisplayName} - ` : ''}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
-                         <div className="sub-title">Hero needs more games played</div>
-                     </div>
-                     <div className="flex justify-between record">
-                         <RecordStat stat={"N/A"} statName={statNames.wins}/>
-                         <RecordStat stat={"N/A"} statName={statNames.losses}/>
-                         <RecordStat stat={"N/A"} statName={statNames.kdRatio}/>
-                     </div>
-                 </div>
-                 <div className="flex wrap justify-between">
-                     <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.damage}/>
-                     <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.healing}/>
-                     <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
-                     <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
-                     <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
-                     <HeroStat percentile={0} statLabel={statLabels.percent} statName={statNames.accuracy}/>
-                 </div>
+        subTitle = (
+            <div className="sub-title">Hero needs more games played</div>
+        );
+        recordStats = (
+            <div className="flex justify-between record">
+                <RecordStat stat={"N/A"} statName={statNames.wins}/>
+                <RecordStat stat={"N/A"} statName={statNames.losses}/>
+                <RecordStat stat={"N/A"} statName={statNames.kdRatio}/>
+            </div>
+        );
+        heroStats = (
+             <div className="flex wrap justify-between">
+                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.damage}/>
+                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.healing}/>
+                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.blocked}/>
+                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.objKills}/>
+                 <HeroStat percentile={0} statLabel={statLabels.perMinute} statName={statNames.objTime}/>
+                 <HeroStat percentile={0} statLabel={statLabels.percent} statName={statNames.accuracy}/>
              </div>
-         );
+        );
      }
 
-    return ( statsList );
+    return (
+        <div className="HeroStatsListItem">
+             <div className="flex align-center">
+                 <div>
+                     {leaderIcon}
+                     <HeroImage heroName={hero.heroName}/>
+                 </div>
+                 <div>
+                     <h3>{showPlatformDisplayName ? `${hero.platformDisplayName} - ` : ''}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
+                     { subTitle }
+                 </div>
+                 { recordStats }
+             </div>
+             { heroStats }
+         </div>
+    );
 };
 
 HeroStatsListItem.propTypes = {
