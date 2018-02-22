@@ -2,11 +2,12 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import Notification from './Notification/Notification';
+import { allInvites } from '../Routes/links';
 
 const inviteTimeout = 30;
 
-const showNotification = ({icon, title, message, type}) => {
-    toast(<Notification icon={icon} message={message} title={title} type={type}/>, {
+const showNotification = ({icon, title, message, type, redirectUrl}) => {
+    toast(<Notification icon={icon} message={message} title={title} type={type} redirectUrl={redirectUrl}/>, {
         autoClose: 30000,
         className: "NotificationContainer",
         progressClassName: `${type}-progress`
@@ -37,7 +38,8 @@ export const inviteReceivedNotification = ( invitorDisplayName ) => {
         icon: 'fa fa-user-plus',
         title: `Invite from ${invitorDisplayName}`,
         message: `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`,
-        type: 'success'
+        type: 'success',
+        redirectUrl: allInvites
     });
 };
 

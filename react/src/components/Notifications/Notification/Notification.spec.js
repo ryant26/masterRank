@@ -2,10 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import Notification from './Notification';
+import history from '../../../model/history';
+jest.mock('../../../model/history');
 
-const shallowNotification = ({message, title, icon, type}) => {
+const shallowNotification = ({message, title, icon, type, redirectUrl}) => {
     return shallow(
-        <Notification message={message} title={title} icon={icon} type={type}/>
+        <Notification message={message} title={title} icon={icon} type={type} redirectUrl={redirectUrl}/>
     );
 };
 
@@ -15,9 +17,10 @@ describe('Notification', () => {
     const message = 'A message';
     const icon = 'fa fa-plug';
     const type = 'error';
+    const redirectUrl = '/redirectUrl';
 
     beforeEach(() => {
-        NotificationComponent = shallowNotification({message, title, icon, type});
+        NotificationComponent = shallowNotification({message, title, icon, type, redirectUrl});
     });
 
     it('should render', () => {
@@ -42,5 +45,11 @@ describe('Notification', () => {
     it('should set the icon to the icon prop', () => {
         expect(NotificationComponent.find(`.fa.fa-plug`).length)
             .toBe(1);
+    });
+
+    it('should redirect user to the redirectUrl passed in props when notification is clicked', () => {
+        expect(history.push).not.toHaveBeenCalled();
+        NotificationComponent.find('.Notification').simulate('click');
+        expect(history.push).toHaveBeenCalledWith(redirectUrl);
     });
 });

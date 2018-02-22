@@ -143,14 +143,16 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     socket.groupInviteDecline(groupInviteObject.groupId);
 };
 
-const loadMetaListFillerHeroes = () => {
-    NotRealHeroes.forEach((hero) => {
-        store.dispatch(addHeroAction(hero));
-    });
+const loadMetaListFillerHeroes = (flag) => {
+    if(flag){
+        NotRealHeroes.forEach((hero) => {
+            store.dispatch(addHeroAction(hero));
+        });
+    }
 };
 const _handleInitialData = function(heroesFromServer) {
     store.dispatch(clearAllHeroesAction());
-    loadMetaListFillerHeroes();
+    loadMetaListFillerHeroes(false);
 
     let userPlatformDisplayName = store.getState().user.platformDisplayName;
     heroesFromServer.forEach((hero) => {

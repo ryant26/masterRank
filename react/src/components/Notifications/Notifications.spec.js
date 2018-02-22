@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 jest.mock('react-toastify');
 
 import Notification from './Notification/Notification';
+import { allInvites } from '../Routes/links';
 
 import groupInvites from '../../resources/groupInvites';
 
@@ -77,6 +78,7 @@ describe('Notifications', () => {
             const title = `Invite from ${invitorDisplayName}`;
             const message = `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`;
             const type = "success";
+            const redirectUrl = allInvites;
 
             inviteReceivedNotification(invitorDisplayName);
 
@@ -86,6 +88,7 @@ describe('Notifications', () => {
                     title={title}
                     message={message}
                     type={type}
+                    redirectUrl={redirectUrl}
                 />,
                 {
                     autoClose: 30000,
