@@ -1,6 +1,6 @@
 export const getHeroes = () => {return [
     {
-        "platformDisplayName": "ImNotReal#365",
+        "platformDisplayName": "ImNotReal#247",
         "heroName": "soldier76",
         "skillRating": 2400,
         "priority": 1,
@@ -26,7 +26,7 @@ export const getHeroes = () => {return [
         }
     },
     {
-        "platformDisplayName": "ImNotReal#365",
+        "platformDisplayName": "ExampleHero#365",
         "heroName": "junkrat",
         "skillRating": 2400,
         "priority": 2,
@@ -52,7 +52,7 @@ export const getHeroes = () => {return [
         }
     },
     {
-        "platformDisplayName": "ExampleHero#365",
+        "platformDisplayName": "ImNotReal#247",
         "heroName": "dva",
         "skillRating": 2400,
         "priority": 3,
@@ -78,7 +78,7 @@ export const getHeroes = () => {return [
         }
     },
     {
-        "platformDisplayName": "ExampleHero#365",
+        "platformDisplayName": "ImNotReal#247",
         "heroName": "zenyatta",
         "skillRating": 2400,
         "priority": 4,
