@@ -79,7 +79,7 @@ describe('GroupStatsContainer Component', () => {
         });
 
         it('should call Model.leaveGroup', () => {
-            expect(Model.leaveGroup).toHaveBeenCalledWith(group.groupId);
+            expect(Model.leaveGroup).toHaveBeenCalled();
         });
 
         it('should call Model.createNewGroup', () => {

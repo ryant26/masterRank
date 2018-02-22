@@ -27,10 +27,10 @@ const GroupStatsContainer = ({group, isLeading, toggleModal}) => {
     const groupSr = Math.floor(groupHeroes.reduce((sr, hero) => sr + hero.skillRating, 0) / groupHeroes.length);
 
     const leaveGroup = () => {
-        let preferredHeroName = group.leader.heroName;
-        Model.leaveGroup(group.groupId);
-        Model.createNewGroup(preferredHeroName);
         toggleModal();
+        let preferredHeroName = group.leader.heroName;
+        Model.leaveGroup();
+        Model.createNewGroup(preferredHeroName);
     };
 
     return (

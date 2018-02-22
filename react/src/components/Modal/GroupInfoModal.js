@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
 import Modal from './Modal';
 import GroupStatsContainer from '../Stats/GroupStatsContainer';
 
@@ -11,9 +12,13 @@ const GroupInfoModal = ({group, user}) => {
         open = group.leader.platformDisplayName !== user.platformDisplayName;
     }
 
+    const toggleModal = () => {
+        open = !open;
+    };
+
     return (
-        <Modal modalOpen={open} closeModal={() => {}} closable={false}>
-            <GroupStatsContainer group={group} isLeading={false}/>
+        <Modal modalOpen={open} closeModal={toggleModal} closable={false}>
+            <GroupStatsContainer group={group} isLeading={false} toggleModal={toggleModal}/>
         </Modal>
     );
 };
