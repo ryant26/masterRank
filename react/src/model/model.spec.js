@@ -6,6 +6,7 @@ const mockSocket = require('socket-io-mock');
 const names = require('../../../shared/libs/allHeroNames').names;
 
 import groupInvites from '../resources/groupInvites';
+import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 import {
     joinGroupNotification,
@@ -86,12 +87,16 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[0]);
                 socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[1]);
                 socket.socketClient.emit(clientEvents.initialData, []);
-                expect(store.getState().heroes).toEqual([]);
+                //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
+                //TODO: original test = expect(store.getState().heroes).toEqual([]);
+                expect(store.getState().heroes).toEqual(NotRealHeroes);
             });
 
             it("heroes on the server that do not belong to the user should be added to store heroes", () => {
                 socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
+                //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
+                //TODO: original test = expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
+                expect(store.getState().heroes).toEqual([...NotRealHeroes, ...heroesFromServer.splice(2)]);
             });
 
             it("heroes on the server that belong to the user should be removed from the server", () => {
