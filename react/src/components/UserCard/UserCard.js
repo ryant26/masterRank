@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import test from '../../assets';
 
-const UserCard = ({user, onClick, region}) => {
+const UserCard = ({user, onClick, region, showRank}) => {
 
 
     function addIcon(sr) {
@@ -23,19 +23,25 @@ const UserCard = ({user, onClick, region}) => {
         }
     }
 
+    let rank;
+
+    if (showRank) {
+        rank = user.skillRating ? (
+            <div className="account-detail flex align-center">
+                <img src={addIcon(user.skillRating)}/>
+                {user.skillRating}
+            </div>
+        ) :
+            <div className="account-detail flex">Unranked</div>;
+    }
+
     return (
          <div className="UserCard sidebar-card flex align-center" onClick={() => {onClick(user);}}>
             <img src={user.portrait}/>
             <div className="player-info">
                 <div className="display-name">{user.platformDisplayName}</div>
                 <div className="flex align-center">
-                    { user.skillRating ?
-                        <div className="account-detail flex align-center">
-                            <img src={addIcon(user.skillRating)}/>
-                            {user.skillRating}
-                        </div> :
-                        <div className="account-detail flex">Unranked</div>
-                    }
+                    { rank }
                     <div className="account-detail flex align-center">
                         <div>{user.platform.toUpperCase()}</div>
                     </div>
@@ -53,11 +59,13 @@ const UserCard = ({user, onClick, region}) => {
 UserCard.propTypes = {
     user: PropTypes.object.isRequired,
     region: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    showRank: PropTypes.bool.isRequired
 };
 
 UserCard.defaultProps = {
-  onClick: () => {}
+    onClick: () => {},
+    showRank: true
 };
 
 export default UserCard;
