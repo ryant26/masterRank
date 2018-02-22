@@ -40,19 +40,14 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
         : "N/A";
     let heroDamagePerMin    = hero.stats ? hero.stats.damagePerMin || 0 : undefined;
     let heroPDamagePerMin  = hero.stats && hero.stats.pDamagePerMin || 0;
-
     let heroHealingPerMin   = hero.stats ? hero.stats.healingPerMin || 0 : undefined;
     let heroPHealingPerMin   = hero.stats && hero.stats.pHealingPerMin || 0;
-
     let heroBlockedPerMin   = hero.stats ? hero.stats.blockedPerMin || 0 : undefined;
     let heroPBlockedPerMin   = hero.stats && hero.stats.pBlockedPerMin || 0;
-
     let heroAvgObjElims     = hero.stats ? hero.stats.avgObjElims || 0 : undefined;
     let heroPAvgObjElims     = hero.stats && hero.stats.pAvgObjElims || 0
-
     let heroAvgObjTime      = hero.stats ? hero.stats.avgObjTime || 0 : undefined;
     let heroPAvgObjTime      = hero.stats && hero.stats.pAvgObjTime || 0;
-
     let heroAccuracy        = hero.stats ? hero.stats.accuracy || 0 : undefined;
     let heroPAccuracy        = hero.stats && hero.stats.pAccuracy || 0;
 
