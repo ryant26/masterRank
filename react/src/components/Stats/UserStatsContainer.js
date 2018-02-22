@@ -5,7 +5,7 @@ import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
 
-import { inviteNotification } from '../Notifications/Notifications';
+import { inviteSentNotification } from '../Notifications/Notifications';
 
 const UserStatsContainer = ({hero, heroes, invitable, toggleModal}) => {
     const userHeroes = heroes.filter((userHero) => userHero.platformDisplayName === hero.platformDisplayName).sort((hero1, hero2) => {
@@ -23,7 +23,7 @@ const UserStatsContainer = ({hero, heroes, invitable, toggleModal}) => {
     const winsNode = wins ? <span className="sub-title"><b>{wins}</b> WINS</span> : '';
 
     const invitePlayer = () => {
-        inviteNotification(hero.platformDisplayName);
+        inviteSentNotification(hero.platformDisplayName);
         Model.inviteUserToGroup({
             platformDisplayName: hero.platformDisplayName,
             heroName: hero.heroName

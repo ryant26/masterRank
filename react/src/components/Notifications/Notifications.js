@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 
 import Notification from './Notification/Notification';
 
+const inviteTimeout = 30;
+
 const showNotification = ({icon, title, message, type}) => {
     toast(<Notification icon={icon} message={message} title={title} type={type}/>, {
         autoClose: 30000,
@@ -21,11 +23,20 @@ export const joinGroupNotification = ( displayName ) => {
     });
 };
 
-export const inviteNotification = ( inviteeDisplayName ) => {
+export const inviteSentNotification = ( inviteeDisplayName ) => {
     showNotification({
         icon: 'fa fa-user-plus',
         title: `Invite sent to ${inviteeDisplayName}`,
-        message: 'You should see an invite timeout at the bottom left side of your screen',
+        message: `Sent group invite to ${inviteeDisplayName}, invite will expire in ${inviteTimeout} seconds`,
+        type: 'success'
+    });
+};
+
+export const inviteReceivedNotification = ( invitorDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-user-plus',
+        title: `Invite from ${invitorDisplayName}`,
+        message: `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`,
         type: 'success'
     });
 };

@@ -45,7 +45,7 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
     let heroBlockedPerMin   = hero.stats ? hero.stats.blockedPerMin || 0 : undefined;
     let heroPBlockedPerMin   = hero.stats && hero.stats.pBlockedPerMin || 0;
     let heroAvgObjElims     = hero.stats ? hero.stats.avgObjElims || 0 : undefined;
-    let heroPAvgObjElims     = hero.stats && hero.stats.pAvgObjElims || 0
+    let heroPAvgObjElims     = hero.stats && hero.stats.pAvgObjElims || 0;
     let heroAvgObjTime      = hero.stats ? hero.stats.avgObjTime || 0 : undefined;
     let heroPAvgObjTime      = hero.stats && hero.stats.pAvgObjTime || 0;
     let heroAccuracy        = hero.stats ? hero.stats.accuracy || 0 : undefined;

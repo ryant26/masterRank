@@ -27,6 +27,7 @@ import {
 
 import {
     joinGroupNotification,
+    inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 
@@ -186,6 +187,7 @@ const _addHeroErrorHandler = function(error) {
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {
+    inviteReceivedNotification(groupInviteObject.leader.platformDisplayName);
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 

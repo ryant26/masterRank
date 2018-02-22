@@ -9,6 +9,7 @@ import groupInvites from '../resources/groupInvites';
 
 import {
     joinGroupNotification,
+    inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
@@ -283,6 +284,11 @@ describe('Model', () => {
                         socket.socketClient.emit(clientEvents.groupInviteReceived, groupInvite);
                     });
                     expect(store.getState().groupInvites).toEqual(groupInvites);
+                });
+
+                it('should sent group invite received notification to user with group leaders display name', () => {
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    expect(inviteReceivedNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
                 });
             });
 

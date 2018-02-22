@@ -8,13 +8,15 @@ import groupInvites from '../../resources/groupInvites';
 
 import {
     joinGroupNotification,
-    inviteNotification,
+    inviteSentNotification,
+    inviteReceivedNotification,
     errorNotification,
     disconnectedNotification
 } from './Notifications';
 
 
 describe('Notifications', () => {
+    const inviteTimeout = 30;
 
     describe('joinGroupNotification', () => {
         it('should call toast with correct props', () => {
@@ -42,15 +44,41 @@ describe('Notifications', () => {
         });
     });
 
-    describe('inviteNotification with correct props', () => {
+    describe('inviteSentNotification with correct props', () => {
         it('should call toast ', () => {
             const inviteeDisplayName = groupInvites[0].leader.platformDisplayName;
             const icon="fa fa-user-plus";
             const title = `Invite sent to ${inviteeDisplayName}`;
-            const message = 'You should see an invite timeout at the bottom left side of your screen';
+            const message = `Sent group invite to ${inviteeDisplayName}, invite will expire in ${inviteTimeout} seconds`;
             const type = "success";
 
-            inviteNotification(inviteeDisplayName);
+            inviteSentNotification(inviteeDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('inviteReceivedNotification with correct props', () => {
+        it('should call toast ', () => {
+            const invitorDisplayName = groupInvites[0].leader.platformDisplayName;
+            const icon="fa fa-user-plus";
+            const title = `Invite from ${invitorDisplayName}`;
+            const message = `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`;
+            const type = "success";
+
+            inviteReceivedNotification(invitorDisplayName);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification
