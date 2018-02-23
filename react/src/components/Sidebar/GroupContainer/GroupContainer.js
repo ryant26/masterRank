@@ -69,11 +69,13 @@ class GroupContainer extends Component {
                             />
                         ))
                     }
-                    <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
-                        <div className="button-content">
-                            Team Stats
-                        </div>
-                    </button>
+                    { leader &&
+                        <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
+                            <div className="button-content">
+                                Team Stats
+                            </div>
+                        </button>
+                    }
                  </div>
                  <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
                      <GroupStatsContainer group={this.props.group} isLeading={true}/>
