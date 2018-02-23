@@ -34,7 +34,7 @@ const UserSelector = ({users, region, setLoading, clearLoading}) => {
     return (
         <div className="UserSelector">
             { users.map((user, i) =>
-                <UserCard user={user} region={region} key={i} onClick={onClick} />
+                <UserCard user={user} region={region} key={i} onClick={onClick} showRank={!!user.skillRating}/>
             )}
         </div>
     );
