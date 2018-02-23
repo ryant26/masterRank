@@ -9,12 +9,18 @@ import LoginPage from '../../../pages/LoginPage/LoginPage';
 import token from '../../../resources/token';
 import { home } from '../../Routes/links';
 
+jest.mock('../../../actionCreators/user', () => {
+    return jest.fn();
+});
+
 const decode  = require('jwt-decode');
 
+const mockStore = configureStore();
 const getConnectAuthenticationContainer = () => {
-    let mockStore = configureStore();
+    let store = mockStore({});
+
     return shallow(
-        <Authentication updateUserAction={jest.fn()} store={mockStore()} />
+        <Authentication updateUserAction={jest.fn()} store={store} />
     );
 };
 
@@ -95,9 +101,8 @@ describe('Authentication', () => {
             expect(window.fetch).toHaveBeenCalledWith(fetchUrl);
         });
 
-        xit('should dispatch user update action', () => {
-            //TODO: Cant figure out how to pass mapTo... in unit tests.
-            expect(connectAuthenticationContainer.instance().props.updateUserAction).toHaveBeenCalledWith(user);
+        it('should dispatch user update action', () => {
+            expect(connectAuthenticationContainer.props().updateUserAction).toHaveBeenCalledWith(user);
         });
 
         it('should delete the access token in cookies', () => {

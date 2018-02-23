@@ -47,7 +47,6 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
-    //TODO: Emitted when a user joins a group, where hero = the hero they joined as
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
