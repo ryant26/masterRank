@@ -9,7 +9,7 @@ module.exports = {
     playerInviteCanceled: 'playerInviteCanceled',
     groupInviteAccepted: 'groupInviteAccepted',
     groupInviteDeclined: 'groupInviteDeclined',
-    groupHeroLeft: 'groupHeroLeft',
+    playerHeroLeft: 'playerHeroLeft',
     groupPromotedLeader: 'groupPromotedLeader',
     error: {
         addHero: 'error.addHero',

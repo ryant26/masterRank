@@ -1,4 +1,10 @@
-const groupInvites = [
+export const initialGroup = {
+    groupId: null,
+    members: [],
+    pending: []
+};
+
+export const groupInvites = [
   {
     groupId: 10,
     groupSize: 4,

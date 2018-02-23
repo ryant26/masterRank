@@ -5,7 +5,8 @@ import {clientEvents} from '../api/websocket';
 const mockSocket = require('socket-io-mock');
 const names = require('../../../shared/libs/allHeroNames').names;
 
-import groupInvites from '../resources/groupInvites';
+import { initialGroup, groupInvites } from '../resources/groupInvites';
+
 import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 import {
@@ -194,11 +195,6 @@ describe('Model', () => {
         });
 
         describe('Group', () => {
-            const initialGroup = {
-                groupId: null,
-                members: [],
-                pending: []
-            };
             groupInvites[0].inviteDate = "2018-02-14T11:12:57.706Z";
             const group = groupInvites[0];
 
@@ -229,9 +225,9 @@ describe('Model', () => {
             });
 
             describe('Group Hero Left', () => {
-                it('should update store.group to new group when clientEvents.groupHeroLeft is emitted', () => {
+                it('should update store.group to new group when clientEvents.playerHeroLeft is emitted', () => {
                     expect(store.getState().group).toEqual(initialGroup);
-                    socket.socketClient.emit(clientEvents.groupHeroLeft, group);
+                    socket.socketClient.emit(clientEvents.playerHeroLeft, group);
                     expect(store.getState().group).toEqual(group);
                 });
             });
@@ -453,6 +449,13 @@ describe('Model', () => {
             it('should call websocket.leaveGroup', () => {
                 model.leaveGroup();
                 expect(socket.groupLeave).toHaveBeenCalled();
+            });
+
+            it('should clear group from store', () => {
+                model.createNewGroup(groupInvites[0].heroName);
+                expect(store.getState().group).not.toBe(initialGroup);
+                model.leaveGroup();
+                expect(store.getState().group).toEqual(initialGroup);
             });
         });
 

@@ -14,7 +14,10 @@ import {
     removeFilter as removeFilterAction,
     removeAllFilters as removeAllFiltersAction
 } from "../actionCreators/heroFilters";
-import { updateGroup as updateGroupAction } from '../actionCreators/group';
+import {
+    updateGroup as updateGroupAction,
+    leaveGroup as leaveGroupAction
+} from '../actionCreators/group';
 import { clientEvents } from "../api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
@@ -56,7 +59,7 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    socket.on(clientEvents.groupHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.playerHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
     socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
@@ -116,15 +119,16 @@ const updateUser = function(user) {
     store.dispatch(updateUserAction(user));
 };
 
-const createNewGroup = function(userHeroName) {
-    socket.createGroup(userHeroName);
-};
-
 const inviteUserToGroup = function(userObject) {
     socket.groupInviteSend(userObject);
 };
 
+const createNewGroup = function() {
+    socket.createGroup(store.getState().preferredHeroes.heroes[0]);
+};
+
 const leaveGroup = function() {
+    store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
 
@@ -148,6 +152,7 @@ const loadMetaListFillerHeroes = () => {
         store.dispatch(addHeroAction(hero));
     });
 };
+
 const _handleInitialData = function(heroesFromServer) {
     store.dispatch(clearAllHeroesAction());
     loadMetaListFillerHeroes();

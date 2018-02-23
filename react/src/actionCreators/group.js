@@ -6,3 +6,9 @@ export const updateGroup = (updatedGroupData) => {
     updatedGroupData
   };
 };
+
+export const leaveGroup = () => {
+  return {
+    type: GroupActionTypes.LEAVE_GROUP,
+  };
+};

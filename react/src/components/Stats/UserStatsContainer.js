@@ -23,12 +23,12 @@ const UserStatsContainer = ({hero, heroes, invitable, toggleModal}) => {
     const winsNode = wins ? <span className="sub-title"><b>{wins}</b> WINS</span> : '';
 
     const invitePlayer = () => {
+        toggleModal();
         inviteSentNotification(hero.platformDisplayName);
         Model.inviteUserToGroup({
             platformDisplayName: hero.platformDisplayName,
             heroName: hero.heroName
         });
-        toggleModal();
     };
 
     return (

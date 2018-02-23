@@ -41,8 +41,4 @@ describe('Modal Component', () => {
     it('should pass isLeading is false to group stats container props', () => {
         expect(wrapper.find(GroupStatsContainer).props().isLeading).toBe(false);
     });
-
-    it('should have toggleModal in group stats container props', () => {
-        expect(wrapper.find(GroupStatsContainer).props().toggleModal).toBeDefined();
-    });
 });

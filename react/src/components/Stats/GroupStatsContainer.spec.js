@@ -8,9 +8,9 @@ import Model from '../../model/model';
 
 import groups from '../../resources/groupInvites';
 
-const shallowGroupStatsContainer = (group, leader, toggleModal) => {
+const shallowGroupStatsContainer = (group, leader) => {
     return shallow(
-        <GroupStatsContainer group={group} isLeading={leader} toggleModal={toggleModal}/>
+        <GroupStatsContainer group={group} isLeading={leader}/>
     );
 };
 
@@ -64,17 +64,13 @@ describe('GroupStatsContainer Component', () => {
     });
 
     describe('when button-six is clicked', () => {
-        let toggleModal;
-
         beforeEach(() => {
             Model.leaveGroup = jest.fn();
             Model.createNewGroup = jest.fn();
-            toggleModal = jest.fn();
-            wrapper = shallowGroupStatsContainer(group, false, toggleModal);
+            wrapper = shallowGroupStatsContainer(group, false);
 
             expect(Model.leaveGroup).not.toHaveBeenCalled();
             expect(Model.createNewGroup).not.toHaveBeenCalled();
-            expect(toggleModal).not.toHaveBeenCalled();
             wrapper.find('.button-six').simulate('click');
         });
 
@@ -83,11 +79,7 @@ describe('GroupStatsContainer Component', () => {
         });
 
         it('should call Model.createNewGroup', () => {
-            expect(Model.createNewGroup).toHaveBeenCalledWith(group.leader.heroName);
-        });
-
-        it('should call toggleModal', () => {
-            expect(toggleModal).toHaveBeenCalled();
+            expect(Model.createNewGroup).toHaveBeenCalled();
         });
     });
 });
