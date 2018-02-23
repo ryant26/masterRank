@@ -26,7 +26,7 @@ export const joinGroupNotification = ( displayName ) => {
 
 export const inviteSentNotification = ( inviteeDisplayName ) => {
     showNotification({
-        icon: 'fa fa-user-plus',
+        icon: 'fa fa-envelope',
         title: `Invite sent to ${inviteeDisplayName}`,
         message: `Sent group invite to ${inviteeDisplayName}, invite will expire in ${inviteTimeout} seconds`,
         type: 'success'
@@ -35,11 +35,22 @@ export const inviteSentNotification = ( inviteeDisplayName ) => {
 
 export const inviteReceivedNotification = ( invitorDisplayName ) => {
     showNotification({
-        icon: 'fa fa-user-plus',
+        icon: 'fa fa-envelope',
         title: `Invite from ${invitorDisplayName}`,
         message: `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`,
         type: 'success',
         redirectUrl: allInvites
+    });
+};
+
+export const joinedGroupNotification = ( groupLeaderGamerTag ) => {
+    const leaderDisplayName = groupLeaderGamerTag.replace(/#.*/,"");
+
+    showNotification({
+        icon: 'fa fa-thumbs-up',
+        title: `You've joined ${leaderDisplayName}'s group`,
+        message: `Add ${groupLeaderGamerTag} to join their party in Overwatch`,
+        type: 'success'
     });
 };
 

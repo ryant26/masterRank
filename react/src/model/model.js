@@ -29,7 +29,7 @@ import {
 } from "../actionCreators/loading";
 
 import {
-    joinGroupNotification,
+    joinedGroupNotification,
     inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
@@ -137,7 +137,7 @@ const cancelInvite = function(userObject) {
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     _removeGroupInviteFromStore(groupInviteObject);
-    joinGroupNotification(groupInviteObject.leader.platformDisplayName);
+    joinedGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 

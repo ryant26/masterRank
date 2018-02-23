@@ -10,7 +10,7 @@ import { initialGroup, groupInvites } from '../resources/groupInvites';
 import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 import {
-    joinGroupNotification,
+    joinedGroupNotification,
     inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
@@ -483,7 +483,7 @@ describe('Model', () => {
 
             it("should call joinGroupNotification with group invite leader's name", () => {
                 model.acceptGroupInviteAndRemoveFromStore(invite);
-                expect(joinGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
+                expect(joinedGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
             });
         });
 
