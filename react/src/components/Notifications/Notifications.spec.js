@@ -130,12 +130,13 @@ describe('Notifications', () => {
 
     describe('successfullyLeftGroupNotification as leader with correct props', () => {
         it('should call toast ', () => {
+            const leaderDisplayName = groupInvites[0].leader;
             const icon="fa fa-thumbs-up";
             const title = "Successfully left group";
-            const message = "You've left your group";
+            const message = `You've left ${leaderDisplayName} group`;
             const type = "success";
 
-            successfullyLeftGroupNotification();
+            successfullyLeftGroupNotification(leaderDisplayName);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification

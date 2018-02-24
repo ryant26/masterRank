@@ -14,11 +14,11 @@ const showNotification = ({icon, title, message, type, redirectUrl}) => {
     });
 };
 
-export const successfullyLeftGroupNotification = ( ) => {
+export const successfullyLeftGroupNotification = ( leaderDisplayName ) => {
     showNotification({
         icon: 'fa fa-thumbs-up',
         title: "Successfully left group",
-        message: "You've left your group",
+        message: `You've left ${leaderDisplayName} group`,
         type: 'success'
     });
 };

@@ -131,7 +131,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    successfullyLeftGroupNotification();
+    successfullyLeftGroupNotification(store.getState().group.leader.platformDisplayName);
     store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };

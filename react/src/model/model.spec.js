@@ -466,21 +466,26 @@ describe('Model', () => {
         });
 
         describe('leaveGroup', () => {
+            const group = groupInvites[0];
+
+            beforeEach(() => {
+                store.getState().group = group;
+            });
+
             it('should call websocket.leaveGroup', () => {
                 model.leaveGroup();
                 expect(socket.groupLeave).toHaveBeenCalled();
             });
 
             it('should clear group from store', () => {
-                model.createNewGroup(groupInvites[0].heroName);
                 expect(store.getState().group).not.toBe(initialGroup);
                 model.leaveGroup();
                 expect(store.getState().group).toEqual(initialGroup);
             });
 
-            it('should call inviteSentNotification with user platform display name', () => {
+            it('should call successfullyLeftGroupNotification with user platform display name', () => {
                 model.leaveGroup();
-                expect(successfullyLeftGroupNotification).toHaveBeenCalled();
+                expect(successfullyLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
             });
         });
 
