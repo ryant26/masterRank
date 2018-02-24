@@ -8,7 +8,7 @@ import MemberCard from './MemberCard/MemberCard';
 import Modal from "../../Modal/Modal";
 import GroupStatsContainer from "../../Stats/GroupStatsContainer";
 
-import groupInvites from '../../../resources/groupInvites';
+import { initialGroup, groupInvites } from '../../../resources/groupInvites';
 import { users } from '../../../resources/users';
 
 const mockStore = configureStore();
@@ -36,7 +36,6 @@ describe('GroupContainer', () => {
     };
 
     describe('when component unmounts', () => {
-
         it('should call Model.leaveGroup', () => {
             Model.leaveGroup = jest.fn();
             GroupContainerComponent = getGroupContainerComponent(group, preferredHeroes, user);
@@ -56,12 +55,13 @@ describe('GroupContainer', () => {
             expect(GroupContainerComponent).toHaveLength(1);
         });
 
-        it('should render Team Stats button', () => {
-            expect(GroupContainerComponent.find('.button-content').text()).toBe('Team Stats');
-        });
-
         it('should not show Modal', () => {
             expect(GroupContainerComponent.find(Modal).prop('modalOpen')).toBe(false);
+        });
+
+        it('should render Team Stats button when store.group is set', () => {
+            expect(GroupContainerComponent.find('.button-content')).toHaveLength(1);
+            expect(GroupContainerComponent.find('.button-content').text()).toBe('Team Stats');
         });
 
         it('when Modal is not showing should show Modal when Team Stats button is clicked', () => {
@@ -74,11 +74,15 @@ describe('GroupContainer', () => {
             expect(GroupContainerComponent.find(GroupStatsContainer)).toHaveLength(1);
             expect(GroupContainerComponent.find(GroupStatsContainer).prop('group')).toBe(group);
             expect(GroupContainerComponent.find(GroupStatsContainer).prop('isLeading')).toBe(true);
-            expect(GroupContainerComponent.find(GroupStatsContainer).prop('toggleModal'))
-                .toBe(GroupContainerComponent.instance().toggleModal);
         });
     });
 
+    describe("when user's group is an initialGroup ", () => {
+        it('should not render Team Stats button', () => {
+            GroupContainerComponent = getGroupContainerComponent(initialGroup, preferredHeroes, user);
+            expect(GroupContainerComponent.find('.button-content')).toHaveLength(0);
+        });
+    });
     const testMemberCardProps = (member, leader, pending, number) => {
         let index = number - 1;
         expect(GroupContainerComponent.find(MemberCard).at(index).prop('member')).toBe(member);

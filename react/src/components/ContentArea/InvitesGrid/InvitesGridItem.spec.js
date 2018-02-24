@@ -70,7 +70,6 @@ describe('InvitesGridItem Component', () => {
         let HeroCardComponent;
 
         beforeEach(() => {
-            //TODO: figure out how to assert that method {X} exists in Model expect(Model.{X}).toExist()
             Model.leaveGroup = jest.fn();
             Model.acceptGroupInviteAndRemoveFromStore = jest.fn();
             HeroCardComponent = getHeroCardComponent(groupInvite);

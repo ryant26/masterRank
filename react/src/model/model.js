@@ -14,7 +14,10 @@ import {
     removeFilter as removeFilterAction,
     removeAllFilters as removeAllFiltersAction
 } from "../actionCreators/heroFilters";
-import { updateGroup as updateGroupAction } from '../actionCreators/group';
+import {
+    updateGroup as updateGroupAction,
+    leaveGroup as leaveGroupAction
+} from '../actionCreators/group';
 import { clientEvents } from "../api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
@@ -26,9 +29,13 @@ import {
 } from "../actionCreators/loading";
 
 import {
-    joinGroupNotification,
+    joinedGroupNotification,
+    inviteSentNotification,
+    inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
+
+import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 let socket;
 let store;
@@ -41,7 +48,6 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
-    //TODO: Emitted when a user joins a group, where hero = the hero they joined as
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
@@ -53,7 +59,7 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    socket.on(clientEvents.groupHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.playerHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
     socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
@@ -113,15 +119,17 @@ const updateUser = function(user) {
     store.dispatch(updateUserAction(user));
 };
 
-const createNewGroup = function(userHeroName) {
-    socket.createGroup(userHeroName);
-};
-
 const inviteUserToGroup = function(userObject) {
+    inviteSentNotification(userObject.platformDisplayName);
     socket.groupInviteSend(userObject);
 };
 
+const createNewGroup = function() {
+    socket.createGroup(store.getState().preferredHeroes.heroes[0]);
+};
+
 const leaveGroup = function() {
+    store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
 
@@ -131,7 +139,7 @@ const cancelInvite = function(userObject) {
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     _removeGroupInviteFromStore(groupInviteObject);
-    joinGroupNotification(groupInviteObject.leader.platformDisplayName);
+    joinedGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 
@@ -140,8 +148,15 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     socket.groupInviteDecline(groupInviteObject.groupId);
 };
 
+const loadMetaListFillerHeroes = () => {
+    NotRealHeroes.forEach((hero) => {
+        _addHeroToStore(hero);
+    });
+};
+
 const _handleInitialData = function(heroesFromServer) {
     store.dispatch(clearAllHeroesAction());
+    loadMetaListFillerHeroes();
 
     let userPlatformDisplayName = store.getState().user.platformDisplayName;
     heroesFromServer.forEach((hero) => {
@@ -186,6 +201,7 @@ const _addHeroErrorHandler = function(error) {
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {
+    inviteReceivedNotification(groupInviteObject.leader.platformDisplayName);
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 

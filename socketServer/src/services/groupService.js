@@ -230,7 +230,7 @@ let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespac
                 }
             } else {
                 let hero = getHeroFromListById(groupDetails.members, token.platformDisplayName);
-                resolve(_removeHeroFromMembers(groupId, namespace, hero));
+                resolve(_removeHeroFromMembers(groupId, socket, namespace, hero));
             }
         });
     });
@@ -281,31 +281,32 @@ let _replaceGroupLeaderWithMember = function(groupId, namespace) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupPromotedLeader, details);
     });
 };
 
 /**
  * Removes a hero from the members array, also fires the hero removed event
- * Fires Events: groupHeroLeft
+ * Fires Events: playerHeroLeft
  * @param groupId
  * @param namespace
  * @param hero
  * @returns {Promise}
  * @private
  */
-let _removeHeroFromMembers = function(groupId, namespace, hero) {
+let _removeHeroFromMembers = function(groupId, socket, namespace, hero) {
     return RedisClient.removeHeroFromGroupMembers(groupId, hero).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        socket.leave(getGroupRoom(groupId));
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
     });
 };
 
 /**
  * This function deletes the group and can only be done if there are no members.
- * Fires Events: groupHeroLeft
+ * Fires Events: playerHeroLeft
  * @param groupId
  * @param namespace
  * @private
@@ -325,7 +326,7 @@ let _deleteGroup = function(groupId, namespace, platform) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
     });
 };
 

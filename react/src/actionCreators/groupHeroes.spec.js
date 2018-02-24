@@ -10,4 +10,11 @@ describe('updateGroup',() => {
                 updatedGroupData: UpdatedGroupData
             });
     });
+
+    it ('should create the LEAVE_GROUP action', ()=> {
+        expect(groupActionCreators.leaveGroup())
+            .toEqual({
+                type: groupActionType.LEAVE_GROUP,
+            });
+    });
 });

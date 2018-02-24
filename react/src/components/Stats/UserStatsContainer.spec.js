@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import UserStatsContainer from './UserStatsContainer';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
-import { inviteNotification } from '../Notifications/Notifications';
 jest.mock('../Notifications/Notifications');
 
 import { getHeroes } from '../../resources/heroes';
@@ -76,10 +75,6 @@ describe('UserStatsContainer Component', () => {
 
         it('should call toggleModal', () => {
             expect(toggleModal).toHaveBeenCalled();
-        });
-
-        it('should send invite notification with correct display name', () => {
-            expect(inviteNotification).toHaveBeenCalledWith(hero.platformDisplayName);
         });
     });
 

@@ -2,9 +2,12 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import Notification from './Notification/Notification';
+import { allInvites } from '../Routes/links';
 
-const showNotification = ({icon, title, message, type}) => {
-    toast(<Notification icon={icon} message={message} title={title} type={type}/>, {
+const inviteTimeout = 30;
+
+const showNotification = ({icon, title, message, type, redirectUrl}) => {
+    toast(<Notification icon={icon} message={message} title={title} type={type} redirectUrl={redirectUrl}/>, {
         autoClose: 30000,
         className: "NotificationContainer",
         progressClassName: `${type}-progress`
@@ -21,11 +24,32 @@ export const joinGroupNotification = ( displayName ) => {
     });
 };
 
-export const inviteNotification = ( inviteeDisplayName ) => {
+export const inviteSentNotification = ( inviteeDisplayName ) => {
     showNotification({
-        icon: 'fa fa-user-plus',
+        icon: 'fa fa-envelope',
         title: `Invite sent to ${inviteeDisplayName}`,
-        message: 'You should see an invite timeout at the bottom left side of your screen',
+        message: `Sent group invite to ${inviteeDisplayName}, invite will expire in ${inviteTimeout} seconds`,
+        type: 'success'
+    });
+};
+
+export const inviteReceivedNotification = ( invitorDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-envelope',
+        title: `Invite from ${invitorDisplayName}`,
+        message: `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`,
+        type: 'success',
+        redirectUrl: allInvites
+    });
+};
+
+export const joinedGroupNotification = ( groupLeaderGamerTag ) => {
+    const leaderDisplayName = groupLeaderGamerTag.replace(/#.*/,"");
+
+    showNotification({
+        icon: 'fa fa-thumbs-up',
+        title: `You've joined ${leaderDisplayName}'s group`,
+        message: `Add ${groupLeaderGamerTag} to join their party in Overwatch`,
         type: 'success'
     });
 };
