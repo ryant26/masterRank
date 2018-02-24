@@ -33,20 +33,18 @@ class HeroCard extends Component {
 
     isInvitable(props) {
         const containsHero = (members, hero) => {
-            let result = members.find((member) => {
+            return members.find((member) => {
                 return member.platformDisplayName === hero.platformDisplayName;
             });
-
-            if (result) return true;
-            return false;
         };
 
 
         let isUser = props.hero.platformDisplayName === props.user.platformDisplayName;
         let isMemberOfGroup = containsHero(props.group.members, props.hero);
         let isPendingMemberOfGroup = containsHero(props.group.pending, props.hero);
+        let isUserNotInGroup = !props.group.leader;
 
-        return !(isUser || isMemberOfGroup || isPendingMemberOfGroup);
+        return !(isUser || isMemberOfGroup || isPendingMemberOfGroup || isUserNotInGroup);
     }
 
     invitePlayer() {
