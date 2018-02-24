@@ -33,6 +33,7 @@ import {
     userJoinedGroupNotification,
     inviteSentNotification,
     inviteReceivedNotification,
+    leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
@@ -60,7 +61,7 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
-    socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _handleGroupPromotedLeader(groupInviteObject));
     socket.on(clientEvents.playerHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
@@ -233,6 +234,14 @@ const _handleGroupInviteAccepted = (newGroup) => {
         }
     }
 
+    store.dispatch(updateGroupAction(newGroup));
+};
+
+const _handleGroupPromotedLeader = (newGroup) => {
+    let newGroupLeader = newGroup.leader.platformDisplayName;
+    if(store.getState().user.platformDisplayName !== newGroupLeader) {
+        leaderLeftGroupNotification(newGroupLeader);
+    }
     store.dispatch(updateGroupAction(newGroup));
 };
 

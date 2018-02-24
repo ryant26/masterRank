@@ -14,11 +14,20 @@ const showNotification = ({icon, title, message, type, redirectUrl}) => {
     });
 };
 
+export const leaderLeftGroupNotification = ( newLeaderDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-group',
+        title: `Group leader left your group`,
+        message: `${newLeaderDisplayName} has been promoted to leader`,
+        type: 'success'
+    });
+};
+
 export const successfullyLeftGroupNotification = ( leaderDisplayName ) => {
     showNotification({
         icon: 'fa fa-thumbs-up',
         title: "Successfully left group",
-        message: `You've left ${leaderDisplayName} group`,
+        message: `You've left ${leaderDisplayName}'s group`,
         type: 'success'
     });
 };

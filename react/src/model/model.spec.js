@@ -14,6 +14,7 @@ import {
     inviteSentNotification,
     inviteReceivedNotification,
     userJoinedGroupNotification,
+    leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
@@ -211,10 +212,28 @@ describe('Model', () => {
             };
 
             describe('Group Promoted Leader', () => {
+
+                beforeEach(() => {
+                    leaderLeftGroupNotification.mockClear();
+                });
+
                 it('should update store.group to new group when clientEvents.groupPromotedLeader is emitted', () => {
                     expect(store.getState().group).toEqual(initialGroup);
                     socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
                     expect(store.getState().group).toEqual(group);
+                });
+
+                it('should sent leaderLeftGroupNotification when user is not group leader', () => {
+                    expect(store.getState().user.platformDisplayName).not.toBe(group.leader.platformDisplayName);
+                    socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
+                    expect(leaderLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
+                });
+
+                it('should not sent leaderLeftGroupNotification when user is group leader', () => {
+                    store.getState().user.platformDisplayName = group.leader.platformDisplayName;
+                    expect(store.getState().user.platformDisplayName).toBe(group.leader.platformDisplayName);
+                    socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
+                    expect(leaderLeftGroupNotification).not.toHaveBeenCalled();
                 });
             });
 
