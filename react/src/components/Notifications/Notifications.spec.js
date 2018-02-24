@@ -11,6 +11,8 @@ import {
     inviteSentNotification,
     inviteReceivedNotification,
     joinedGroupNotification,
+    userJoinedGroupNotification,
+    successfullyLeftGroupNotification,
     errorNotification,
     disconnectedNotification
 } from './Notifications';
@@ -99,6 +101,61 @@ describe('Notifications', () => {
             );
         });
     });
+
+    describe('userJoinedGroupNotification to leader with correct props', () => {
+        it('should call toast ', () => {
+            const memberDisplayName = groupInvites[0].members[0].platformDisplayName;
+            const icon="fa fa-group";
+            const title = `${memberDisplayName} joined group`;
+            const message = `you can now invite ${memberDisplayName} in Overwatch`;
+            const type = "success";
+
+            userJoinedGroupNotification(memberDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('successfullyLeftGroupNotification as leader with correct props', () => {
+        it('should call toast ', () => {
+            const icon="fa fa-thumbs-up";
+            const title = "Successfully left group";
+            const message = "You've left your group";
+            const type = "success";
+
+            successfullyLeftGroupNotification();
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    // leftGroupPassedLeaderNotification
+    // successfullyLeftGroupNotification
+    // memberLeftGroupNotification
 
     describe('errorNotification with correct props', () => {
         it('should call toast when error message is defined', () => {

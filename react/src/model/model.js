@@ -30,8 +30,10 @@ import {
 
 import {
     joinedGroupNotification,
+    userJoinedGroupNotification,
     inviteSentNotification,
     inviteReceivedNotification,
+    successfullyLeftGroupNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 
@@ -57,7 +59,7 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.playerHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
@@ -129,6 +131,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
+    successfullyLeftGroupNotification();
     store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
@@ -211,6 +214,26 @@ const _removeGroupInviteFromStore = function(groupInviteObject) {
 
 const _updateGroupInStore = function(groupInviteObject) {
     store.dispatch(updateGroupAction(groupInviteObject));
+};
+
+const _handleGroupInviteAccepted = (newGroup) => {
+    //TODO: is there a better way to get the new group member?
+    let previouslyPendingMembers = store.getState().group.pending;
+
+    if (previouslyPendingMembers.length > 0 && newGroup.members.length > 0) {
+        let newMember = previouslyPendingMembers.find((pendingMember) => {
+            return newGroup.members.find((member) => {
+                return member.platformDisplayName === pendingMember.platformDisplayName;
+            });
+        });
+        //TODO: this if statement should never not trigger. If it does trigger that means something went wrong.
+        // Should i sent a generic user joined group message or just not send a message?
+        if(newMember) {
+            userJoinedGroupNotification(newMember.platformDisplayName);
+        }
+    }
+
+    store.dispatch(updateGroupAction(newGroup));
 };
 
 const _groupErrorHandler = (error) => {

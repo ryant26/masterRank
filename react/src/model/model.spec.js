@@ -13,6 +13,8 @@ import {
     joinedGroupNotification,
     inviteSentNotification,
     inviteReceivedNotification,
+    userJoinedGroupNotification,
+    successfullyLeftGroupNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
@@ -196,7 +198,6 @@ describe('Model', () => {
         });
 
         describe('Group', () => {
-            groupInvites[0].inviteDate = "2018-02-14T11:12:57.706Z";
             const group = groupInvites[0];
 
             const shouldCallErrorNotification = (errorEvent) => {
@@ -238,6 +239,18 @@ describe('Model', () => {
                     expect(store.getState().group).toEqual(initialGroup);
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
                     expect(store.getState().group).toEqual(group);
+                });
+
+                it('should send group members userJoinedGroupNotification with new members display name', () => {
+                    store.getState().group = group;
+                    let newGroup = JSON.parse(JSON.stringify( group ));
+                    let newMember = newGroup.pending[0];
+                    newGroup.members.push(newMember);
+                    newGroup.pending.pop();
+
+                    expect(store.getState().group).not.toBe(newGroup);
+                    socket.socketClient.emit(clientEvents.groupInviteAccepted, newGroup);
+                    expect(userJoinedGroupNotification).toHaveBeenCalledWith(newMember.platformDisplayName);
                 });
             });
 
@@ -463,6 +476,11 @@ describe('Model', () => {
                 expect(store.getState().group).not.toBe(initialGroup);
                 model.leaveGroup();
                 expect(store.getState().group).toEqual(initialGroup);
+            });
+
+            it('should call inviteSentNotification with user platform display name', () => {
+                model.leaveGroup();
+                expect(successfullyLeftGroupNotification).toHaveBeenCalled();
             });
         });
 

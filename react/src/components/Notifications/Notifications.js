@@ -14,12 +14,11 @@ const showNotification = ({icon, title, message, type, redirectUrl}) => {
     });
 };
 
-export const joinGroupNotification = ( displayName ) => {
-    const leaderName = displayName.replace(/#.*/,"");
+export const successfullyLeftGroupNotification = ( ) => {
     showNotification({
         icon: 'fa fa-thumbs-up',
-        title: <span>You've joined <b>{leaderName}'s</b> group!</span>,
-        message: <span>Add <b>{displayName}</b> while you wait for other players to join</span>,
+        title: "Successfully left group",
+        message: "You've left your group",
         type: 'success'
     });
 };
@@ -50,6 +49,15 @@ export const joinedGroupNotification = ( groupLeaderGamerTag ) => {
         icon: 'fa fa-thumbs-up',
         title: `You've joined ${leaderDisplayName}'s group`,
         message: `Add ${groupLeaderGamerTag} to join their party in Overwatch`,
+        type: 'success'
+    });
+};
+
+export const userJoinedGroupNotification = ( memberDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-group',
+        title: `${memberDisplayName} joined group`,
+        message: `you can now invite ${memberDisplayName} in Overwatch`,
         type: 'success'
     });
 };
