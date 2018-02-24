@@ -8,7 +8,6 @@ import Authentication from './Authentication';
 import LoginPage from '../../../pages/LoginPage/LoginPage';
 import token from '../../../resources/token';
 import { home } from '../../Routes/links';
-
 jest.mock('../../../actionCreators/user', () => {
     return jest.fn();
 });

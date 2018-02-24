@@ -13,9 +13,9 @@ const GroupInfoModal = ({group, user}) => {
     }
 
     return (
-       <Modal modalOpen={open} closeModal={() => {}} closable={false}>
-           <GroupStatsContainer group={group} isLeading={false}/>
-       </Modal>
+        <Modal modalOpen={open} closeModal={() => {}} closable={false}>
+            <GroupStatsContainer group={group} isLeading={false}/>
+        </Modal>
     );
 };
 

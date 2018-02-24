@@ -30,6 +30,7 @@ import {
 
 import {
     joinedGroupNotification,
+    inviteSentNotification,
     inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
@@ -119,6 +120,7 @@ const updateUser = function(user) {
 };
 
 const inviteUserToGroup = function(userObject) {
+    inviteSentNotification(userObject.platformDisplayName);
     socket.groupInviteSend(userObject);
 };
 
@@ -148,7 +150,7 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 
 const loadMetaListFillerHeroes = () => {
     NotRealHeroes.forEach((hero) => {
-        store.dispatch(addHeroAction(hero));
+        _addHeroToStore(hero);
     });
 };
 

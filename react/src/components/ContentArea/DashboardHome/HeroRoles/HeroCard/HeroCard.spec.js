@@ -6,8 +6,6 @@ import Model from '../../../../../model/model';
 import HeroCard from './HeroCard';
 import Modal from '../../../../Modal/Modal';
 import UserStatsContainer from '../../../../Stats/UserStatsContainer';
-import { inviteSentNotification } from '../../../../Notifications/Notifications';
-jest.mock('../../../../Notifications/Notifications');
 
 import heroes from '../../../../../resources/heroes';
 import { users } from '../../../../../resources/users';
@@ -108,10 +106,6 @@ describe('HeroCard Component',()=> {
                 platformDisplayName: hero.platformDisplayName,
                 heroName: hero.heroName
             });
-        });
-
-        it('should send invite notification with correct display name', () => {
-            expect(inviteSentNotification).toHaveBeenCalledWith(hero.platformDisplayName);
         });
     });
 

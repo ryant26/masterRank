@@ -11,6 +11,7 @@ import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 import {
     joinedGroupNotification,
+    inviteSentNotification,
     inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
@@ -438,10 +439,16 @@ describe('Model', () => {
         });
 
         describe('inviteUserToGroup', () => {
-            it('should call websocket.groupInviteSend with groupId', () => {
-                let userObject = groupInvites[0].member;
+            const userObject = groupInvites[0].members[0];
+
+            it('should call websocket.groupInviteSend with userObject', () => {
                 model.inviteUserToGroup(userObject);
                 expect(socket.groupInviteSend).toHaveBeenCalledWith(userObject);
+            });
+
+            it('should call inviteSentNotification with user platform display name', () => {
+                model.inviteUserToGroup(userObject);
+                expect(inviteSentNotification).toHaveBeenCalledWith(userObject.platformDisplayName);
             });
         });
 
