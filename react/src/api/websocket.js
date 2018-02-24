@@ -15,7 +15,7 @@ export const clientEvents = {
     playerInvited: 'playerInvited',
     groupInviteCanceled: 'groupInviteCanceled',
     playerInviteCanceled: 'playerInviteCanceled',
-    groupHeroLeft: 'groupHeroLeft',
+    playerHeroLeft: 'playerHeroLeft',
     groupInviteAccepted: 'groupInviteAccepted',
     groupInviteDeclined: 'groupInviteDeclined',
     error: {

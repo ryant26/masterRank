@@ -9,8 +9,12 @@ const initialState = {
 
 export default function GroupReducer(state=initialState, action) {
     switch(action.type) {
-        case GroupHeroActionTypes.UPDATE_GROUP:
+        case GroupHeroActionTypes.UPDATE_GROUP: {
             return action.updatedGroupData;
+        }
+        case GroupHeroActionTypes.LEAVE_GROUP: {
+            return initialState;
+        }
         default:
             return state;
     }

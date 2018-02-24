@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import {
-    BrowserRouter as Router,
+    Router,
     Switch,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,11 +12,13 @@ import PropTypes from 'prop-types';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
 import Dashboard from '../pages/Dashboard/Dashboard';
+import history from '../model/history';
 
 import { ToastContainer} from 'react-toastify';
 
 import { home } from '../components/Routes/links';
 import hotjar from '../utilities/hotjar';
+
 
 class App extends Component {
     constructor(props) {
@@ -37,7 +39,7 @@ class App extends Component {
                 />
                 <ErrorBoundary>
                     <ToastContainer className="NotificationsContainer"/>
-                    <Router>
+                    <Router history={history}>
                         <Switch>
                             <PrivateRoute
                                 path={home}

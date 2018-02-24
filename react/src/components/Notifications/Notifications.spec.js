@@ -3,28 +3,31 @@ import { toast } from 'react-toastify';
 jest.mock('react-toastify');
 
 import Notification from './Notification/Notification';
+import { allInvites } from '../Routes/links';
 
 import groupInvites from '../../resources/groupInvites';
 
 import {
-    joinGroupNotification,
-    inviteNotification,
+    inviteSentNotification,
+    inviteReceivedNotification,
+    joinedGroupNotification,
     errorNotification,
     disconnectedNotification
 } from './Notifications';
 
 
 describe('Notifications', () => {
+    const inviteTimeout = 30;
 
-    describe('joinGroupNotification', () => {
-        it('should call toast with correct props', () => {
-            const displayName = groupInvites[0].leader.platformDisplayName.replace(/#.*/,"");
-            const icon="fa fa-thumbs-up";
-            const title = <span>You've joined <b>{displayName}'s</b> group!</span>;
-            const message = <span>Add <b>{displayName}</b> while you wait for other players to join</span>;
+    describe('inviteSentNotification with correct props', () => {
+        it('should call toast ', () => {
+            const inviteeDisplayName = groupInvites[0].leader.platformDisplayName;
+            const icon="fa fa-envelope";
+            const title = `Invite sent to ${inviteeDisplayName}`;
+            const message = `Sent group invite to ${inviteeDisplayName}, invite will expire in ${inviteTimeout} seconds`;
             const type = "success";
 
-            joinGroupNotification(displayName);
+            inviteSentNotification(inviteeDisplayName);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification
@@ -36,21 +39,50 @@ describe('Notifications', () => {
                 {
                     autoClose: 30000,
                     className: "NotificationContainer",
-                    progressClassName: `${type}-progress`
+                    progressClassName:`${type}-progress`
                 }
             );
         });
     });
 
-    describe('inviteNotification with correct props', () => {
+    describe('inviteReceivedNotification with correct props', () => {
         it('should call toast ', () => {
-            const inviteeDisplayName = groupInvites[0].leader.platformDisplayName;
-            const icon="fa fa-user-plus";
-            const title = `Invite sent to ${inviteeDisplayName}`;
-            const message = 'You should see an invite timeout at the bottom left side of your screen';
+            const invitorDisplayName = groupInvites[0].leader.platformDisplayName;
+            const icon="fa fa-envelope";
+            const title = `Invite from ${invitorDisplayName}`;
+            const message = `You received an invite from ${invitorDisplayName}, this invite will expire in ${inviteTimeout} seconds`;
+            const type = "success";
+            const redirectUrl = allInvites;
+
+            inviteReceivedNotification(invitorDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                    redirectUrl={redirectUrl}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('joinedGroupNotification with correct props', () => {
+        it('should call toast ', () => {
+            const groupLeaderGamerTag = groupInvites[0].leader.platformDisplayName;
+            const leaderDisplayName = groupLeaderGamerTag.replace(/#.*/,"");
+            const icon="fa fa-thumbs-up";
+            const title = `You've joined ${leaderDisplayName}'s group`;
+            const message = `Add ${groupLeaderGamerTag} to join their party in Overwatch`;
             const type = "success";
 
-            inviteNotification(inviteeDisplayName);
+            joinedGroupNotification(groupLeaderGamerTag);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification

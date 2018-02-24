@@ -5,10 +5,14 @@ import {clientEvents} from '../api/websocket';
 const mockSocket = require('socket-io-mock');
 const names = require('../../../shared/libs/allHeroNames').names;
 
-import groupInvites from '../resources/groupInvites';
+import { initialGroup, groupInvites } from '../resources/groupInvites';
+
+import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 import {
-    joinGroupNotification,
+    joinedGroupNotification,
+    inviteSentNotification,
+    inviteReceivedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
@@ -85,12 +89,16 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[0]);
                 socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[1]);
                 socket.socketClient.emit(clientEvents.initialData, []);
-                expect(store.getState().heroes).toEqual([]);
+                //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
+                //TODO: original test = expect(store.getState().heroes).toEqual([]);
+                expect(store.getState().heroes).toEqual(NotRealHeroes);
             });
 
             it("heroes on the server that do not belong to the user should be added to store heroes", () => {
                 socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
+                //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
+                //TODO: original test = expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
+                expect(store.getState().heroes).toEqual([...NotRealHeroes, ...heroesFromServer.splice(2)]);
             });
 
             it("heroes on the server that belong to the user should be removed from the server", () => {
@@ -188,11 +196,6 @@ describe('Model', () => {
         });
 
         describe('Group', () => {
-            const initialGroup = {
-                groupId: null,
-                members: [],
-                pending: []
-            };
             groupInvites[0].inviteDate = "2018-02-14T11:12:57.706Z";
             const group = groupInvites[0];
 
@@ -223,9 +226,9 @@ describe('Model', () => {
             });
 
             describe('Group Hero Left', () => {
-                it('should update store.group to new group when clientEvents.groupHeroLeft is emitted', () => {
+                it('should update store.group to new group when clientEvents.playerHeroLeft is emitted', () => {
                     expect(store.getState().group).toEqual(initialGroup);
-                    socket.socketClient.emit(clientEvents.groupHeroLeft, group);
+                    socket.socketClient.emit(clientEvents.playerHeroLeft, group);
                     expect(store.getState().group).toEqual(group);
                 });
             });
@@ -283,6 +286,11 @@ describe('Model', () => {
                         socket.socketClient.emit(clientEvents.groupInviteReceived, groupInvite);
                     });
                     expect(store.getState().groupInvites).toEqual(groupInvites);
+                });
+
+                it('should sent group invite received notification to user with group leaders display name', () => {
+                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
+                    expect(inviteReceivedNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
                 });
             });
 
@@ -431,10 +439,16 @@ describe('Model', () => {
         });
 
         describe('inviteUserToGroup', () => {
-            it('should call websocket.groupInviteSend with groupId', () => {
-                let userObject = groupInvites[0].member;
+            const userObject = groupInvites[0].members[0];
+
+            it('should call websocket.groupInviteSend with userObject', () => {
                 model.inviteUserToGroup(userObject);
                 expect(socket.groupInviteSend).toHaveBeenCalledWith(userObject);
+            });
+
+            it('should call inviteSentNotification with user platform display name', () => {
+                model.inviteUserToGroup(userObject);
+                expect(inviteSentNotification).toHaveBeenCalledWith(userObject.platformDisplayName);
             });
         });
 
@@ -442,6 +456,13 @@ describe('Model', () => {
             it('should call websocket.leaveGroup', () => {
                 model.leaveGroup();
                 expect(socket.groupLeave).toHaveBeenCalled();
+            });
+
+            it('should clear group from store', () => {
+                model.createNewGroup(groupInvites[0].heroName);
+                expect(store.getState().group).not.toBe(initialGroup);
+                model.leaveGroup();
+                expect(store.getState().group).toEqual(initialGroup);
             });
         });
 
@@ -469,7 +490,7 @@ describe('Model', () => {
 
             it("should call joinGroupNotification with group invite leader's name", () => {
                 model.acceptGroupInviteAndRemoveFromStore(invite);
-                expect(joinGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
+                expect(joinedGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
             });
         });
 

@@ -1,10 +1,15 @@
 import React from 'react';
 import Proptypes from 'prop-types';
+import history from '../../../model/history';
 
-const Notification = ({type, icon, title, message}) => {
+const Notification = ({type, icon, title, message, redirectUrl}) => {
+
+    const onClick = () => {
+        history.push(redirectUrl);
+    };
 
     return (
-        <div className="Notification flex">
+        <div className="Notification flex" onClick={onClick}>
             <div className={`icon-container flex justify-center align-center ${type}`}>
                 <i className={`icon ${icon}`}/>
             </div>
@@ -25,7 +30,7 @@ Notification.propTypes = {
     icon: Proptypes.string.isRequired,
     title: Proptypes.oneOfType([Proptypes.string, Proptypes.node]).isRequired,
     message: Proptypes.oneOfType([Proptypes.string, Proptypes.node]).isRequired,
-
+    redirectUrl: Proptypes.string
 };
 
 export default Notification;

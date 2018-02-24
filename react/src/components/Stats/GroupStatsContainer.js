@@ -5,7 +5,7 @@ import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
 
-const GroupStatsContainer = ({group, isLeading, toggleModal}) => {
+const GroupStatsContainer = ({group, isLeading}) => {
     const groupHeroes = [group.leader, ...group.members];
 
     const wins = groupHeroes.reduce((wins, hero) => {
@@ -27,10 +27,8 @@ const GroupStatsContainer = ({group, isLeading, toggleModal}) => {
     const groupSr = Math.floor(groupHeroes.reduce((sr, hero) => sr + hero.skillRating, 0) / groupHeroes.length);
 
     const leaveGroup = () => {
-        let preferredHeroName = group.leader.heroName;
-        Model.leaveGroup(group.groupId);
-        Model.createNewGroup(preferredHeroName);
-        toggleModal();
+        Model.leaveGroup();
+        Model.createNewGroup();
     };
 
     return (
@@ -76,7 +74,6 @@ const GroupStatsContainer = ({group, isLeading, toggleModal}) => {
 GroupStatsContainer.propTypes = {
     group: PropTypes.object.isRequired,
     isLeading: PropTypes.bool.isRequired,
-    toggleModal: PropTypes.func
 };
 
 
