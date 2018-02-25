@@ -35,6 +35,7 @@ import {
     inviteReceivedNotification,
     leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
+    preferredHeroNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 
@@ -111,6 +112,7 @@ const updatePreferredHeroes = function(heroes) {
 
             if (newPreferredHero) {
                 socket.addHero(newPreferredHero, i+1);
+                store.dispatch(pushBlockingLoadingAction());
             }
         }
     }
@@ -173,6 +175,7 @@ const _handleInitialData = function(heroesFromServer) {
 
     store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
          socket.addHero(heroName, (i+1));
+         store.dispatch(pushBlockingLoadingAction());
     });
 
     store.dispatch(popBlockingLoadingAction());
@@ -182,6 +185,8 @@ const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
         addPreferredHeroToStore(hero.heroName, hero.preference);
+        preferredHeroNotification(hero.heroName);
+        store.dispatch(popBlockingLoadingAction());
     }
 
     if (store.getState().preferredHeroes.heroes[0] === hero.heroName) {

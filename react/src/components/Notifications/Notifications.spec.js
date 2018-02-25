@@ -14,6 +14,7 @@ import {
     userJoinedGroupNotification,
     leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
+    preferredHeroNotification,
     errorNotification,
     disconnectedNotification
 } from './Notifications';
@@ -164,6 +165,32 @@ describe('Notifications', () => {
             const type = "success";
 
             leaderLeftGroupNotification(newLeaderDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('preferredHeroNotification to leader with correct props', () => {
+        it('should call toast ', () => {
+            const heroName = groupInvites[0].leader.heroName;
+            const icon="fa fa-thumbs-up";
+            const title = `Successfully preferred ${heroName}`;
+            const message = "Other players will see your top 5 preferred Heroes, which at anytime you can change from the sidebar";
+            const type = "success";
+
+            preferredHeroNotification(heroName);
 
             expect(toast).toHaveBeenCalledWith(
                 <Notification

@@ -16,6 +16,7 @@ import {
     userJoinedGroupNotification,
     leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
+    preferredHeroNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
@@ -77,58 +78,67 @@ describe('Model', () => {
 
         describe('Initial Data', () => {
 
-            const localStorePreferredHeroes = [
-                'tracer',
-                'phara'
-            ];
+            describe('when preferred heroes are set', () => {
 
-            beforeEach(() => {
-                localStorePreferredHeroes.forEach((heroName, i) => {
-                    model.addPreferredHeroToStore(heroName, (i+1));
+                const localStorePreferredHeroes = [
+                    'tracer',
+                    'phara'
+                ];
+
+                beforeEach(() => {
+                    localStorePreferredHeroes.forEach((heroName, i) => {
+                        model.addPreferredHeroToStore(heroName, (i+1));
+                    });
+                });
+
+                it('should clear all heroes in meta list from store.heroes', () => {
+                    socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[0]);
+                    socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[1]);
+                    socket.socketClient.emit(clientEvents.initialData, []);
+                    //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
+                    //TODO: original test = expect(store.getState().heroes).toEqual([]);
+                    expect(store.getState().heroes).toEqual(NotRealHeroes);
+                });
+
+                it("heroes on the server that do not belong to the user should be added to store heroes", () => {
+                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                    //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
+                    //TODO: original test = expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
+                    expect(store.getState().heroes).toEqual([...NotRealHeroes, ...heroesFromServer.splice(2)]);
+                });
+
+                it("heroes on the server that belong to the user should be removed from the server", () => {
+                    expect(heroesFromServer[0].platformDisplayName).toBe(userDisplayName);
+                    expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
+                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                    expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[0].heroName);
+                    expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[1].heroName);
+                });
+
+                it("heroes on the server that belong to the user should not be added to store preferred heroes", () => {
+                    expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
+                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                    expect(store.getState().preferredHeroes.heroes.includes(heroesFromServer[1].heroName)).toBeFalsy();
+                });
+
+                it("user's preferred heroes should be added to the server", () => {
+                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                    expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[0], 1);
+                    expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[1], 2);
+                });
+
+                it('should push loading screen for each preferred hero', () => {
+                    expect(store.getState().loading.blockUI).toBe(1);
+                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                    expect(store.getState().loading.blockUI).toBe(localStorePreferredHeroes.length);
                 });
             });
 
-            it('should clear all heroes in meta list from store.heroes', () => {
-                socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[0]);
-                socket.socketClient.emit(clientEvents.heroAdded, heroesFromServer[1]);
-                socket.socketClient.emit(clientEvents.initialData, []);
-                //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
-                //TODO: original test = expect(store.getState().heroes).toEqual([]);
-                expect(store.getState().heroes).toEqual(NotRealHeroes);
-            });
-
-            it("heroes on the server that do not belong to the user should be added to store heroes", () => {
-                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                //TODO: NotRealHeroes, are only temporary to help us get good feedback, The test are a little weird for now.
-                //TODO: original test = expect(store.getState().heroes).toEqual(heroesFromServer.splice(2));
-                expect(store.getState().heroes).toEqual([...NotRealHeroes, ...heroesFromServer.splice(2)]);
-            });
-
-            it("heroes on the server that belong to the user should be removed from the server", () => {
-                expect(heroesFromServer[0].platformDisplayName).toBe(userDisplayName);
-                expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
-                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[0].heroName);
-                expect(socket.removeHero).toHaveBeenCalledWith(heroesFromServer[1].heroName);
-            });
-
-            it("heroes on the server that belong to the user should not be added to store preferred heroes", () => {
-                expect(heroesFromServer[1].platformDisplayName).toBe(userDisplayName);
-                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                expect(store.getState().preferredHeroes.heroes.includes(heroesFromServer[1].heroName)).toBeFalsy();
-            });
-
-            it("user's preferred heroes should be added to the server", () => {
-                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[0], 1);
-                expect(socket.addHero).toHaveBeenCalledWith(localStorePreferredHeroes[1], 2);
-            });
-
-            it('should clear the loading state', () => {
-                expect(store.getState().loading.blockUI).toBeTruthy();
-                socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                expect(store.getState().loading.blockUI).toBeFalsy();
-            });
+             it('should clear the loading state', () => {
+                 expect(store.getState().loading.blockUI).toBe(1);
+                 socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+                 expect(store.getState().loading.blockUI).toBe(0);
+             });
         });
 
         describe('Hero Added', () => {
@@ -137,6 +147,7 @@ describe('Model', () => {
 
             beforeEach(() => {
                 model.updateUser(userToken);
+                preferredHeroNotification.mockClear();
             });
 
             it('should add the new hero to the store', function() {
@@ -163,6 +174,32 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
                 expect(store.getState().preferredHeroes.heroes).toEqual([]);
                 expect(errorNotification).toHaveBeenCalledWith(hero);
+            });
+
+            it('should send a preferred hero notifications when hero added belongs to the user', function() {
+                expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
+                socket.socketClient.emit(clientEvents.heroAdded, hero);
+                expect(preferredHeroNotification).toHaveBeenCalledWith(hero.heroName);
+            });
+
+            it('should pop loading screen when hero belongs to the user', function() {
+                expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
+                store.getState().loading.blockUI = 1
+                socket.socketClient.emit(clientEvents.heroAdded, hero);
+                expect(store.getState().loading.blockUI).toBe(0);
+            });
+
+            it('should not send a preferred hero notifications when hero does not belong to the user', function() {
+                store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
+                socket.socketClient.emit(clientEvents.heroAdded, hero);
+                expect(preferredHeroNotification).not.toHaveBeenCalled();
+            });
+
+            it('should not pop loading screen when hero added does not belong to the user', function() {
+                store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
+                store.getState().loading.blockUI = 1
+                socket.socketClient.emit(clientEvents.heroAdded, hero);
+                expect(store.getState().loading.blockUI).toBe(1);
             });
 
             //TODO: is this something we want to add? can we delete this?
@@ -422,6 +459,15 @@ describe('Model', () => {
                 };
 
                 model.updatePreferredHeroes(['genji', 'tracer']);
+            });
+
+            it('should push one loading screen for each new hero added', () => {
+                let newPreferredHeroes = ['genji', 'tracer'];
+                store.getState().loading.blockUI = 0;
+
+                expect(store.getState().preferredHeroes.heroes).toEqual([]);
+                model.updatePreferredHeroes(newPreferredHeroes);
+                expect(store.getState().loading.blockUI).toBe(newPreferredHeroes.length);
             });
         });
 

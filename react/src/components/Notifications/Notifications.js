@@ -71,6 +71,15 @@ export const userJoinedGroupNotification = ( memberDisplayName ) => {
     });
 };
 
+export const preferredHeroNotification = (heroName ) => {
+    showNotification({
+        icon: 'fa fa-thumbs-up',
+        title: `Successfully preferred ${heroName}`,
+        message:  "Other players will see your top 5 preferred Heroes, which at anytime you can change from the sidebar",
+        type: 'success'
+    });
+};
+
 export const errorNotification = ( errorMessage ) => {
     errorMessage = errorMessage ? errorMessage : "please refresh the page";
 
