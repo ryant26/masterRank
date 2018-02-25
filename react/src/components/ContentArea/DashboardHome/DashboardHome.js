@@ -1,12 +1,12 @@
 import React from 'react';
 import HeroFilters from './HeroSelector/HeroSelectorCard';
 import HeroRoles from './HeroRoles/HeroRolesContainer';
-import BetaCard from './Beta Card/BetaCard';
+import AlphaCard from './AlphaCard/AlphaCard';
 
 const DashboardHome = () => {
     return (
         <div className="DashboardHome flex flex-column">
-            <BetaCard/>
+            <AlphaCard/>
             <HeroFilters/>
             <HeroRoles/>
         </div>
