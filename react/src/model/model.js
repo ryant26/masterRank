@@ -4,7 +4,6 @@ import {
     clearAllHeroes as clearAllHeroesAction
 } from "../actionCreators/hero";
 import {
-    addHero as addPreferredHeroAction,
     removeHero as removePreferredHeroAction,
     updateHeroes as updatePreferredHeroesAction
 } from "../actionCreators/preferredHeroes";
@@ -83,10 +82,6 @@ const removeHeroFilterFromStore = function(filter) {
 
 const removeAllHeroFiltersFromStore = function() {
     store.dispatch(removeAllFiltersAction());
-};
-
-const addPreferredHeroToStore = function(heroName, preference) {
-    store.dispatch(addPreferredHeroAction(heroName, preference));
 };
 
 const removePreferredHeroFromStore = function(heroName, preference) {
@@ -185,7 +180,6 @@ const _handleInitialData = function(heroesFromServer) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        addPreferredHeroToStore(hero.heroName, hero.preference);
         preferredHeroNotification(hero.heroName);
         store.dispatch(popBlockingLoadingAction());
     }
@@ -263,7 +257,6 @@ const _groupErrorHandler = (error) => {
 
 const Actions = {
     initialize,
-    addPreferredHeroToStore,
     updatePreferredHeroes,
     addHeroFilterToStore,
     removeHeroFilterFromStore,

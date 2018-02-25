@@ -44,6 +44,16 @@ let generateUser = function(platformDisplayName=token.platformDisplayName, regio
     return {platformDisplayName, region, platform};
 };
 
+const clearStoreState = (store) => {
+     store.getState().heroes = [];
+     store.getState().preferredHeroes.heroes = [];
+     store.getState().group = initialGroup;
+     store.getState().loading.blockUI = 0;
+     store.getState().groupInvites = [];
+     store.getState().heroFilters = [];
+
+};
+
 describe('Model', () => {
     let store;
     let socket;
@@ -52,6 +62,10 @@ describe('Model', () => {
         store = createStore();
         socket = initializeSocket();
         model.initialize(socket, store);
+    });
+
+    afterEach(() => {
+        clearStoreState(store);
     });
 
     describe('Constructor', () => {
@@ -102,9 +116,7 @@ describe('Model', () => {
                 ];
 
                 beforeEach(() => {
-                    localStorePreferredHeroes.forEach((heroName, i) => {
-                        model.addPreferredHeroToStore(heroName, (i+1));
-                    });
+                    store.getState().preferredHeroes.heroes = localStorePreferredHeroes;
                 });
 
                 it('should clear all heroes in meta list from store.heroes', () => {
@@ -177,14 +189,9 @@ describe('Model', () => {
                 expect(store.getState().heroes).toEqual([hero]);
             });
 
-            it('should add heroes from the current user to the preferred heroes array', function() {
-                socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
-            });
-
             it('when error occurs should remove error.hero from the store', function() {
                 const hero = 'tracer';
-                model.addPreferredHeroToStore(hero, 1);
+                store.getState().preferredHeroes.heroes = [hero];
 
                 expect(store.getState().preferredHeroes.heroes[0]).toEqual(hero);
                 socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
@@ -397,32 +404,6 @@ describe('Model', () => {
     });
 
     describe('Methods', () => {
-        describe('addPreferredHeroToStore', function() {
-            it('should add the new hero to the preferredHero and heroes array', function() {
-                let hero = generateHero();
-                model.addPreferredHeroToStore(hero.heroName, 1);
-                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
-            });
-
-            it('should insert the hero into the correct position in the heroes array', function() {
-                let hero = generateHero('winston');
-                model.addPreferredHeroToStore(generateHero('genji').heroName, 1);
-                model.addPreferredHeroToStore(generateHero('tracer').heroName, 2);
-                model.addPreferredHeroToStore(generateHero('widowmaker').heroName, 3);
-
-                model.addPreferredHeroToStore(hero.heroName, 2);
-
-                expect(store.getState().preferredHeroes.heroes).toEqual(['genji', 'winston', 'widowmaker']);
-            });
-
-            it('should ignore duplicate heroes', function() {
-                let hero = generateHero();
-                model.addPreferredHeroToStore(hero.heroName, 1);
-                model.addPreferredHeroToStore(hero.heroName, 2);
-                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
-            });
-        });
-
         describe('updatePreferredHeroes', function() {
 
             it('should update the preferred heroes array to the argument', function() {
@@ -434,25 +415,20 @@ describe('Model', () => {
             });
 
             it('Should send the removeHero socket event for missing heroes', function(done) {
+                store.getState().preferredHeroes.heroes = ['genji', 'tracer', 'widowmaker'];
                 let hero = generateHero('winston');
                 socket.removeHero = function(heroName) {
                     expect(heroName).toBe('genji');
                     done();
                 };
 
-                model.addPreferredHeroToStore(generateHero('genji').heroName, 1);
-                model.addPreferredHeroToStore(generateHero('tracer').heroName, 2);
-                model.addPreferredHeroToStore(generateHero('widowmaker').heroName, 3);
 
                 model.updatePreferredHeroes([hero.heroName, 'tracer', 'widowmaker']);
             });
 
             it('should send the addHero socket event for new heroes', function(done) {
+                store.getState().preferredHeroes.heroes = ['genji', 'tracer', 'widowmaker'];
                 let hero = generateHero('winston');
-
-                model.addPreferredHeroToStore(generateHero('genji').heroName, 1);
-                model.addPreferredHeroToStore(generateHero('tracer').heroName, 2);
-                model.addPreferredHeroToStore(generateHero('widowmaker').heroName, 3);
 
                 socket.addHero = function(heroName, preference) {
                     expect(heroName).toBe('winston');
@@ -464,10 +440,7 @@ describe('Model', () => {
             });
 
             it('should remove extra heroes when the new array is shorter', (done) => {
-
-                model.addPreferredHeroToStore(generateHero('genji').heroName, 1);
-                model.addPreferredHeroToStore(generateHero('tracer').heroName, 2);
-                model.addPreferredHeroToStore(generateHero('widowmaker').heroName, 3);
+                store.getState().preferredHeroes.heroes = ['genji', 'tracer', 'widowmaker'];
 
                 socket.removeHero = function(heroName) {
                     expect(heroName).toBe('widowmaker');
@@ -481,7 +454,7 @@ describe('Model', () => {
                 let newPreferredHeroes = ['genji', 'tracer'];
                 store.getState().loading.blockUI = 0;
 
-                expect(store.getState().preferredHeroes.heroes).toEqual([]);
+                store.getState().preferredHeroes.heroes = [];
                 model.updatePreferredHeroes(newPreferredHeroes);
                 expect(store.getState().loading.blockUI).toBe(newPreferredHeroes.length);
             });
@@ -527,7 +500,8 @@ describe('Model', () => {
 
         describe('createNewGroup', () => {
             it('should call websocket.createGroup with heroName', () => {
-                model.createNewGroup(groupInvites[0].heroName);
+                store.getState().preferredHeroes.heroes = [groupInvites[0].heroName];
+                model.createNewGroup();
                 expect(socket.createGroup).toHaveBeenCalledWith(groupInvites[0].heroName);
             });
         });
