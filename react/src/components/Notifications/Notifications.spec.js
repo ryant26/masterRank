@@ -260,7 +260,7 @@ describe('Notifications', () => {
        it('should call toast ', () => {
           const icon="fa fa-plug";
           const title = "You've been disconnected";
-          const message = "You were disconnected due to inactivity, please refresh the page to continue.";
+          const message = "You were disconnected please refresh the page to continue";
           const type = "warning";
 
           disconnectedNotification();
