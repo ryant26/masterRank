@@ -94,8 +94,8 @@ export const errorNotification = ( errorMessage ) => {
 export const disconnectedNotification = ( ) => {
     showNotification({
         icon: 'fa fa-plug',
-        title: 'You have been disconnected',
-        message: 'Please wait while we try to reconnect...',
+        title: "You've been disconnected",
+        message: 'You were disconnected due to inactivity, please refresh the page to continue.',
         type: 'warning'
     });
 };

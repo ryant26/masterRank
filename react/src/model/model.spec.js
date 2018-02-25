@@ -17,6 +17,7 @@ import {
     leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
     preferredHeroNotification,
+    disconnectedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
@@ -74,6 +75,21 @@ describe('Model', () => {
 
         beforeEach(() => {
             model.updateUser(userToken);
+        });
+
+        describe('when socket disconnects', () => {
+            const reason = "lost connection to socket server";
+
+            it('should send disconnect notification to user', () => {
+                socket.socketClient.emit(clientEvents.disconnect, reason);
+                expect(disconnectedNotification).toHaveBeenCalled();
+            });
+
+            it('should block user actions', () => {
+                store.getState().loading.blockUI = 0;
+                socket.socketClient.emit(clientEvents.disconnect, reason);
+                expect(store.getState().loading.blockUI).toBe(1);
+            });
         });
 
         describe('Initial Data', () => {
@@ -184,7 +200,7 @@ describe('Model', () => {
 
             it('should pop loading screen when hero belongs to the user', function() {
                 expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
-                store.getState().loading.blockUI = 1
+                store.getState().loading.blockUI = 1;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(store.getState().loading.blockUI).toBe(0);
             });
@@ -197,7 +213,7 @@ describe('Model', () => {
 
             it('should not pop loading screen when hero added does not belong to the user', function() {
                 store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
-                store.getState().loading.blockUI = 1
+                store.getState().loading.blockUI = 1;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(store.getState().loading.blockUI).toBe(1);
             });

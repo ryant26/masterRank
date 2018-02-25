@@ -36,6 +36,7 @@ import {
     leaderLeftGroupNotification,
     successfullyLeftGroupNotification,
     preferredHeroNotification,
+    disconnectedNotification,
     errorNotification
 } from '../components/Notifications/Notifications';
 
@@ -56,14 +57,14 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _handleGroupPromotedLeader(groupInviteObject));
     socket.on(clientEvents.playerHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+
+    socket.on(clientEvents.disconnect, () => _handleSocketDisconnect());
 
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
     socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
@@ -220,6 +221,12 @@ const _removeGroupInviteFromStore = function(groupInviteObject) {
 
 const _updateGroupInStore = function(groupInviteObject) {
     store.dispatch(updateGroupAction(groupInviteObject));
+};
+
+const _handleSocketDisconnect = () => {
+    //TODO: Do we want to add the reason for the disconnection?
+    disconnectedNotification();
+    store.dispatch(pushBlockingLoadingAction());
 };
 
 const _handleGroupInviteAccepted = (newGroup) => {

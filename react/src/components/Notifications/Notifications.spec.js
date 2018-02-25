@@ -259,8 +259,8 @@ describe('Notifications', () => {
     describe('disconnectedNotification with correct props', () => {
        it('should call toast ', () => {
           const icon="fa fa-plug";
-          const title = "You have been disconnected";
-          const message = "Please wait while we try to reconnect...";
+          const title = "You've been disconnected";
+          const message = "You were disconnected due to inactivity, please refresh the page to continue.";
           const type = "warning";
 
           disconnectedNotification();
