@@ -11,6 +11,10 @@ import {
     inviteSentNotification,
     inviteReceivedNotification,
     joinedGroupNotification,
+    userJoinedGroupNotification,
+    leaderLeftGroupNotification,
+    successfullyLeftGroupNotification,
+    preferredHeroNotification,
     errorNotification,
     disconnectedNotification
 } from './Notifications';
@@ -100,6 +104,110 @@ describe('Notifications', () => {
         });
     });
 
+    describe('userJoinedGroupNotification to leader with correct props', () => {
+        it('should call toast ', () => {
+            const memberDisplayName = groupInvites[0].members[0].platformDisplayName;
+            const icon="fa fa-group";
+            const title = `${memberDisplayName} joined group`;
+            const message = `you can now invite ${memberDisplayName} in Overwatch`;
+            const type = "success";
+
+            userJoinedGroupNotification(memberDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('successfullyLeftGroupNotification as leader with correct props', () => {
+        it('should call toast ', () => {
+            const leaderDisplayName = groupInvites[0].leader;
+            const icon="fa fa-thumbs-up";
+            const title = "Successfully left group";
+            const message = `You've left ${leaderDisplayName}'s group`;
+            const type = "success";
+
+            successfullyLeftGroupNotification(leaderDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('leaderLeftGroupNotification as leader with correct props', () => {
+        it('should call toast ', () => {
+            const newLeaderDisplayName = groupInvites[0].members[0];
+            const icon="fa fa-group";
+            const title = `Group leader left your group`;
+            const message = `${newLeaderDisplayName} has been promoted to leader`;
+            const type = "success";
+
+            leaderLeftGroupNotification(newLeaderDisplayName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('preferredHeroNotification to leader with correct props', () => {
+        it('should call toast ', () => {
+            const heroName = groupInvites[0].leader.heroName;
+            const icon="fa fa-thumbs-up";
+            const title = `Successfully preferred ${heroName}`;
+            const message = "Other players will see your top 5 preferred Heroes, which at anytime you can change from the sidebar";
+            const type = "success";
+
+            preferredHeroNotification(heroName);
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
     describe('errorNotification with correct props', () => {
         it('should call toast when error message is defined', () => {
             const icon="fa fa-exclamation";
@@ -151,8 +259,8 @@ describe('Notifications', () => {
     describe('disconnectedNotification with correct props', () => {
        it('should call toast ', () => {
           const icon="fa fa-plug";
-          const title = "You have been disconnected";
-          const message = "Please wait while we try to reconnect...";
+          const title = "You've been disconnected";
+          const message = "You were disconnected please refresh the page to continue";
           const type = "warning";
 
           disconnectedNotification();

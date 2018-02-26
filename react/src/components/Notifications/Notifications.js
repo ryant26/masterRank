@@ -14,12 +14,20 @@ const showNotification = ({icon, title, message, type, redirectUrl}) => {
     });
 };
 
-export const joinGroupNotification = ( displayName ) => {
-    const leaderName = displayName.replace(/#.*/,"");
+export const leaderLeftGroupNotification = ( newLeaderDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-group',
+        title: `Group leader left your group`,
+        message: `${newLeaderDisplayName} has been promoted to leader`,
+        type: 'success'
+    });
+};
+
+export const successfullyLeftGroupNotification = ( leaderDisplayName ) => {
     showNotification({
         icon: 'fa fa-thumbs-up',
-        title: <span>You've joined <b>{leaderName}'s</b> group!</span>,
-        message: <span>Add <b>{displayName}</b> while you wait for other players to join</span>,
+        title: "Successfully left group",
+        message: `You've left ${leaderDisplayName}'s group`,
         type: 'success'
     });
 };
@@ -54,6 +62,24 @@ export const joinedGroupNotification = ( groupLeaderGamerTag ) => {
     });
 };
 
+export const userJoinedGroupNotification = ( memberDisplayName ) => {
+    showNotification({
+        icon: 'fa fa-group',
+        title: `${memberDisplayName} joined group`,
+        message: `you can now invite ${memberDisplayName} in Overwatch`,
+        type: 'success'
+    });
+};
+
+export const preferredHeroNotification = (heroName ) => {
+    showNotification({
+        icon: 'fa fa-thumbs-up',
+        title: `Successfully preferred ${heroName}`,
+        message:  "Other players will see your top 5 preferred Heroes, which at anytime you can change from the sidebar",
+        type: 'success'
+    });
+};
+
 export const errorNotification = ( errorMessage ) => {
     errorMessage = errorMessage ? errorMessage : "please refresh the page";
 
@@ -68,8 +94,8 @@ export const errorNotification = ( errorMessage ) => {
 export const disconnectedNotification = ( ) => {
     showNotification({
         icon: 'fa fa-plug',
-        title: 'You have been disconnected',
-        message: 'Please wait while we try to reconnect...',
+        title: "You've been disconnected",
+        message: 'You were disconnected please refresh the page to continue',
         type: 'warning'
     });
 };
