@@ -213,7 +213,6 @@ const _handleSocketDisconnect = () => {
 };
 
 const _handleGroupInviteAccepted = (newGroup) => {
-    //TODO: is there a better way to get the new group member?
     let previouslyPendingMembers = store.getState().group.pending;
 
     if (previouslyPendingMembers.length > 0 && newGroup.members.length > 0) {
