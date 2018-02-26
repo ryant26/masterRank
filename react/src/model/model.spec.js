@@ -9,17 +9,7 @@ import { initialGroup, groupInvites } from '../resources/groupInvites';
 
 import NotRealHeroes from '../resources/metaListFillerHeroes';
 
-import {
-    joinedGroupNotification,
-    inviteSentNotification,
-    inviteReceivedNotification,
-    userJoinedGroupNotification,
-    leaderLeftGroupNotification,
-    successfullyLeftGroupNotification,
-    preferredHeroNotification,
-    disconnectedNotification,
-    errorNotification
-} from '../components/Notifications/Notifications';
+import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
 
 const token = {platformDisplayName: 'PwNShoPP', region: 'us', platform: 'pc'};
@@ -96,7 +86,7 @@ describe('Model', () => {
 
             it('should send disconnect notification to user', () => {
                 socket.socketClient.emit(clientEvents.disconnect, reason);
-                expect(disconnectedNotification).toHaveBeenCalled();
+                expect(Notifications.disconnectedNotification).toHaveBeenCalled();
             });
 
             it('should block user actions', () => {
@@ -175,7 +165,7 @@ describe('Model', () => {
 
             beforeEach(() => {
                 model.updateUser(userToken);
-                preferredHeroNotification.mockClear();
+                Notifications.preferredHeroNotification.mockClear();
             });
 
             it('should add the new hero to the store', function() {
@@ -196,13 +186,13 @@ describe('Model', () => {
                 expect(store.getState().preferredHeroes.heroes[0]).toEqual(hero);
                 socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
                 expect(store.getState().preferredHeroes.heroes).toEqual([]);
-                expect(errorNotification).toHaveBeenCalledWith(hero);
+                expect(Notifications.errorNotification).toHaveBeenCalledWith(hero);
             });
 
             it('should send a preferred hero notifications when hero added belongs to the user', function() {
                 expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(preferredHeroNotification).toHaveBeenCalledWith(hero.heroName);
+                expect(Notifications.preferredHeroNotification).toHaveBeenCalledWith(hero.heroName);
             });
 
             it('should pop loading screen when hero belongs to the user', function() {
@@ -215,7 +205,7 @@ describe('Model', () => {
             it('should not send a preferred hero notifications when hero does not belong to the user', function() {
                 store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(preferredHeroNotification).not.toHaveBeenCalled();
+                expect(Notifications.preferredHeroNotification).not.toHaveBeenCalled();
             });
 
             it('should not pop loading screen when hero added does not belong to the user', function() {
@@ -267,14 +257,14 @@ describe('Model', () => {
                 };
                 it(`should call errorNotification() with error when ${errorEvent} is emitted`, () => {
                     socket.socketClient.emit(errorEvent, error);
-                    expect(errorNotification).toHaveBeenCalledWith(error.message);
+                    expect(Notifications.errorNotification).toHaveBeenCalledWith(error.message);
                 });
             };
 
             describe('Group Promoted Leader', () => {
 
                 beforeEach(() => {
-                    leaderLeftGroupNotification.mockClear();
+                    Notifications.leaderLeftGroupNotification.mockClear();
                 });
 
                 it('should update store.group to new group when clientEvents.groupPromotedLeader is emitted', () => {
@@ -286,14 +276,14 @@ describe('Model', () => {
                 it('should sent leaderLeftGroupNotification when user is not group leader', () => {
                     expect(store.getState().user.platformDisplayName).not.toBe(group.leader.platformDisplayName);
                     socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
-                    expect(leaderLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
+                    expect(Notifications.leaderLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
                 });
 
                 it('should not sent leaderLeftGroupNotification when user is group leader', () => {
                     store.getState().user.platformDisplayName = group.leader.platformDisplayName;
                     expect(store.getState().user.platformDisplayName).toBe(group.leader.platformDisplayName);
                     socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
-                    expect(leaderLeftGroupNotification).not.toHaveBeenCalled();
+                    expect(Notifications.leaderLeftGroupNotification).not.toHaveBeenCalled();
                 });
             });
 
@@ -329,7 +319,7 @@ describe('Model', () => {
 
                     expect(store.getState().group).not.toBe(newGroup);
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, newGroup);
-                    expect(userJoinedGroupNotification).toHaveBeenCalledWith(newMember.platformDisplayName);
+                    expect(Notifications.userJoinedGroupNotification).toHaveBeenCalledWith(newMember.platformDisplayName);
                 });
             });
 
@@ -382,7 +372,7 @@ describe('Model', () => {
 
                 it('should sent group invite received notification to user with group leaders display name', () => {
                     socket.socketClient.emit(clientEvents.groupInviteReceived, group);
-                    expect(inviteReceivedNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
+                    expect(Notifications.inviteReceivedNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
                 });
             });
 
@@ -516,7 +506,7 @@ describe('Model', () => {
 
             it('should call inviteSentNotification with user platform display name', () => {
                 model.inviteUserToGroup(userObject);
-                expect(inviteSentNotification).toHaveBeenCalledWith(userObject.platformDisplayName);
+                expect(Notifications.inviteSentNotification).toHaveBeenCalledWith(userObject.platformDisplayName);
             });
         });
 
@@ -540,7 +530,7 @@ describe('Model', () => {
 
             it('should call successfullyLeftGroupNotification with user platform display name', () => {
                 model.leaveGroup();
-                expect(successfullyLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
+                expect(Notifications.successfullyLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
             });
         });
 
@@ -566,9 +556,9 @@ describe('Model', () => {
                 expect(socket.groupInviteAccept).toHaveBeenCalledWith(groupInvites[0].groupId);
             });
 
-            it("should call joinGroupNotification with group invite leader's name", () => {
+            it("should call joinedGroupNotification with group invite leader's name", () => {
                 model.acceptGroupInviteAndRemoveFromStore(invite);
-                expect(joinedGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
+                expect(Notifications.joinedGroupNotification).toHaveBeenCalledWith(invite.leader.platformDisplayName);
             });
         });
 

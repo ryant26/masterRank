@@ -27,17 +27,7 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 
-import {
-    joinedGroupNotification,
-    userJoinedGroupNotification,
-    inviteSentNotification,
-    inviteReceivedNotification,
-    leaderLeftGroupNotification,
-    successfullyLeftGroupNotification,
-    preferredHeroNotification,
-    disconnectedNotification,
-    errorNotification
-} from '../components/Notifications/Notifications';
+import * as Notifications from '../components/Notifications/Notifications';
 
 import NotRealHeroes from '../resources/metaListFillerHeroes';
 
@@ -121,7 +111,7 @@ const updateUser = function(user) {
 };
 
 const inviteUserToGroup = function(userObject) {
-    inviteSentNotification(userObject.platformDisplayName);
+    Notifications.inviteSentNotification(userObject.platformDisplayName);
     socket.groupInviteSend(userObject);
 };
 
@@ -130,7 +120,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    successfullyLeftGroupNotification(store.getState().group.leader.platformDisplayName);
+    Notifications.successfullyLeftGroupNotification(store.getState().group.leader.platformDisplayName);
     store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
@@ -141,7 +131,7 @@ const cancelInvite = function(userObject) {
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     _removeGroupInviteFromStore(groupInviteObject);
-    joinedGroupNotification(groupInviteObject.leader.platformDisplayName);
+    Notifications.joinedGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 
@@ -180,7 +170,7 @@ const _handleInitialData = function(heroesFromServer) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        preferredHeroNotification(hero.heroName);
+        Notifications.preferredHeroNotification(hero.heroName);
         store.dispatch(popBlockingLoadingAction());
     }
 
@@ -198,14 +188,14 @@ const _removeHeroFromStore = function(hero) {
 };
 
 const _addHeroErrorHandler = function(error) {
-    errorNotification(error.heroName);
+    Notifications.errorNotification(error.heroName);
     removePreferredHeroFromStore(error.heroName);
     // Do whatever we do to shuffle heroes in the case that multiple were added
     // After this one
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {
-    inviteReceivedNotification(groupInviteObject.leader.platformDisplayName);
+    Notifications.inviteReceivedNotification(groupInviteObject.leader.platformDisplayName);
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 
@@ -218,8 +208,7 @@ const _updateGroupInStore = function(groupInviteObject) {
 };
 
 const _handleSocketDisconnect = () => {
-    //TODO: Do we want to add the reason for the disconnection?
-    disconnectedNotification();
+    Notifications.disconnectedNotification();
     store.dispatch(pushBlockingLoadingAction());
 };
 
@@ -233,10 +222,8 @@ const _handleGroupInviteAccepted = (newGroup) => {
                 return member.platformDisplayName === pendingMember.platformDisplayName;
             });
         });
-        //TODO: this if statement should never not trigger. If it does trigger that means something went wrong.
-        // Should i sent a generic user joined group message or just not send a message?
         if(newMember) {
-            userJoinedGroupNotification(newMember.platformDisplayName);
+            Notifications.userJoinedGroupNotification(newMember.platformDisplayName);
         }
     }
 
@@ -246,13 +233,13 @@ const _handleGroupInviteAccepted = (newGroup) => {
 const _handleGroupPromotedLeader = (newGroup) => {
     let newGroupLeader = newGroup.leader.platformDisplayName;
     if(store.getState().user.platformDisplayName !== newGroupLeader) {
-        leaderLeftGroupNotification(newGroupLeader);
+        Notifications.leaderLeftGroupNotification(newGroupLeader);
     }
     store.dispatch(updateGroupAction(newGroup));
 };
 
 const _groupErrorHandler = (error) => {
-    errorNotification(error.message);
+    Notifications.errorNotification(error.message);
 };
 
 const Actions = {
