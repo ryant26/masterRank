@@ -2,10 +2,6 @@ import Websocket from './websocket';
 import token from '../resources/token';
 import groupInvites from '../resources/groupInvites';
 
-jest.mock('../components/Notifications/Notifications');
-import { disconnectedNotification } from '../components/Notifications/Notifications';
-
-
 describe('Websocket API', () => {
     let websocket;
 
@@ -15,13 +11,6 @@ describe('Websocket API', () => {
 
     afterEach(() => {
         websocket.disconnect();
-    });
-
-    describe('disconnects', () => {
-        it('should call disconnectedNotification()', () => {
-            websocket.disconnect();
-            expect(disconnectedNotification).toHaveBeenCalled();
-        });
     });
 
     describe('addHero', () => {
