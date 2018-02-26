@@ -95,8 +95,8 @@ describe(serverEvents.groupInviteAccept, function() {
                 platformDisplayName: randomString.generate(),
                 heroName: 'tracer'
             }, {
-               platformDisplayName: randomString.generate(),
-               heroName: 'genji'
+                platformDisplayName: randomString.generate(),
+                heroName: 'genji'
             }, {
                 platformDisplayName: randomString.generate(),
                 heroName: 'winston'
