@@ -1,7 +1,6 @@
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
-    clearAllHeroes as clearAllHeroesAction
 } from "../actionCreators/hero";
 import {
     addHero as addPreferredHeroAction,
@@ -25,7 +24,6 @@ import {
 } from '../actionCreators/groupInvites';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
-    popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 
 import {
@@ -35,7 +33,7 @@ import {
     errorNotification
 } from '../components/Notifications/Notifications';
 
-import NotRealHeroes from '../resources/metaListFillerHeroes';
+import handleInitialData from './initialData/initialData';
 
 let socket;
 let store;
@@ -46,7 +44,7 @@ const initialize = function(passedSocket, passedStore) {
 
     store.dispatch(pushBlockingLoadingAction());
 
-    socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
+    socket.on(clientEvents.initialData, (heroesFromServer) => handleInitialData(socket, store, heroesFromServer));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
@@ -146,32 +144,6 @@ const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     _removeGroupInviteFromStore(groupInviteObject);
     socket.groupInviteDecline(groupInviteObject.groupId);
-};
-
-const loadMetaListFillerHeroes = () => {
-    NotRealHeroes.forEach((hero) => {
-        _addHeroToStore(hero);
-    });
-};
-
-const _handleInitialData = function(heroesFromServer) {
-    store.dispatch(clearAllHeroesAction());
-    loadMetaListFillerHeroes();
-
-    let userPlatformDisplayName = store.getState().user.platformDisplayName;
-    heroesFromServer.forEach((hero) => {
-        if(hero.platformDisplayName !== userPlatformDisplayName){
-            store.dispatch(addHeroAction(hero));
-        } else  {
-            socket.removeHero(hero.heroName);
-        }
-    });
-
-    store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
-         socket.addHero(heroName, (i+1));
-    });
-
-    store.dispatch(popBlockingLoadingAction());
 };
 
 const _addHeroToStore = function(hero) {
