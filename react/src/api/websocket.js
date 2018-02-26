@@ -3,10 +3,9 @@ import logger from '../utilities/logger';
 import {getSocketApiBase} from './apiRouter';
 const decode  = require('jwt-decode');
 
-import { disconnectedNotification } from '../components/Notifications/Notifications';
-
 export const clientEvents = {
     initialData: 'initialData',
+    disconnect: 'disconnect',
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
@@ -58,7 +57,6 @@ export default class Websocket {
     }
 
     disconnect() {
-        disconnectedNotification();
         this.socket.close();
     }
 

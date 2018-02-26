@@ -4,7 +4,6 @@ import {
     clearAllHeroes as clearAllHeroesAction
 } from "../actionCreators/hero";
 import {
-    addHero as addPreferredHeroAction,
     removeHero as removePreferredHeroAction,
     updateHeroes as updatePreferredHeroesAction
 } from "../actionCreators/preferredHeroes";
@@ -28,12 +27,7 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 
-import {
-    joinedGroupNotification,
-    inviteSentNotification,
-    inviteReceivedNotification,
-    errorNotification
-} from '../components/Notifications/Notifications';
+import * as Notifications from '../components/Notifications/Notifications';
 
 import NotRealHeroes from '../resources/metaListFillerHeroes';
 
@@ -52,14 +46,14 @@ const initialize = function(passedSocket, passedStore) {
 
     socket.on(clientEvents.groupInviteReceived, (groupInviteObject) => _addGroupInviteToStore(groupInviteObject));
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
-    socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+    socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
+    socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _handleGroupPromotedLeader(groupInviteObject));
     socket.on(clientEvents.playerHeroLeft, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+
+    socket.on(clientEvents.disconnect, () => _handleSocketDisconnect());
 
     socket.on(clientEvents.error.addHero, _addHeroErrorHandler);
     socket.on(clientEvents.error.groupLeave, _groupErrorHandler);
@@ -78,10 +72,6 @@ const removeHeroFilterFromStore = function(filter) {
 
 const removeAllHeroFiltersFromStore = function() {
     store.dispatch(removeAllFiltersAction());
-};
-
-const addPreferredHeroToStore = function(heroName, preference) {
-    store.dispatch(addPreferredHeroAction(heroName, preference));
 };
 
 const removePreferredHeroFromStore = function(heroName, preference) {
@@ -108,6 +98,7 @@ const updatePreferredHeroes = function(heroes) {
 
             if (newPreferredHero) {
                 socket.addHero(newPreferredHero, i+1);
+                store.dispatch(pushBlockingLoadingAction());
             }
         }
     }
@@ -120,7 +111,7 @@ const updateUser = function(user) {
 };
 
 const inviteUserToGroup = function(userObject) {
-    inviteSentNotification(userObject.platformDisplayName);
+    Notifications.inviteSentNotification(userObject.platformDisplayName);
     socket.groupInviteSend(userObject);
 };
 
@@ -129,6 +120,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
+    Notifications.successfullyLeftGroupNotification(store.getState().group.leader.platformDisplayName);
     store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
@@ -139,7 +131,7 @@ const cancelInvite = function(userObject) {
 
 const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     _removeGroupInviteFromStore(groupInviteObject);
-    joinedGroupNotification(groupInviteObject.leader.platformDisplayName);
+    Notifications.joinedGroupNotification(groupInviteObject.leader.platformDisplayName);
     socket.groupInviteAccept(groupInviteObject.groupId);
 };
 
@@ -169,6 +161,7 @@ const _handleInitialData = function(heroesFromServer) {
 
     store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
          socket.addHero(heroName, (i+1));
+         store.dispatch(pushBlockingLoadingAction());
     });
 
     store.dispatch(popBlockingLoadingAction());
@@ -177,7 +170,8 @@ const _handleInitialData = function(heroesFromServer) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        addPreferredHeroToStore(hero.heroName, hero.preference);
+        Notifications.preferredHeroNotification(hero.heroName);
+        store.dispatch(popBlockingLoadingAction());
     }
 
     if (store.getState().preferredHeroes.heroes[0] === hero.heroName) {
@@ -194,14 +188,14 @@ const _removeHeroFromStore = function(hero) {
 };
 
 const _addHeroErrorHandler = function(error) {
-    errorNotification(error.heroName);
+    Notifications.errorNotification(error.heroName);
     removePreferredHeroFromStore(error.heroName);
     // Do whatever we do to shuffle heroes in the case that multiple were added
     // After this one
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {
-    inviteReceivedNotification(groupInviteObject.leader.platformDisplayName);
+    Notifications.inviteReceivedNotification(groupInviteObject.leader.platformDisplayName);
     store.dispatch(addGroupInviteAction(groupInviteObject));
 };
 
@@ -213,13 +207,42 @@ const _updateGroupInStore = function(groupInviteObject) {
     store.dispatch(updateGroupAction(groupInviteObject));
 };
 
+const _handleSocketDisconnect = () => {
+    Notifications.disconnectedNotification();
+    store.dispatch(pushBlockingLoadingAction());
+};
+
+const _handleGroupInviteAccepted = (newGroup) => {
+    let previouslyPendingMembers = store.getState().group.pending;
+
+    if (previouslyPendingMembers.length > 0 && newGroup.members.length > 0) {
+        let newMember = previouslyPendingMembers.find((pendingMember) => {
+            return newGroup.members.find((member) => {
+                return member.platformDisplayName === pendingMember.platformDisplayName;
+            });
+        });
+        if(newMember) {
+            Notifications.userJoinedGroupNotification(newMember.platformDisplayName);
+        }
+    }
+
+    store.dispatch(updateGroupAction(newGroup));
+};
+
+const _handleGroupPromotedLeader = (newGroup) => {
+    let newGroupLeader = newGroup.leader.platformDisplayName;
+    if(store.getState().user.platformDisplayName !== newGroupLeader) {
+        Notifications.leaderLeftGroupNotification(newGroupLeader);
+    }
+    store.dispatch(updateGroupAction(newGroup));
+};
+
 const _groupErrorHandler = (error) => {
-    errorNotification(error.message);
+    Notifications.errorNotification(error.message);
 };
 
 const Actions = {
     initialize,
-    addPreferredHeroToStore,
     updatePreferredHeroes,
     addHeroFilterToStore,
     removeHeroFilterFromStore,
