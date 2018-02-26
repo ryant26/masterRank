@@ -35,6 +35,9 @@ router.get('/bnet/callback', function (req, res, next) {
         failureRedirect: localAuthenticator.failureRedirect,
         session: false
     })(req, res, next);
-}, authenticationService.serializeUser, authenticationService.generateToken, authenticationService.respond);
+}, authenticationService.verifyPlatformDisplayName,
+authenticationService.serializeUser,
+authenticationService.generateToken,
+authenticationService.respond);
 
 module.exports = router;
