@@ -3,13 +3,9 @@ import {
     clearAllHeroes as clearAllHeroesAction
 } from "../../actionCreators/hero";
 
-import {
-    popBlockingEvent as popBlockingLoadingAction,
-} from "../../actionCreators/loading";
+import { popBlockingEvent as popBlockingLoadingAction } from "../../actionCreators/loading";
 
-import {
-    updateHeroes as updatePreferredHeroesAction
-} from "../../actionCreators/preferredHeroes";
+import { updateHeroes as updatePreferredHeroesAction } from "../../actionCreators/preferredHeroes";
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
 
@@ -64,7 +60,6 @@ const _preferMostPlayedHeroes = (user) => {
             if (!response.ok) {
                 throw Error("Network request failed");
             }
-
             return response;
         })
         .then(response => response.json())
