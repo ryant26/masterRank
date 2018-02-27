@@ -235,6 +235,64 @@ describe('heroService', function () {
                 assert.equal(hero.losses, 0);
             });
         });
+
+        it('should return the correct perMinute stats when the playtime is in minutes', function() {
+            mockHelpers.stubOverwatchAPI(mockData.tenMinuteStats);
+            const soldierStats = mockData.tenMinuteStats.stats.competitive.soldier76;
+            const accuracy = soldierStats.combat.weapon_accuracy;
+            const healing = soldierStats.assists.healing_done / soldierStats.game.time_played;
+            const damage = soldierStats.combat.all_damage_done / soldierStats.game.time_played;
+            const avgObjElims = soldierStats.combat.objective_kills / soldierStats.game.games_played;
+
+            const min = 16;
+            const sec = 18;
+            const avgObjTime = ((min * 60) + sec)/ soldierStats.game.games_played;
+
+            return heroService.getHero(token, heroName).then((hero) => {
+                assert.equal(hero.accuracy, accuracy);
+                assert.equal(hero.healingPerMin, healing);
+                assert.equal(hero.damagePerMin, damage);
+                assert.equal(hero.avgObjElims, avgObjElims);
+                assert.equal(hero.avgObjTime, avgObjTime);
+            });
+        });
+
+        it('should return the correct perMinute stats when the playtime is in hours', function() {
+            let oneHourStats = JSON.parse(JSON.stringify(mockData.tenMinuteStats));
+            oneHourStats.stats.competitive.soldier76.game.time_played = 1;
+            mockHelpers.stubOverwatchAPI(oneHourStats);
+
+            const soldierStats = mockData.tenMinuteStats.stats.competitive.soldier76;
+            const accuracy = soldierStats.combat.weapon_accuracy;
+            const healing = soldierStats.assists.healing_done / 60;
+            const damage = soldierStats.combat.all_damage_done / 60;
+            const avgObjElims = soldierStats.combat.objective_kills / soldierStats.game.games_played;
+
+            const min = 16;
+            const sec = 18;
+            const avgObjTime = ((min * 60) + sec)/ soldierStats.game.games_played;
+
+            return heroService.getHero(token, heroName).then((hero) => {
+                assert.equal(hero.accuracy, accuracy);
+                assert.equal(hero.healingPerMin, healing);
+                assert.equal(hero.damagePerMin, damage);
+                assert.equal(hero.avgObjElims, avgObjElims);
+                assert.equal(hero.avgObjTime, avgObjTime);
+            });
+        });
+
+        it('should self healing when general healing is not available', function() {
+            let tenMinuteStats = JSON.parse(JSON.stringify(mockData.tenMinuteStats));
+            tenMinuteStats.stats.competitive.soldier76.assists.healing_done = undefined;
+            tenMinuteStats.stats.competitive.soldier76.hero.self_healing = 100;
+            mockHelpers.stubOverwatchAPI(tenMinuteStats);
+
+            const healing = 10;
+
+            return heroService.getHero(token, heroName).then((hero) => {
+                assert.equal(hero.healingPerMin, healing);
+            });
+        });
     });
 
     describe('getTopHeroes', function() {
