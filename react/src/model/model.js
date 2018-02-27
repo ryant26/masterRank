@@ -26,6 +26,8 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
+import { fetchMostPlayedHeroes } from '../actionCreators/fetchMostPlayedHeroes';
+import { addHeroesToServer } from '../actionCreators/addHeroesToServer';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
@@ -150,19 +152,26 @@ const _handleInitialData = function(heroesFromServer) {
     store.dispatch(clearAllHeroesAction());
     loadMetaListFillerHeroes();
 
-    let userPlatformDisplayName = store.getState().user.platformDisplayName;
+    let user = store.getState().user;
     heroesFromServer.forEach((hero) => {
-        if(hero.platformDisplayName !== userPlatformDisplayName){
+        if(hero.platformDisplayName !== user.platformDisplayName){
             store.dispatch(addHeroAction(hero));
         } else  {
             socket.removeHero(hero.heroName);
         }
     });
 
-    store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
-         socket.addHero(heroName, (i+1));
-         store.dispatch(pushBlockingLoadingAction());
-    });
+    let heroes = store.getState().preferredHeroes.heroes;
+    if( heroes.length <= 0) {
+        store.dispatch(fetchMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
+    } else {
+        store.dispatch(addHeroesToServer(heroes, socket));
+    }
+
+//    store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
+//         socket.addHero(heroName, (i+1));
+//         store.dispatch(pushBlockingLoadingAction());
+//    });
 
     store.dispatch(popBlockingLoadingAction());
 };
