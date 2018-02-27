@@ -506,5 +506,101 @@ module.exports = {
         name: 'doesntMAtter',
         region: 'us',
         platform: 'pc'
-    }
+    },
+
+    tenMinuteStats: {
+        name: 'PwNShoPP-1662',
+        region: 'us',
+        platform: 'pc',
+        stats: {
+            competitiveRank: 2500,
+            competitive: {
+                all: {
+                    name: 'all',
+                    combat: {
+                        melee_final_blows: 18,
+                        solo_kills: 73,
+                        objective_kills: 784,
+                        final_blows: 499,
+                        eliminations: 1434,
+                        all_damage_done: 585980,
+                        environmental_kills: 4,
+                        multikills: 14,
+                        objective_time: '02:18:56',
+                        deaths: 340
+                    },
+                    assists: {
+                        healing_done: 37492
+                    },
+                    best: {
+                        eliminations_most_in_game: 87,
+                        final_blows_most_in_game: 34,
+                        all_damage_done_most_in_game: 32532,
+                        healing_done_most_in_game: 12469,
+                        defensive_assists_most_in_game: 18,
+                        offensive_assists_most_in_game: 4,
+                        objective_kills_most_in_game: 51,
+                        objective_time_most_in_game: '08:18',
+                        multikill_best: 4,
+                        solo_kills_most_in_game: 34,
+                        time_spent_on_fire_most_in_game: '08:24'
+                    },
+                    average: {
+                        all_damage_done_avg_per_10_min: 16
+                    },
+                    awards: {
+                        cards: 22,
+                        medals: 129,
+                        medals_gold: 66,
+                        medals_silver: 25,
+                        medals_bronze: 38
+                    },
+                    game: {
+                        time_played: 10,
+                        time_spent_on_fire: '01:01:52',
+                        games_played: 43,
+                        games_won: 27,
+                        games_lost: 14
+                    }
+                },
+                soldier76: {
+                    name: 'soldier76',
+                    combat: {
+                        eliminations: 269,
+                        deaths: 117,
+                        final_blows: 131,
+                        solo_kills: 33,
+                        all_damage_done: 152001,
+                        objective_kills: 137,
+                        objective_time: '16:18',
+                        multikill: 1,
+                        melee_final_blows: 4,
+                        time_spent_on_fire: '10:43',
+                        critical_hits: 268,
+                        hero_damage_done: 101990,
+                        barrier_damage_done: 45922,
+                        quick_melee_accuracy: 0,
+                        critical_hit_accuracy: 5,
+                        weapon_accuracy: 34
+                    },
+                    assists: {
+                        turrets_destroyed: 12,
+                        defensive_assists: 34,
+                        defensive_assists_most_in_game: 6,
+                        healing_done: 14478,
+                        healing_done_most_in_game: 1264,
+                        healing_done_avg_per_10_min: 2,
+                        defensive_assists_avg_per_10_min: 0
+                    },
+                    game: {
+                        time_played: 10,
+                        games_played: 2,
+                        games_won: 1,
+                        games_lost: 1,
+                        win_percentage: 50
+                    }
+                }
+            }
+        }
+    },
 };
