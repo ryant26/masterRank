@@ -41,7 +41,6 @@ export default {
       template: 'src/index.html',
       favicon: 'src/assets/favicon.png',
       minify: {
-        removeComments: true,
         collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
@@ -59,7 +58,21 @@ export default {
     }),
 
     // Minify JS
-    new UglifyJsPlugin({ sourceMap: true }),
+    new UglifyJsPlugin({
+        sourceMap: true,
+        uglifyOptions: {
+            output: {
+                comments: function(node, comment) {
+                    const text = comment.value;
+                    const type = comment.type;
+                    if (type == "comment2") {
+                        // multiline comment
+                        return /copyright/i.test(text);
+                    }
+                }
+            }
+        }
+    }),
   ],
   module: {
     rules: [
