@@ -82,8 +82,9 @@ class PreferredHeroSelector extends Component {
                     </div>
                 </div>
                 <div className="body">
-                    <HeroSelector selectedHeroes={[this.state.selectedHero]} onHeroSelected={this.setHeroPreference}/>
-                </div>
+                    <HeroSelector selectedHeroes={[this.state.selectedHero]}
+                                  disabledHeroes={this.props.preferredHeroes.filter((hero) => hero !== this.state.selectedHero)}
+                                  onHeroSelected={this.setHeroPreference}/></div>
                 <div className="footer flex align-center">
                     <div className="last-action-taken">
                         <b>{this.state.heroForLastAction.charAt(0).toUpperCase() + this.state.heroForLastAction.slice(1)}</b>{this.state.lastActionTaken}
