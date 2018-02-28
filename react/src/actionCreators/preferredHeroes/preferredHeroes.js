@@ -1,4 +1,4 @@
-import * as PreferredHeroActionsTypes from '../actiontypes/preferredHeroes';
+import * as PreferredHeroActionsTypes from '../../actiontypes/preferredHeroes';
 
 export const addHero = (hero, preference) => {
   return {

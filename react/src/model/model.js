@@ -2,11 +2,11 @@ import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
     clearAllHeroes as clearAllHeroesAction
-} from "../actionCreators/hero";
+} from "../actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
     updateHeroes as updatePreferredHeroesAction
-} from "../actionCreators/preferredHeroes";
+} from "../actionCreators/preferredHeroes/preferredHeroes";
 import { updateUser as updateUserAction } from "../actionCreators/user";
 import {
     addFilter as addFilterAction,
@@ -26,8 +26,8 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
-import { fetchMostPlayedHeroes } from '../actionCreators/fetchMostPlayedHeroes';
-import { addHeroesToServer } from '../actionCreators/addHeroesToServer';
+import { preferMostPlayedHeroes } from '../actionCreators/preferredHeroes/preferMostPlayedHeroes';
+import { addHeroesToServer } from '../actionCreators/heroes/addHeroesToServer';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
@@ -163,15 +163,10 @@ const _handleInitialData = function(heroesFromServer) {
 
     let heroes = store.getState().preferredHeroes.heroes;
     if( heroes.length <= 0) {
-        store.dispatch(fetchMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
+        store.dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
     } else {
         store.dispatch(addHeroesToServer(heroes, socket));
     }
-
-//    store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
-//         socket.addHero(heroName, (i+1));
-//         store.dispatch(pushBlockingLoadingAction());
-//    });
 
     store.dispatch(popBlockingLoadingAction());
 };
