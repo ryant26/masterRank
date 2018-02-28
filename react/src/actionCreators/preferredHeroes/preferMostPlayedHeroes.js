@@ -14,17 +14,17 @@ export const preferMostPlayedHeroes = (forUser, accessToken, socket) => {
         dispatch(pushBlockingLoadingAction());
 
         fetchMostPlayedHeroes(forUser)
-            .then(heroesArray => {
-                if( heroesArray.length > 0) {
-                    let mostPlayedHeroes = heroesArray.map((hero) => hero.heroName);
-                    dispatch(updatePreferredHeroesAction(mostPlayedHeroes));
-                    dispatch(addHeroesToServer(mostPlayedHeroes, socket));
-                    dispatch(popBlockingLoadingAction());
+            .then(mostPlayedHeroesArray => {
+                if( mostPlayedHeroesArray.length > 0) {
+                    let mostPlayedHeroNames = mostPlayedHeroesArray.map((hero) => hero.heroName);
+                    dispatch(updatePreferredHeroesAction(mostPlayedHeroNames));
+                    dispatch(addHeroesToServer(mostPlayedHeroNames, socket));
                 }
+                dispatch(popBlockingLoadingAction());
             })
             .catch(() => {
                 dispatch(popBlockingLoadingAction());
                 throw Error("fetchMostPlayedHeroes failed");
             });
     };
-}
+};

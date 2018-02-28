@@ -1,4 +1,4 @@
-function fetchMostPlatedHeroes(forUser) {
+function fetchMostPlayedHeroes(forUser) {
     let platformDisplayName = forUser.platformDisplayName.replace(/#/g, '-');
     const apiUrl = `/api/heros?platformDisplayName=${platformDisplayName}&platform=${forUser.platform}&region=${forUser.region}&filterBy=top&limit=5`;
     const headers = {
@@ -15,7 +15,7 @@ function fetchMostPlatedHeroes(forUser) {
             }
             return response;
         })
-        .then(response => response.json())
+        .then(response => response.json());
 }
 
-export default fetchMostPlatedHeroes;
+export default fetchMostPlayedHeroes;

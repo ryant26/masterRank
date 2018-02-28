@@ -5,4 +5,4 @@ export const addHeroesToServer = (heroNames, socket) => {
             socket.addHero(heroName, (i+1));
         });
     };
-}
+};
