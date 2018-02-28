@@ -6,4 +6,18 @@
         cursor: pointer;
         color: $gray2;
     }
+
+    .button-four {
+        margin-top: 20px;
+        width: 90%;
+        height: 25px;
+    }
+
+    .MemberCard {
+        margin-bottom: 6px;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
 }

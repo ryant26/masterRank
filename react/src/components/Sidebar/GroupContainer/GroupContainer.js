@@ -36,7 +36,7 @@ class GroupContainer extends Component {
         let pendingMembers = this.props.group.pending;
 
         return (
-            <div className="GroupContainer">
+            <div className="GroupContainer flex flex-column align-center">
                  <div>
                     { leader &&
                         <MemberCard
@@ -70,11 +70,11 @@ class GroupContainer extends Component {
                         ))
                     }
                     { leader &&
-                        <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
+                        <div className="button-four flex align-center justify-center" onClick={this.toggleModal}>
                             <div className="button-content">
                                 Team Stats
                             </div>
-                        </button>
+                        </div>
                     }
                  </div>
                  <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
