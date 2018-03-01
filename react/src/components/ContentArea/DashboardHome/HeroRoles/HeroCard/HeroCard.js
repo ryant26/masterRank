@@ -38,17 +38,6 @@ class HeroCard extends Component {
             });
         };
 
-        //TODO: proposed change, cant invite people who have invited you
-//        const hasInvited = (groupInvites, hero) => {
-//            let result = groupInvites.find((invite) => {
-//                return invite.leader.platformDisplayName === hero.platformDisplayName;
-//            });
-//
-//            return !!result;
-//        }
-//        let hasInvitedUserAlready = hasInvited(props.groupInvites, props.hero);
-
-
         let leader = props.group.leader;
         let isUserNotInGroup = !leader;
         let isUser = props.user.platformDisplayName === props.hero.platformDisplayName;
@@ -97,7 +86,7 @@ class HeroCard extends Component {
                 </div>
             );
         }
-        //TODO: add TEST
+
         const displayName = (this.props.hero.platformDisplayName === this.props.user.platformDisplayName)
             ? "You"
             : this.props.hero.platformDisplayName;
