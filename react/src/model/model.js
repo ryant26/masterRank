@@ -231,9 +231,7 @@ const _handleGroupInviteAccepted = (newGroup) => {
 
 const _handleGroupPromotedLeader = (newGroup) => {
     let newGroupLeader = newGroup.leader.platformDisplayName;
-    if(store.getState().user.platformDisplayName !== newGroupLeader) {
-        Notifications.leaderLeftGroupNotification(newGroupLeader);
-    }
+    Notifications.leaderLeftGroupNotification(newGroupLeader);
     store.dispatch(updateGroupAction(newGroup));
 };
 
