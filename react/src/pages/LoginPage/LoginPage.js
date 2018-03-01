@@ -43,7 +43,7 @@ class LoginPage extends Component {
         return (
             <div className="LoginPage flex flex-column align-center grow">
                 <div className="title flex align-center">
-                    <img className="logo" src={require('../../assets/logo-icon.svg')} alt="logo icon"/>
+                    <img className="logo" src={require('../../assets/logo-icon.png')} alt="logo icon"/>
                     <h1>FIRETEAM.GG</h1>
                 </div>
 
