@@ -38,13 +38,24 @@ class HeroCard extends Component {
             });
         };
 
+        //TODO: proposed change, cant invite people who have invited you
+//        const hasInvited = (groupInvites, hero) => {
+//            let result = groupInvites.find((invite) => {
+//                return invite.leader.platformDisplayName === hero.platformDisplayName;
+//            });
+//
+//            return !!result;
+//        }
+//        let hasInvitedUserAlready = hasInvited(props.groupInvites, props.hero);
 
-        let isUser = props.hero.platformDisplayName === props.user.platformDisplayName;
+
+        let leader = props.group.leader;
+        let isUserNotInGroup = !leader;
+        let isUser = props.user.platformDisplayName === props.hero.platformDisplayName;
         let isMemberOfGroup = containsHero(props.group.members, props.hero);
         let isPendingMemberOfGroup = containsHero(props.group.pending, props.hero);
-        let isUserNotInGroup = !props.group.leader;
 
-        return !(isUser || isMemberOfGroup || isPendingMemberOfGroup || isUserNotInGroup);
+        return props.invitable && !(isUserNotInGroup || isUser || isMemberOfGroup || isPendingMemberOfGroup );
     }
 
     invitePlayer() {
@@ -86,6 +97,10 @@ class HeroCard extends Component {
                 </div>
             );
         }
+        //TODO: add TEST
+        const displayName = (this.props.hero.platformDisplayName === this.props.user.platformDisplayName)
+            ? "You"
+            : this.props.hero.platformDisplayName;
 
     return (
         <div className="HeroCard flex align-center">
@@ -98,7 +113,7 @@ class HeroCard extends Component {
                 </div>
             </div>
             <div className="content flex flex-column">
-                <div className="display-name">{this.props.hero.platformDisplayName}</div>
+                <div className="display-name">{displayName}</div>
                 {statLine}
             </div>
             <div className="button-primary" onClick={this.toggleModal}>
@@ -118,7 +133,19 @@ class HeroCard extends Component {
     }
 }
 
+HeroCard.defaultProps = {
+    invitable: true
+};
+
 HeroCard.propTypes = {
+    group: PropTypes.shape({
+        leader: PropTypes.object,
+        members: PropTypes.array.isRequired,
+        pending: PropTypes.array.isRequired,
+    }).isRequired,
+    user: PropTypes.shape({
+        platformDisplayName: PropTypes.string.isRequired
+    }).isRequired,
     hero: PropTypes.shape({
         heroName: PropTypes.string.isRequired,
         platformDisplayName: PropTypes.string.isRequired,
@@ -128,14 +155,14 @@ HeroCard.propTypes = {
             losses: PropTypes.number,
         })
     }).isRequired,
-    user: PropTypes.shape({
-        platformDisplayName: PropTypes.string.isRequired
-    })
+    invitable: PropTypes.bool
+
 };
 
 const mapStateToProps = (state) => {
     return {
       group: state.group,
+      user: state.user
     };
 };
 

@@ -7,12 +7,14 @@ import { shallow } from 'enzyme';
 import InvitesGridItem from './InvitesGridItem';
 import Model from '../../../model/model';
 import groupInvites from '../../../resources/groupInvites';
+import { users } from '../../../resources/users';
 
 
 const mockStore = configureStore();
 const getHeroCardComponent = (groupInvite) => {
     let store = mockStore({
         group: groupInvite,
+        user: users[0]
     });
 
     return shallow(
@@ -26,6 +28,7 @@ describe('InvitesGridItem Component', () => {
     it('should match the snapshot', () => {
         let store = mockStore({
             group: groupInvite,
+            user: users[0]
         });
         const component = renderer.create(
             <Provider  store={store}>

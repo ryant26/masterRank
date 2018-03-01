@@ -17,6 +17,7 @@ const mockStore = configureStore();
 const getHeroCardComponent = (user, hero, group) => {
     let store = mockStore({
         group: group,
+        user: user
     });
 
     return shallow(
