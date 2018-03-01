@@ -7,12 +7,14 @@ import GroupContainer from './GroupContainer';
 import MemberCard from './MemberCard/MemberCard';
 import Modal from "../../Modal/Modal";
 import GroupStatsContainer from "../../Stats/GroupStatsContainer";
+import LeaveGroupButton from './LeaveGroupButton/LeaveGroupButton';
 
 import { initialGroup, groupInvites } from '../../../resources/groupInvites';
 import { users } from '../../../resources/users';
 
 const mockStore = configureStore();
-const getGroupContainerComponent = (group, preferredHeroes, user) => {
+
+const shallowGroupContainerComponent = (group, preferredHeroes, user) => {
     let store = mockStore({
         group: group,
         preferredHeroes: preferredHeroes,
@@ -20,10 +22,11 @@ const getGroupContainerComponent = (group, preferredHeroes, user) => {
     });
     return shallow(
         <GroupContainer store={store}/>
-    ).dive();
+    );
 };
 
 describe('GroupContainer', () => {
+    let wrapper;
     let GroupContainerComponent;
     const group = groupInvites[0];
     const user = users[0];
@@ -38,7 +41,8 @@ describe('GroupContainer', () => {
     describe('when component unmounts', () => {
         it('should call Model.leaveGroup', () => {
             Model.leaveGroup = jest.fn();
-            GroupContainerComponent = getGroupContainerComponent(group, preferredHeroes, user);
+            wrapper = shallowGroupContainerComponent(group, preferredHeroes, user);
+            GroupContainerComponent = wrapper.dive();
             expect(Model.leaveGroup).not.toHaveBeenCalled();
             GroupContainerComponent.unmount();
             expect(Model.leaveGroup).toHaveBeenCalled();
@@ -48,7 +52,8 @@ describe('GroupContainer', () => {
     describe('when component loads', () => {
 
         beforeEach(() => {
-            GroupContainerComponent = getGroupContainerComponent(group, preferredHeroes, user);
+            wrapper = shallowGroupContainerComponent(group, preferredHeroes, user);
+            GroupContainerComponent = wrapper.dive();
         });
 
         it('should render', () => {
@@ -78,9 +83,18 @@ describe('GroupContainer', () => {
     });
 
     describe("when user's group is an initialGroup ", () => {
+        beforeEach(() => {
+            wrapper = shallowGroupContainerComponent(initialGroup, preferredHeroes, user);
+            GroupContainerComponent = wrapper.dive();
+        });
+
         it('should not render Team Stats button', () => {
-            GroupContainerComponent = getGroupContainerComponent(initialGroup, preferredHeroes, user);
             expect(GroupContainerComponent.find('.button-content')).toHaveLength(0);
+        });
+
+        it('should not mount LeaveGroupButton when their are no group member excluding leader', () => {
+            expect(wrapper.props().group.members.length).toBe(0);
+            expect(GroupContainerComponent.find(LeaveGroupButton)).toHaveLength(0);
         });
     });
     const testMemberCardProps = (user, member, isLeader, isPending, number) => {
@@ -103,7 +117,8 @@ describe('GroupContainer', () => {
         const pendingMember = threeStack.pending[0];
 
         beforeEach(() => {
-            GroupContainerComponent = getGroupContainerComponent(threeStack, preferredHeroes, user);
+            wrapper = shallowGroupContainerComponent(threeStack, preferredHeroes, user);
+            GroupContainerComponent = wrapper.dive();
         });
 
         it('should render 3 MemberCard ', () => {
@@ -121,6 +136,11 @@ describe('GroupContainer', () => {
         it('should render pending member\'s MemberCard with the correct props', () => {
             testMemberCardProps(user, pendingMember, false, true, 3);
         });
+
+        it('should mount LeaveGroupButton when their is at least 1 group member excluding leader', () => {
+            expect(wrapper.props().group.members.length).toBeGreaterThan(0);
+            expect(GroupContainerComponent.find(LeaveGroupButton)).toHaveLength(1);
+        });
     });
 
     describe('when given a group of 6 with 1 leader, 2 member, and 3 pending', () => {
@@ -130,7 +150,8 @@ describe('GroupContainer', () => {
         const pendingMembers = sixStack.pending;
 
         beforeEach(() => {
-            GroupContainerComponent = getGroupContainerComponent(sixStack, preferredHeroes, user);
+            wrapper = shallowGroupContainerComponent(sixStack, preferredHeroes, user);
+            GroupContainerComponent = wrapper.dive();
         });
 
         it('should render 6 MemberCard ', () => {

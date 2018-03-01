@@ -8,6 +8,7 @@ import Model from '../../../model/model';
 import MemberCard from './MemberCard/MemberCard';
 import Modal from "../../Modal/Modal";
 import GroupStatsContainer from "../../Stats/GroupStatsContainer";
+import LeaveGroupButton from './LeaveGroupButton/LeaveGroupButton';
 
 class GroupContainer extends Component {
 
@@ -78,6 +79,9 @@ class GroupContainer extends Component {
                                 Team Stats
                             </div>
                         </div>
+                    }
+                    { members.length > 0 &&
+                        <LeaveGroupButton/>
                     }
                  </div>
                  <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
