@@ -74,8 +74,9 @@ describe('preferMostPlayedHeroes', () => {
             dispatch = jest.fn();
 
             fetchPromise = Promise.resolve(noHeroesReturned);
-            fetchMostPlayedHeroes.mockImplementation(() => { return fetchPromise; });
+            fetchMostPlayedHeroes.mockImplementation(() => fetchPromise);
             preferMostPlayedHeroes(forUser, token, socket)(dispatch);
+            return fetchMostPlayedHeroes;
         });
 
         it('should not update preferred heroes', () => {
@@ -99,8 +100,9 @@ describe('preferMostPlayedHeroes', () => {
             dispatch = jest.fn();
 
             fetchPromise = Promise.reject(noHeroesReturned);
-            fetchMostPlayedHeroes.mockImplementation(() => { return fetchPromise; });
+            fetchMostPlayedHeroes.mockImplementation(() => fetchPromise);
             preferMostPlayedHeroes(forUser, token, socket)(dispatch);
+            return fetchMostPlayedHeroes;
         });
 
         //TODO: Don't currently know how to make this test work.

@@ -1,6 +1,10 @@
+const apiBase = "/api";
+const heroesEndpoint = `${apiBase}/heros`;
+
 function fetchMostPlayedHeroes(forUser) {
     let platformDisplayName = forUser.platformDisplayName.replace(/#/g, '-');
-    const apiUrl = `/api/heros?platformDisplayName=${platformDisplayName}&platform=${forUser.platform}&region=${forUser.region}&filterBy=top&limit=5`;
+
+    const apiUrl = `${heroesEndpoint}?platformDisplayName=${platformDisplayName}&platform=${forUser.platform}&region=${forUser.region}&filterBy=top&limit=5`;
     const headers = {
         headers: {
         'Accept': 'application/json',
