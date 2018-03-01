@@ -23,7 +23,7 @@ class MemberCard extends Component {
     }
 
     componentWillMount() {
-        if(this.props.pending) {
+        if(this.props.isPending) {
             let timer = setInterval(this.tick, 1000);
             this.setState({timer});
         }
@@ -53,7 +53,7 @@ class MemberCard extends Component {
 
         const classses = classNames({
             overlay: true,
-            pending: this.props.pending
+            pending: this.props.isPending
         });
 
         return (
@@ -70,10 +70,12 @@ class MemberCard extends Component {
                 </div>
 
                 <MemberCardInfo
-                    platformDisplayName={this.props.member.platformDisplayName}
+                    platformDisplayName={this.props.isUser
+                        ? 'You'
+                        : this.props.member.platformDisplayName}
                     heroName={this.props.member.heroName}
-                    pending={this.props.pending}
-                    leader={this.props.leader}
+                    isPending={this.props.isPending}
+                    isLeader={this.props.isLeader}
                 />
             </div>
         );
@@ -81,6 +83,7 @@ class MemberCard extends Component {
 }
 
 MemberCard.propTypes = {
+    isUser: PropTypes.bool.isRequired,
     member: PropTypes.shape({
         heroName: PropTypes.string.isRequired,
         platformDisplayName: PropTypes.string.isRequired,
@@ -88,8 +91,8 @@ MemberCard.propTypes = {
         stats: PropTypes.object,
     }).isRequired,
     number: PropTypes.number.isRequired,
-    pending: PropTypes.bool,
-    leader: PropTypes.bool,
+    isLeader: PropTypes.bool,
+    isPending: PropTypes.bool,
 };
 
 export default MemberCard;

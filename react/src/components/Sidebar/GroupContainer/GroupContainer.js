@@ -40,9 +40,10 @@ class GroupContainer extends Component {
                  <div>
                     { leader &&
                         <MemberCard
+                            isUser={leader.platformDisplayName === this.props.user.platformDisplayName}
                             member={leader}
-                            leader={true}
-                            pending={false}
+                            isLeader={true}
+                            isPending={false}
                             number={1}
                             key={[leader.platformDisplayName, leader.heroName]}
                         />
@@ -50,9 +51,10 @@ class GroupContainer extends Component {
                     { members &&
                         members.map((member, i) => (
                             <MemberCard
+                                isUser={member.platformDisplayName === this.props.user.platformDisplayName}
                                 member={member}
-                                leader={false}
-                                pending={false}
+                                isLeader={false}
+                                isPending={false}
                                 number={(i + 2)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
@@ -61,9 +63,10 @@ class GroupContainer extends Component {
                     { pendingMembers &&
                         pendingMembers.map((member, i) => (
                             <MemberCard
+                                isUser={member.platformDisplayName === this.props.user.platformDisplayName}
                                 member={member}
-                                leader={false}
-                                pending={true}
+                                isLeader={false}
+                                isPending={true}
                                 number={(members.length + 2 + i)}
                                 key={member.platformDisplayName}
                             />

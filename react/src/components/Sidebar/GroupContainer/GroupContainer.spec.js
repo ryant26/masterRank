@@ -83,11 +83,13 @@ describe('GroupContainer', () => {
             expect(GroupContainerComponent.find('.button-content')).toHaveLength(0);
         });
     });
-    const testMemberCardProps = (member, leader, pending, number) => {
+    const testMemberCardProps = (user, member, isLeader, isPending, number) => {
         let index = number - 1;
+        let isUser = user.platformDisplayName === member.platformDisplayName;
+        expect(GroupContainerComponent.find(MemberCard).at(index).prop('isUser')).toBe(isUser);
         expect(GroupContainerComponent.find(MemberCard).at(index).prop('member')).toBe(member);
-        expect(GroupContainerComponent.find(MemberCard).at(index).prop('leader')).toBe(leader);
-        expect(GroupContainerComponent.find(MemberCard).at(index).prop('pending')).toBe(pending);
+        expect(GroupContainerComponent.find(MemberCard).at(index).prop('isLeader')).toBe(isLeader);
+        expect(GroupContainerComponent.find(MemberCard).at(index).prop('isPending')).toBe(isPending);
         expect(GroupContainerComponent.find(MemberCard).at(index).prop('number')).toBe(number);
         //TODO: key is very important but react is not really made in  away that is convenient to test key.
 //        expect(GroupContainerComponent.find(MemberCard).at(index).key)
@@ -109,15 +111,15 @@ describe('GroupContainer', () => {
         });
 
         it('should render leader\'s MemberCard with the correct props', () => {
-            testMemberCardProps(leader, true, false, 1);
+            testMemberCardProps(user, leader, true, false, 1);
         });
 
         it('should render member\'s MemberCard with the correct props', () => {
-            testMemberCardProps(member, false, false, 2);
+            testMemberCardProps(user, member, false, false, 2);
         });
 
         it('should render pending member\'s MemberCard with the correct props', () => {
-            testMemberCardProps(pendingMember, false, true, 3);
+            testMemberCardProps(user, pendingMember, false, true, 3);
         });
     });
 
@@ -136,20 +138,20 @@ describe('GroupContainer', () => {
         });
 
         it('should render leader\'s MemberCard with the correct props', () => {
-            testMemberCardProps(leader, true, false, 1);
+            testMemberCardProps(user, leader, true, false, 1);
         });
 
         it('should render members\' MemberCards with the correct props', () => {
             expect(members).toHaveLength(2);
             members.forEach((member, i) => {
-                testMemberCardProps(member, false, false, (i + 2));
+                testMemberCardProps(user, member, false, false, (i + 2));
             });
         });
 
         it('should render pending members\' MemberCards with the correct props', () => {
             expect(pendingMembers).toHaveLength(3);
             pendingMembers.forEach((member, i) => {
-                testMemberCardProps(member, false, true, (i + 4));
+                testMemberCardProps(user, member, false, true, (i + 4));
             });
         });
     });
