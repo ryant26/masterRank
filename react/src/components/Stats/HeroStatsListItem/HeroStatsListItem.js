@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import HeroImage from "../../HeroImage/HeroImage";
 import PropTypes from 'prop-types';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
 
-const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
+const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader}) => {
     const statLabels = {
         perMinute: '/min',
         seconds: 'seconds',
@@ -29,7 +31,13 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
             alt = "leader-icon"
         />) : undefined;
 
-    let subTitle = hero.stats
+    const displayName = showPlatformDisplayName
+        ? (user.platformDisplayName === hero.platformDisplayName)
+            ? "You - "
+            : `${hero.platformDisplayName} - `
+        : '';
+
+    const subTitle = hero.stats
         ? ( <div className="sub-title">{hero.stats.hoursPlayed} hours played</div> )
         : ( <div className="sub-title">Hero needs more games played</div> );
 
@@ -59,7 +67,7 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
                      <HeroImage heroName={hero.heroName}/>
                  </div>
                  <div>
-                     <h3>{showPlatformDisplayName ? `${hero.platformDisplayName} - ` : ''}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
+                     <h3>{displayName}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
                      { subTitle }
                  </div>
                  <div className="flex justify-between record">
@@ -87,6 +95,9 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
 };
 
 HeroStatsListItem.propTypes = {
+    user: PropTypes.shape({
+        platformDisplayName: PropTypes.string.isRequired
+    }).isRequired,
     hero: PropTypes.shape({
         heroName: PropTypes.string.isRequired,
         stats: PropTypes.object
@@ -95,4 +106,9 @@ HeroStatsListItem.propTypes = {
     isLeader: PropTypes.bool
 };
 
-export default HeroStatsListItem;
+const mapStateToProps = (state) => {
+    return {
+      user: state.user
+    };
+};
+export default connect(mapStateToProps)(HeroStatsListItem);

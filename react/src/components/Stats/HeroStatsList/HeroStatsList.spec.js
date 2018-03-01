@@ -1,21 +1,26 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
-import {getHeroes} from '../../../resources/heroes';
+
 import HeroStatsList from './HeroStatsList';
 import HeroStatsListItem from '../HeroStatsListItem/HeroStatsListItem';
+import { users } from '../../../resources/users';
+import { getHeroes } from '../../../resources/heroes';
 
+const mockStore = configureStore();
 describe('HeroStatsList Component', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = mount(
+        wrapper = shallow(
             <HeroStatsList heroes={getHeroes()}/>
         );
     });
 
     it('should render without exploding', () => {
-        let wrapper = mount(
+        let wrapper = shallow(
             <HeroStatsList heroes={getHeroes()}/>
         );
 
@@ -23,8 +28,13 @@ describe('HeroStatsList Component', () => {
     });
 
     it('should match the snapshot', () => {
+        let store = mockStore({
+            user: users[0]
+        });
         let component = renderer.create(
-            <HeroStatsList heroes={getHeroes()}/>
+            <Provider store={store}>
+                <HeroStatsList heroes={getHeroes()}/>
+            </Provider>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
@@ -51,13 +61,13 @@ describe('HeroStatsList Component', () => {
     });
 
     it('should pass platformDisplayName prop down to list item', () => {
-        wrapper = mount(
+        wrapper = shallow(
             <HeroStatsList showPlatformDisplayName={true} heroes={getHeroes()}/>
         );
 
         expect(wrapper.find(HeroStatsListItem).first().props().showPlatformDisplayName).toBeTruthy();
 
-        wrapper = mount(
+        wrapper = shallow(
             <HeroStatsList showPlatformDisplayName={false} heroes={getHeroes()}/>
         );
 
@@ -66,13 +76,13 @@ describe('HeroStatsList Component', () => {
 
     it('should pass the proper isLeader prop to list item', () => {
         let heroes = getHeroes();
-        wrapper = mount(
+        wrapper = shallow(
             <HeroStatsList groupLeader={heroes[0].platformDisplayName} heroes={heroes}/>
         );
 
         expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBeTruthy();
 
-        wrapper = mount(
+        wrapper = shallow(
             <HeroStatsList groupLeader={'notTheRightName'} heroes={heroes}/>
         );
 

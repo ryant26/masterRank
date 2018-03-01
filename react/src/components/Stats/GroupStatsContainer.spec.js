@@ -1,12 +1,17 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
 import GroupStatsContainer from './GroupStatsContainer';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
 
+import { users } from '../../resources/users';
 import groups from '../../resources/groupInvites';
+
+const mockStore = configureStore();
 
 const shallowGroupStatsContainer = (group, leader) => {
     return shallow(
@@ -28,8 +33,13 @@ describe('GroupStatsContainer Component', () => {
     });
 
     it('should match the snapshot', () => {
+        let store = mockStore({
+            user: users[0]
+        });
         let component = renderer.create(
-            <GroupStatsContainer group={group} isLeading={false}/>
+            <Provider store={store}>
+                <GroupStatsContainer store={store} group={group} isLeading={false}/>
+            </Provider>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
