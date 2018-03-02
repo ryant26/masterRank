@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import HeroRolesContainer from './HeroRolesContainer';
 import {createStore} from '../../../../model/store';
-import {addHero} from '../../../../actionCreators/hero';
+import {addHero} from '../../../../actionCreators/heroes/hero';
 import {addFilter} from '../../../../actionCreators/heroFilters';
 import {updateUser} from '../../../../actionCreators/user';
 import {users} from '../../../../resources/users';
