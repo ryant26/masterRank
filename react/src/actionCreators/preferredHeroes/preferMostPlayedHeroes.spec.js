@@ -39,28 +39,32 @@ describe('preferMostPlayedHeroes', () => {
             dispatch = jest.fn();
 
             fetchPromise = Promise.resolve(mostPlayedHeroesArray);
-            fetchMostPlayedHeroes.mockImplementation(() => { return fetchPromise; });
-            preferMostPlayedHeroes(forUser, token, socket)(dispatch);
-            expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
+            fetchMostPlayedHeroes.mockImplementation(() => fetchPromise);
+            return preferMostPlayedHeroes(forUser, token, socket)(dispatch);
         });
 
         it('should dispatch pushBlockingLoadingAction', () => {
+            expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
             expect(dispatch).toHaveBeenCalledWith(pushBlockingLoadingAction());
         });
 
         it('should call fetchMostPlayedHeroes with user', () => {
+            expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
             expect(fetchMostPlayedHeroes).toHaveBeenCalledWith(forUser);
         });
 
         it("should updated preferred heroes with most played heroes' names", () => {
+            expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
             expect(updatePreferredHeroesAction).toHaveBeenCalledWith(mostPlayedHeroNames);
         });
 
         it('should add most played heroes to the server', () => {
+            expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
             expect(addHeroesToServer).toHaveBeenCalledWith(mostPlayedHeroNames, socket);
         });
 
         it('should clear loading screen', () => {
+            expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
             expect(popBlockingLoadingAction).toHaveBeenCalled();
         });
 
