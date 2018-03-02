@@ -2,11 +2,11 @@ import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
     clearAllHeroes as clearAllHeroesAction
-} from "../actionCreators/hero";
+} from "../actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
     updateHeroes as updatePreferredHeroesAction
-} from "../actionCreators/preferredHeroes";
+} from "../actionCreators/preferredHeroes/preferredHeroes";
 import { updateUser as updateUserAction } from "../actionCreators/user";
 import {
     addFilter as addFilterAction,
@@ -26,6 +26,8 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
+import { preferMostPlayedHeroes } from '../actionCreators/preferredHeroes/preferMostPlayedHeroes';
+import { addHeroesToServer } from '../actionCreators/heroes/addHeroesToServer';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
@@ -150,19 +152,21 @@ const _handleInitialData = function(heroesFromServer) {
     store.dispatch(clearAllHeroesAction());
     loadMetaListFillerHeroes();
 
-    let userPlatformDisplayName = store.getState().user.platformDisplayName;
+    let user = store.getState().user;
     heroesFromServer.forEach((hero) => {
-        if(hero.platformDisplayName !== userPlatformDisplayName){
+        if(hero.platformDisplayName !== user.platformDisplayName){
             store.dispatch(addHeroAction(hero));
         } else  {
             socket.removeHero(hero.heroName);
         }
     });
 
-    store.getState().preferredHeroes.heroes.forEach((heroName, i) => {
-         socket.addHero(heroName, (i+1));
-         store.dispatch(pushBlockingLoadingAction());
-    });
+    let heroes = store.getState().preferredHeroes.heroes;
+    if( heroes.length <= 0) {
+        store.dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
+    } else {
+        store.dispatch(addHeroesToServer(heroes, socket));
+    }
 
     store.dispatch(popBlockingLoadingAction());
 };
