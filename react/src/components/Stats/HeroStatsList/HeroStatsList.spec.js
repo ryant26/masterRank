@@ -10,21 +10,24 @@ import { users } from '../../../resources/users';
 import { getHeroes } from '../../../resources/heroes';
 
 const mockStore = configureStore();
+const shallowHeroStatsList = (heroes, groupLeader='', showPlatformDisplayName=false, isPending=false) => {
+    return shallow(
+        <HeroStatsList
+            heroes={heroes}
+            groupLeader={groupLeader}
+            showPlatformDisplayName={showPlatformDisplayName}
+            isPending={isPending}
+        />
+    );
+};
+
 describe('HeroStatsList Component', () => {
+    const heroes = getHeroes();
+    const groupLeader = heroes[0].platformDisplayName;
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallow(
-            <HeroStatsList heroes={getHeroes()}/>
-        );
-    });
-
-    it('should render without exploding', () => {
-        let wrapper = shallow(
-            <HeroStatsList heroes={getHeroes()}/>
-        );
-
-        expect(wrapper.find(HeroStatsList)).toBeTruthy();
+        wrapper = shallowHeroStatsList(heroes);
     });
 
     it('should match the snapshot', () => {
@@ -40,18 +43,17 @@ describe('HeroStatsList Component', () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it('should have a hero card for every hero passed', () => {
-        let heroImages = wrapper.find(HeroStatsListItem);
+    it('should render without exploding', () => {
+        expect(wrapper.find(HeroStatsList)).toBeTruthy();
+    });
 
-        expect(heroImages.length).toEqual(4);
+    it('should have a hero card for every hero passed', () => {
+        expect(wrapper.find(HeroStatsListItem)).toHaveLength(4);
     });
 
     it('should show the heroStatsListItems in the order of preference', () => {
         let statsCards = wrapper.find(HeroStatsListItem);
-        let heroes = getHeroes();
-
         expect(statsCards.length).toBeGreaterThan(0);
-
         statsCards.forEach((image, i) => {
             let cardHeroName = image.props().hero.heroName;
             let heroName = heroes[i].heroName;
@@ -60,33 +62,33 @@ describe('HeroStatsList Component', () => {
         });
     });
 
-    it('should pass platformDisplayName prop down to list item', () => {
-        wrapper = shallow(
-            <HeroStatsList showPlatformDisplayName={true} heroes={getHeroes()}/>
-        );
-
-        expect(wrapper.find(HeroStatsListItem).first().props().showPlatformDisplayName).toBeTruthy();
-
-        wrapper = shallow(
-            <HeroStatsList showPlatformDisplayName={false} heroes={getHeroes()}/>
-        );
-
+    it('should set showPlatformDisplayName prop to false by default', () => {
         expect(wrapper.find(HeroStatsListItem).first().props().showPlatformDisplayName).toBeFalsy();
     });
 
-    it('should pass the proper isLeader prop to list item', () => {
-        let heroes = getHeroes();
-        wrapper = shallow(
-            <HeroStatsList groupLeader={heroes[0].platformDisplayName} heroes={heroes}/>
-        );
+    it('should set showPlatformDisplayName prop to true when passed in as true', () => {
+        wrapper = shallowHeroStatsList(heroes, groupLeader, true);
+        expect(wrapper.find(HeroStatsListItem).first().props().showPlatformDisplayName).toBeTruthy();
+    });
 
-        expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBeTruthy();
+    it('should set isLeader prop to true when hero belongs to group leader', () => {
+        wrapper = shallowHeroStatsList(heroes, groupLeader);
+        expect(wrapper.find(HeroStatsListItem).first().props().hero.platformDisplayName).toBe(groupLeader);
+        expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBe(true);
+    });
 
-        wrapper = shallow(
-            <HeroStatsList groupLeader={'notTheRightName'} heroes={heroes}/>
-        );
+    it('should set isLeader prop to false when hero does not belongs to group leader', () => {
+        expect(wrapper.find(HeroStatsListItem).first().props().hero.platformDisplayNam).not.toBe(heroes[0].platformDisplayName);
+        expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBe(false);
+    });
 
-        expect(wrapper.find(HeroStatsListItem).first().props().isLeader).toBeFalsy();
+    it('should set hero stats list item isPending prop to false by default', () => {
+        expect(wrapper.find(HeroStatsListItem).first().props().isPending).toBeFalsy();
+    });
 
+    it('should set hero stats list item isPending prop to true when true is given', () => {
+        let isPending = true;
+        wrapper = shallowHeroStatsList(heroes, groupLeader, false, isPending);
+        expect(wrapper.find(HeroStatsListItem).first().props().isPending).toBeTruthy();
     });
 });

@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
 import GroupStatsContainer from './GroupStatsContainer';
+import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
 
@@ -59,10 +60,6 @@ describe('GroupStatsContainer Component', () => {
         expect(wrapper.find('.button-six').length).toBeTruthy();
     });
 
-    it("should show the leader's hero images first", () => {
-        expect(wrapper.find(HeroImages).props().heroNames[0]).toEqual(group.leader.heroName);
-    });
-
     it('should calculate group SR correctly', () => {
        expect(wrapper.find('span.sub-title > b').first().text()).toEqual('2700');
     });
@@ -71,6 +68,63 @@ describe('GroupStatsContainer Component', () => {
        group.leader.skillRating = 3201.99999;
        wrapper = shallowGroupStatsContainer(group, false);
        expect(wrapper.find('span.sub-title > b').first().text()).toEqual('2700');
+    });
+
+    describe('should mount HeroStatsList for all group', () => {
+        it('members and leader in order', () => {
+            let heroes = [group.leader, ...group.members];
+            const HeroStatsListHeroesProp = wrapper.find(HeroStatsList).at(0).props().heroes;
+            expect(HeroStatsListHeroesProp).toEqual(heroes);
+            expect(HeroStatsListHeroesProp[0]).toEqual(group.leader);
+            expect(HeroStatsListHeroesProp[1]).toEqual(group.members[0]);
+        });
+
+        it('members and leader isPending prop should be false', () => {
+            expect(wrapper.find(HeroStatsList).at(0).props().isPending).toBeFalsy();
+        });
+
+        it('pending members in order', () => {
+            const HeroStatsListHeroesProp = wrapper.find(HeroStatsList).at(1).props().heroes;
+            expect(HeroStatsListHeroesProp).toEqual(group.pending);
+            expect(HeroStatsListHeroesProp[0]).toEqual(group.pending[0]);
+        });
+
+        it('pending members isPending prop should be true', () => {
+            expect(wrapper.find(HeroStatsList).at(1).props().isPending).toBeTruthy();
+        });
+    });
+
+    describe('should mount HeroImages for all group', () => {
+        it('members and leader in order', () => {
+            let heroNames = [group.leader.heroName, ...group.members.map((hero) => hero.heroName)];
+            const heroImagesHeroNamesProp = wrapper.find(HeroImages).at(0).props().heroNames;
+            expect(heroImagesHeroNamesProp).toEqual(heroNames);
+            expect(heroImagesHeroNamesProp[0]).toEqual(group.leader.heroName);
+            expect(heroImagesHeroNamesProp[1]).toEqual(group.members[0].heroName);
+        });
+
+        it('members and leader isPending prop should be false', () => {
+            expect(wrapper.find(HeroImages).at(0).props().isPending).toBeFalsy();
+        });
+
+        it('pending members in order', () => {
+            let heroNames = group.pending.map((hero) => hero.heroName);
+            const heroImagesHeroNamesProp = wrapper.find(HeroImages).at(1).props().heroNames;
+            expect(heroImagesHeroNamesProp).toEqual(heroNames);
+            expect(heroImagesHeroNamesProp[0]).toEqual(group.pending[0].heroName);
+        });
+
+        it('pending members isPending prop should be true', () => {
+            expect(wrapper.find(HeroImages).at(1).props().isPending).toBeTruthy();
+        });
+    });
+
+    it('should show correct number of members in the group plus leader', () => {
+        expect(wrapper.find('.players-joined > b').text()).toEqual(`${group.members.length + 1}`);
+    });
+
+    it('should show correct number of invites pending', () => {
+        expect(wrapper.find('.invites-pending > b').text()).toEqual(`${group.pending.length}`);
     });
 
     describe('when button-six is clicked', () => {

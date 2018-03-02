@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
 
-const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader}) => {
+const classNames = require('classnames');
+
+const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPending}) => {
     const statLabels = {
         perMinute: '/min',
         seconds: 'seconds',
@@ -41,30 +43,37 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader}) => {
         ? ( <div className="sub-title">{hero.stats.hoursPlayed} hours played</div> )
         : ( <div className="sub-title">Hero needs more games played</div> );
 
+    //TODO TEST, and usage in HTML
+    const classses = classNames({
+        pending: isPending
+    });
+
     let heroWins            = hero.stats ? hero.stats.wins || 0 : "N/A";
     let heroLosses          = hero.stats ? hero.stats.losses || 0 : "N/A";
     let heroKdRatio         = hero.stats
         ? (hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)
         : "N/A";
     let heroDamagePerMin    = hero.stats ? hero.stats.damagePerMin || 0 : undefined;
-    let heroPDamagePerMin  = hero.stats && hero.stats.pDamagePerMin || 0;
+    let heroPDamagePerMin   = hero.stats && hero.stats.pDamagePerMin || 0;
     let heroHealingPerMin   = hero.stats ? hero.stats.healingPerMin || 0 : undefined;
-    let heroPHealingPerMin   = hero.stats && hero.stats.pHealingPerMin || 0;
+    let heroPHealingPerMin  = hero.stats && hero.stats.pHealingPerMin || 0;
     let heroBlockedPerMin   = hero.stats ? hero.stats.blockedPerMin || 0 : undefined;
-    let heroPBlockedPerMin   = hero.stats && hero.stats.pBlockedPerMin || 0;
+    let heroPBlockedPerMin  = hero.stats && hero.stats.pBlockedPerMin || 0;
     let heroAvgObjElims     = hero.stats ? hero.stats.avgObjElims || 0 : undefined;
-    let heroPAvgObjElims     = hero.stats && hero.stats.pAvgObjElims || 0;
+    let heroPAvgObjElims    = hero.stats && hero.stats.pAvgObjElims || 0;
     let heroAvgObjTime      = hero.stats ? hero.stats.avgObjTime || 0 : undefined;
-    let heroPAvgObjTime      = hero.stats && hero.stats.pAvgObjTime || 0;
+    let heroPAvgObjTime     = hero.stats && hero.stats.pAvgObjTime || 0;
     let heroAccuracy        = hero.stats ? hero.stats.accuracy || 0 : undefined;
-    let heroPAccuracy        = hero.stats && hero.stats.pAccuracy || 0;
+    let heroPAccuracy       = hero.stats && hero.stats.pAccuracy || 0;
 
     return (
         <div className="HeroStatsListItem">
              <div className="flex align-center">
                  <div>
                      {leaderIcon}
-                     <HeroImage heroName={hero.heroName}/>
+                     <div className={classses}>
+                        <HeroImage heroName={hero.heroName}/>
+                     </div>
                  </div>
                  <div>
                      <h3>{displayName}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
@@ -103,7 +112,8 @@ HeroStatsListItem.propTypes = {
         stats: PropTypes.object
     }).isRequired,
     showPlatformDisplayName: PropTypes.bool,
-    isLeader: PropTypes.bool
+    isLeader: PropTypes.bool,
+    isPending: PropTypes.bool
 };
 
 const mapStateToProps = (state) => {
@@ -111,4 +121,5 @@ const mapStateToProps = (state) => {
       user: state.user
     };
 };
+
 export default connect(mapStateToProps)(HeroStatsListItem);
