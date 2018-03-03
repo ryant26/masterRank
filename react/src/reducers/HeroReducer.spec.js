@@ -28,4 +28,10 @@ describe('Hero Reducer', () => {
             Heroes[1], Heroes[2]
         ]);
     });
+
+    it ('should handle CLEAR_ALL_HEROES by setting state to []', () => {
+        expect(HeroReducer([Heroes[1], Heroes[2]], {
+            type: HeroActionTypes.CLEAR_ALL_HEROES,
+        })).toEqual([]);
+    });
 });

@@ -16,13 +16,13 @@ describe(clientEvents.initialData, function() {
     let socket;
 
     beforeEach(function () {
-        commonUtilities.getAuthenticatedSocket(platformDisplayName, commonUtilities.regions.us).then((data) => {
+        return commonUtilities.getAuthenticatedSocket(platformDisplayName, commonUtilities.regions.us).then((data) => {
             socket = data.socket;
         });
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('should return a list of all heros available for grouping', function(done) {
@@ -39,7 +39,7 @@ describe(clientEvents.initialData, function() {
         });
     });
 
-    it('should not return heros from a different rank', function(done) {
+    it('should not return heros from outside +/- 1 rank', function(done) {
         let heroName = 'Widowmaker';
         socket.emit(serverEvents.addHero, heroName);
 
@@ -50,6 +50,17 @@ describe(clientEvents.initialData, function() {
                 done();
             });
         }, 50);
+    });
+
+    it('should return heros from inside +/- 1 rank', function(done) {
+        let heroName = 'Widowmaker';
+        commonUtilities.getUserWithAddedHero('goldPlayer#1234', heroName, commonUtilities.regions.us).then(() => {
+            commonUtilities.getAuthenticatedSocket('silverPlayer#1234', commonUtilities.regions.us).then((data2) => {
+                assert.lengthOf(data2.initialData, 1);
+                assert.equal(data2.initialData[0].heroName, heroName);
+                done();
+            });
+        });
     });
 
     it('should not return heros from a different region', function(done) {
@@ -68,7 +79,7 @@ describe(clientEvents.initialData, function() {
     it('should work in all regions', function() {
         let test = function(region) {
             return new Promise((resolve) => {
-                let heroName = randomString.generate();
+                let heroName = 'genji';
 
                 commonUtilities.getAuthenticatedSocket(randomString.generate(), region).then((data) => {
                     data.socket.emit(serverEvents.addHero, {heroName, priority: 2});

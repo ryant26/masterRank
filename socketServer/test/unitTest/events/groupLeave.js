@@ -12,18 +12,28 @@ require('../../../src/app');
 describe(serverEvents.groupLeave, function() {
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
     });
 
-    it('should remove the player from the group members', function(done) {
+    it('should remove the player from the leader\'s group', function(done) {
         commonUtilities.getFilledGroup(2).then((group) => {
-            group.memberSockets[0].on(clientEvents.groupHeroLeft, (groupDetails) => {
+            group.leaderSocket.on(clientEvents.playerHeroLeft, (groupDetails) => {
                 assert.lengthOf(groupDetails.members, 1);
                 done();
             });
 
             group.memberSockets[1].emit(serverEvents.groupLeave);
+        });
+    });
 
+    it('should remove the player from other group members\' group', function(done) {
+        commonUtilities.getFilledGroup(2).then((group) => {
+            group.memberSockets[0].on(clientEvents.playerHeroLeft, (groupDetails) => {
+                assert.lengthOf(groupDetails.members, 1);
+                done();
+            });
+
+            group.memberSockets[1].emit(serverEvents.groupLeave);
         });
     });
 
@@ -44,7 +54,7 @@ describe(serverEvents.groupLeave, function() {
 
     it('should remove the newly promoted leader from the members', function(done) {
         commonUtilities.getFilledGroup(1).then((group) => {
-            group.memberSockets[0].on(clientEvents.groupHeroLeft, (groupDetails) => {
+            group.memberSockets[0].on(clientEvents.playerHeroLeft, (groupDetails) => {
                 if (groupDetails.members.length === 0) {
                     done();
                 }
@@ -54,10 +64,10 @@ describe(serverEvents.groupLeave, function() {
         });
     });
 
-    it('should fire the groupHeroLeft event for the leader that left', function(done) {
+    it('should fire the playerHeroLeft event for the leader that left', function(done) {
         commonUtilities.getFilledGroup(1).then((group) => {
             let newLeader = group.memberHeros[0];
-            group.memberSockets[0].on(clientEvents.groupHeroLeft, (groupDetails) => {
+            group.memberSockets[0].on(clientEvents.playerHeroLeft, (groupDetails) => {
                 if (groupDetails.leader.platformDisplayName === newLeader.platformDisplayName) {
                     done();
                 }
@@ -80,7 +90,7 @@ describe(serverEvents.groupLeave, function() {
 
     it('Should delete the group when the sole leader leaves', function(done) {
         commonUtilities.getEmptyGroup().then((details) => {
-            details.leaderSocket.on(clientEvents.groupHeroLeft, (groupDetails) => {
+            details.leaderSocket.on(clientEvents.playerHeroLeft, (groupDetails) => {
                 assert.isNull(groupDetails.leader);
                 done();
             });

@@ -16,7 +16,7 @@ describe(serverEvents.groupInviteDecline, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('should inform everyone that an invite was declined', function(done) {

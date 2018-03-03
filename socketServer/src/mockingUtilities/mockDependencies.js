@@ -10,15 +10,21 @@ let authApi;
 
 let out  = {
     mockPlayerApi: function() {
-        owPlayerApi = ow.getPlayerRank;
+        owPlayerApi = ow.getSkillRating;
 
-        ow.getPlayerRank = function(platformDisplayName, region, platform) {
-            let rank = 'diamond';
+        ow.getSkillRating = function(platformDisplayName) {
+            let skillRating = 3100;
 
-            if(platformDisplayName === 'goldPlayer#1234') rank = 'gold';
-            if(platformDisplayName === 'silverPlayer#1234') rank = 'silver';
+            if(platformDisplayName === 'grandmasterPlayer#1234') skillRating = 4300;
+            if(platformDisplayName === 'masterPlayer#1234') skillRating = 3800;
+            if(platformDisplayName === 'diamondPlayer#1234') skillRating = 3200;
+            if(platformDisplayName === 'platinumPlayer#1234') skillRating = 2800;
+            if(platformDisplayName === 'goldPlayer#1234') skillRating = 2300;
+            if(platformDisplayName === 'silverPlayer#1234') skillRating = 1800;
+            if(platformDisplayName === 'bronzePlayer#1234') skillRating = 1300;
+
             return new Promise((resolve) => {
-                resolve({rank, region, platform});
+                resolve(skillRating);
             });
         };
     },
@@ -58,7 +64,7 @@ let out  = {
     },
 
     restorePlayerApi: function() {
-        ow.getPlayerRank = owPlayerApi;
+        ow.getSkillRating = owPlayerApi;
         ow.getHeroStats = owHeroApi;
         authentication.authenticate = authApi;
     }

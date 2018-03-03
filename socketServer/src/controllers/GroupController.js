@@ -42,6 +42,10 @@ module.exports = class GroupController extends BaseController {
 
         });
 
+        this.on(serverEvents.groupInviteCancel, (data) => {
+            return groupService.cancelInviteToGroup(this.token, this.groupId, this.socket, this.namespace, data.eventData);
+        });
+
         this.on(serverEvents.createGroup, (data) => {
             return groupService.createNewGroup(this.token, this.socket, this.namespace, data.eventData).then((id) => {
                 this.groupId = id;
@@ -53,19 +57,11 @@ module.exports = class GroupController extends BaseController {
                 this.groupId = data.eventData;
                 return Promise.all([groupService.getGroupMemberHeroById(this.token, data.eventData),
                     playerService.getPlayerRank(this.token, this.region)]);
-            }).then((results) => {
-                let hero = results[0];
-                let rank = results[1].rank;
-                return playerService.removePlayerHeros(this.token, rank, this.namespace, hero);
             });
         });
 
         this.on(serverEvents.groupInviteDecline, (data) => {
             return groupService.declineGroupInvite(this.token, data.eventData, this.socket, this.namespace);
-        });
-
-        this.on(serverEvents.groupInviteCancel, (data) => {
-            return groupService.cancelInviteToGroup(this.groupId, this.socket, this.namespace, data.eventData);
         });
 
         this.on(serverEvents.groupLeave, () => {

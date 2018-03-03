@@ -22,7 +22,8 @@ bnetRegions.forEach((region) => {
         clientID: config.get('bnet.id'),
         clientSecret: config.get('bnet.secret'),
         callbackURL: `https://${domainName}/auth/bnet/callback?region=${region}`,
-        region: `${region}`
+        region: `${region}`,
+        userURL: 'https://us.api.battle.net/account/user'
     }, generateAuthHandler(region)));
 });
 
@@ -35,6 +36,9 @@ router.get('/bnet/callback', function (req, res, next) {
         failureRedirect: localAuthenticator.failureRedirect,
         session: false
     })(req, res, next);
-}, authenticationService.serializeUser, authenticationService.generateToken, authenticationService.respond);
+}, authenticationService.verifyPlatformDisplayName,
+authenticationService.serializeUser,
+authenticationService.generateToken,
+authenticationService.respond);
 
 module.exports = router;

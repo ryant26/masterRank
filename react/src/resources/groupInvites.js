@@ -1,8 +1,14 @@
-const groupInvites = [
+export const initialGroup = {
+    groupId: null,
+    members: [],
+    pending: []
+};
+
+export const groupInvites = [
   {
     groupId: 10,
     groupSize: 4,
-    inviteDate: new Date(),
+    inviteDate: "2018-02-19T12:57:24.790Z",
     leader: {
       platformDisplayName: "luckbomb#1234",
       skillRating: 3200,
@@ -29,7 +35,7 @@ const groupInvites = [
   {
     groupId: 8,
     groupSize: 3,
-    inviteDate: new Date(),
+    inviteDate: "2017-09-19T21:57:24.790Z",
     leader: {
       platformDisplayName: "luckbomb#1234",
       skillRating: 3200,
@@ -49,7 +55,7 @@ const groupInvites = [
     {
         groupId: 2,
         groupSize: 4,
-        inviteDate: new Date(),
+        inviteDate: "2017-06-19T16:57:24.790Z",
         leader: {
             platformDisplayName: "luckbomb#1234",
             skillRating: 3200,
@@ -76,7 +82,7 @@ const groupInvites = [
      {
       groupId: 210,
       groupSize: 6,
-      inviteDate: new Date(),
+      inviteDate: "2018-02-19T16:57:24.790Z",
       leader: {
         platformDisplayName: "luckbomb#1234",
         skillRating: 3200,
@@ -91,7 +97,7 @@ const groupInvites = [
           stats: {}
         },{
           platformDisplayName: "andyLin#1234",
-          skillrating: 1600,
+          skillRating: 1600,
           heroName: "winston",
           stats: {}
         }

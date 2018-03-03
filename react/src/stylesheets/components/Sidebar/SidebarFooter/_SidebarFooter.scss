@@ -1,6 +1,9 @@
 .SidebarFooter {
+  width: 100%;
+
   a {
     color: $gray4;
+    font-size: 20px;
 
     &:hover {
       color: $gray3;

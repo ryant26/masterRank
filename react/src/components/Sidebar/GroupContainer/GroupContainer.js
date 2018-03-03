@@ -21,7 +21,7 @@ class GroupContainer extends Component {
     }
 
     componentWillUnmount() {
-        Model.leaveGroup(this.props.group.groupId);
+        Model.leaveGroup();
     }
 
     toggleModal() {
@@ -36,7 +36,7 @@ class GroupContainer extends Component {
         let pendingMembers = this.props.group.pending;
 
         return (
-            <div className="GroupContainer">
+            <div className="GroupContainer flex flex-column align-center">
                  <div>
                     { leader &&
                         <MemberCard
@@ -48,7 +48,7 @@ class GroupContainer extends Component {
                         />
                     }
                     { members &&
-                        members.map((member, i) =>
+                        members.map((member, i) => (
                             <MemberCard
                                 member={member}
                                 leader={false}
@@ -56,10 +56,10 @@ class GroupContainer extends Component {
                                 number={(i + 2)}
                                 key={[member.platformDisplayName, member.heroName]}
                             />
-                        )
+                        ))
                     }
                     { pendingMembers &&
-                        pendingMembers.map((member, i) =>
+                        pendingMembers.map((member, i) => (
                             <MemberCard
                                 member={member}
                                 leader={false}
@@ -67,16 +67,18 @@ class GroupContainer extends Component {
                                 number={(members.length + 2 + i)}
                                 key={member.platformDisplayName}
                             />
-                        )
+                        ))
                     }
-                    <button className="button-four flex align-center justify-center" onClick={this.toggleModal}>
-                        <div className="button-content">
-                            Team Stats
+                    { leader &&
+                        <div className="button-four flex align-center justify-center" onClick={this.toggleModal}>
+                            <div className="button-content">
+                                Team Stats
+                            </div>
                         </div>
-                    </button>
+                    }
                  </div>
                  <Modal modalOpen={this.state.showModal} closeModal={this.toggleModal}>
-                     <GroupStatsContainer group={this.props.group} isLeading={true} toggleModal={this.toggleModal}/>
+                     <GroupStatsContainer group={this.props.group} isLeading={true}/>
                  </Modal>
             </div>
         );

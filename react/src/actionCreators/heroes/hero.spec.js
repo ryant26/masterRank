@@ -1,4 +1,4 @@
-import * as HeroActionTypes from '../actiontypes/hero';
+import * as HeroActionTypes from '../../actiontypes/hero';
 import * as HeroActionCreators from './hero';
 
 describe('addHero', () => {
@@ -21,7 +21,7 @@ describe('addHeroes', () => {
     });
 });
 
-describe('remove', () => {
+describe('removeHero', () => {
     it ('should create the REMOVE_HEROES action', () => {
         expect(HeroActionCreators.removeHero({name:"orisa", stat: "just doing my job"}))
             .toEqual({
@@ -30,3 +30,13 @@ describe('remove', () => {
             });
     });
 });
+
+describe('clearAllHeroes', () => {
+    it ('should create the CLEAR_ALL_HEROES action', () => {
+        expect(HeroActionCreators.clearAllHeroes())
+            .toEqual({
+                type: HeroActionTypes.CLEAR_ALL_HEROES,
+            });
+    });
+});
+

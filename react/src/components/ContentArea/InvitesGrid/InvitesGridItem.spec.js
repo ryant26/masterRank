@@ -70,7 +70,6 @@ describe('InvitesGridItem Component', () => {
         let HeroCardComponent;
 
         beforeEach(() => {
-            //TODO: figure out how to assert that method {X} exists in Model expect(Model.{X}).toExist()
             Model.leaveGroup = jest.fn();
             Model.acceptGroupInviteAndRemoveFromStore = jest.fn();
             HeroCardComponent = getHeroCardComponent(groupInvite);
@@ -79,8 +78,8 @@ describe('InvitesGridItem Component', () => {
             HeroCardComponent.find('.button-secondary').simulate('click');
         });
 
-        it('should call Model.leaveGroup with group id', () => {
-            expect(Model.leaveGroup).toHaveBeenCalledWith(groupInvite.groupId);
+        it('should call Model.leaveGroup ', () => {
+            expect(Model.leaveGroup).toHaveBeenCalled();
         });
 
         it('should call Model.acceptGroupInviteAndRemoveFromStore with group id', () => {

@@ -119,7 +119,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         />
       </div>
       <div
-        className="HeroButton"
+        className="HeroButton disabled"
         onClick={[Function]}
       >
         <img
@@ -134,7 +134,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         />
       </div>
       <div
-        className="HeroButton"
+        className="HeroButton disabled"
         onClick={[Function]}
       >
         <img
@@ -149,7 +149,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         />
       </div>
       <div
-        className="HeroButton"
+        className="HeroButton disabled"
         onClick={[Function]}
       >
         <img
@@ -164,7 +164,7 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         />
       </div>
       <div
-        className="HeroButton"
+        className="HeroButton disabled"
         onClick={[Function]}
       >
         <img

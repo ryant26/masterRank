@@ -7,13 +7,14 @@
     border-radius:3px;
     border: solid 1px $gray6;
     max-height: 60px;
+    background-color: white;
 
     .HeroImage {
         @include square;
     }
 
     .numberBox {
-        background-color:$yellow2;
+        background-color:$blue4;
         width: 20px;
         height: 60px;
         border-radius:4px 0px 0px 4px;

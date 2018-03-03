@@ -1,6 +1,8 @@
 import GroupReducer from './GroupReducer';
 import * as GroupActionTypes from '../actiontypes/group';
 
+import groupInvites from '../resources/groupInvites';
+
 const initialState = {
     groupId: null,
     members: [],
@@ -25,6 +27,17 @@ describe('Group Reducer', ()=> {
         })).toEqual({
             groupId: null,
             leader: {platformDisplayName: 'jumpinjeezus', heroName: 'genji'},
+            members: [],
+            pending: []
+        });
+    });
+
+    it ('should handle LEAVE_GROUP by replacing the current group with initial state', () => {
+        const group = groupInvites[0];
+        expect(GroupReducer(group, {
+            type: GroupActionTypes.LEAVE_GROUP,
+        })).toEqual({
+            groupId: null,
             members: [],
             pending: []
         });

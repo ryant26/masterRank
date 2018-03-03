@@ -134,6 +134,15 @@ let _getUpdatedHeroConfigObjects = function(token) {
 };
 
 let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
+    const getLosses = function() {
+        if (typeof heroStats.game.games_lost !== 'number') {
+            let calculatedLosses = heroStats.game.games_played ? heroStats.game.games_played - heroStats.game.games_won : 0;
+            return calculatedLosses >= 0 ? calculatedLosses : 0;
+        }
+
+        return heroStats.game.games_lost;
+    };
+
     return {
         platformDisplayName: token.platformDisplayName,
         platform: token.platform,
@@ -142,7 +151,7 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
         heroName,
         hoursPlayed: heroStats.game.time_played,
         wins: heroStats.game.games_won,
-        losses: heroStats.game.games_lost,
+        losses: getLosses(),
         gamesPlayed: heroStats.game.games_played
     };
 };
@@ -150,7 +159,12 @@ let _getStatsNotRequiringPercentiles = function(token, heroName, heroStats) {
 let _getStatsRequiringPercentiles = function(heroStats) {
 
     let getPerMinuteStat = function(stat) {
-        let minutes = heroStats.game.time_played * 60;
+        let minutes = heroStats.game.time_played;
+
+        if (heroStats.game.time_played < heroStats.game.games_played) {
+            minutes *= 60;
+        }
+
         let value = stat ? stat : 0;
         return value / minutes;
     };
@@ -170,7 +184,7 @@ let _getStatsRequiringPercentiles = function(heroStats) {
         kdRatio: heroStats.combat.eliminations / heroStats.combat.deaths,
         accuracy: heroStats.combat.weapon_accuracy,
         blockedPerMin: getPerMinuteStat(heroStats.hero.damage_blocked),
-        healingPerMin: getPerMinuteStat(heroStats.assists.healing_done),
+        healingPerMin: getPerMinuteStat(heroStats.assists.healing_done || heroStats.hero.self_healing),
         damagePerMin: getPerMinuteStat(heroStats.combat.all_damage_done),
         avgObjElims: heroStats.combat.objective_kills / heroStats.game.games_played,
         avgObjTime: convertTimeStringToNumber(heroStats.combat.objective_time) / heroStats.game.games_played

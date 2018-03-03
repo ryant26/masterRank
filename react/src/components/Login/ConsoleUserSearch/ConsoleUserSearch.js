@@ -122,6 +122,10 @@ export default class ConsoleUserSearch extends Component {
                     { !this.state.users && !this.state.isSearching && this.state.lastSearch && (
                         <div className="flex flex-column grow">
                             <h3>No Results for: {this.state.lastSearch}</h3>
+                            <ul className="search-hints">
+                                <li>We couldnt find any results for your search.</li>
+                                <li>Please make sure that you enter your full Battletag, PSN ID, or Xbox Gamertag.</li>
+                            </ul>
                         </div>
                     )}
                 </div>

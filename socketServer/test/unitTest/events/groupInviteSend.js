@@ -23,14 +23,14 @@ describe(serverEvents.groupInviteSend, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
+        return commonUtilities.closeOpenedSockets();
 
     });
 
     it('Should show group details on invite', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'mei'
         };
 
         commonUtilities.getUserWithAddedHero(invitedHero.platformDisplayName, invitedHero.heroName).then((user) => {
@@ -50,7 +50,7 @@ describe(serverEvents.groupInviteSend, function() {
         commonUtilities.getFilledGroup(2).then((groupSockets) => {
             let invite = {
                 platformDisplayName: randomString.generate(),
-                heroName: randomString.generate()
+                heroName: 'winston'
             };
 
             let memberSocket = groupSockets.memberSockets[0];
@@ -75,7 +75,7 @@ describe(serverEvents.groupInviteSend, function() {
     it('should not fire event for inviting non-existant hero', function(done) {
         let invite = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'mei'
         };
 
         socket.emit(serverEvents.groupInviteSend, invite);

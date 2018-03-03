@@ -1,0 +1,26 @@
+{
+  "port": 3000,
+  "keyExpiry": 7200,
+  "eventsAllowedPerMinute": 50,
+  "redis": {
+    "host": "fireteam-test.xsynb8.0001.use1.cache.amazonaws.com",
+    "port": 6379
+  },
+  "heroApi": {
+    "baseUrl" : "https://test.fireteam.gg",
+    "port" : 0,
+    "endpoint": "/api/heros",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IlRlc3RVc2VyIzEyMzQiLCJyZWdpb24iOiJ1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MDc2ODMyNTI3NTAsImlhdCI6MTUwNzY4MjI1Mn0.8EL5jfTA8TUSZnEjFbyBS1UlvCySq9EcQDMnYvqYoDA"
+  },
+  "playerApi": {
+    "baseUrl" : "https://test.fireteam.gg",
+    "port" : 0,
+    "endpoint": "/api/players",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYXR0bGVOZXRJZCI6IlRlc3RVc2VyIzEyMzQiLCJyZWdpb24iOiJ1cyIsInBsYXRmb3JtIjoicGMiLCJleHAiOjE1MDc2ODMyNTI3NTAsImlhdCI6MTUwNzY4MjI1Mn0.8EL5jfTA8TUSZnEjFbyBS1UlvCySq9EcQDMnYvqYoDA"
+  },
+  "authenticationApi": {
+    "baseUrl" : "https://test.fireteam.gg",
+    "port" : 0,
+    "endpoint": "/auth/token/validate"
+  }
+}

@@ -1,25 +1,28 @@
 import io from 'socket.io-client';
 import logger from '../utilities/logger';
+import {getSocketApiBase} from './apiRouter';
 const decode  = require('jwt-decode');
 
 export const clientEvents = {
     initialData: 'initialData',
+    disconnect: 'disconnect',
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
     groupPromotedLeader: 'groupPromotedLeader',
-    groupInviteReceived: 'groupInviteRecieved',
-    groupHeroLeft: 'groupHeroLeft',
+    groupInviteReceived: 'groupInviteReceived',
     playerInvited: 'playerInvited',
-    groupInviteAccepted: 'groupInviteAccepted',
     groupInviteCanceled: 'groupInviteCanceled',
+    playerInviteCanceled: 'playerInviteCanceled',
+    playerHeroLeft: 'playerHeroLeft',
+    groupInviteAccepted: 'groupInviteAccepted',
     groupInviteDeclined: 'groupInviteDeclined',
     error: {
         addHero: 'error.addHero',
         groupLeave: 'error.groupLeave',
         groupInviteAccept: 'error.groupInviteAccept',
         groupInviteCancel: 'error.groupInviteCancel',
-        groupInviteDeclined: 'error.groupInviteDeclined'
+        groupInviteDecline: 'error.groupInviteDecline'
     }
 };
 
@@ -35,13 +38,12 @@ const serverEvents = {
     groupInviteCancel: 'groupInviteCancel'
 };
 
-const websocketPort = '3004';
 
 export default class Websocket {
     constructor(token) {
         this.authenticated = false;
         let tokenDecoded = decode(token);
-        this.socket = io(`${window.location.hostname}:${websocketPort}/${tokenDecoded.region}/${tokenDecoded.platform}`);
+        this.socket = io(getSocketApiBase(tokenDecoded));
 
         this.socket.emit(serverEvents.authenticate, token);
 
@@ -74,8 +76,8 @@ export default class Websocket {
         this.emit(serverEvents.createGroup, {heroName});
     }
 
-    groupLeave(groupId) {
-        this.emit(serverEvents.groupLeave, groupId);
+    groupLeave() {
+        this.emit(serverEvents.groupLeave);
     }
 
     groupInviteAccept(groupId) {
