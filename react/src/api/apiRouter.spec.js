@@ -35,9 +35,9 @@ describe('Api Router', () => {
             expect(getSocketApiBase(token)).toEqual(`localhost:3004/${token.region}/${token.platform}`);
         });
 
-        it('should prepend socket for non-localhost deployments', () => {
+        it('should prepend socket. for non-localhost deployments', () => {
             mockHostname('test.fireteam.gg');
-            expect(getSocketApiBase(token)).toEqual(`sockettest.fireteam.gg/${token.region}/${token.platform}`);
+            expect(getSocketApiBase(token)).toEqual(`socket.test.fireteam.gg/${token.region}/${token.platform}`);
         });
     });
 });

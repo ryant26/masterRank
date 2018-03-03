@@ -7,7 +7,7 @@ export const getSocketApiBase = function(token) {
     if (hostname === 'localhost') {
         out = `${hostname}:${websocketPort}`;
     } else {
-        out = `socket${hostname}`;
+        out = `socket.${hostname}`;
     }
 
     return `${out}/${token.region}/${token.platform}`;
