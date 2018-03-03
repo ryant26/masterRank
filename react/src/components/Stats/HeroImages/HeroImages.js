@@ -2,21 +2,32 @@ import React from 'react';
 import HeroImage from '../../HeroImage/HeroImage';
 import Proptypes from 'prop-types';
 
-const HeroImages = ({heroNames, isPending}) => {
+const HeroImages = ({heroNames, disabled}) => {
+
+    let heroImages = heroNames.map((name, i) => {
+        return (
+            <HeroImage
+                key={i}
+                heroName={name}
+                disabled={disabled[i]}
+            />
+        );
+    });
+
     return (
         <div className="HeroImages flex">
-            {heroNames.map((name, i) => <HeroImage key={i} heroName={name} isPending={isPending}/>)}
+            { heroImages }
         </div>
     );
 };
 
 HeroImages.defaultProps = {
-    isPending: false
+    disabled: []
 };
 
 HeroImages.propTypes = {
     heroNames: Proptypes.array.isRequired,
-    isPending: Proptypes.bool
+    disabled: Proptypes.arrayOf(Proptypes.bool)
 };
 
 export default HeroImages;

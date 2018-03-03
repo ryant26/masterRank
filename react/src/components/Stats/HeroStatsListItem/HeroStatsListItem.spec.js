@@ -116,8 +116,8 @@ describe('HeroStatsListItem', () => {
                 expect(wrapper.props().isPending).toBe(true);
             });
 
-            it('should have class pending', () => {
-                expect(wrapper.dive().find('.pending')).toHaveLength(1);
+            it('should have class disabled', () => {
+                expect(wrapper.dive().find('.disabled')).toHaveLength(1);
             });
 
             it('should set sub title to "Pending invite"', () => {
@@ -126,9 +126,9 @@ describe('HeroStatsListItem', () => {
         });
 
         describe('when isPending is false', () => {
-            it('should not have class pending', () => {
+            it('should not have class disabled', () => {
                 expect(wrapper.props().isPending).toBeFalsy();
-                expect(wrapper.dive().find('.pending')).toHaveLength(0);
+                expect(wrapper.dive().find('.disabled')).toHaveLength(0);
             });
 
             it('should set sub title to "# hours played"', () => {
@@ -208,7 +208,7 @@ describe('HeroStatsListItem', () => {
             });
 
             it('should have class pending', () => {
-                expect(wrapper.dive().find('.pending')).toHaveLength(1);
+                expect(wrapper.dive().find('.disabled')).toHaveLength(1);
             });
 
             it('should set sub title to "Pending invite"', () => {
@@ -219,7 +219,7 @@ describe('HeroStatsListItem', () => {
         describe('when isPending is false', () => {
             it('should not have class pending', () => {
                 expect(wrapper.props().isPending).toBeFalsy();
-                expect(wrapper.dive().find('.pending')).toHaveLength(0);
+                expect(wrapper.dive().find('.disabled')).toHaveLength(0);
             });
 
             it('should set sub title to "Hero needs more games played"', () => {

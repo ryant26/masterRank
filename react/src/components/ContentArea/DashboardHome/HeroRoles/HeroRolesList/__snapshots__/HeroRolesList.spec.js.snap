@@ -29,16 +29,20 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="soldier76 icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="soldier76 icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >
@@ -93,16 +97,20 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="hanzo icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="hanzo icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >
@@ -157,16 +165,20 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="dva icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="dva icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >
@@ -221,16 +233,20 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="zenyatta icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="zenyatta icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >
@@ -346,16 +362,20 @@ exports[`HeroRoles Component should match the snapshot single hero 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="soldier76 icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="soldier76 icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >

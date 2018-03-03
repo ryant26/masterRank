@@ -94,28 +94,57 @@ describe('GroupStatsContainer Component', () => {
         });
     });
 
-    describe('should mount HeroImages for all group', () => {
-        it('members and leader in order', () => {
-            let heroNames = [group.leader.heroName, ...group.members.map((hero) => hero.heroName)];
-            const heroImagesHeroNamesProp = wrapper.find(HeroImages).at(0).props().heroNames;
-            expect(heroImagesHeroNamesProp).toEqual(heroNames);
+    describe('should mount HeroImages for all entire group', () => {
+        const group = groups[3];
+        const groupHeroNames = [
+            group.leader.heroName,
+            ...group.members.map((hero) => hero.heroName),
+            ...group.pending.map((hero) => hero.heroName)
+        ];
+        const leaderCount = 1;
+        const membersCount = group.members.length;
+
+        beforeEach(() => {
+            wrapper = shallowGroupStatsContainer(group, false);
+        });
+
+        it('should have 2 members', () => {
+            expect(group.members.length).toBe(2);
+        });
+
+        it('should have 3 pending members', () => {
+            expect(group.pending.length).toBe(3);
+        });
+
+        it('hero names should be in the following order leader -> members -> pending', () => {
+            const heroImagesHeroNamesProp = wrapper.find(HeroImages).props().heroNames;
+            expect(heroImagesHeroNamesProp).toEqual(groupHeroNames);
             expect(heroImagesHeroNamesProp[0]).toEqual(group.leader.heroName);
-            expect(heroImagesHeroNamesProp[1]).toEqual(group.members[0].heroName);
+            group.members.map((hero, i) => {
+                expect(heroImagesHeroNamesProp[i + leaderCount]).toEqual(group.members[i].heroName);
+            });
+            group.pending.map((hero, i) => {
+                expect(heroImagesHeroNamesProp[i + leaderCount + membersCount]).toEqual(group.pending[i].heroName);
+            });
         });
 
-        it('members and leader isPending prop should be false', () => {
-            expect(wrapper.find(HeroImages).at(0).props().isPending).toBeFalsy();
-        });
+        describe('disabled should be in the following order leader -> members -> pending', () => {
 
-        it('pending members in order', () => {
-            let heroNames = group.pending.map((hero) => hero.heroName);
-            const heroImagesHeroNamesProp = wrapper.find(HeroImages).at(1).props().heroNames;
-            expect(heroImagesHeroNamesProp).toEqual(heroNames);
-            expect(heroImagesHeroNamesProp[0]).toEqual(group.pending[0].heroName);
-        });
+            it('leader should not be disabled', () => {
+                expect( wrapper.find(HeroImages).props().disabled[0]).toBe(false);
+            });
 
-        it('pending members isPending prop should be true', () => {
-            expect(wrapper.find(HeroImages).at(1).props().isPending).toBeTruthy();
+            it('members should not be disabled', () => {
+                group.members.map((hero, i) => {
+                    expect(wrapper.find(HeroImages).props().disabled[ (i + leaderCount)] ).toBe(false);
+                });
+            });
+
+            it('pending should be disabled', () => {
+                group.pending.map((hero, i) => {
+                    expect(wrapper.find(HeroImages).props().disabled[ (i + leaderCount + membersCount) ]).toBe(true);
+                });
+            });
         });
     });
 

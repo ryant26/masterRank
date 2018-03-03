@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 const classNames = require('classnames');
 
-const HeroImage = ({ heroName, isPending, onClick }) => {
+const HeroImage = ({ heroName, disabled, onClick }) => {
 
     const classses = classNames({
-        pending: isPending
+        disabled: disabled
     });
 
     return (
@@ -18,15 +18,15 @@ const HeroImage = ({ heroName, isPending, onClick }) => {
             />
         </div>
     );
-}
+};
 
 HeroImage.defaultProps = {
-    isPending: false
+    disabled: false
 };
 
 HeroImage.propTypes = {
     heroName: PropTypes.string.isRequired,
-    isPending: PropTypes.bool,
+    disabled: PropTypes.bool,
     onClick: PropTypes.func
 };
 

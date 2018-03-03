@@ -46,7 +46,7 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPen
             : ( "Hero needs more games played" );
 
     const classses = classNames({
-        pending: isPending
+        disabled: isPending
     });
 
     let heroWins            = hero.stats ? hero.stats.wins || 0 : "N/A";

@@ -31,8 +31,14 @@ const GroupStatsContainer = ({group, isLeading}) => {
         Model.createNewGroup();
     };
 
-    const heroImageObject;
-    groupHeroes.map((hero) => hero.heroName)}
+    let groupHeroNames = [
+        ...groupHeroes.map((hero) => hero.heroName),
+        ...group.pending.map((hero) => hero.heroName)
+    ];
+    let disabled = [
+        ...groupHeroes.map(() => false),
+        ...group.pending.map(() => true)
+    ];
     return (
         <div className="GroupStatsContainer">
             <div className="header">
@@ -54,9 +60,8 @@ const GroupStatsContainer = ({group, isLeading}) => {
                     showPlatformDisplayName={true}
                     groupLeader={group.leader.platformDisplayName}
                 />
-                //TODO: switch to pending after styled
                 <HeroStatsList
-                    heroes={groupHeroes}
+                    heroes={group.pending}
                     emptyMessage="We have no stats on this group."
                     showPlatformDisplayName={true}
                     groupLeader={group.leader.platformDisplayName+"not"}
@@ -65,8 +70,7 @@ const GroupStatsContainer = ({group, isLeading}) => {
             </div>
             {!isLeading ?
                 <div className="footer flex justify-between align-center">
-                    <HeroImages heroNames={groupHeroes.map((hero) => hero.heroName)}/>
-                    <HeroImages heroNames={groupHeroes.map((hero) => hero.heroName)} isPending={true}/>
+                    <HeroImages heroNames={groupHeroNames} disabled={disabled}/>
                         <span className="sub-title">
                             <div className="players-joined">
                                 Players joined: <b>{groupHeroes.length}</b>

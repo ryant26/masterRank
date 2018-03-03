@@ -5,9 +5,9 @@ import HeroImage from './HeroImage';
 
 import HEROES from '../../resources/heroes';
 
-const shallowHeroImage = (heroName, onClick, isPending) => {
+const shallowHeroImage = (heroName, onClick, disabled) => {
     return shallow(
-        <HeroImage heroName={heroName} isPending={isPending} onClick={onClick}/>
+        <HeroImage heroName={heroName} disabled={disabled} onClick={onClick}/>
     );
 };
 
@@ -32,15 +32,15 @@ describe('HeroImage',()=> {
         expect(wrapper.find('.HeroImage').props().alt).toBe(`${heroName} icon`);
     });
 
-    it('should not have class pending when isPending is false', () => {
-        expect(wrapper.find('.pending')).toHaveLength(0);
+    it('should not have class disabled when disabled is false', () => {
+        expect(wrapper.find('.disabled')).toHaveLength(0);
     });
 
-    it('should have class pending when isPending is true', () => {
+    it('should have class disabled when disabled is true', () => {
         wrapper.setProps({
-            isPending: true
+            disabled: true
         });
-        expect(wrapper.find('.pending')).toHaveLength(1);
+        expect(wrapper.find('.disabled')).toHaveLength(1);
     });
 
     it('should call onClick prop when img is clicked', () => {

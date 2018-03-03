@@ -7,7 +7,7 @@
   @include selectable(none);
 }
 
-.pending {
+.disabled {
   &::after {
     display: block;
     content: "";

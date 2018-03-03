@@ -36,16 +36,20 @@ exports[`InvitesGridItem should match the snapshot 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="genji icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="genji icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >
@@ -100,16 +104,20 @@ exports[`InvitesGridItem should match the snapshot 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="widowmaker icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="widowmaker icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >
@@ -164,16 +172,20 @@ exports[`InvitesGridItem should match the snapshot 1`] = `
       <div
         className="invitePlayerButton"
       >
-        <img
-          alt="tracer icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="tracer icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
         <div
           className="overlay"
         >

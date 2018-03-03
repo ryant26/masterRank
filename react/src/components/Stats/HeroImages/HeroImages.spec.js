@@ -4,16 +4,15 @@ import { shallow } from 'enzyme';
 import HeroImages from './HeroImages';
 import HeroImage from '../../HeroImage/HeroImage';
 
-import HEROES from '../../../resources/heroes';
-
-const shallowHeroImages = (heroNames, isPending) => {
+const shallowHeroImages = (heroNames, disabled) => {
     return shallow(
-        <HeroImages heroNames={heroNames} isPending={isPending}/>
+        <HeroImages heroNames={heroNames} disabled={disabled}/>
     );
 };
 
 describe('HeroImages',()=> {
-    const heroNames = HEROES.map((hero) => hero.heroName);
+    const heroNames = ['tracer', 'genji', 'phara'];
+    const disabled = [false, true, true];
     let wrapper;
 
     beforeEach(() => {
@@ -31,16 +30,10 @@ describe('HeroImages',()=> {
         });
     });
 
-    it('should set isPending to false by default', () => {
+    it('should set HeroImage disabled prop to true or false based on HeroImages disabled[index]', () => {
+        wrapper = shallowHeroImages(heroNames, disabled);
         heroNames.forEach((heroName, i) => {
-            expect(wrapper.find(HeroImage).at(i).props().isPending).toBe(false);
-        });
-    });
-
-    it('should set isPending to true when passed in as true', () => {
-        wrapper = shallowHeroImages(heroNames, true);
-        heroNames.forEach((heroName, i) => {
-            expect(wrapper.find(HeroImage).at(i).props().isPending).toBe(true);
+            expect(wrapper.find(HeroImage).at(i).props().disabled).toBe(disabled[i]);
         });
     });
 });

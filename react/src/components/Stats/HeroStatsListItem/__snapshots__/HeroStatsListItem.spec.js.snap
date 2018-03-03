@@ -11,16 +11,20 @@ exports[`HeroStatsListItem snapshots should match when hero stats are defined 1`
       <div
         className=""
       >
-        <img
-          alt="soldier76 icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="soldier76 icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
     </div>
     <div>
@@ -290,16 +294,20 @@ exports[`HeroStatsListItem snapshots should match when hero stats are null 1`] =
       <div
         className=""
       >
-        <img
-          alt="soldier76 icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className=""
+        >
+          <img
+            alt="soldier76 icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
     </div>
     <div>
