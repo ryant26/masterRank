@@ -25,7 +25,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         hotjar();
-        Raven.config('https://c816514ee6b14f959907ee6da946e782@sentry.io/294177').install()
+        Raven.config('https://c816514ee6b14f959907ee6da946e782@sentry.io/294177').install();
     }
 
     render() {
