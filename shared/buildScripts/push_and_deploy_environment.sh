@@ -12,7 +12,7 @@ heroApiServerRpository_ecs='634663920785.dkr.ecr.us-east-1.amazonaws.com/heroapi
 socketServerRepository_ecs='634663920785.dkr.ecr.us-east-1.amazonaws.com/socketserver'
 scriptsDir=shared/buildScripts
 
-if [ env == prod ]
+if [ $env == prod ]
 then
     cluster_ecs='Fireteam-production'
     heroApiService_ecs='heroapiserver-prod'
