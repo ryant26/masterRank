@@ -2,7 +2,7 @@
 set -e
 
 testEnv="E263LWRBD290J6"
-prodEnv="E3VULEQJQWC0K9"
+prodEnv="E16S3PLCVBU99G"
 
 if [ $1 == prod ]
 then
