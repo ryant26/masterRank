@@ -79,7 +79,8 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((groupDetails) => {
-        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: token.platform})).emit(clientEvents.groupInviteReceived, groupDetails);
+        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: token.platform}))
+            .emit(clientEvents.groupInviteReceived, groupDetails);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInvited, groupDetails);
     }).catch((err) => {
         logger.error(`Problem inviting ${hero.platformDisplayName}:${hero.heroName} to group ${groupId}: ${err}`);
@@ -96,7 +97,7 @@ let invitePlayerToGroup = function(token, groupId, socket, namespace, hero) {
  * @param hero
  * @returns {Promise}
  */
-let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
+let cancelInviteToGroup = function(groupLeaderToken, groupId, socket, namespace, hero) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
         logger.info(`Canceling hero ${hero.platformDisplayName}'s invite to group ${groupId}`);
 
@@ -108,8 +109,9 @@ let cancelInviteToGroup = function(groupId, socket, namespace, hero) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        socket.to(getPlayerRoom(hero)).emit(clientEvents.groupInviteCanceled, details);
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteCanceled, details);
+        socket.to(getPlayerRoom({platformDisplayName: hero.platformDisplayName, platform: groupLeaderToken.platform}))
+            .emit(clientEvents.groupInviteCanceled, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerInviteCanceled, details);
     }).catch((err) => {
         logger.error(`Problem trying to cancel invite to ${hero.platformDisplayName} for group ${groupId}: ${err}`);
         throw err;
@@ -224,11 +226,11 @@ let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespac
                         }
                     });
                 } else {
-                    resolve(_deleteGroup(groupId, namespace));
+                    resolve(_deleteGroup(groupId, namespace, token.platform));
                 }
             } else {
                 let hero = getHeroFromListById(groupDetails.members, token.platformDisplayName);
-                resolve(_removeHeroFromMembers(groupId, namespace, hero));
+                resolve(_removeHeroFromMembers(groupId, socket, namespace, hero));
             }
         });
     });
@@ -279,41 +281,43 @@ let _replaceGroupLeaderWithMember = function(groupId, namespace) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupPromotedLeader, details);
     });
 };
 
 /**
  * Removes a hero from the members array, also fires the hero removed event
- * Fires Events: groupHeroLeft
+ * Fires Events: playerHeroLeft
  * @param groupId
  * @param namespace
  * @param hero
  * @returns {Promise}
  * @private
  */
-let _removeHeroFromMembers = function(groupId, namespace, hero) {
+let _removeHeroFromMembers = function(groupId, socket, namespace, hero) {
     return RedisClient.removeHeroFromGroupMembers(groupId, hero).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        socket.leave(getGroupRoom(groupId));
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
     });
 };
 
 /**
  * This function deletes the group and can only be done if there are no members.
- * Fires Events: groupHeroLeft
+ * Fires Events: playerHeroLeft
  * @param groupId
  * @param namespace
  * @private
  */
-let _deleteGroup = function(groupId, namespace) {
+let _deleteGroup = function(groupId, namespace, platform) {
     return RedisClient.getGroupDetails(groupId).then((details) => {
         if (details.members.length === 0) {
             return RedisClient.deleteGroup(groupId).then(() => {
                 details.pending.forEach((pendingHero) => {
-                    namespace.to(getPlayerRoom(pendingHero)).emit(clientEvents.groupInviteCanceled, details);
+                    namespace.to(getPlayerRoom({platformDisplayName: pendingHero.platformDisplayName, platform}))
+                        .emit(clientEvents.groupInviteCanceled, details);
                 });
             });
         } else {
@@ -322,7 +326,7 @@ let _deleteGroup = function(groupId, namespace) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupHeroLeft, details);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
     });
 };
 

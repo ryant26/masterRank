@@ -23,14 +23,13 @@ describe(serverEvents.groupInviteAccept, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
-
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('should inform everyone that a new member was added', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us).then((data) => {
@@ -61,7 +60,7 @@ describe(serverEvents.groupInviteAccept, function() {
     it('should only allow people in group pending to accept invites', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         socket.on(clientEvents.heroAdded, () => {
@@ -90,30 +89,52 @@ describe(serverEvents.groupInviteAccept, function() {
         });
     });
 
-    it('should fire the heroRemoved event to the rank', function(done) {
-        let invitedHero = {
-            platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
-        };
+    xit('should add newest member to the back of group.members array', function(done) {
+        let pendingHeroes = [
+            {
+                platformDisplayName: randomString.generate(),
+                heroName: 'tracer'
+            }, {
+                platformDisplayName: randomString.generate(),
+                heroName: 'genji'
+            }, {
+                platformDisplayName: randomString.generate(),
+                heroName: 'winston'
+            }
+        ];
 
-        socket.on(clientEvents.heroRemoved, (hero) => {
-            assert.equal(hero.heroName, invitedHero.heroName);
-            assert.equal(hero.platformDisplayName, invitedHero.platformDisplayName);
-            done();
+        socket.on(clientEvents.heroAdded, (invitedHero) => {
+            socket.emit(serverEvents.groupInviteSend, invitedHero);
         });
 
-        commonUtilities.getAuthenticatedSocket(invitedHero.platformDisplayName, commonUtilities.regions.us).then((data) => {
-            let socket2 = data.socket;
-
-            socket.on(clientEvents.heroAdded, () => {
-                socket.emit(serverEvents.groupInviteSend, invitedHero);
+        Promise.all([
+            commonUtilities.getAuthenticatedSocket(pendingHeroes[0].platformDisplayName, commonUtilities.regions.us),
+            commonUtilities.getAuthenticatedSocket(pendingHeroes[1].platformDisplayName, commonUtilities.regions.us),
+            commonUtilities.getAuthenticatedSocket(pendingHeroes[2].platformDisplayName, commonUtilities.regions.us)
+        ]).then((sockets) => {
+            sockets.forEach((socket) => {
+                let heroSocket = socket.socket;
+                heroSocket.on(clientEvents.groupInviteReceived, (groupDetails) => {
+                    heroSocket.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+                });
             });
 
-            socket2.on(clientEvents.groupInviteReceived, (groupDetails) => {
-                socket2.emit(serverEvents.groupInviteAccept, groupDetails.groupId);
+
+            socket.on(clientEvents.groupInviteAccepted, (groupDetails) => {
+                if(groupDetails.members.length === 1){
+                    assert.equal(groupDetails.members[0].heroName, pendingHeroes[0].heroName);
+                } else if(groupDetails.members.length === 2){
+                    assert.equal(groupDetails.members[1].heroName, pendingHeroes[1].heroName);
+                } else if(groupDetails.members.length === 3){
+                    assert.equal(groupDetails.members[2].heroName, pendingHeroes[2].heroName);
+                    done();
+                }
             });
 
-            socket2.emit(serverEvents.addHero, {heroName: invitedHero.heroName, priority: 1});
+            sockets.forEach((socket, i) => {
+                let heroSocket = socket.socket;
+                heroSocket.emit(serverEvents.addHero, {heroName: pendingHeroes[i].heroName, priority: 1});
+            });
         });
     });
 

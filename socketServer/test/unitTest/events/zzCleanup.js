@@ -8,9 +8,10 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 
 describe('Cleanup Tests', function() {
     let client;
+    this.timeout(5000);
 
     before(function() {
-        let redisUrl = config.get('redisUrl');
+        let redisUrl = `redis://${config.get('redis.host')}:${config.get('redis.port')}`;
         logger.info(`Opening new connection to redis [${redisUrl}]`);
 
         client = redis.createClient({
@@ -23,9 +24,14 @@ describe('Cleanup Tests', function() {
             setTimeout(() => {
                 resolve(client.keysAsync('*').then((keys) => {
                     // the "groups" key will always be there, this is fine
+                    if (keys.length > 1) {
+                        keys.forEach((key) => {
+                            logger.error(`Key left in redis: ${key}`);
+                        });
+                    }
                     assert.lengthOf(keys, 1, 'There are keys in the redis DB after the tests run');
                 }));
-            }, 1000);
+            }, 3000);
         });
     });
 });

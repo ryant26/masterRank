@@ -1,14 +1,26 @@
 .Title {
+  width: 100%;
+
   img {
-    margin-right: 0.5em;
-    height: 2em;
+    height: 40px;
 
   }
 
-  h1 {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    font-size: 2em;
+  .fireteam {
+    margin-top: 5px;
+    font-family: 'Industry', 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.8em;
     color: $blue1;
+  }
+
+  .alpha-tag {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 3px;
+    background-color: $blue6;
+    padding: 5px;
+    color: white;
   }
 }

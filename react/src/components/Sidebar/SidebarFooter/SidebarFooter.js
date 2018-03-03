@@ -4,9 +4,7 @@ import LogoutButton from './LogoutButton/LogoutButton';
 
 const SidebarFooter = () => {
     return (
-        <div className="SidebarFooter flex justify-around sidebar-card">
-            <a>Settings</a>
-            <a>Help</a>
+        <div className="SidebarFooter flex justify-center sidebar-card">
             <LogoutButton/>
         </div>
     );

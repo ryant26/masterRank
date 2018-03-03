@@ -43,18 +43,24 @@ class LoginPage extends Component {
         return (
             <div className="LoginPage flex flex-column align-center grow">
                 <div className="title flex align-center">
-                    <img className="logo" src={require('../../assets/logo-icon.svg')} alt="logo icon"/>
+                    <img className="logo" src={require('../../assets/logo-icon.png')} alt="logo icon"/>
                     <h1>FIRETEAM.GG</h1>
                 </div>
 
-                <div className="sub-title">Find like-minded Overwatch players to improve your skills and climb to Grand Masters.</div>
+                <div className="info-line sub-title">Find like-minded Overwatch players to improve your skills and climb to Grand Masters.</div>
                 <div className="preferences-container card flex flex-column stretch justify-center">
                     <div className="flex justify-center">
                         <h3>Find your Battle.net, PSN, or XBL account</h3>
                     </div>
                     <div className="preference-selectors flex justify-around">
-                        <PlatformSelection onChange={this.onPlatformChange} selectedPlatform={this.state.platform}/>
-                        <RegionSelection onChange={this.onRegionChange} selectedRegion={this.state.region}/>
+                        <div className="platform-selection">
+                            <div className="sub-title selector-label">Platform:</div>
+                            <PlatformSelection onChange={this.onPlatformChange} selectedPlatform={this.state.platform}/>
+                        </div>
+                        <div className="region-selection ">
+                            <div className="sub-title selector-label">Region:</div>
+                            <RegionSelection onChange={this.onRegionChange} selectedRegion={this.state.region}/>
+                        </div>
                     </div>
                 </div>
                 { this.state.platform === 'pc'

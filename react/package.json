@@ -6,6 +6,7 @@
     "classnames": "^2.2.5",
     "jwt-decode": "^2.2.0",
     "object-assign": "4.1.0",
+    "raven-js": "^3.22.3",
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-fontawesome": "^1.6.1",
@@ -16,7 +17,8 @@
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "react-toastify": "3.3.4"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -59,6 +61,7 @@
     "sass-loader": "6.0.6",
     "socket-io-mock": "^1.0.1",
     "style-loader": "0.19.0",
+    "uglifyjs-webpack-plugin": "1.1.8",
     "url-loader": "0.5.9",
     "webpack": "3.1.0",
     "webpack-bundle-analyzer": "2.8.2",
@@ -72,7 +75,8 @@
     "clean-dist": "npm run remove-dist && mkdir dist",
     "lint": "esw webpack.config.* src tools --color",
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
-    "build": "babel-node tools/build.js && npm run open:dist",
+    "build-run": "babel-node tools/build.js && npm run open:dist",
+    "build": "babel-node tools/build.js",
     "open:src": "babel-node ./tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "remove-dist": "rimraf ./dist",

@@ -23,14 +23,14 @@ describe(serverEvents.addHero, function() {
     });
 
     afterEach(function() {
-        commonUtilities.closeOpenedSockets();
         mockingUtilities.restoreAll();
+        return commonUtilities.closeOpenedSockets();
     });
 
     it('should handle adding multiple heros for a single player', function(done) {
-        socket.emit(serverEvents.addHero, {heroName: randomString.generate(),  priority: 1});
-        socket.emit(serverEvents.addHero, {heroName: randomString.generate(),  priority: 1});
-        socket.emit(serverEvents.addHero, {heroName: randomString.generate(),  priority: 1});
+        socket.emit(serverEvents.addHero, {heroName: 'tracer',  priority: 1});
+        socket.emit(serverEvents.addHero, {heroName: 'genji',  priority: 1});
+        socket.emit(serverEvents.addHero, {heroName: 'winston',  priority: 1});
 
         // Ensure hero is fully added before we connect the 2nd user
         setTimeout(function() {
@@ -46,7 +46,7 @@ describe(serverEvents.addHero, function() {
     });
 
     it('should call the heroAdded event on all connected clients', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 1;
 
         commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.us).then((data) => {
@@ -60,8 +60,8 @@ describe(serverEvents.addHero, function() {
         });
     });
 
-    it('should not call the heroAdded event for players in other ranks', function(done) {
-        let heroName = randomString.generate();
+    it('should not call the heroAdded event for players in ranks outside the +/- 1 range', function(done) {
+        let heroName = 'tracer';
         let priority = 1;
 
         commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us).then((data) => {
@@ -80,8 +80,46 @@ describe(serverEvents.addHero, function() {
         });
     });
 
+    it('should call the heroAdded event for players in ranks inside the + 1 range', function(done) {
+        let heroName = 'tracer';
+        let priority = 1;
+
+
+        commonUtilities.getAuthenticatedSocket('goldPlayer#1234', commonUtilities.regions.us).then((data) => {
+            commonUtilities.getAuthenticatedSocket('silverPlayer#1234', commonUtilities.regions.us).then((data2) => {
+                let goldPlayerSocket = data.socket;
+                let silverPlayerSocket = data2.socket;
+
+                goldPlayerSocket.on('heroAdded', () => {
+                    done();
+                });
+
+                silverPlayerSocket.emit(serverEvents.addHero, {heroName, priority});
+            });
+        });
+    });
+
+    it('should call the heroAdded event for players in ranks inside the - 1 range', function(done) {
+        let heroName = 'tracer';
+        let priority = 1;
+
+
+        commonUtilities.getAuthenticatedSocket('bronzePlayer#1234', commonUtilities.regions.us).then((data) => {
+            commonUtilities.getAuthenticatedSocket('silverPlayer#1234', commonUtilities.regions.us).then((data2) => {
+                let bronzePlayerSocket = data.socket;
+                let silverPlayerSocket = data2.socket;
+
+                bronzePlayerSocket.on('heroAdded', () => {
+                    done();
+                });
+
+                silverPlayerSocket.emit(serverEvents.addHero, {heroName, priority});
+            });
+        });
+    });
+
     it('should not call the heroAdded event for players in other regions', function(done) {
-        let heroName = randomString.generate();
+        let heroName = 'tracer';
         let priority = 1;
 
         commonUtilities.getAuthenticatedSocket(randomString.generate(), commonUtilities.regions.eu).then((data) => {
@@ -188,16 +226,20 @@ describe(serverEvents.addHero, function() {
     it('should not allow anyone to have more than 10 heroes', function(done) {
         const heroNames = ['genji', 'tracer', 'dva', 'mercy', 'winston', 'zarya', 'roadhog', 'doomfist', 'ana', 'hanzo', 'junkrat'];
         let i = 0;
+        let errorReceived = false;
 
         const addHeroFromList = (index) => socket.emit(serverEvents.addHero, {heroName: heroNames[index], priority: 1});
 
         socket.on(clientEvents.error.addHero, (error) => {
+            errorReceived = true;
             assert.equal(error.err, exceptions.errorAddingHero);
             done();
         });
 
         socket.on(clientEvents.heroAdded, () => {
-            addHeroFromList(++i);
+            if (!errorReceived) {
+                addHeroFromList(++i);
+            }
         });
 
         addHeroFromList(i);

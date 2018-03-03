@@ -54,7 +54,7 @@ describe('Multi-Node Tests', function() {
     it('should be able to see added heros from other nodes', function(done) {
         let serv1Hero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         server1Utilities.getUserWithAddedHero(serv1Hero.platformDisplayName, serv1Hero.heroName).then(() => {
@@ -69,7 +69,7 @@ describe('Multi-Node Tests', function() {
     it('should be able to invite hero from another node to group', function(done) {
         let serv2Hero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'genji'
         };
 
         let leadersocket, leaderHero, user2;
@@ -94,7 +94,7 @@ describe('Multi-Node Tests', function() {
     it('should be able to accept invite to group from another node', function (done) {
         let invitee = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         let groupDetails;
@@ -141,13 +141,13 @@ describe('Multi-Node Tests', function() {
     it('should be able to remove a pending hero from another node', function(done) {
         let invitedHero = {
             platformDisplayName: randomString.generate(),
-            heroName: randomString.generate()
+            heroName: 'tracer'
         };
 
         server1Utilities.getEmptyGroup().then((groupDetails) => {
             let socket = groupDetails.leaderSocket;
 
-            socket.on(clientEvents.groupInviteCanceled, (details) => {
+            socket.on(clientEvents.playerInviteCanceled, (details) => {
                 assert.lengthOf(details.pending, 0);
                 done();
             });

@@ -29,12 +29,25 @@ describe('Group Invite Reducer', () => {
         });
 
         it ('should not add duplicate invite to state', () => {
+            expect(newState[0].groupId).toBe(invite1.groupId);
             expect(newState.length).toBe(1);
             expect(GroupInvitesReducer(newState, {
                 type: actionTypes.ADD_GROUP_INVITE,
                 invite: invite1
             })).toEqual(newState);
             expect(newState.length).toBe(1);
+        });
+
+        it ('should add multiple invites to state', () => {
+            expect(invite1.groupId).not.toBe(invite2.groupId);
+            let currentState = [invite1];
+            newState = [...currentState, invite2];
+
+            expect(GroupInvitesReducer(currentState, {
+                type: actionTypes.ADD_GROUP_INVITE,
+                invite: invite2
+            })).toEqual(newState);
+            expect(newState.length).toBe(2);
         });
     });
 

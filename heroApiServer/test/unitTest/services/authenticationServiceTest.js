@@ -11,6 +11,36 @@ describe('authenticationService', function() {
         next = sinon.stub();
     });
 
+    describe('verifyPlatformDisplayName', () => {
+        const testRedirected = function(platformDisplayName) {
+            const redirect = sinon.stub();
+            const next = sinon.stub();
+            assert.isFalse(redirect.calledOnce);
+            authenticationService.verifyPlatformDisplayName({user: {platformDisplayName}}, {redirect}, next);
+            sinon.assert.notCalled(next);
+            sinon.assert.calledOnce(redirect);
+
+            sinon.assert.calledWith(redirect, `/?failedLogin=true&platformDisplayName=${platformDisplayName ? platformDisplayName : ''}`);
+
+        };
+
+        it('should call the next handler upon valid platformDisplayName', function(done) {
+            authenticationService.verifyPlatformDisplayName({user: {platformDisplayName: 'test#1234'}}, sinon.stub(), done);
+        });
+
+        it('should call redirect if platformDisplayName is null', function() {
+            testRedirected(null);
+        });
+
+        it('should call redirect if platformDisplayName is undefined', function() {
+            testRedirected(undefined);
+        });
+
+        it('should call redirect if platformDisplayName is an empty string', function() {
+            testRedirected('');
+        });
+    });
+
     describe('serializeUser', function() {
         let sandbox;
 

@@ -6,6 +6,9 @@ import WebpackMd5Hash from 'webpack-md5-hash';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
   __DEV__: false
@@ -36,9 +39,8 @@ export default {
     // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      favicon: 'src/favicon.ico',
+      favicon: 'src/assets/favicon.png',
       minify: {
-        removeComments: true,
         collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
@@ -56,7 +58,21 @@ export default {
     }),
 
     // Minify JS
-    new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
+    new UglifyJsPlugin({
+        sourceMap: true,
+        uglifyOptions: {
+            output: {
+                comments: function(node, comment) {
+                    const text = comment.value;
+                    const type = comment.type;
+                    if (type == "comment2") {
+                        // multiline comment
+                        return /copyright/i.test(text);
+                    }
+                }
+            }
+        }
+    }),
   ],
   module: {
     rules: [
