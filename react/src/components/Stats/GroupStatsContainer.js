@@ -64,7 +64,7 @@ const GroupStatsContainer = ({group, isLeading}) => {
             {!isLeading ?
                 <div className="footer flex justify-between align-center">
                     <HeroImages heroNames={groupHeroes.map((hero) => hero.heroName)}/>
-                    <HeroImages heroNames={group.pending.map((hero) => hero.heroName)} isPending={true}/>
+                    <HeroImages heroNames={groupHeroes.map((hero) => hero.heroName)} isPending={true}/>
                         <span className="sub-title">
                             <div className="players-joined">
                                 Players joined: <b>{groupHeroes.length}</b>

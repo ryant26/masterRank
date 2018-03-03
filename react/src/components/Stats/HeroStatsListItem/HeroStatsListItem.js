@@ -39,11 +39,12 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPen
             : `${hero.platformDisplayName} - `
         : '';
 
-    const subTitle = hero.stats
-        ? ( <div className="sub-title">{hero.stats.hoursPlayed} hours played</div> )
-        : ( <div className="sub-title">Hero needs more games played</div> );
+    const subTitle = isPending
+        ? ( "Pending invite" )
+        : hero.stats
+            ? ( `${hero.stats.hoursPlayed} hours played` )
+            : ( "Hero needs more games played" );
 
-    //TODO TEST, and usage in HTML
     const classses = classNames({
         pending: isPending
     });
@@ -77,7 +78,7 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPen
                  </div>
                  <div>
                      <h3>{displayName}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
-                     { subTitle }
+                     <div className="sub-title">{ subTitle }</div>
                  </div>
                  <div className="flex justify-between record">
                      <RecordStat stat={heroWins} statName={statNames.wins}/>

@@ -33,30 +33,6 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
         </span>
         
       </div>
-      <div
-        className="HeroImages flex"
-      >
-        <img
-          alt="genji icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-        <img
-          alt="widowmaker icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
-          }
-        />
-      </div>
     </div>
   </div>
   <div
@@ -81,16 +57,20 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
                 }
               }
             />
-            <img
-              alt="genji icon"
-              className="HeroImage"
-              onClick={undefined}
-              src={
-                Object {
-                  "process": [Function],
+            <div
+              className=""
+            >
+              <img
+                alt="genji icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
           <div>
             <h3>
@@ -100,7 +80,7 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
             <div
               className="sub-title"
             >
-               hours played
+              undefined hours played
             </div>
           </div>
           <div
@@ -318,16 +298,20 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
           className="flex align-center"
         >
           <div>
-            <img
-              alt="widowmaker icon"
-              className="HeroImage"
-              onClick={undefined}
-              src={
-                Object {
-                  "process": [Function],
+            <div
+              className=""
+            >
+              <img
+                alt="widowmaker icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </div>
           <div>
             <h3>
@@ -337,7 +321,494 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
             <div
               className="sub-title"
             >
-               hours played
+              undefined hours played
+            </div>
+          </div>
+          <div
+            className="flex justify-between record"
+          >
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                WINS
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                LOSSES
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0.00
+              </div>
+              <div
+                className="sub-title"
+              >
+                K/D
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex wrap justify-between"
+        >
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              DAMAGE
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              HEALING
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              BLOCKED
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. KILLS
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. TIME
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              ACCURACY
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    //TODO: switch to pending after styled
+    <div
+      className="HeroStatsList"
+    >
+      <div
+        className="HeroStatsListItem"
+      >
+        <div
+          className="flex align-center"
+        >
+          <div>
+            <div
+              className="pending"
+            >
+              <img
+                alt="genji icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </div>
+          </div>
+          <div>
+            <h3>
+              luckbomb#1234 - 
+              Genji
+            </h3>
+            <div
+              className="sub-title"
+            >
+              Pending invite
+            </div>
+          </div>
+          <div
+            className="flex justify-between record"
+          >
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                WINS
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0
+              </div>
+              <div
+                className="sub-title"
+              >
+                LOSSES
+              </div>
+            </div>
+            <div
+              className="RecordStat flex flex-column align-end"
+            >
+              <div
+                className="stat"
+              >
+                0.00
+              </div>
+              <div
+                className="sub-title"
+              >
+                K/D
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex wrap justify-between"
+        >
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              DAMAGE
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              HEALING
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              BLOCKED
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. KILLS
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              OBJ. TIME
+            </div>
+          </div>
+          <div
+            className="HeroStat flex flex-column"
+          >
+            <span
+              className="stat"
+            >
+              -
+            </span>
+            <div
+              className="indicator"
+            >
+              <div
+                className="indicator-level"
+                style={
+                  Object {
+                    "width": "0%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="sub-title"
+            >
+              ACCURACY
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="HeroStatsListItem"
+      >
+        <div
+          className="flex align-center"
+        >
+          <div>
+            <div
+              className="pending"
+            >
+              <img
+                alt="widowmaker icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </div>
+          </div>
+          <div>
+            <h3>
+              wismo0#1234 - 
+              Widowmaker
+            </h3>
+            <div
+              className="sub-title"
+            >
+              Pending invite
             </div>
           </div>
           <div
@@ -554,13 +1025,73 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
     className="footer flex justify-between align-center"
   >
     <div
+      className="HeroImages flex"
+    >
+      <img
+        alt="genji icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+      <img
+        alt="widowmaker icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+    </div>
+    <div
+      className="HeroImages flex"
+    >
+      <img
+        alt="genji icon"
+        className="HeroImage pending"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+      <img
+        alt="widowmaker icon"
+        className="HeroImage pending"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+      />
+    </div>
+    <span
       className="sub-title"
     >
-      <b>
+      <div
+        className="players-joined"
+      >
         Players joined: 
-        2
-      </b>
-    </div>
+        <b>
+          2
+        </b>
+      </div>
+      <div
+        className="invites-pending"
+      >
+        Invites pending: 
+        <b>
+          1
+        </b>
+      </div>
+    </span>
     <div
       className="button-six flex align-center"
       onClick={[Function]}

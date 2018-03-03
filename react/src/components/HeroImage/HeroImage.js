@@ -1,22 +1,32 @@
-import React, {
-  Component
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class HeroImage extends Component {
+const classNames = require('classnames');
 
-  render() {
+const HeroImage = ({ heroName, isPending, onClick }) => {
+
+    const classses = classNames({
+        HeroImage,
+        pending: isPending
+    });
+
     return (
-      <img className="HeroImage"
-        src={require(`../../assets/${this.props.heroName}-icon.png`)}
-        alt = {this.props.heroName+' icon'}
-        onClick={this.props.onClick}
-      />
+        <img className={classses}
+            src={require(`../../assets/${heroName}-icon.png`)}
+            alt = {heroName+' icon'}
+            onClick={onClick}
+        />
     );
-  }
 }
+
+HeroImage.defaultProps = {
+    isPending: false
+};
 
 HeroImage.propTypes = {
     heroName: PropTypes.string.isRequired,
+    isPending: PropTypes.bool,
     onClick: PropTypes.func
 };
+
+export default HeroImage;

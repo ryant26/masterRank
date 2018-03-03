@@ -1,43 +1,46 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
 
 import HeroImages from './HeroImages';
 import HeroImage from '../../HeroImage/HeroImage';
 
-const names = require('../../../../../shared/libs/allHeroNames').names;
+import HEROES from '../../../resources/heroes';
 
+const shallowHeroImages = (heroNames, isPending) => {
+    return shallow(
+        <HeroImages heroNames={heroNames} isPending={isPending}/>
+    );
+};
 
-describe('HeroCard Component',()=> {
-    const heroNames = [names[0], names[1], names[2]];
+describe('HeroImages',()=> {
+    const heroNames = HEROES.map((hero) => hero.heroName);
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallow(
-            <HeroImages heroNames={heroNames}/>
-        );
+        wrapper = shallowHeroImages(heroNames);
     });
 
-    it('should render without exploding', () => {
-        expect(wrapper.find(HeroImages)).toBeTruthy();
+    it('should render', () => {
+        expect(wrapper).toHaveLength(1);
     });
 
-    it('should have a heroImage for each heroName', () => {
+    it('should render a HeroImage for each hero name passed in props', () => {
         expect(wrapper.find(HeroImage)).toHaveLength(heroNames.length);
-    });
-
-    it("should render heroImages in order", () => {
         heroNames.forEach((heroName, i) => {
             expect(wrapper.find(HeroImage).at(i).props().heroName).toBe(heroName);
         });
     });
 
-    it('should match the snapshot', () => {
-        let component = renderer.create(
-            <HeroImages heroNames={heroNames}/>
-        );
+    it('should set isPending to false by default', () => {
+        heroNames.forEach((heroName, i) => {
+            expect(wrapper.find(HeroImage).at(i).props().isPending).toBe(false);
+        });
+    });
 
-        let tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+    it('should set isPending to true when passed in as true', () => {
+        wrapper = shallowHeroImages(heroNames, true);
+        heroNames.forEach((heroName, i) => {
+            expect(wrapper.find(HeroImage).at(i).props().isPending).toBe(true);
+        });
     });
 });

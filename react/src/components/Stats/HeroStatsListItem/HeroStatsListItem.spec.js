@@ -106,6 +106,36 @@ describe('HeroStatsListItem', () => {
             expect(wrapper.props().showPlatformDisplayName).not.toBeDefined();
             expect(wrapper.dive().find('h3').text()).toEqual(capitalizeFirstLetterOf(hero.heroName));
         });
+
+        describe('when isPending is true', () => {
+
+            beforeEach(() => {
+                wrapper.setProps({
+                    isPending: true
+                });
+                expect(wrapper.props().isPending).toBe(true);
+            });
+
+            it('should have class pending', () => {
+                expect(wrapper.dive().find('.pending')).toHaveLength(1);
+            });
+
+            it('should set sub title to "Pending invite"', () => {
+                expect(wrapper.dive().find('.sub-title').text()).toBe("Pending invite");
+            });
+        });
+
+        describe('when isPending is false', () => {
+            it('should not have class pending', () => {
+                expect(wrapper.props().isPending).toBeFalsy();
+                expect(wrapper.dive().find('.pending')).toHaveLength(0);
+            });
+
+            it('should set sub title to "# hours played"', () => {
+                expect(wrapper.props().isPending).toBeFalsy();
+                expect(wrapper.dive().find('.sub-title').text()).toBe(`${hero.stats.hoursPlayed} hours played`);
+            });
+        });
     });
 
     describe('when hero has no stats', () => {
@@ -113,7 +143,7 @@ describe('HeroStatsListItem', () => {
         beforeEach(() => {
             hero = getHeroes()[0];
             hero.stats = null;
-            shallowHeroStatsListItem(user, hero);
+            wrapper = shallowHeroStatsListItem(user, hero);
         });
 
         it('should have 3 record stats', () => {
@@ -166,6 +196,36 @@ describe('HeroStatsListItem', () => {
         it('should not show the platformDisplayName when prop is not set', () => {
             expect(wrapper.props().showPlatformDisplayName).not.toBeDefined();
             expect(wrapper.dive().find('h3').text()).toEqual(capitalizeFirstLetterOf(hero.heroName));
+        });
+
+        describe('when isPending is true', () => {
+
+            beforeEach(() => {
+                wrapper.setProps({
+                    isPending: true
+                });
+                expect(wrapper.props().isPending).toBe(true);
+            });
+
+            it('should have class pending', () => {
+                expect(wrapper.dive().find('.pending')).toHaveLength(1);
+            });
+
+            it('should set sub title to "Pending invite"', () => {
+                expect(wrapper.dive().find('.sub-title').text()).toBe("Pending invite");
+            });
+        });
+
+        describe('when isPending is false', () => {
+            it('should not have class pending', () => {
+                expect(wrapper.props().isPending).toBeFalsy();
+                expect(wrapper.dive().find('.pending')).toHaveLength(0);
+            });
+
+            it('should set sub title to "Hero needs more games played"', () => {
+                expect(wrapper.props().isPending).toBeFalsy();
+                expect(wrapper.dive().find('.sub-title').text()).toBe("Hero needs more games played");
+            });
         });
     });
 
