@@ -6,16 +6,17 @@ const classNames = require('classnames');
 const HeroImage = ({ heroName, isPending, onClick }) => {
 
     const classses = classNames({
-        HeroImage,
         pending: isPending
     });
 
     return (
-        <img className={classses}
-            src={require(`../../assets/${heroName}-icon.png`)}
-            alt = {heroName+' icon'}
-            onClick={onClick}
-        />
+        <div className={classses}>
+            <img className="HeroImage"
+                src={require(`../../assets/${heroName}-icon.png`)}
+                alt = {heroName+' icon'}
+                onClick={onClick}
+            />
+        </div>
     );
 }
 

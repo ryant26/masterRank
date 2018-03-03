@@ -31,6 +31,8 @@ const GroupStatsContainer = ({group, isLeading}) => {
         Model.createNewGroup();
     };
 
+    const heroImageObject;
+    groupHeroes.map((hero) => hero.heroName)}
     return (
         <div className="GroupStatsContainer">
             <div className="header">

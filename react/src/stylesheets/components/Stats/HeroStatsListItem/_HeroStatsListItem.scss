@@ -18,6 +18,11 @@
     margin-right: 10px;
   }
 
+  .pending {
+    @include square;
+    margin-right: 10px;
+  }
+
   .HeroStat {
     margin-top: 15px;
     width: 30%;
@@ -32,18 +37,5 @@
     font-family: 'Roboto', sans-serif;
     font-size: 14pt;
     color: $gray3;
-  }
-
-  .pending {
-    @include square;
-    &::after {
-      display: block;
-      content: "";
-      position: relative;
-      border-radius: 3px;
-      height: 100%;
-      width: 100%;
-      background-color: $transparentGray1;
-    }
   }
 }
