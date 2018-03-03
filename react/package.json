@@ -6,6 +6,7 @@
     "classnames": "^2.2.5",
     "jwt-decode": "^2.2.0",
     "object-assign": "4.1.0",
+    "raven-js": "^3.22.3",
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-fontawesome": "^1.6.1",
