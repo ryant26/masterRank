@@ -116,12 +116,19 @@ let getPlayerRank = function (token) {
 
 let getEligableRankRooms = function (sr) {
     let ranks = {};
+    let eligibleRanks;
 
-    ranks[mapSrToRank(sr-500)] = true;
-    ranks[mapSrToRank(sr)] = true;
-    ranks[mapSrToRank(sr+500)] = true;
+    if (sr === 0) {
+        eligibleRanks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster'];
+    } else {
+        ranks[mapSrToRank(sr-500)] = true;
+        ranks[mapSrToRank(sr)] = true;
+        ranks[mapSrToRank(sr+500)] = true;
 
-    return Object.keys(ranks);
+        eligibleRanks = Object.keys(ranks);
+    }
+
+    return eligibleRanks;
 };
 
 
