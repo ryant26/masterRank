@@ -100,12 +100,12 @@ describe(serverEvents.groupLeave, function() {
             let emittedCount = 0;
 
             membersSocket.forEach((memberSocket) => {
-                memberSocket.on(clientEvents.playerHeroLeft, (groupDetails) => {
+                memberSocket.on(clientEvents.playerHeroLeft, () => {
                     if(++emittedCount === membersSocket.length){
                         done();
                     }
                 });
-            })
+            });
 
             group.leaderSocket.emit(serverEvents.groupLeave);
         });
@@ -117,34 +117,40 @@ describe(serverEvents.groupLeave, function() {
             let emittedCount = 0;
 
             membersSocket.forEach((memberSocket) => {
-                memberSocket.on(clientEvents.groupPromotedLeader, (groupDetails) => {
+                memberSocket.on(clientEvents.groupPromotedLeader, () => {
                     if(++emittedCount === membersSocket.length){
                         done();
                     }
                 });
-            })
+            });
 
             group.leaderSocket.emit(serverEvents.groupLeave);
         });
     });
 
-    it('should not emit playerHeroLeft to the leader who left the group,', () => {
+    it('should not emit playerHeroLeft to the leader who left the group,', (done) => {
         commonUtilities.getFilledGroup(1).then((group) => {
-            group.leaderSocket.on(clientEvents.playerHeroLeft, (groupDetails) => {
+            group.leaderSocket.on(clientEvents.playerHeroLeft, () => {
                 assert.fail();
+            });
+
+            group.memberSockets[0].on(clientEvents.groupPromotedLeader, () => {
                 done();
-            })
+            });
 
             group.leaderSocket.emit(serverEvents.groupLeave);
         });
     });
 
-    it('should not emit groupPromotedLeader to the leader who left the group,', () => {
+    it('should not emit groupPromotedLeader to the leader who left the group,', (done) => {
         commonUtilities.getFilledGroup(1).then((group) => {
-            group.leaderSocket.on(clientEvents.groupPromotedLeader, (groupDetails) => {
+            group.leaderSocket.on(clientEvents.groupPromotedLeader, () => {
                 assert.fail();
+            });
+
+            group.memberSockets[0].on(clientEvents.groupPromotedLeader, () => {
                 done();
-            })
+            });
 
             group.leaderSocket.emit(serverEvents.groupLeave);
         });
