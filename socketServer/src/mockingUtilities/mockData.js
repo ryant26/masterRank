@@ -1,6 +1,6 @@
 const environment = process.env.NODE_ENV;
 const playerService = require('../services/playerService');
-const ranks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster'];
+const ranks = require('../../../shared/libs/allRanks').ranksArray;
 const logger = require('../services/logger').sysLogger;
 const players = [
     {

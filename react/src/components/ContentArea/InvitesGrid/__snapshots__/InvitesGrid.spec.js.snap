@@ -242,8 +242,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
               className="sub-title"
             >
               <span>
-                1800
-                 SR
+                1800 SR
               </span>
               <span>
                  | 
@@ -424,8 +423,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
               className="sub-title"
             >
               <span>
-                1600
-                 SR
+                1600 SR
               </span>
               <span>
                  | 
@@ -669,8 +667,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
               className="sub-title"
             >
               <span>
-                1600
-                 SR
+                1600 SR
               </span>
               <span>
                  | 
@@ -977,8 +974,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
               className="sub-title"
             >
               <span>
-                1800
-                 SR
+                1800 SR
               </span>
               <span>
                  | 
@@ -1041,8 +1037,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
               className="sub-title"
             >
               <span>
-                1800
-                 SR
+                1800 SR
               </span>
               <span>
                  | 
@@ -1105,8 +1100,7 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
               className="sub-title"
             >
               <span>
-                1800
-                 SR
+                1800 SR
               </span>
               <span>
                  | 
