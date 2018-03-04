@@ -34,48 +34,36 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
       <div
         className="HeroImages flex"
       >
-        <div
-          className=""
-        >
-          <img
-            alt="hanzo icon"
-            className="HeroImage"
-            onClick={undefined}
-            src={
-              Object {
-                "process": [Function],
-              }
+        <img
+          alt="hanzo icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
             }
-          />
-        </div>
-        <div
-          className=""
-        >
-          <img
-            alt="dva icon"
-            className="HeroImage"
-            onClick={undefined}
-            src={
-              Object {
-                "process": [Function],
-              }
+          }
+        />
+        <img
+          alt="dva icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
             }
-          />
-        </div>
-        <div
-          className=""
-        >
-          <img
-            alt="zenyatta icon"
-            className="HeroImage"
-            onClick={undefined}
-            src={
-              Object {
-                "process": [Function],
-              }
+          }
+        />
+        <img
+          alt="zenyatta icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
             }
-          />
-        </div>
+          }
+        />
       </div>
     </div>
   </div>
@@ -93,22 +81,18 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <div
-              className=""
+              className="DisableableHeroImage"
             >
-              <div
-                className=""
-              >
-                <img
-                  alt="hanzo icon"
-                  className="HeroImage"
-                  onClick={undefined}
-                  src={
-                    Object {
-                      "process": [Function],
-                    }
+              <img
+                alt="hanzo icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
                   }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
           <div>
@@ -338,22 +322,18 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <div
-              className=""
+              className="DisableableHeroImage"
             >
-              <div
-                className=""
-              >
-                <img
-                  alt="dva icon"
-                  className="HeroImage"
-                  onClick={undefined}
-                  src={
-                    Object {
-                      "process": [Function],
-                    }
+              <img
+                alt="dva icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
                   }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
           <div>
@@ -618,22 +598,18 @@ exports[`UserStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <div
-              className=""
+              className="DisableableHeroImage"
             >
-              <div
-                className=""
-              >
-                <img
-                  alt="zenyatta icon"
-                  className="HeroImage"
-                  onClick={undefined}
-                  src={
-                    Object {
-                      "process": [Function],
-                    }
+              <img
+                alt="zenyatta icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
                   }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
           <div>

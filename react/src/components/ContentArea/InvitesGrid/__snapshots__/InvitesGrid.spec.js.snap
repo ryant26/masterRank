@@ -81,20 +81,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="genji icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="genji icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -149,20 +145,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="widowmaker icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="widowmaker icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -217,20 +209,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="tracer icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="tracer icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -340,20 +328,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="genji icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="genji icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -408,20 +392,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="tracer icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="tracer icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -531,20 +511,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="doomfist icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="doomfist icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -599,20 +575,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="soldier76 icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="soldier76 icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -667,20 +639,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="winston icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="winston icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -790,20 +758,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="genji icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="genji icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -858,20 +822,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="widowmaker icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="widowmaker icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -926,20 +886,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="winston icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="winston icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -994,20 +950,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="tracer icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="tracer icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -1062,20 +1014,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="soldier76 icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="soldier76 icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >
@@ -1130,20 +1078,16 @@ exports[`InvitesGrid Component should match the snapshot 1`] = `
           <div
             className="invitePlayerButton"
           >
-            <div
-              className=""
-            >
-              <img
-                alt="doomfist icon"
-                className="HeroImage"
-                onClick={undefined}
-                src={
-                  Object {
-                    "process": [Function],
-                  }
+            <img
+              alt="doomfist icon"
+              className="HeroImage"
+              onClick={undefined}
+              src={
+                Object {
+                  "process": [Function],
                 }
-              />
-            </div>
+              }
+            />
             <div
               className="overlay"
             >

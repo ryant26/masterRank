@@ -1,16 +1,22 @@
 import React from 'react';
-import HeroImage from '../../HeroImage/HeroImage';
 import Proptypes from 'prop-types';
+
+import DisableableHeroImage from '../../Images/DisableableHeroImage/DisableableHeroImage';
+import HeroImage from '../../Images/HeroImage/HeroImage';
 
 const HeroImages = ({heroNames, disabled}) => {
 
     let heroImages = heroNames.map((name, i) => {
-        return (
-            <HeroImage
-                key={i}
-                heroName={name}
-                disabled={disabled[i]}
-            />
+        return ( disabled[i]
+            ? ( <DisableableHeroImage
+                    key={i}
+                    heroName={name}
+                    disabled={true}
+                />)
+            : ( <HeroImage
+                 key={i}
+                 heroName={name}
+                />)
         );
     });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import MemberCard from './MemberCard';
-import HeroImage from '../../../HeroImage/HeroImage';
+import HeroImage from '../../../Images/HeroImage/HeroImage';
 import MemberCardInfo from './MemberCardInfo/MemberCardInfo';
 import Module from '../../../../model/model';
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import UserStatsContainer from '../../../../Stats/UserStatsContainer';
-import HeroImage from '../../../../HeroImage/HeroImage';
+import HeroImage from '../../../../Images/HeroImage/HeroImage';
 import Modal from '../../../../Modal/Modal';
 import Model from '../../../../../model/model';
 

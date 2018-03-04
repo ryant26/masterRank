@@ -2,7 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import HeroImages from './HeroImages';
-import HeroImage from '../../HeroImage/HeroImage';
+import DisableableHeroImage from '../../Images/DisableableHeroImage/DisableableHeroImage';
+import HeroImage from '../../Images/HeroImage/HeroImage';
 
 const shallowHeroImages = (heroNames, disabled) => {
     return shallow(
@@ -10,9 +11,8 @@ const shallowHeroImages = (heroNames, disabled) => {
     );
 };
 
-describe('HeroImages',()=> {
+describe('HeroImages', ()=> {
     const heroNames = ['tracer', 'genji', 'phara'];
-    const disabled = [false, true, true];
     let wrapper;
 
     beforeEach(() => {
@@ -23,17 +23,21 @@ describe('HeroImages',()=> {
         expect(wrapper).toHaveLength(1);
     });
 
-    it('should render a HeroImage for each hero name passed in props', () => {
+    it('should render a HeroImage in order for each hero name passed in props', () => {
         expect(wrapper.find(HeroImage)).toHaveLength(heroNames.length);
         heroNames.forEach((heroName, i) => {
             expect(wrapper.find(HeroImage).at(i).props().heroName).toBe(heroName);
         });
     });
 
-    it('should set HeroImage disabled prop to true or false based on HeroImages disabled[index]', () => {
+    it('should render a DisableableHeroImage in order for each hero name passed in props that is disabled', () => {
+        const disabled = [false, true, true];
         wrapper = shallowHeroImages(heroNames, disabled);
-        heroNames.forEach((heroName, i) => {
-            expect(wrapper.find(HeroImage).at(i).props().disabled).toBe(disabled[i]);
-        });
+        expect(wrapper.find(HeroImage)).toHaveLength(1);
+        expect(wrapper.find(DisableableHeroImage)).toHaveLength(2);
+
+        expect(wrapper.find(HeroImage).at(0).props().heroName).toBe(heroNames[0]);
+        expect(wrapper.find(DisableableHeroImage).at(0).props().heroName).toBe(heroNames[1]);
+        expect(wrapper.find(DisableableHeroImage).at(1).props().heroName).toBe(heroNames[2]);
     });
 });

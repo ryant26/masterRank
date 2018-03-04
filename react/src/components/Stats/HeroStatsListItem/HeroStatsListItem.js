@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import HeroImage from "../../HeroImage/HeroImage";
+import DisableableHeroImage from "../../Images/DisableableHeroImage/DisableableHeroImage";
 import PropTypes from 'prop-types';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
-
-const classNames = require('classnames');
 
 const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPending}) => {
     const statLabels = {
@@ -45,10 +43,6 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPen
             ? ( `${hero.stats.hoursPlayed} hours played` )
             : ( "Hero needs more games played" );
 
-    const classses = classNames({
-        disabled: isPending
-    });
-
     let heroWins            = hero.stats ? hero.stats.wins || 0 : "N/A";
     let heroLosses          = hero.stats ? hero.stats.losses || 0 : "N/A";
     let heroKdRatio         = hero.stats
@@ -72,9 +66,7 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPen
              <div className="flex align-center">
                  <div>
                      {leaderIcon}
-                     <div className={classses}>
-                        <HeroImage heroName={hero.heroName}/>
-                     </div>
+                     <DisableableHeroImage heroName={hero.heroName} disabled={isPending}/>
                  </div>
                  <div>
                      <h3>{displayName}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>

@@ -1,0 +1,8 @@
+.HeroImage {
+  background-color: lightgrey;
+  height: 60px;
+  width: 60px;
+  float: left;
+  border-radius: 3px;
+  @include selectable(none);
+}

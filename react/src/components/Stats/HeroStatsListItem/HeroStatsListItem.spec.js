@@ -6,6 +6,7 @@ import renderer from 'react-test-renderer';
 import HeroStatsListItem from './HeroStatsListItem';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
+import DisableableHeroImage from "../../Images/DisableableHeroImage/DisableableHeroImage";
 
 import { users } from '../../../resources/users';
 import { getHeroes } from '../../../resources/heroes';
@@ -116,8 +117,9 @@ describe('HeroStatsListItem', () => {
                 expect(wrapper.props().isPending).toBe(true);
             });
 
-            it('should have class disabled', () => {
-                expect(wrapper.dive().find('.disabled')).toHaveLength(1);
+            it('should mount DisableableHeroImage with disabled prop equal to true', () => {
+                expect(wrapper.dive().find(DisableableHeroImage)).toHaveLength(1);
+                expect(wrapper.dive().find(DisableableHeroImage).props().disabled).toBe(true);
             });
 
             it('should set sub title to "Pending invite"', () => {
@@ -126,9 +128,9 @@ describe('HeroStatsListItem', () => {
         });
 
         describe('when isPending is false', () => {
-            it('should not have class disabled', () => {
-                expect(wrapper.props().isPending).toBeFalsy();
-                expect(wrapper.dive().find('.disabled')).toHaveLength(0);
+            it('should mount DisableableHeroImage with disabled prop equal to false', () => {
+                expect(wrapper.dive().find(DisableableHeroImage)).toHaveLength(1);
+                expect(wrapper.dive().find(DisableableHeroImage).props().disabled).toBe(false);
             });
 
             it('should set sub title to "# hours played"', () => {
@@ -207,8 +209,9 @@ describe('HeroStatsListItem', () => {
                 expect(wrapper.props().isPending).toBe(true);
             });
 
-            it('should have class pending', () => {
-                expect(wrapper.dive().find('.disabled')).toHaveLength(1);
+            it('should mount DisableableHeroImage with disabled prop equal to true', () => {
+                expect(wrapper.dive().find(DisableableHeroImage)).toHaveLength(1);
+                expect(wrapper.dive().find(DisableableHeroImage).props().disabled).toBe(true);
             });
 
             it('should set sub title to "Pending invite"', () => {
@@ -217,9 +220,9 @@ describe('HeroStatsListItem', () => {
         });
 
         describe('when isPending is false', () => {
-            it('should not have class pending', () => {
-                expect(wrapper.props().isPending).toBeFalsy();
-                expect(wrapper.dive().find('.disabled')).toHaveLength(0);
+            it('should mount DisableableHeroImage with disabled prop equal to false', () => {
+                expect(wrapper.dive().find(DisableableHeroImage)).toHaveLength(1);
+                expect(wrapper.dive().find(DisableableHeroImage).props().disabled).toBe(false);
             });
 
             it('should set sub title to "Hero needs more games played"', () => {

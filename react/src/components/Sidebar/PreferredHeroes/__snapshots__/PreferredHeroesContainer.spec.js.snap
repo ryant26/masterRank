@@ -12,76 +12,56 @@ exports[`<PreferredHeroesContainer/> Should render in the correct format with pr
   <div
     className="flex justify-between"
   >
-    <div
-      className=""
-    >
-      <img
-        alt="genji icon"
-        className="HeroImage"
-        onClick={[Function]}
-        src={
-          Object {
-            "process": [Function],
-          }
+    <img
+      alt="genji icon"
+      className="HeroImage"
+      onClick={[Function]}
+      src={
+        Object {
+          "process": [Function],
         }
-      />
-    </div>
-    <div
-      className=""
-    >
-      <img
-        alt="tracer icon"
-        className="HeroImage"
-        onClick={[Function]}
-        src={
-          Object {
-            "process": [Function],
-          }
+      }
+    />
+    <img
+      alt="tracer icon"
+      className="HeroImage"
+      onClick={[Function]}
+      src={
+        Object {
+          "process": [Function],
         }
-      />
-    </div>
-    <div
-      className=""
-    >
-      <img
-        alt="winston icon"
-        className="HeroImage"
-        onClick={[Function]}
-        src={
-          Object {
-            "process": [Function],
-          }
+      }
+    />
+    <img
+      alt="winston icon"
+      className="HeroImage"
+      onClick={[Function]}
+      src={
+        Object {
+          "process": [Function],
         }
-      />
-    </div>
-    <div
-      className=""
-    >
-      <img
-        alt="mei icon"
-        className="HeroImage"
-        onClick={[Function]}
-        src={
-          Object {
-            "process": [Function],
-          }
+      }
+    />
+    <img
+      alt="mei icon"
+      className="HeroImage"
+      onClick={[Function]}
+      src={
+        Object {
+          "process": [Function],
         }
-      />
-    </div>
-    <div
-      className=""
-    >
-      <img
-        alt="phara icon"
-        className="HeroImage"
-        onClick={[Function]}
-        src={
-          Object {
-            "process": [Function],
-          }
+      }
+    />
+    <img
+      alt="phara icon"
+      className="HeroImage"
+      onClick={[Function]}
+      src={
+        Object {
+          "process": [Function],
         }
-      />
-    </div>
+      }
+    />
   </div>
 </div>
 `;

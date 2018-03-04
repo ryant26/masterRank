@@ -58,22 +58,18 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
               }
             />
             <div
-              className=""
+              className="DisableableHeroImage"
             >
-              <div
-                className=""
-              >
-                <img
-                  alt="genji icon"
-                  className="HeroImage"
-                  onClick={undefined}
-                  src={
-                    Object {
-                      "process": [Function],
-                    }
+              <img
+                alt="genji icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
                   }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
           <div>
@@ -303,22 +299,18 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <div
-              className=""
+              className="DisableableHeroImage"
             >
-              <div
-                className=""
-              >
-                <img
-                  alt="widowmaker icon"
-                  className="HeroImage"
-                  onClick={undefined}
-                  src={
-                    Object {
-                      "process": [Function],
-                    }
+              <img
+                alt="widowmaker icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
                   }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
           <div>
@@ -552,22 +544,18 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
         >
           <div>
             <div
-              className="disabled"
+              className="DisableableHeroImage disabled"
             >
-              <div
-                className=""
-              >
-                <img
-                  alt="tracer icon"
-                  className="HeroImage"
-                  onClick={undefined}
-                  src={
-                    Object {
-                      "process": [Function],
-                    }
+              <img
+                alt="tracer icon"
+                className="HeroImage"
+                onClick={undefined}
+                src={
+                  Object {
+                    "process": [Function],
                   }
-                />
-              </div>
+                }
+              />
             </div>
           </div>
           <div>
@@ -797,36 +785,28 @@ exports[`GroupStatsContainer Component should match the snapshot 1`] = `
     <div
       className="HeroImages flex"
     >
-      <div
-        className=""
-      >
-        <img
-          alt="genji icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
+      <img
+        alt="genji icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
           }
-        />
-      </div>
-      <div
-        className=""
-      >
-        <img
-          alt="widowmaker icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
-            }
+        }
+      />
+      <img
+        alt="widowmaker icon"
+        className="HeroImage"
+        onClick={undefined}
+        src={
+          Object {
+            "process": [Function],
           }
-        />
-      </div>
+        }
+      />
       <div
-        className="disabled"
+        className="DisableableHeroImage disabled"
       >
         <img
           alt="tracer icon"

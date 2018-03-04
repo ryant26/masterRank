@@ -3,11 +3,11 @@ import { shallow } from 'enzyme';
 
 import HeroImage from './HeroImage';
 
-import HEROES from '../../resources/heroes';
+import HEROES from '../../../resources/heroes';
 
-const shallowHeroImage = (heroName, onClick, disabled) => {
+const shallowHeroImage = (heroName, onClick) => {
     return shallow(
-        <HeroImage heroName={heroName} disabled={disabled} onClick={onClick}/>
+        <HeroImage heroName={heroName} onClick={onClick}/>
     );
 };
 
@@ -30,17 +30,6 @@ describe('HeroImage',()=> {
 
     it('should set alt prop to "heroName icon"', () => {
         expect(wrapper.find('.HeroImage').props().alt).toBe(`${heroName} icon`);
-    });
-
-    it('should not have class disabled when disabled is false', () => {
-        expect(wrapper.find('.disabled')).toHaveLength(0);
-    });
-
-    it('should have class disabled when disabled is true', () => {
-        wrapper.setProps({
-            disabled: true
-        });
-        expect(wrapper.find('.disabled')).toHaveLength(1);
     });
 
     it('should call onClick prop when img is clicked', () => {

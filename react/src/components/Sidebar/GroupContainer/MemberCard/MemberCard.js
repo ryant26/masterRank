@@ -4,7 +4,7 @@ import React, {
 import PropTypes from 'prop-types';
 
 import Model from '../../../../model/model';
-import HeroImage from '../../../HeroImage/HeroImage';
+import HeroImage from '../../../Images/HeroImage/HeroImage';
 import MemberCardInfo from './MemberCardInfo/MemberCardInfo';
 
 const classNames = require('classnames');
