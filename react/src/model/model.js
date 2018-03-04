@@ -48,7 +48,6 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
 
-    //TODO: TEST
     socket.on(clientEvents.newGroupCreated, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
@@ -62,8 +61,6 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
-
-//    store.dispatch(popBlockingLoadingAction()); //TODO look into encapsolating loading screen logic
 };
 
 const addHeroFilterToStore = function(filter) {
