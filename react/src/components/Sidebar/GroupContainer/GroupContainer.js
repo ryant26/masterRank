@@ -38,7 +38,7 @@ class GroupContainer extends Component {
 
         return (
             <div className="GroupContainer flex flex-column align-center">
-                 <div>
+                 <div className="member-list">
                     { leader &&
                         <MemberCard
                             isUser={leader.platformDisplayName === this.props.user.platformDisplayName}
