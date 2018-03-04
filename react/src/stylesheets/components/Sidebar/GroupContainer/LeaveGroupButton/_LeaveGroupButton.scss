@@ -1,0 +1,11 @@
+.LeaveGroupButton {
+    font-family: 'Industry-Demi', sans-serif;
+    font-size: 14px;
+    color: $gray4;
+    margin-top: 14px;
+
+    &:hover {
+      color: $gray3;
+      cursor: pointer;
+    }
+}

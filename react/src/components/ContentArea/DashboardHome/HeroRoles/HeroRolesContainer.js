@@ -41,10 +41,10 @@ export class HeroRolesContainer extends Component {
 
         return (
             <div className="HeroRolesContainer flex justify-between stretch">
-                <HeroList role="Offense" key="Offense" heroes={offensiveHeroes} user={this.props.user}/>
-                <HeroList role="Defense" key="Defense" heroes={defensiveHeroes} user={this.props.user}/>
-                <HeroList role="Tank" key="Tank" heroes={tankHeroes} user={this.props.user}/>
-                <HeroList role="Support" key="Support" heroes={supportHeroes} user={this.props.user}/>
+                <HeroList role="Offense" key="Offense" heroes={offensiveHeroes}/>
+                <HeroList role="Defense" key="Defense" heroes={defensiveHeroes}/>
+                <HeroList role="Tank" key="Tank" heroes={tankHeroes}/>
+                <HeroList role="Support" key="Support" heroes={supportHeroes}/>
             </div>
         );
     }
@@ -53,14 +53,12 @@ export class HeroRolesContainer extends Component {
 HeroRolesContainer.propTypes = {
     heroes: PropTypes.array.isRequired,
     filters: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => (
     {
         heroes: state.heroes,
         filters: state.heroFilters,
-        user: state.user
     }
 );
 export default connect(mapStateToProps)(HeroRolesContainer);

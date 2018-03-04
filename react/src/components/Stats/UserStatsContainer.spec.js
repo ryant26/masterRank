@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
@@ -8,6 +9,7 @@ import HeroImages from './HeroImages/HeroImages';
 import Model from '../../model/model';
 jest.mock('../Notifications/Notifications');
 
+import { users } from '../../resources/users';
 import { getHeroes } from '../../resources/heroes';
 
 
@@ -28,7 +30,8 @@ const shallowUserStatsContainer = (store, hero, invitable, toggleModal) => {
 describe('UserStatsContainer Component', () => {
     const heroes = getMixedHeroes();
     const store = mockStore({
-        heroes
+        heroes,
+        user: users[0]
     });
     const hero = {
         platformDisplayName: heroes[1].platformDisplayName,
@@ -80,7 +83,9 @@ describe('UserStatsContainer Component', () => {
 
     it('should match the snapshot', () => {
         let component = renderer.create(
-            <UserStatsContainer store={store} hero={hero} invitable={true} toggleModal={toggleModal}/>
+            <Provider store={store} >
+                <UserStatsContainer hero={hero} invitable={true} toggleModal={toggleModal}/>
+            </Provider>
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
