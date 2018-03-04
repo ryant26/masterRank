@@ -50,6 +50,9 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+
+    //TODO: TEST
+    socket.on(clientEvents.newGroupCreated, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _handleGroupPromotedLeader(groupInviteObject));
@@ -84,7 +87,6 @@ const updatePreferredHeroesInStore = function(heroes) {
     store.dispatch(updatePreferredHeroesAction(heroes));
 };
 
-
 const updatePreferredHeroes = function(heroes) {
     let currentPreferredHeroes = store.getState().preferredHeroes.heroes;
     let numberOfHeroesToCheck = Math.max(heroes.length, currentPreferredHeroes.length);
@@ -99,6 +101,7 @@ const updatePreferredHeroes = function(heroes) {
             }
 
             if (newPreferredHero) {
+                Notifications.preferredHeroNotification(newPreferredHero);
                 socket.addHero(newPreferredHero, i+1);
                 store.dispatch(pushBlockingLoadingAction());
             }
@@ -122,7 +125,12 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    Notifications.successfullyLeftGroupNotification(store.getState().group.leader.platformDisplayName);
+    //TODO: Dont show if its your empty group that is being left (test)
+    const user = store.getState().user;
+    const group = store.getState().group;
+    if( !(group.leader.platformDisplayName === user.platformDisplayName && group.members.length === 0) ) {
+        Notifications.successfullyLeftGroupNotification(group.leader.platformDisplayName);
+    }
     store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
@@ -174,7 +182,6 @@ const _handleInitialData = function(heroesFromServer) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        Notifications.preferredHeroNotification(hero.heroName);
         store.dispatch(popBlockingLoadingAction());
     }
 

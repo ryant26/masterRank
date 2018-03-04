@@ -29,6 +29,7 @@ const clearStoreState = (store) => {
 };
 
 describe('Model', () => {
+    const user = generateMockUser();
     let store;
     let socket;
 
@@ -36,6 +37,7 @@ describe('Model', () => {
         store = createStore();
         socket = getMockSocket();
         model.initialize(socket, store);
+        store.getState().user = user;
     });
 
     afterEach(() => {
@@ -49,12 +51,7 @@ describe('Model', () => {
     });
 
     describe('Socket Events', () => {
-        const user = generateMockUser();
         const hero = generateMockHero('mercy', user.platformDisplayName);
-
-        beforeEach(() => {
-            store.getState().user = user;
-        });
 
         describe('when socket disconnects', () => {
             const reason = "lost connection to socket server";
@@ -187,12 +184,6 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
                 expect(store.getState().preferredHeroes.heroes).toEqual([]);
                 expect(Notifications.errorNotification).toHaveBeenCalledWith(hero);
-            });
-
-            it('should send a preferred hero notifications when hero added belongs to the user', function() {
-                expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
-                socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(Notifications.preferredHeroNotification).toHaveBeenCalledWith(hero.heroName);
             });
 
             it('should pop loading screen when hero belongs to the user', function() {
@@ -385,58 +376,58 @@ describe('Model', () => {
 
     describe('Methods', () => {
         describe('updatePreferredHeroes', function() {
+            const preferredHeroNames = ['genji', 'tracer', 'widowmaker'];
+            const notPreferredHeroNames = ['winston', 'phara'];
+
+            beforeEach(() => {
+                store.getState().preferredHeroes.heroes = preferredHeroNames;
+            });
 
             it('should update the preferred heroes array to the argument', function() {
-                let hero = generateMockHero();
-                let hero2 = generateMockHero('hero2');
-                expect(store.getState().preferredHeroes.heroes).not.toEqual([hero.heroName, hero2.heroName]);
-                model.updatePreferredHeroes([hero.heroName, hero2.heroName]);
-                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName, hero2.heroName]);
+                expect(store.getState().preferredHeroes.heroes).not.toEqual(notPreferredHeroNames);
+                model.updatePreferredHeroes(notPreferredHeroNames);
+                expect(store.getState().preferredHeroes.heroes).toEqual(notPreferredHeroNames);
             });
 
             it('Should send the removeHero socket event for missing heroes', function(done) {
-                store.getState().preferredHeroes.heroes = ['genji', 'tracer', 'widowmaker'];
-                let hero = generateMockHero('winston');
                 socket.removeHero = function(heroName) {
-                    expect(heroName).toBe('genji');
+                    expect(heroName).toBe(preferredHeroNames[0]);
                     done();
                 };
 
-
-                model.updatePreferredHeroes([hero.heroName, 'tracer', 'widowmaker']);
+                model.updatePreferredHeroes([notPreferredHeroNames[0], 'tracer', 'widowmaker']);
             });
 
             it('should send the addHero socket event for new heroes', function(done) {
-                store.getState().preferredHeroes.heroes = ['genji', 'tracer', 'widowmaker'];
-                let hero = generateMockHero('winston');
-
                 socket.addHero = function(heroName, preference) {
-                    expect(heroName).toBe('winston');
+                    expect(heroName).toBe(notPreferredHeroNames[0]);
                     expect(preference).toBe(1);
                     done();
                 };
 
-                model.updatePreferredHeroes([hero.heroName, 'tracer', 'widowmaker']);
+                model.updatePreferredHeroes([notPreferredHeroNames[0], 'tracer', 'widowmaker']);
             });
 
             it('should remove extra heroes when the new array is shorter', (done) => {
-                store.getState().preferredHeroes.heroes = ['genji', 'tracer', 'widowmaker'];
-
                 socket.removeHero = function(heroName) {
-                    expect(heroName).toBe('widowmaker');
+                    expect(heroName).toBe(preferredHeroNames[2]);
                     done();
                 };
 
-                model.updatePreferredHeroes(['genji', 'tracer']);
+                model.updatePreferredHeroes(preferredHeroNames.slice(0,2));
             });
 
-            it('should push one loading screen for each new hero added', () => {
-                let newPreferredHeroes = ['genji', 'tracer'];
+            it('should push one loading screen for each new hero added to server', () => {
                 store.getState().loading.blockUI = 0;
+                model.updatePreferredHeroes(notPreferredHeroNames);
+                expect(store.getState().loading.blockUI).toBe(notPreferredHeroNames.length);
+            });
 
-                store.getState().preferredHeroes.heroes = [];
-                model.updatePreferredHeroes(newPreferredHeroes);
-                expect(store.getState().loading.blockUI).toBe(newPreferredHeroes.length);
+            it('should send a preferred hero notifications when hero added to server', function() {
+                model.updatePreferredHeroes(notPreferredHeroNames);
+                notPreferredHeroNames.forEach((heroName) => {
+                    expect(Notifications.preferredHeroNotification).toHaveBeenCalledWith(heroName);
+                });
             });
         });
 
@@ -505,6 +496,7 @@ describe('Model', () => {
 
             beforeEach(() => {
                 store.getState().group = group;
+                Notifications.successfullyLeftGroupNotification.mockClear();
             });
 
             it('should call websocket.leaveGroup', () => {
@@ -518,9 +510,17 @@ describe('Model', () => {
                 expect(store.getState().group).toEqual(initialGroup);
             });
 
-            it('should call successfullyLeftGroupNotification with user platform display name', () => {
+            it('should call successfullyLeftGroupNotification with user platform display name when in a group with at least 1 member', () => {
                 model.leaveGroup();
                 expect(Notifications.successfullyLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
+            });
+
+            it('should not call successfullyLeftGroupNotification when leader of group with no members', () => {
+                let emptyGroup = initialGroup;
+                emptyGroup.leader = user;
+                store.getState().group = emptyGroup;
+                model.leaveGroup();
+                expect(Notifications.successfullyLeftGroupNotification).not.toHaveBeenCalled();
             });
         });
 
