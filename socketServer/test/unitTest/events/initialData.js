@@ -55,7 +55,7 @@ describe(clientEvents.initialData, function() {
     it('should return heroes from all ranks when player is unranked themselves', function(done) {
         let heroName = 'Widowmaker';
         const addUser = function(name) {
-            return commonUtilities.getUserWithAddedHero(name, heroName, commonUtilities.regions.us)
+            return commonUtilities.getUserWithAddedHero(name, heroName, commonUtilities.regions.us);
         };
 
         Promise.all([
