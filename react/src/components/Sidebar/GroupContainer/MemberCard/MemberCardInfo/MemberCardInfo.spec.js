@@ -4,13 +4,13 @@ import { shallow } from 'enzyme';
 import MemberCardInfo from './MemberCardInfo';
 import groupInvites from '../../../../../resources/groupInvites';
 
-const getMemberCardInfoComponent = (member, pending, leader) => {
+const getMemberCardInfoComponent = (member, isPending, isLeader) => {
     return shallow (
         <MemberCardInfo
             platformDisplayName={member.platformDisplayName}
             heroName={member.heroName}
-            pending={pending}
-            leader={leader}
+            isPending={isPending}
+            isLeader={isLeader}
         />
     );
 };
@@ -35,16 +35,16 @@ describe('MemberCardInfo', () => {
         expect(MemberCardInfoComponent.find('.display-name').text()).toBe(`${member.platformDisplayName}`);
     });
 
-    it('should render member\'s displayName + " - Pending" when prop pending is true', () => {
-        let pending = true;
-        MemberCardInfoComponent = getMemberCardInfoComponent(member, pending);
+    it('should render member\'s displayName + " - Pending" when prop isPending is true', () => {
+        let isPending = true;
+        MemberCardInfoComponent = getMemberCardInfoComponent(member, isPending);
         expect(MemberCardInfoComponent.find('.display-name').text()).toBe(`${member.platformDisplayName} - Pending`);
     });
 
-    it('should render member\'s displayName + " - Leader" when prop leader is true and pending is fasly', () => {
-        let pending = false;
-        let leader = true;
-        MemberCardInfoComponent = getMemberCardInfoComponent(member, pending, leader);
+    it('should render member\'s displayName + " - Leader" when prop isLeader is true and pending is fasly', () => {
+        let isPending = false;
+        let isLeader = true;
+        MemberCardInfoComponent = getMemberCardInfoComponent(member, isPending, isLeader);
         expect(MemberCardInfoComponent.find('.display-name').text()).toBe(`${member.platformDisplayName} - Leader`);
     });
 });

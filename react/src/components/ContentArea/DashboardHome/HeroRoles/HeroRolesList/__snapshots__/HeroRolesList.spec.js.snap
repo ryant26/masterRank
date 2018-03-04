@@ -40,7 +40,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           }
         />
         <div
-          className="overlay invitable"
+          className="overlay"
         >
           <div
             className="plus-container flex align-center justify-center"
@@ -58,7 +58,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
         <div
           className="display-name"
         >
-          PwNShoPP#1662
+          You
         </div>
         <div
           className="sub-title"
@@ -104,7 +104,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           }
         />
         <div
-          className="overlay invitable"
+          className="overlay"
         >
           <div
             className="plus-container flex align-center justify-center"
@@ -122,7 +122,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
         <div
           className="display-name"
         >
-          PwNShoPP#1662
+          You
         </div>
         <div
           className="sub-title"
@@ -168,7 +168,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           }
         />
         <div
-          className="overlay invitable"
+          className="overlay"
         >
           <div
             className="plus-container flex align-center justify-center"
@@ -186,7 +186,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
         <div
           className="display-name"
         >
-          PwNShoPP#1662
+          You
         </div>
         <div
           className="sub-title"
@@ -232,7 +232,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           }
         />
         <div
-          className="overlay invitable"
+          className="overlay"
         >
           <div
             className="plus-container flex align-center justify-center"
@@ -250,7 +250,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
         <div
           className="display-name"
         >
-          PwNShoPP#1662
+          You
         </div>
         <div
           className="sub-title"
@@ -357,7 +357,7 @@ exports[`HeroRoles Component should match the snapshot single hero 1`] = `
           }
         />
         <div
-          className="overlay invitable"
+          className="overlay"
         >
           <div
             className="plus-container flex align-center justify-center"
@@ -375,7 +375,7 @@ exports[`HeroRoles Component should match the snapshot single hero 1`] = `
         <div
           className="display-name"
         >
-          PwNShoPP#1662
+          You
         </div>
         <div
           className="sub-title"

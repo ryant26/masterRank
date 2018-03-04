@@ -1,3 +1,8 @@
+@mixin square {
+  width: 50px;
+  height: 50px;
+}
+
 .HeroStatsListItem {
   border-bottom: 1px solid $gray6;
   padding: 15px 0;
@@ -9,8 +14,12 @@
   }
 
   .HeroImage {
-    width: 50px;
-    height: 50px;
+    @include square;
+    margin-right: 10px;
+  }
+
+  .disabled {
+    @include square;
     margin-right: 10px;
   }
 

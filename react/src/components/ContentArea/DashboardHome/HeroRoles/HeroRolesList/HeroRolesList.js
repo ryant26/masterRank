@@ -13,7 +13,7 @@ export default class HeroRoles extends Component {
         const role = this.props.role;
 
         let heroCardComponents = heroes.map((hero, i) => {
-            return <HeroCard hero={hero} key={i} user={this.props.user}/>;
+            return <HeroCard hero={hero} key={i}/>;
         });
 
         if (!heroCardComponents.length) {
@@ -44,5 +44,4 @@ export default class HeroRoles extends Component {
 HeroRoles.propTypes = {
     heroes: PropTypes.array.isRequired,
     role: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired
 };

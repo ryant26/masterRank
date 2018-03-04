@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import UserStatsContainer from '../../../../Stats/UserStatsContainer';
-import HeroImage from '../../../../HeroImage/HeroImage';
+import HeroImage from '../../../../Images/HeroImage/HeroImage';
 import Modal from '../../../../Modal/Modal';
 import Model from '../../../../../model/model';
 
@@ -38,13 +38,13 @@ class HeroCard extends Component {
             });
         };
 
-
-        let isUser = props.hero.platformDisplayName === props.user.platformDisplayName;
+        let leader = props.group.leader;
+        let isUserNotInGroup = !leader;
+        let isUser = props.user.platformDisplayName === props.hero.platformDisplayName;
         let isMemberOfGroup = containsHero(props.group.members, props.hero);
         let isPendingMemberOfGroup = containsHero(props.group.pending, props.hero);
-        let isUserNotInGroup = !props.group.leader;
 
-        return !(isUser || isMemberOfGroup || isPendingMemberOfGroup || isUserNotInGroup);
+        return props.invitable && !(isUserNotInGroup || isUser || isMemberOfGroup || isPendingMemberOfGroup );
     }
 
     invitePlayer() {
@@ -87,6 +87,10 @@ class HeroCard extends Component {
             );
         }
 
+        const displayName = (this.props.hero.platformDisplayName === this.props.user.platformDisplayName)
+            ? "You"
+            : this.props.hero.platformDisplayName;
+
     return (
         <div className="HeroCard flex align-center">
             <div className="invitePlayerButton">
@@ -98,7 +102,7 @@ class HeroCard extends Component {
                 </div>
             </div>
             <div className="content flex flex-column">
-                <div className="display-name">{this.props.hero.platformDisplayName}</div>
+                <div className="display-name">{displayName}</div>
                 {statLine}
             </div>
             <div className="button-primary" onClick={this.toggleModal}>
@@ -118,7 +122,19 @@ class HeroCard extends Component {
     }
 }
 
+HeroCard.defaultProps = {
+    invitable: true
+};
+
 HeroCard.propTypes = {
+    group: PropTypes.shape({
+        leader: PropTypes.object,
+        members: PropTypes.array.isRequired,
+        pending: PropTypes.array.isRequired,
+    }).isRequired,
+    user: PropTypes.shape({
+        platformDisplayName: PropTypes.string.isRequired
+    }).isRequired,
     hero: PropTypes.shape({
         heroName: PropTypes.string.isRequired,
         platformDisplayName: PropTypes.string.isRequired,
@@ -128,14 +144,14 @@ HeroCard.propTypes = {
             losses: PropTypes.number,
         })
     }).isRequired,
-    user: PropTypes.shape({
-        platformDisplayName: PropTypes.string.isRequired
-    })
+    invitable: PropTypes.bool
+
 };
 
 const mapStateToProps = (state) => {
     return {
       group: state.group,
+      user: state.user
     };
 };
 
