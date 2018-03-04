@@ -275,13 +275,6 @@ describe('Model', () => {
                     socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
                     expect(Notifications.leaderLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
                 });
-
-                it('should not sent leaderLeftGroupNotification when user is group leader', () => {
-                    store.getState().user.platformDisplayName = group.leader.platformDisplayName;
-                    expect(store.getState().user.platformDisplayName).toBe(group.leader.platformDisplayName);
-                    socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
-                    expect(Notifications.leaderLeftGroupNotification).not.toHaveBeenCalled();
-                });
             });
 
             describe('Player Invited', () => {

@@ -64,13 +64,92 @@ describe(serverEvents.groupLeave, function() {
         });
     });
 
-    it('should fire the playerHeroLeft event for the leader that left', function(done) {
+    it('should emit the playerHeroLeft event for new leader of the group', function(done) {
         commonUtilities.getFilledGroup(1).then((group) => {
-            let newLeader = group.memberHeros[0];
-            group.memberSockets[0].on(clientEvents.playerHeroLeft, (groupDetails) => {
+            let newLeaderSocket = group.memberSockets[0];
+            const newLeader = group.memberHeros[0];
+
+            newLeaderSocket.on(clientEvents.playerHeroLeft, (groupDetails) => {
                 if (groupDetails.leader.platformDisplayName === newLeader.platformDisplayName) {
                     done();
                 }
+            });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
+        });
+    });
+
+    it('should emit the groupPromotedLeader event for new leader of the group', function(done) {
+        commonUtilities.getFilledGroup(1).then((group) => {
+            let newLeaderSocket = group.memberSockets[0];
+            const newLeader = group.memberHeros[0];
+
+            newLeaderSocket.on(clientEvents.groupPromotedLeader, (groupDetails) => {
+                if (groupDetails.leader.platformDisplayName === newLeader.platformDisplayName) {
+                    done();
+                }
+            });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
+        });
+    });
+
+    it('should emit the playerHeroLeft event to all members of the group', function(done) {
+        commonUtilities.getFilledGroup(2).then((group) => {
+            let membersSocket = group.memberSockets;
+            let emittedCount = 0;
+
+            membersSocket.forEach((memberSocket) => {
+                memberSocket.on(clientEvents.playerHeroLeft, () => {
+                    if(++emittedCount === membersSocket.length){
+                        done();
+                    }
+                });
+            });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
+        });
+    });
+
+    it('should emit the groupPromotedLeader event to all members of the group', function(done) {
+        commonUtilities.getFilledGroup(2).then((group) => {
+            let membersSocket = group.memberSockets;
+            let emittedCount = 0;
+
+            membersSocket.forEach((memberSocket) => {
+                memberSocket.on(clientEvents.groupPromotedLeader, () => {
+                    if(++emittedCount === membersSocket.length){
+                        done();
+                    }
+                });
+            });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
+        });
+    });
+
+    it('should not emit playerHeroLeft to the leader who left the group,', (done) => {
+        commonUtilities.getFilledGroup(1).then((group) => {
+            group.leaderSocket.on(clientEvents.playerHeroLeft, () => {
+                assert.fail();
+            });
+
+            group.memberSockets[0].on(clientEvents.groupPromotedLeader, () => {
+                done();
+            });
+
+            group.leaderSocket.emit(serverEvents.groupLeave);
+        });
+    });
+
+    it('should not emit groupPromotedLeader to the leader who left the group,', (done) => {
+        commonUtilities.getFilledGroup(1).then((group) => {
+            group.leaderSocket.on(clientEvents.groupPromotedLeader, () => {
+                assert.fail();
+            });
+
+            group.memberSockets[0].on(clientEvents.groupPromotedLeader, () => {
+                done();
             });
 
             group.leaderSocket.emit(serverEvents.groupLeave);

@@ -1,43 +1,43 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
 
 import HeroImages from './HeroImages';
-import HeroImage from '../../HeroImage/HeroImage';
+import DisableableHeroImage from '../../Images/DisableableHeroImage/DisableableHeroImage';
+import HeroImage from '../../Images/HeroImage/HeroImage';
 
-const names = require('../../../../../shared/libs/allHeroNames').names;
+const shallowHeroImages = (heroNames, disabled) => {
+    return shallow(
+        <HeroImages heroNames={heroNames} disabled={disabled}/>
+    );
+};
 
-
-describe('HeroCard Component',()=> {
-    const heroNames = [names[0], names[1], names[2]];
+describe('HeroImages', ()=> {
+    const heroNames = ['tracer', 'genji', 'phara'];
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallow(
-            <HeroImages heroNames={heroNames}/>
-        );
+        wrapper = shallowHeroImages(heroNames);
     });
 
-    it('should render without exploding', () => {
-        expect(wrapper.find(HeroImages)).toBeTruthy();
+    it('should render', () => {
+        expect(wrapper).toHaveLength(1);
     });
 
-    it('should have a heroImage for each heroName', () => {
+    it('should render a HeroImage in order for each hero name passed in props', () => {
         expect(wrapper.find(HeroImage)).toHaveLength(heroNames.length);
-    });
-
-    it("should render heroImages in order", () => {
         heroNames.forEach((heroName, i) => {
             expect(wrapper.find(HeroImage).at(i).props().heroName).toBe(heroName);
         });
     });
 
-    it('should match the snapshot', () => {
-        let component = renderer.create(
-            <HeroImages heroNames={heroNames}/>
-        );
+    it('should render a DisableableHeroImage in order for each hero name passed in props that is disabled', () => {
+        const disabled = [false, true, true];
+        wrapper = shallowHeroImages(heroNames, disabled);
+        expect(wrapper.find(HeroImage)).toHaveLength(1);
+        expect(wrapper.find(DisableableHeroImage)).toHaveLength(2);
 
-        let tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        expect(wrapper.find(HeroImage).at(0).props().heroName).toBe(heroNames[0]);
+        expect(wrapper.find(DisableableHeroImage).at(0).props().heroName).toBe(heroNames[1]);
+        expect(wrapper.find(DisableableHeroImage).at(1).props().heroName).toBe(heroNames[2]);
     });
 });
