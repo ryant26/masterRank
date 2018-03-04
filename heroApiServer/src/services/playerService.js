@@ -3,6 +3,10 @@ const Player = mongoose.model('Player');
 const logger = require('./logger').sysLogger;
 const ow = require('../apiClients/overwatch');
 const owValidator = require('../validators/owApiValidator');
+const memoize = require('memoizee');
+const config = require('config');
+const cachingEnabled = config.get('cachingEnabled');
+
 
 let searchForPlayer = function(token) {
     let queryCriteria = {
@@ -100,7 +104,11 @@ let _getPlayerConfigFromOw = function (token) {
 };
 
 module.exports = {
-    findAndUpdatePlayer,
-    findOrCreatePlayer,
+    findAndUpdatePlayer: cachingEnabled ?
+        memoize(findAndUpdatePlayer, {promise: true, maxAge: 60000, normalizer: JSON.stringify}) :
+        findAndUpdatePlayer,
+    findOrCreatePlayer: cachingEnabled ?
+        memoize(findOrCreatePlayer, {promise: true, maxAge: 60000, normalizer: JSON.stringify}) :
+        findOrCreatePlayer,
     searchForPlayer
 };

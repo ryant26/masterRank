@@ -69,6 +69,23 @@ describe('HeroCard Component',()=> {
         expect(HeroCardComponent).toHaveLength(1);
     });
 
+    it('should show skill rating when greater than 0', () => {
+        hero.skillRating = 2500;
+        HeroCardComponent = getHeroCardComponent(user, hero, group);
+        expect(HeroCardComponent.find('.sub-title').first().find('span').first().text()).toBe('2500 SR');
+    });
+
+    it('should show "Unranked" when skill rating equal to 0', () => {
+        hero.skillRating = 0;
+        HeroCardComponent = getHeroCardComponent(user, hero, group);
+        expect(HeroCardComponent.find('.sub-title').first().find('span').first().text()).toBe('Unranked');
+    });
+
+    it('should not set invitable class when hero belongs to user', () => {
+        expect(user.platformDisplayName).toEqual(hero.platformDisplayName);
+        expect(HeroCardComponent.find('.invitable')).toHaveLength(0);
+    });
+
     describe('when hero belongs to user', () => {
 
         beforeEach(() => {

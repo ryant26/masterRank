@@ -4,6 +4,7 @@
     "hostname": "localhost",
     "port": 3000
   },
+  "cachingEnabled" : true,
   "db": "mongodb://localhost/heroapiserver",
   "loggingLevel": "combined",
   "reloadThreshold": 6,

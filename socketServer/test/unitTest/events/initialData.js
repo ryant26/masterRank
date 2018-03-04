@@ -52,6 +52,28 @@ describe(clientEvents.initialData, function() {
         }, 50);
     });
 
+    it('should return heroes from all ranks when player is unranked themselves', function(done) {
+        let heroName = 'Widowmaker';
+        const addUser = function(name) {
+            return commonUtilities.getUserWithAddedHero(name, heroName, commonUtilities.regions.us);
+        };
+
+        Promise.all([
+            addUser('bronzePlayer#1234'),
+            addUser('silverPlayer#1234'),
+            addUser('goldPlayer#1234'),
+            addUser('platinumPlayer#1234'),
+            addUser('diamondPlayer#1234'),
+            addUser('masterPlayer#1234'),
+            addUser('grandmasterPlayer#1234'),
+        ]).then(() => {
+            return commonUtilities.getAuthenticatedSocket('unrankedPlayer#1234', commonUtilities.regions.us);
+        }).then((unrankedPlayer) => {
+            assert.lengthOf(unrankedPlayer.initialData, 7);
+            done();
+        });
+    });
+
     it('should return heros from inside +/- 1 rank', function(done) {
         let heroName = 'Widowmaker';
         commonUtilities.getUserWithAddedHero('goldPlayer#1234', heroName, commonUtilities.regions.us).then(() => {

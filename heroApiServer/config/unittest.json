@@ -1,3 +1,4 @@
 {
-  "db": "mongodb://localhost/heroapiserver-unittest"
+  "db": "mongodb://localhost/heroapiserver-unittest",
+  "cachingEnabled": false
 }
