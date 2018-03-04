@@ -64,8 +64,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           className="sub-title"
         >
           <span>
-            2400
-             SR
+            2400 SR
           </span>
           <span>
              | 
@@ -128,8 +127,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           className="sub-title"
         >
           <span>
-            2400
-             SR
+            2400 SR
           </span>
           <span>
              | 
@@ -192,8 +190,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           className="sub-title"
         >
           <span>
-            2400
-             SR
+            2400 SR
           </span>
           <span>
              | 
@@ -256,8 +253,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
           className="sub-title"
         >
           <span>
-            2400
-             SR
+            2400 SR
           </span>
           <span>
              | 
@@ -381,8 +377,7 @@ exports[`HeroRoles Component should match the snapshot single hero 1`] = `
           className="sub-title"
         >
           <span>
-            2400
-             SR
+            2400 SR
           </span>
           <span>
              | 
