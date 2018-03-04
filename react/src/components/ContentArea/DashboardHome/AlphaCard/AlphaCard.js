@@ -3,7 +3,7 @@ import React from 'react';
 import { feedback } from '../../../Routes/links';
 
 const AlphaCard = () => {
-    const feedbackLink = ( <a className="feedback-link" href={feedback}><b>feedback</b></a> );
+    const feedbackLink = ( <span><a className="feedback-link" href={feedback}><b>feedback</b></a></span> );
 
     return (
         <div className="AlphaCard flex justify-center align-center">
