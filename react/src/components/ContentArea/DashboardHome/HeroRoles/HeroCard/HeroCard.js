@@ -67,22 +67,24 @@ class HeroCard extends Component {
         });
 
         let statLine;
+        const skillRating = this.props.hero.skillRating ? `${this.props.hero.skillRating} SR` : 'Unranked';
 
         if(this.props.hero.stats) {
             let wins = this.props.hero.stats.wins || 0;
             let losses = this.props.hero.stats.losses || 0;
             let winPercentage =  (wins + losses) ? parseFloat(wins/(wins+losses) * 100.0).toFixed(1) : 0;
 
+
             statLine = (
                 <div className="sub-title">
-                    <span>{this.props.hero.skillRating} SR</span>
+                    <span>{skillRating}</span>
                     <span> | </span><span>{winPercentage}% WR</span>
                 </div>
             );
         } else {
             statLine = (
                 <div className="sub-title">
-                    <span>{this.props.hero.skillRating} SR</span>
+                    <span>{skillRating}</span>
                 </div>
             );
         }
