@@ -10,6 +10,7 @@ import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroe
 import { addHeroesToServer } from '../heroes/addHeroesToServer';
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
+import { autoPreferredNotification } from '../../components/Notifications/Notifications';
 
 export const reconcileClientWith = (heroesFromServer, socket) => {
 
@@ -30,7 +31,7 @@ export const reconcileClientWith = (heroesFromServer, socket) => {
 
         let heroes = getState().preferredHeroes.heroes;
         if( heroes.length <= 0) {
-            //TODO add auto prefer notification
+            autoPreferredNotification();
             dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
         } else {
             dispatch(addHeroesToServer(heroes, socket));

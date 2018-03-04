@@ -16,6 +16,8 @@ import { addHeroesToServer } from '../heroes/addHeroesToServer';
 jest.mock('../heroes/addHeroesToServer');
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
+import { autoPreferredNotification } from '../../components/Notifications/Notifications';
+jest.mock('../../components/Notifications/Notifications');
 
 import { reconcileClientWith } from './reconcileClientWith';
 
@@ -26,6 +28,7 @@ const clearAllMockedImports = () => {
     popBlockingLoadingAction.mockClear();
     preferMostPlayedHeroes.mockClear();
     addHeroesToServer.mockClear();
+    autoPreferredNotification.mockClear();
 };
 
 describe('reconcileClientWith', () => {
@@ -109,6 +112,11 @@ describe('reconcileClientWith', () => {
             reconcileClientWith(heroesFromServer, socket)(dispatch, getState);
         });
 
+        it('should send user a notification that we automatically preferred there top 5 most played heroes', () => {
+            expect(getState().preferredHeroes.heroes).toEqual([]);
+            expect(autoPreferredNotification).toHaveBeenCalled();
+        });
+
         it('should call preferMostPlayedHeroes', () => {
             expect(getState().preferredHeroes.heroes).toEqual([]);
             expect(preferMostPlayedHeroes).toHaveBeenCalledWith(user, localStorage.getItem('accessToken'), socket);
@@ -118,6 +126,8 @@ describe('reconcileClientWith', () => {
             expect(getState().preferredHeroes.heroes).toEqual([]);
             expect(addHeroesToServer).not.toHaveBeenCalled();
         });
+
+
     });
 
     describe('when user has no preferred heroes', () => {
