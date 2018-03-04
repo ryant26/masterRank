@@ -197,8 +197,7 @@ exports[`InvitesGridItem should match the snapshot 1`] = `
           className="sub-title"
         >
           <span>
-            1800
-             SR
+            1800 SR
           </span>
           <span>
              | 
