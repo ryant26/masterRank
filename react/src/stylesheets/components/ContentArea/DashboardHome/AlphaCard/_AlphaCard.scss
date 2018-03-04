@@ -5,4 +5,13 @@
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   padding: 16px;
+
+  .feedback-link {
+    margin: 3px;
+    text-decoration: underline;
+
+    &:visited {
+      color: white;
+    }
+  }
 }
