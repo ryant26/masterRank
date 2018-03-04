@@ -7,17 +7,15 @@ const names = require('../../../shared/libs/allHeroNames').names;
 import {
     getMockSocket,
     generateMockUser,
-    generateMockHero,
-    mockLocalStorage
+    generateMockHero
 } from '../utilities/test/mockingUtilities';
 
 import { initialGroup, groupInvites } from '../resources/groupInvites';
-import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
-import { preferMostPlayedHeroes } from '../actionCreators/preferredHeroes/preferMostPlayedHeroes';
-jest.mock('../actionCreators/preferredHeroes/preferMostPlayedHeroes');
+import { reconcileClientWith } from '../actionCreators/initialData/reconcileClientWith';
+jest.mock('../actionCreators/initialData/reconcileClientWith');
 
 const clearStoreState = (store) => {
      store.getState().heroes = [];
@@ -68,95 +66,14 @@ describe('Model', () => {
             });
         });
 
-        describe('InitialData', () => {
-
-            const userHeroesFromServer = [
-                 generateMockHero('tracer', user.platformDisplayName, 1),
-                 generateMockHero('mercy', user.platformDisplayName, 2)
+        it('InitialData should call reconcileClientWith heroes from server and socket', () => {
+            store.dispatch = jest.fn();
+            const heroesFromServer = [
+                generateMockHero('tracer'),
+                generateMockHero('winston')
             ];
-            const nonUserHeroesFromServer = [
-                generateMockHero('winston', 'cutie#1320', 1),
-                generateMockHero('winston', 'nd44#5378', 1),
-                generateMockHero('genji', 'nd44#5378', 2),
-                generateMockHero('phara', 'nd44#5378', 3),
-                generateMockHero('winston', 'PwNShoPP#8954', 1),
-            ];
-            const heroesFromServer = [...userHeroesFromServer, ...nonUserHeroesFromServer];
-
-            describe('when user has preferred heroes', () => {
-                const preferredHeroes = [
-                    'tracer',
-                    'phara'
-                ];
-
-                beforeEach(() => {
-                    store.getState().preferredHeroes.heroes = preferredHeroes;
-                });
-
-                it('should clear all existing heroes from the meta list, store.heroes', () => {
-                    store.getState().heroes = heroesFromServer;
-                    socket.socketClient.emit(clientEvents.initialData, []);
-                    expect(store.getState().heroes).toEqual(NotRealHeroes);
-                });
-
-                it("heroes on the server that do not belong to the user should be added to store heroes", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(store.getState().heroes).toEqual([...NotRealHeroes, ...nonUserHeroesFromServer]);
-                });
-
-                it("heroes on the server that belong to the user should be removed from the server", () => {
-                    userHeroesFromServer.forEach((heroFromServer) => {
-                        expect(heroFromServer.platformDisplayName).toBe(user.platformDisplayName);
-                    });
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    userHeroesFromServer.forEach((heroFromServer) => {
-                        expect(socket.removeHero).toHaveBeenCalledWith(heroFromServer.heroName);
-                    });
-                });
-
-                it("heroes on the server that do not belong to the user should not be removed from the server", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    nonUserHeroesFromServer.forEach((heroFromServer) => {
-                        expect(socket.removeHero).not.toHaveBeenCalledWith(heroFromServer.heroName);
-                    });
-                });
-
-                it("user's preferred heroes should be added to the server", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    preferredHeroes.forEach((preferredHero, i) => {
-                        expect(socket.addHero).toHaveBeenCalledWith(preferredHero, (i+1));
-                    });
-                });
-
-                it('should clear the loading state', () => {
-                    store.getState().loading.blockUI = 1;
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(store.getState().loading.blockUI).toBe(0);
-                });
-
-                it("heroes that do not belong to the user should not be added to preferred heroes", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(store.getState().preferredHeroes.heroes).toEqual(preferredHeroes);
-                });
-            });
-
-            describe('when no heroes are preferred', () => {
-
-                beforeEach(() => {
-                    mockLocalStorage();
-                    store.dispatch = jest.fn();
-                    store.getState().preferredHeroes.heroes = [];
-                });
-
-                it("should prefer user's most played heroes", () => {
-                    socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-                    expect(preferMostPlayedHeroes).toHaveBeenCalledWith(
-                        user,
-                        localStorage.getItem('accessToken'),
-                        socket
-                    );
-                });
-            });
+            socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
+            expect(reconcileClientWith).toHaveBeenCalledWith(heroesFromServer, socket);
         });
 
         describe('Hero Added', () => {

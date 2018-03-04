@@ -1,7 +1,6 @@
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
-    clearAllHeroes as clearAllHeroesAction
 } from "../actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
@@ -26,12 +25,10 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
-import { preferMostPlayedHeroes } from '../actionCreators/preferredHeroes/preferMostPlayedHeroes';
-import { addHeroesToServer } from '../actionCreators/heroes/addHeroesToServer';
+import { reconcileClientWith } from '../actionCreators/initialData/reconcileClientWith';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
-import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 let socket;
 let store;
@@ -42,7 +39,7 @@ const initialize = function(passedSocket, passedStore) {
 
     store.dispatch(pushBlockingLoadingAction());
 
-    socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
+    socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(reconcileClientWith(heroesFromServer, socket)));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
@@ -65,6 +62,8 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
+
+//    store.dispatch(popBlockingLoadingAction()); //TODO look into encapsolating loading screen logic
 };
 
 const addHeroFilterToStore = function(filter) {
@@ -125,7 +124,6 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    //TODO: Dont show if its your empty group that is being left (test)
     const user = store.getState().user;
     const group = store.getState().group;
     if( !(group.leader.platformDisplayName === user.platformDisplayName && group.members.length === 0) ) {
@@ -148,35 +146,6 @@ const acceptGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     _removeGroupInviteFromStore(groupInviteObject);
     socket.groupInviteDecline(groupInviteObject.groupId);
-};
-
-const loadMetaListFillerHeroes = () => {
-    NotRealHeroes.forEach((hero) => {
-        _addHeroToStore(hero);
-    });
-};
-
-const _handleInitialData = function(heroesFromServer) {
-    store.dispatch(clearAllHeroesAction());
-    loadMetaListFillerHeroes();
-
-    let user = store.getState().user;
-    heroesFromServer.forEach((hero) => {
-        if(hero.platformDisplayName !== user.platformDisplayName){
-            store.dispatch(addHeroAction(hero));
-        } else  {
-            socket.removeHero(hero.heroName);
-        }
-    });
-
-    let heroes = store.getState().preferredHeroes.heroes;
-    if( heroes.length <= 0) {
-        store.dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
-    } else {
-        store.dispatch(addHeroesToServer(heroes, socket));
-    }
-
-    store.dispatch(popBlockingLoadingAction());
 };
 
 const _addHeroToStore = function(hero) {
