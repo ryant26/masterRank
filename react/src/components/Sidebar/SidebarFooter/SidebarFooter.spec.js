@@ -1,16 +1,32 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import SidebarFooter from './SidebarFooter';
+import FeedbackButton from './FeedbackButton/FeedbackButton';
+import LogoutButton from './LogoutButton/LogoutButton';
+
+const shallowSidebarFooter = () => {
+    return shallow(
+        <SidebarFooter/>
+    );
+};
 
 describe('SelectorButton Component',()=> {
+    let wrapper;
+
+    beforeEach(() => {
+        wrapper = shallowSidebarFooter();
+    });
+
     it('should render without exploding', () => {
-        const wrapper = mount(
-            <SidebarFooter/>
-        );
+        expect(wrapper).toHaveLength(1);
+    });
 
-        const SelectorButtonComponent = wrapper.find(SidebarFooter);
+    it('should mount FeedbackButton', () => {
+        expect(wrapper.find(FeedbackButton)).toHaveLength(1);
+    });
 
-        expect(SelectorButtonComponent.length).toBeTruthy();
+    it('should mount LogoutButton', () => {
+        expect(wrapper.find(LogoutButton)).toHaveLength(1);
     });
 });

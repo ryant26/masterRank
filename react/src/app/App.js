@@ -18,12 +18,14 @@ import { ToastContainer} from 'react-toastify';
 
 import { home } from '../components/Routes/links';
 import hotjar from '../utilities/hotjar';
+import Raven from 'raven-js';
 
 
 class App extends Component {
     constructor(props) {
         super(props);
         hotjar();
+        Raven.config('https://c816514ee6b14f959907ee6da946e782@sentry.io/294177').install();
     }
 
     render() {
