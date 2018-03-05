@@ -82,10 +82,10 @@ module.exports = class CommonUtilities {
                     out.leaderSocket.emit(serverEvents.createGroup, out.leaderHero);
                 });
 
-                out.leaderSocket.on(clientEvents.groupPromotedLeader, (groupDetails) => {
+                out.leaderSocket.on(clientEvents.newGroupCreated, (groupDetails) => {
                     out.leaderSocket.removeAllListeners(clientEvents.initialData);
                     out.leaderSocket.removeAllListeners(clientEvents.heroAdded);
-                    out.leaderSocket.removeAllListeners(clientEvents.groupPromotedLeader);
+                    out.leaderSocket.removeAllListeners(clientEvents.newGroupCreated);
                     out.groupDetails = groupDetails;
                     resolve(out);
                 });
@@ -112,7 +112,7 @@ module.exports = class CommonUtilities {
                 out.leaderSocket.emit(serverEvents.groupInviteSend, hero);
             });
 
-            out.leaderSocket.on(clientEvents.groupPromotedLeader, () => {
+            out.leaderSocket.on(clientEvents.newGroupCreated, () => {
                 for (let i = 0; i < numberOfGroupMembers; i++) {
                     let member = {
                         platformDisplayName: randomString.generate(),
@@ -142,7 +142,7 @@ module.exports = class CommonUtilities {
                     if(groupDetails.members.length === numberOfGroupMembers){
                         out.leaderSocket.removeAllListeners(clientEvents.groupInviteAccepted);
                         out.leaderSocket.removeAllListeners(clientEvents.heroAdded);
-                        out.leaderSocket.removeAllListeners(clientEvents.groupPromotedLeader);
+                        out.leaderSocket.removeAllListeners(clientEvents.newGroupCreated);
                         resolve(out);
                     }
                 });

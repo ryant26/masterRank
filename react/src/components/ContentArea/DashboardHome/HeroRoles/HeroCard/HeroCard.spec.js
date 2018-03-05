@@ -17,6 +17,7 @@ const mockStore = configureStore();
 const getHeroCardComponent = (user, hero, group) => {
     let store = mockStore({
         group: group,
+        user: user
     });
 
     return shallow(
@@ -68,16 +69,58 @@ describe('HeroCard Component',()=> {
         expect(HeroCardComponent).toHaveLength(1);
     });
 
+    it('should show skill rating when greater than 0', () => {
+        hero.skillRating = 2500;
+        HeroCardComponent = getHeroCardComponent(user, hero, group);
+        expect(HeroCardComponent.find('.sub-title').first().find('span').first().text()).toBe('2500 SR');
+    });
+
+    it('should show "Unranked" when skill rating equal to 0', () => {
+        hero.skillRating = 0;
+        HeroCardComponent = getHeroCardComponent(user, hero, group);
+        expect(HeroCardComponent.find('.sub-title').first().find('span').first().text()).toBe('Unranked');
+    });
+
     it('should not set invitable class when hero belongs to user', () => {
         expect(user.platformDisplayName).toEqual(hero.platformDisplayName);
         expect(HeroCardComponent.find('.invitable')).toHaveLength(0);
     });
 
-    it('should set invitable class to true when hero does not belong to user', () => {
-        user.platformDisplayName = "Luckybomb#1470";
-        HeroCardComponent = getHeroCardComponent(user, hero, group);
-        expect(user.platformDisplayName).not.toEqual(hero.platformDisplayName);
-        expect(HeroCardComponent.find('.invitable')).toHaveLength(1);
+    describe('when hero belongs to user', () => {
+
+        beforeEach(() => {
+            expect(user.platformDisplayName).toEqual(hero.platformDisplayName);
+        });
+
+        it('should not set invitable class', () => {
+            expect(HeroCardComponent.find('.invitable')).toHaveLength(0);
+        });
+
+        it('should set displayName to "You"', () => {
+            expect(HeroCardComponent.find('.display-name').text()).toBe('You');
+        });
+    });
+
+    describe('when hero does not belong to user', () => {
+
+        beforeEach(() => {
+            user.platformDisplayName = "not" + hero.platformDisplayName;
+            HeroCardComponent = getHeroCardComponent(user, hero, group);
+            expect(user.platformDisplayName).not.toEqual(hero.platformDisplayName);
+        });
+
+        it('should set invitable class to true', () => {
+            expect(HeroCardComponent.find('.invitable')).toHaveLength(1);
+        });
+
+        it('should set displayName to hero.platformDisplayName', () => {
+            expect(HeroCardComponent.find('.display-name').text()).toBe(hero.platformDisplayName);
+        });
+    });
+
+    it('should set displayName to "You" when hero belongs to user', () => {
+        expect(user.platformDisplayName).toEqual(hero.platformDisplayName);
+        expect(HeroCardComponent.find('.display-name').text()).toBe('You');
     });
 
     it('should not set invitable class when hero is already a member in user\'s group', () => {

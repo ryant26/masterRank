@@ -73,7 +73,7 @@ export const groupInvites = [
         pending: [
             {
                 platformDisplayName: "cutie#1320",
-                skillrating: 1600,
+                skillRating: 1600,
                 heroName: "winston",
                 stats: {}
             }

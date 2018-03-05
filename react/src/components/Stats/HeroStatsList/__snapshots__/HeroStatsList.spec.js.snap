@@ -11,16 +11,20 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
       className="flex align-center"
     >
       <div>
-        <img
-          alt="soldier76 icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className="DisableableHeroImage"
+        >
+          <img
+            alt="soldier76 icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
       <div>
         <h3>
@@ -30,8 +34,7 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
         <div
           className="sub-title"
         >
-          3
-           hours played
+          3 hours played
         </div>
       </div>
       <div
@@ -284,16 +287,20 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
       className="flex align-center"
     >
       <div>
-        <img
-          alt="hanzo icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className="DisableableHeroImage"
+        >
+          <img
+            alt="hanzo icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
       <div>
         <h3>
@@ -303,8 +310,7 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
         <div
           className="sub-title"
         >
-          3
-           hours played
+          3 hours played
         </div>
       </div>
       <div
@@ -557,16 +563,20 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
       className="flex align-center"
     >
       <div>
-        <img
-          alt="dva icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className="DisableableHeroImage"
+        >
+          <img
+            alt="dva icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
       <div>
         <h3>
@@ -576,8 +586,7 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
         <div
           className="sub-title"
         >
-          3
-           hours played
+          3 hours played
         </div>
       </div>
       <div
@@ -830,16 +839,20 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
       className="flex align-center"
     >
       <div>
-        <img
-          alt="zenyatta icon"
-          className="HeroImage"
-          onClick={undefined}
-          src={
-            Object {
-              "process": [Function],
+        <div
+          className="DisableableHeroImage"
+        >
+          <img
+            alt="zenyatta icon"
+            className="HeroImage"
+            onClick={undefined}
+            src={
+              Object {
+                "process": [Function],
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
       <div>
         <h3>
@@ -849,8 +862,7 @@ exports[`HeroStatsList Component should match the snapshot 1`] = `
         <div
           className="sub-title"
         >
-          3
-           hours played
+          3 hours played
         </div>
       </div>
       <div

@@ -1,7 +1,6 @@
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
-    clearAllHeroes as clearAllHeroesAction
 } from "../actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
@@ -26,12 +25,10 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
-import { preferMostPlayedHeroes } from '../actionCreators/preferredHeroes/preferMostPlayedHeroes';
-import { addHeroesToServer } from '../actionCreators/heroes/addHeroesToServer';
+import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
-import NotRealHeroes from '../resources/metaListFillerHeroes';
 
 let socket;
 let store;
@@ -42,7 +39,7 @@ const initialize = function(passedSocket, passedStore) {
 
     store.dispatch(pushBlockingLoadingAction());
 
-    socket.on(clientEvents.initialData, (heroesFromServer) => _handleInitialData(heroesFromServer));
+    socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(syncClientAndServerHeroes(heroesFromServer, socket)));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
@@ -50,6 +47,8 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.playerInvited, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteCanceled, (groupInviteObject) => _removeGroupInviteFromStore(groupInviteObject));
     socket.on(clientEvents.playerInviteCanceled, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
+
+    socket.on(clientEvents.newGroupCreated, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteDeclined, (groupInviteObject) => _updateGroupInStore(groupInviteObject));
     socket.on(clientEvents.groupInviteAccepted, (groupInviteObject) => _handleGroupInviteAccepted(groupInviteObject));
     socket.on(clientEvents.groupPromotedLeader, (groupInviteObject) => _handleGroupPromotedLeader(groupInviteObject));
@@ -84,7 +83,6 @@ const updatePreferredHeroesInStore = function(heroes) {
     store.dispatch(updatePreferredHeroesAction(heroes));
 };
 
-
 const updatePreferredHeroes = function(heroes) {
     let currentPreferredHeroes = store.getState().preferredHeroes.heroes;
     let numberOfHeroesToCheck = Math.max(heroes.length, currentPreferredHeroes.length);
@@ -99,6 +97,7 @@ const updatePreferredHeroes = function(heroes) {
             }
 
             if (newPreferredHero) {
+                Notifications.preferredHeroNotification(newPreferredHero);
                 socket.addHero(newPreferredHero, i+1);
                 store.dispatch(pushBlockingLoadingAction());
             }
@@ -122,7 +121,11 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    Notifications.successfullyLeftGroupNotification(store.getState().group.leader.platformDisplayName);
+    const user = store.getState().user;
+    const group = store.getState().group;
+    if( !(group.leader.platformDisplayName === user.platformDisplayName && group.members.length === 0) ) {
+        Notifications.successfullyLeftGroupNotification(group.leader.platformDisplayName);
+    }
     store.dispatch(leaveGroupAction());
     socket.groupLeave();
 };
@@ -142,39 +145,9 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
     socket.groupInviteDecline(groupInviteObject.groupId);
 };
 
-const loadMetaListFillerHeroes = () => {
-    NotRealHeroes.forEach((hero) => {
-        _addHeroToStore(hero);
-    });
-};
-
-const _handleInitialData = function(heroesFromServer) {
-    store.dispatch(clearAllHeroesAction());
-    loadMetaListFillerHeroes();
-
-    let user = store.getState().user;
-    heroesFromServer.forEach((hero) => {
-        if(hero.platformDisplayName !== user.platformDisplayName){
-            store.dispatch(addHeroAction(hero));
-        } else  {
-            socket.removeHero(hero.heroName);
-        }
-    });
-
-    let heroes = store.getState().preferredHeroes.heroes;
-    if( heroes.length <= 0) {
-        store.dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
-    } else {
-        store.dispatch(addHeroesToServer(heroes, socket));
-    }
-
-    store.dispatch(popBlockingLoadingAction());
-};
-
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        Notifications.preferredHeroNotification(hero.heroName);
         store.dispatch(popBlockingLoadingAction());
     }
 
@@ -235,9 +208,7 @@ const _handleGroupInviteAccepted = (newGroup) => {
 
 const _handleGroupPromotedLeader = (newGroup) => {
     let newGroupLeader = newGroup.leader.platformDisplayName;
-    if(store.getState().user.platformDisplayName !== newGroupLeader) {
-        Notifications.leaderLeftGroupNotification(newGroupLeader);
-    }
+    Notifications.leaderLeftGroupNotification(newGroupLeader);
     store.dispatch(updateGroupAction(newGroup));
 };
 

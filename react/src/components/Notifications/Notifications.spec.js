@@ -16,7 +16,8 @@ import {
     successfullyLeftGroupNotification,
     preferredHeroNotification,
     errorNotification,
-    disconnectedNotification
+    disconnectedNotification,
+    autoPreferredNotification,
 } from './Notifications';
 
 
@@ -201,6 +202,32 @@ describe('Notifications', () => {
                 />,
                 {
                     autoClose: 30000,
+                    className: "NotificationContainer",
+                    progressClassName:`${type}-progress`
+                }
+            );
+        });
+    });
+
+    describe('autoPreferredNotification to leader with correct props', () => {
+        it('should call toast ', () => {
+            const icon="fa fa-graduation-cap";
+            const title = "Getting started";
+            const message = "We took the liberty to auto prefer your 5 most played heroes, which can be changed  at anytime from the sidebar."
+                          + " Your preferred heroes will be shown to others users and represent the heroes you are willing to play.";
+            const type = "informational";
+
+            autoPreferredNotification();
+
+            expect(toast).toHaveBeenCalledWith(
+                <Notification
+                    icon={icon}
+                    title={title}
+                    message={message}
+                    type={type}
+                />,
+                {
+                    autoClose: false,
                     className: "NotificationContainer",
                     progressClassName:`${type}-progress`
                 }

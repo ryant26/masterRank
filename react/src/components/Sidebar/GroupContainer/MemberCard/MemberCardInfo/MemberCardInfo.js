@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const MemberCardInfo = ({ platformDisplayName, heroName, pending, leader }) => {
+const MemberCardInfo = ({ platformDisplayName, heroName, isPending, isLeader }) => {
 
     return (
         <div className="MemberCardInfo">
             <div className="display-name flex justify-between">
-                { pending
+                { isPending
                     ? platformDisplayName + ' - Pending'
-                    : leader
+                    : isLeader
                         ? platformDisplayName + ' - Leader'
                         : platformDisplayName
                 }
@@ -23,8 +23,8 @@ const MemberCardInfo = ({ platformDisplayName, heroName, pending, leader }) => {
 MemberCardInfo.propTypes = {
     platformDisplayName: PropTypes.string.isRequired,
     heroName: PropTypes.string.isRequired,
-    pending: PropTypes.bool,
-    leader: PropTypes.bool,
+    isPending: PropTypes.bool,
+    isLeader: PropTypes.bool,
 };
 
 export default MemberCardInfo;

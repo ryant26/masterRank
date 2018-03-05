@@ -31,6 +31,14 @@ const GroupStatsContainer = ({group, isLeading}) => {
         Model.createNewGroup();
     };
 
+    let groupHeroNames = [
+        ...groupHeroes.map((hero) => hero.heroName),
+        ...group.pending.map((hero) => hero.heroName)
+    ];
+    let disabled = [
+        ...groupHeroes.map(() => false),
+        ...group.pending.map(() => true)
+    ];
     return (
         <div className="GroupStatsContainer">
             <div className="header">
@@ -43,7 +51,6 @@ const GroupStatsContainer = ({group, isLeading}) => {
                         <span className="sub-title"><b>{groupSr}</b> Group SR</span>
                         {groupWinRate ? <span className="sub-title"><b>{groupWinRate.toFixed(1)}% </b> Group Winrate</span> : ''}
                     </div>
-                    <HeroImages heroNames={groupHeroes.map((hero) => hero.heroName)}/>
                 </div>
             </div>
             <div className="body">
@@ -53,12 +60,25 @@ const GroupStatsContainer = ({group, isLeading}) => {
                     showPlatformDisplayName={true}
                     groupLeader={group.leader.platformDisplayName}
                 />
+                <HeroStatsList
+                    heroes={group.pending}
+                    emptyMessage="We have no stats on this group."
+                    showPlatformDisplayName={true}
+                    groupLeader={group.leader.platformDisplayName+"not"}
+                    isPending={true}
+                />
             </div>
             {!isLeading ?
                 <div className="footer flex justify-between align-center">
-                    <div className="sub-title">
-                        <b>Players joined: {groupHeroes.length}</b>
-                    </div>
+                    <HeroImages heroNames={groupHeroNames} disabled={disabled}/>
+                        <span className="sub-title">
+                            <div className="players-joined">
+                                Players joined: <b>{groupHeroes.length}</b>
+                            </div>
+                            <div className="invites-pending">
+                                Invites pending: <b>{group.pending.length}</b>
+                            </div>
+                        </span>
                     <div className="button-six flex align-center" onClick={leaveGroup}>
                         <div className="button-content">
                             LEAVE GROUP

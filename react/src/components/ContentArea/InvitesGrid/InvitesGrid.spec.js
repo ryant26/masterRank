@@ -7,11 +7,13 @@ import { MemoryRouter } from 'react-router-dom';
 
 import InvitesGrid from './InvitesGrid';
 import groupInvites from '../../../resources/groupInvites';
+import { users } from '../../../resources/users';
 
 const mockStore = configureStore();
 const getStore = () => {
     return mockStore({
         group: groupInvites[1],
+        user: users[0],
         groupInvites: groupInvites
     });
 };

@@ -192,7 +192,7 @@ let _setNewGroupLeader = function(groupId, namespace, hero) {
     return RedisClient.setGroupLeader(groupId, hero).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((groupDetails) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupPromotedLeader, groupDetails);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.newGroupCreated, groupDetails);
         return groupDetails;
     }).catch((err) => {
         logger.error(`Problem setting new group [${groupId}] leader: ${err}`);
@@ -216,7 +216,7 @@ let _removePlayerFromGroupWithRetry = function (token, groupId, socket, namespac
         RedisClient.getGroupDetails(groupId).then((groupDetails) => {
             if (groupDetails.leader.platformDisplayName === token.platformDisplayName) {
                 if (groupDetails.members.length > 0) {
-                    _replaceGroupLeaderWithMember(groupId, namespace).then(() => {
+                    _replaceGroupLeaderWithMember(groupId, namespace, socket).then(() => {
                         resolve();
                     }).catch((err) => {
                         if (retriesRemaining > 0) {
@@ -271,7 +271,7 @@ let _acceptGroupInviteWithRetry = function (token, groupId, retriesRemaining) {
  * @returns {Promise}
  * @private
  */
-let _replaceGroupLeaderWithMember = function(groupId, namespace) {
+let _replaceGroupLeaderWithMember = function(groupId, namespace, socket) {
     return RedisClient.getGroupDetails(groupId).then((detailsOld) => {
         if(detailsOld.members.length > 0) {
             return RedisClient.replaceGroupLeaderWithMember(groupId);
@@ -281,6 +281,7 @@ let _replaceGroupLeaderWithMember = function(groupId, namespace) {
     }).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
+        socket.leave(getGroupRoom(groupId));
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.playerHeroLeft, details);
         namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupPromotedLeader, details);
     });

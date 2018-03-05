@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeroStatsListItem from "../HeroStatsListItem/HeroStatsListItem";
 
-const HeroStatsList =  ({heroes, showPlatformDisplayName, groupLeader}) => {
+const HeroStatsList =  ({heroes, showPlatformDisplayName, groupLeader, isPending}) => {
 
     let heroStatsCards = heroes.map((hero, i) =>
         (
@@ -11,6 +11,7 @@ const HeroStatsList =  ({heroes, showPlatformDisplayName, groupLeader}) => {
                 hero={hero}
                 isLeader={groupLeader === hero.platformDisplayName}
                 showPlatformDisplayName={showPlatformDisplayName}
+                isPending={isPending}
             />
         ));
 
@@ -24,12 +25,14 @@ const HeroStatsList =  ({heroes, showPlatformDisplayName, groupLeader}) => {
 HeroStatsList.propTypes = {
     heroes: PropTypes.array.isRequired,
     showPlatformDisplayName: PropTypes.bool,
-    groupLeader: PropTypes.string
+    groupLeader: PropTypes.string,
+    isPending: PropTypes.bool
 };
 
 HeroStatsList.defaultProps = {
     showPlatformDisplayName: false,
-    groupLeader: ''
+    groupLeader: '',
+    isPending: false
 };
 
 export default HeroStatsList;

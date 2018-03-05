@@ -2,7 +2,8 @@
 @import "LoginPage/BlizzardOAuth/BlizzardOAuth";
 @import "LoginPage/ConsoleUserSearch/ConsoleUserSearch";
 @import "LoginPage/UserSelector/UserSelector";
-@import 'HeroImage/HeroImage';
+@import 'Images/HeroImage';
+@import 'Images/DisableableHeroImage';
 @import "ContentArea/DashboardHome/HeroSelector/HeroButton/HeroButton";
 @import "ContentArea/DashboardHome/HeroSelector/HeroSelectorCard";
 @import "ContentArea/DashboardHome/HeroRolesContainer/HeroRolesList/HeroCard/HeroCard";
@@ -24,6 +25,7 @@
 @import "Sidebar/Invites/Invites";
 @import "Sidebar/SidebarFooter/SidebarFooter";
 @import 'Sidebar/GroupContainer/GroupContainer';
+@import 'Sidebar/GroupContainer/LeaveGroupButton/LeaveGroupButton';
 @import "Sidebar/GroupContainer/MemberCard/MemberCard";
 @import "Sidebar/GroupContainer/MemberCard/MemberCardInfo/MemberCardInfo";
 @import "Sidebar/sidebar";
