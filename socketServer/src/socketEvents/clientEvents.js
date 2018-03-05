@@ -11,6 +11,7 @@ module.exports = {
     groupInviteDeclined: 'groupInviteDeclined',
     playerHeroLeft: 'playerHeroLeft',
     groupPromotedLeader: 'groupPromotedLeader',
+    newGroupCreated: 'newGroupCreated',
     error: {
         addHero: 'error.addHero',
         authenticate: 'error.authenticate',

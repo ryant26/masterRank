@@ -192,7 +192,7 @@ let _setNewGroupLeader = function(groupId, namespace, hero) {
     return RedisClient.setGroupLeader(groupId, hero).then(() => {
         return RedisClient.getGroupDetails(groupId);
     }).then((groupDetails) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupPromotedLeader, groupDetails);
+        namespace.to(getGroupRoom(groupId)).emit(clientEvents.newGroupCreated, groupDetails);
         return groupDetails;
     }).catch((err) => {
         logger.error(`Problem setting new group [${groupId}] leader: ${err}`);
