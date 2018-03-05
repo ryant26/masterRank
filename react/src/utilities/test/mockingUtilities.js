@@ -4,7 +4,7 @@ import { users } from '../../resources/users';
 
 const mockSocket = require('socket-io-mock');
 
-export const getMockSocket = function() {
+export const getMockSocket = () => {
     let websocket = new mockSocket();
     websocket.addHero = jest.fn();
     websocket.removeHero = jest.fn();
@@ -15,6 +15,19 @@ export const getMockSocket = function() {
     websocket.groupInviteCancel = jest.fn();
     websocket.groupInviteDecline = jest.fn();
     return websocket;
+};
+
+export const mockGetState = (user=generateMockUser(), preferredHeroNames=[]) => {
+    const getState = jest.fn().mockImplementation(() => {
+        return {
+            user: user,
+            preferredHeroes: {
+                heroes: preferredHeroNames
+            }
+        };
+    });
+
+    return getState;
 };
 
 export const mockLocalStorage = () => {

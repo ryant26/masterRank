@@ -26,7 +26,7 @@ const Notification = ({type, icon, title, message, redirectUrl}) => {
 };
 
 Notification.propTypes = {
-    type: Proptypes.oneOf(['success', 'warning', 'error']),
+    type: Proptypes.oneOf(['success', 'informational', 'warning', 'error']),
     icon: Proptypes.string.isRequired,
     title: Proptypes.oneOfType([Proptypes.string, Proptypes.node]).isRequired,
     message: Proptypes.oneOfType([Proptypes.string, Proptypes.node]).isRequired,
