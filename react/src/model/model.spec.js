@@ -14,8 +14,8 @@ import { initialGroup, groupInvites } from '../resources/groupInvites';
 
 import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
-import { reconcileClientWith } from '../actionCreators/initialData/reconcileClientWith';
-jest.mock('../actionCreators/initialData/reconcileClientWith');
+import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
+jest.mock('../actionCreators/initialData/syncClientAndServerHeroes');
 
 const clearStoreState = (store) => {
      store.getState().heroes = [];
@@ -73,7 +73,7 @@ describe('Model', () => {
                 generateMockHero('winston')
             ];
             socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-            expect(reconcileClientWith).toHaveBeenCalledWith(heroesFromServer, socket);
+            expect(syncClientAndServerHeroes).toHaveBeenCalledWith(heroesFromServer, socket);
         });
 
         describe('Hero Added', () => {

@@ -12,7 +12,7 @@ import { addHeroesToServer } from '../heroes/addHeroesToServer';
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
 import { autoPreferredNotification } from '../../components/Notifications/Notifications';
 
-export const reconcileClientWith = (heroesFromServer, socket) => {
+export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
     return (dispatch, getState) => {
 

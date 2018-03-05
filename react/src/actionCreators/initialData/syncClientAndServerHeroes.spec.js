@@ -19,7 +19,7 @@ import NotRealHeroes from '../../resources/metaListFillerHeroes';
 import { autoPreferredNotification } from '../../components/Notifications/Notifications';
 jest.mock('../../components/Notifications/Notifications');
 
-import { reconcileClientWith } from './reconcileClientWith';
+import { syncClientAndServerHeroes } from './syncClientAndServerHeroes';
 
 const clearAllMockedImports = () => {
     addHeroAction.mockClear();
@@ -31,7 +31,7 @@ const clearAllMockedImports = () => {
     autoPreferredNotification.mockClear();
 };
 
-describe('reconcileClientWith', () => {
+describe('syncClientAndServerHeroes', () => {
     const user = mockUtils.generateMockUser();
     const usersHeroes = [
         mockUtils.generateMockHero('tracer', user.platformDisplayName),
@@ -63,7 +63,7 @@ describe('reconcileClientWith', () => {
     describe('should always', () => {
         beforeEach(() => {
             getState = mockUtils.mockGetState();
-            reconcileClientWith(heroesFromServer, socket)(dispatch, getState);
+            syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
         });
 
         it('call pushBlockingLoadingAction', () => {
@@ -109,7 +109,7 @@ describe('reconcileClientWith', () => {
 
         beforeEach(() => {
             getState = mockUtils.mockGetState(user);
-            reconcileClientWith(heroesFromServer, socket)(dispatch, getState);
+            syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
         });
 
         it('should send user a notification that we automatically preferred there top 5 most played heroes', () => {
@@ -135,7 +135,7 @@ describe('reconcileClientWith', () => {
 
         beforeEach(() => {
             getState = mockUtils.mockGetState(user, preferredHeroes);
-            reconcileClientWith(heroesFromServer, socket)(dispatch, getState);
+            syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
         });
 
         it('should not call preferMostPlayedHeroes if user has preferred heroes', () => {

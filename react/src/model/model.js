@@ -25,7 +25,7 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
-import { reconcileClientWith } from '../actionCreators/initialData/reconcileClientWith';
+import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
@@ -39,7 +39,7 @@ const initialize = function(passedSocket, passedStore) {
 
     store.dispatch(pushBlockingLoadingAction());
 
-    socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(reconcileClientWith(heroesFromServer, socket)));
+    socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(syncClientAndServerHeroes(heroesFromServer, socket)));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
