@@ -1,10 +1,12 @@
 import React from 'react';
-import HeroImage from "../../HeroImage/HeroImage";
+import { connect } from 'react-redux';
+
+import DisableableHeroImage from "../../Images/DisableableHeroImage/DisableableHeroImage";
 import PropTypes from 'prop-types';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
 
-const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
+const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPending}) => {
     const statLabels = {
         perMinute: '/min',
         seconds: 'seconds',
@@ -29,9 +31,17 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
             alt = "leader-icon"
         />) : undefined;
 
-    let subTitle = hero.stats
-        ? ( <div className="sub-title">{hero.stats.hoursPlayed} hours played</div> )
-        : ( <div className="sub-title">Hero needs more games played</div> );
+    const displayName = showPlatformDisplayName
+        ? (user.platformDisplayName === hero.platformDisplayName)
+            ? "You - "
+            : `${hero.platformDisplayName} - `
+        : '';
+
+    const subTitle = isPending
+        ? ( "Pending invite" )
+        : hero.stats
+            ? ( `${hero.stats.hoursPlayed} hours played` )
+            : ( "Hero needs more games played" );
 
     let heroWins            = hero.stats ? hero.stats.wins || 0 : "N/A";
     let heroLosses          = hero.stats ? hero.stats.losses || 0 : "N/A";
@@ -39,28 +49,28 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
         ? (hero.stats.kdRatio ? hero.stats.kdRatio : 0).toFixed(2)
         : "N/A";
     let heroDamagePerMin    = hero.stats ? hero.stats.damagePerMin || 0 : undefined;
-    let heroPDamagePerMin  = hero.stats && hero.stats.pDamagePerMin || 0;
+    let heroPDamagePerMin   = hero.stats && hero.stats.pDamagePerMin || 0;
     let heroHealingPerMin   = hero.stats ? hero.stats.healingPerMin || 0 : undefined;
-    let heroPHealingPerMin   = hero.stats && hero.stats.pHealingPerMin || 0;
+    let heroPHealingPerMin  = hero.stats && hero.stats.pHealingPerMin || 0;
     let heroBlockedPerMin   = hero.stats ? hero.stats.blockedPerMin || 0 : undefined;
-    let heroPBlockedPerMin   = hero.stats && hero.stats.pBlockedPerMin || 0;
+    let heroPBlockedPerMin  = hero.stats && hero.stats.pBlockedPerMin || 0;
     let heroAvgObjElims     = hero.stats ? hero.stats.avgObjElims || 0 : undefined;
-    let heroPAvgObjElims     = hero.stats && hero.stats.pAvgObjElims || 0;
+    let heroPAvgObjElims    = hero.stats && hero.stats.pAvgObjElims || 0;
     let heroAvgObjTime      = hero.stats ? hero.stats.avgObjTime || 0 : undefined;
-    let heroPAvgObjTime      = hero.stats && hero.stats.pAvgObjTime || 0;
+    let heroPAvgObjTime     = hero.stats && hero.stats.pAvgObjTime || 0;
     let heroAccuracy        = hero.stats ? hero.stats.accuracy || 0 : undefined;
-    let heroPAccuracy        = hero.stats && hero.stats.pAccuracy || 0;
+    let heroPAccuracy       = hero.stats && hero.stats.pAccuracy || 0;
 
     return (
         <div className="HeroStatsListItem">
              <div className="flex align-center">
                  <div>
                      {leaderIcon}
-                     <HeroImage heroName={hero.heroName}/>
+                     <DisableableHeroImage heroName={hero.heroName} disabled={isPending}/>
                  </div>
                  <div>
-                     <h3>{showPlatformDisplayName ? `${hero.platformDisplayName} - ` : ''}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
-                     { subTitle }
+                     <h3>{displayName}{hero.heroName[0].toUpperCase() + hero.heroName.slice(1)}</h3>
+                     <div className="sub-title">{ subTitle }</div>
                  </div>
                  <div className="flex justify-between record">
                      <RecordStat stat={heroWins} statName={statNames.wins}/>
@@ -87,12 +97,22 @@ const HeroStatsListItem = ({hero, showPlatformDisplayName, isLeader}) => {
 };
 
 HeroStatsListItem.propTypes = {
+    user: PropTypes.shape({
+        platformDisplayName: PropTypes.string.isRequired
+    }).isRequired,
     hero: PropTypes.shape({
         heroName: PropTypes.string.isRequired,
         stats: PropTypes.object
     }).isRequired,
     showPlatformDisplayName: PropTypes.bool,
-    isLeader: PropTypes.bool
+    isLeader: PropTypes.bool,
+    isPending: PropTypes.bool
 };
 
-export default HeroStatsListItem;
+const mapStateToProps = (state) => {
+    return {
+      user: state.user
+    };
+};
+
+export default connect(mapStateToProps)(HeroStatsListItem);

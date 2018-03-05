@@ -10,9 +10,12 @@ const InvitesGridItem = ({invite}) => {
     baseSr = invite.members.reduce((sr, member) => sr + member.skillRating, baseSr);
     let avgSrString = (baseSr/numberOfMembers).toFixed(0);
 
-    let groupHeroes = [<HeroCard key={invite.leader.platformDisplayName} user={invite.leader} hero={invite.leader}/>];
+    let groupHeroes = [<HeroCard key={invite.leader.platformDisplayName} hero={invite.leader} invitable={false}/>];
     invite.members.forEach((member) => {
-        groupHeroes.push(<HeroCard key={member.platformDisplayName} user={member} hero={member}/>);
+        groupHeroes.push(<HeroCard key={member.platformDisplayName} hero={member} invitable={false}/>);
+    });
+    invite.pending.forEach((member) => {
+        groupHeroes.push(<HeroCard key={member.platformDisplayName} hero={member} invitable={false}/>);
     });
 
     const declineInvite = () => {
@@ -35,7 +38,9 @@ const InvitesGridItem = ({invite}) => {
                     {avgSrString} Group SR
                 </div>
             </div>
-            <div className="body flex flex-column">{groupHeroes}</div>
+            <div className="body flex flex-column">
+                {groupHeroes}
+            </div>
             <div className="button-group flex justify-around">
                 <div
                     className="button button-six flex justify-center align-center"
@@ -59,7 +64,11 @@ const InvitesGridItem = ({invite}) => {
 };
 
 InvitesGridItem.propTypes = {
-    invite: PropTypes.object.isRequired
+    invite: PropTypes.shape({
+        leader: PropTypes.object.isRequired,
+        members: PropTypes.array.isRequired,
+        pending: PropTypes.array.isRequired,
+    }).isRequired,
 };
 
 export default InvitesGridItem;

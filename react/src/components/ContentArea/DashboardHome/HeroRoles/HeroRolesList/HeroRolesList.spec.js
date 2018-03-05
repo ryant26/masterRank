@@ -77,7 +77,8 @@ describe('HeroRoles Component', () => {
 
         beforeEach(() =>{
             store = mockStore({
-                group: groupInvites[0]
+                group: groupInvites[0],
+                user: users[0]
             });
         });
 

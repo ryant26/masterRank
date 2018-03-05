@@ -4,9 +4,11 @@ const ow = require('../apiClients/overwatch');
 const owValidators = require('../validators/owApiValidator');
 const logger = require('./logger').sysLogger;
 const config = require('config');
+const memoize = require('memoizee');
 
 const reloadThreshold = config.get('reloadThreshold');
 const gamesPlayedThreshold = config.get('minimumGamesPlayed');
+const cachingEnabled = config.get('cachingEnabled');
 
 let getHero = function(token, heroName) {
     let queryForHero = function() {
@@ -29,11 +31,11 @@ let _runQuery = function(token, query) {
         let sample = Array.isArray(result) ? result[0] : result;
 
         if (!sample) {
-            return _updatePlayerHeroes(token).then(() => query());
+            return _cacheControlledUpdatePlayerHeroes(token).then(() => query());
         }
 
         if (_isDateOlderThan(sample.lastModified, reloadThreshold)) {
-            return _updatePlayerHeroes(token).then(() => query()).then((result2) => {
+            return _cacheControlledUpdatePlayerHeroes(token).then(() => query()).then((result2) => {
                 if (result2) {
                     return result2;
                 }
@@ -43,7 +45,6 @@ let _runQuery = function(token, query) {
         return result;
     });
 };
-
 
 let _updatePlayerHeroes = function(token) {
     let getAllUserHeroes = function() {
@@ -96,6 +97,9 @@ let _updatePlayerHeroes = function(token) {
         return [];
     });
 };
+
+const _cachedUpdatePlayerHeroes = memoize(_updatePlayerHeroes, {promise: true, maxAge: 60000, normalizer: JSON.stringify});
+let _cacheControlledUpdatePlayerHeroes = cachingEnabled ? _cachedUpdatePlayerHeroes : _updatePlayerHeroes;
 
 let _getHeroNameQueryCriteria = function(token, heroName) {
     return Object.assign({}, _getAllUserHeroesQueryCriteria(token), {heroName});

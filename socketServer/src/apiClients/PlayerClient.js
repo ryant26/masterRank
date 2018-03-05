@@ -1,6 +1,7 @@
 const request = require('request-promise');
 const config = require('config');
 const apiRouter = require('./apiRouter');
+const memoize = require('memoizee');
 
 // const heroUrl = config.get('heroApi.url');
 const playerUrl = apiRouter.getEndpoint(config.get('playerApi.baseUrl'), config.get('playerApi.port'), config.get('playerApi.endpoint'));
@@ -28,6 +29,6 @@ let getHeroStats = function(platformDisplayName, region, platform, heroName) {
 };
 
 module.exports = {
-    getSkillRating,
-    getHeroStats
+    getSkillRating: memoize(getSkillRating, {promise: true, maxAge: 60000}),
+    getHeroStats: memoize(getHeroStats, {promise: true, maxAge: 60000})
 };

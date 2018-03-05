@@ -9,6 +9,7 @@ export const clientEvents = {
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
     heroRemoved: 'heroRemoved',
+    newGroupCreated: 'newGroupCreated',
     groupPromotedLeader: 'groupPromotedLeader',
     groupInviteReceived: 'groupInviteReceived',
     playerInvited: 'playerInvited',

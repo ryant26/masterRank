@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import HeroImage from '../../HeroImage/HeroImage';
+import HeroImage from '../../Images/HeroImage/HeroImage';
 import AddHeroIcon from './AddHeroIcon';
 import Modal from '../../Modal/Modal';
 import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
