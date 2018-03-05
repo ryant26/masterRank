@@ -25,6 +25,10 @@
                 background-image: linear-gradient(to bottom, $blue7, $blue4);
             }
 
+            &.informational {
+                background-image: linear-gradient(to bottom, $green1, $green2);
+            }
+
             &.warning {
                 background-image: linear-gradient(to bottom, $yellow1, $yellow2);
             }
@@ -59,6 +63,10 @@
 
     .success-progress {
         background: linear-gradient(to right, $blue7, $blue4);
+    }
+
+    .informational-progress {
+        background: linear-gradient(to right, $green1, $green2);
     }
 
     .error-progress {

@@ -6,9 +6,9 @@ import { allInvites } from '../Routes/links';
 
 const inviteTimeout = 30;
 
-const showNotification = ({icon, title, message, type, redirectUrl}) => {
+const showNotification = ({icon, title, message, type, redirectUrl, autoClose=30000}) => {
     toast(<Notification icon={icon} message={message} title={title} type={type} redirectUrl={redirectUrl}/>, {
-        autoClose: 30000,
+        autoClose: autoClose,
         className: "NotificationContainer",
         progressClassName: `${type}-progress`
     });
@@ -77,6 +77,17 @@ export const preferredHeroNotification = (heroName ) => {
         title: `Successfully preferred ${heroName}`,
         message:  "Other players will see your top 5 preferred Heroes, which at anytime you can change from the sidebar",
         type: 'success'
+    });
+};
+
+export const autoPreferredNotification = () => {
+    showNotification({
+        icon: 'fa fa-graduation-cap',
+        title: "Getting started",
+        message:  "We took the liberty to auto prefer your 5 most played heroes, which can be changed  at anytime from the sidebar."
+                + " Your preferred heroes will be shown to others users and represent the heroes you are willing to play.",
+        type: 'informational',
+        autoClose: false
     });
 };
 
