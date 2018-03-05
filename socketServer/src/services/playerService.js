@@ -2,6 +2,8 @@ const logger = require('./logger').sysLogger;
 const clientEvents = require('../socketEvents/clientEvents');
 const PlayerClient = require('../apiClients/PlayerClient');
 const RedisClient = require('../apiClients/RedisClient');
+const ranks = require('../../../shared/libs/allRanks').ranks;
+const allRanks = require('../../../shared/libs/allRanks').ranksArray;
 const _ = require('lodash');
 
 /**
@@ -116,30 +118,37 @@ let getPlayerRank = function (token) {
 
 let getEligableRankRooms = function (sr) {
     let ranks = {};
+    let eligibleRanks;
 
-    ranks[mapSrToRank(sr-500)] = true;
-    ranks[mapSrToRank(sr)] = true;
-    ranks[mapSrToRank(sr+500)] = true;
+    if (sr === 0) {
+        eligibleRanks = allRanks;
+    } else {
+        ranks[mapSrToRank(sr-500)] = true;
+        ranks[mapSrToRank(sr)] = true;
+        ranks[mapSrToRank(sr+500)] = true;
 
-    return Object.keys(ranks);
+        eligibleRanks = Object.keys(ranks);
+    }
+
+    return eligibleRanks;
 };
 
 
 let mapSrToRank = function(sr) {
     if(sr < 1500) {
-        return 'bronze';
+        return ranks.bronze;
     } else if (sr < 2000) {
-        return 'silver';
+        return ranks.silver;
     } else if (sr < 2500) {
-        return 'gold';
+        return ranks.gold;
     } else if (sr < 3000) {
-        return 'platinum';
+        return ranks.platinum;
     } else if (sr < 3500) {
-        return 'diamond';
+        return ranks.diamond;
     } else if (sr < 4000) {
-        return 'master';
+        return ranks.master;
     } else {
-        return 'grandmaster';
+        return ranks.grandmaster;
     }
 };
 

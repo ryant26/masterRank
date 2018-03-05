@@ -15,6 +15,7 @@ let out  = {
         ow.getSkillRating = function(platformDisplayName) {
             let skillRating = 3100;
 
+            if(platformDisplayName === 'unrankedPlayer#1234') skillRating = 0;
             if(platformDisplayName === 'grandmasterPlayer#1234') skillRating = 4300;
             if(platformDisplayName === 'masterPlayer#1234') skillRating = 3800;
             if(platformDisplayName === 'diamondPlayer#1234') skillRating = 3200;
