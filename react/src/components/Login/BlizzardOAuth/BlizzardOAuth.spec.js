@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import BlizzardOAuth from './BlizzardOAuth';
+import LoginFailedCard from '../LoginFailedCard/LoginFailedCard';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore();
@@ -26,12 +27,16 @@ describe('BlizzardOAuth', () => {
         expect(BlizzardOAuthComponent.find('.button-content').text()).toBe('LOGIN VIA BATTLE.NET');
     });
 
+    it('should render the loginFailedCard', () => {
+        expect(BlizzardOAuthComponent.find(LoginFailedCard)).toHaveLength(1);
+    });
+
     it('should redirect to "/auth/bnet/callback?region=ANY_REGION" when button is clicked and props region is ANY_REGION', () => {
         window.location.assign = jest.fn();
         BlizzardOAuthComponent.setProps({
            region: 'ANY_REGION',
         });
-        BlizzardOAuthComponent.find('button').simulate('click');
+        BlizzardOAuthComponent.find('.button-primary').simulate('click');
         expect(window.location.assign).toHaveBeenCalledWith('/auth/bnet/callback?region=ANY_REGION');
     });
 
@@ -40,7 +45,7 @@ describe('BlizzardOAuth', () => {
         BlizzardOAuthComponent.setProps({setLoading});
 
         expect(setLoading).not.toHaveBeenCalled();
-        BlizzardOAuthComponent.find('button').simulate('click');
+        BlizzardOAuthComponent.find('.button-primary').simulate('click');
         expect(setLoading).toHaveBeenCalled();
     });
 });
