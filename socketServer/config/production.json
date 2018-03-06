@@ -2,6 +2,7 @@
   "port": 3000,
   "keyExpiry": 7200,
   "eventsAllowedPerMinute": 50,
+  "logLevel": "info",
   "redis": {
     "host": "fireteam-prod.xsynb8.0001.use1.cache.amazonaws.com",
     "port": 6379
