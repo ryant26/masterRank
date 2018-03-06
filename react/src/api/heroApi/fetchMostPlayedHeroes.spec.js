@@ -9,16 +9,20 @@ describe('fetchMostPlayedHeroes', () => {
     const mostPlayedHeroesArray = getHeroes();
     let mostPlayedHeroesPromise;
 
+    const setupAndFetchMostPlayedHeroes = (status = 200, result = mostPlayedHeroesArray) => {
+        let fetchPromise = Promise.resolve(
+            getMockResponse(status, null, result)
+        );
+
+        window.fetch = jest.fn().mockImplementation(() => fetchPromise);
+        mostPlayedHeroesPromise = fetchMostPlayedHeroes(forUser);
+        return fetchPromise;
+    };
+
     describe('when response is ok', () => {
         beforeEach(() => {
             mockLocalStorage();
-            let fetchPromise = Promise.resolve(
-                getMockResponse(200, null, mostPlayedHeroesArray)
-            );
-
-            window.fetch = jest.fn().mockImplementation(() => fetchPromise);
-            mostPlayedHeroesPromise = fetchMostPlayedHeroes(forUser);
-            return fetchPromise;
+            return setupAndFetchMostPlayedHeroes();
         });
 
         it('should call fetch with correct api url and headers', () => {
@@ -38,6 +42,22 @@ describe('fetchMostPlayedHeroes', () => {
             expect(mostPlayedHeroesPromise.then).toBeDefined();
             return mostPlayedHeroesPromise.then((responseObject) => {
                 expect(responseObject).toEqual(mostPlayedHeroesArray);
+            });
+        });
+
+        it('should resolve the promise for cached empty array', () => {
+            return setupAndFetchMostPlayedHeroes(304, []).then(() => {
+                mostPlayedHeroesPromise.then((responseObject) => {
+                    expect(responseObject).toEqual([]);
+                });
+            });
+        });
+
+        it('should resolve the promise for empty array', () => {
+            return setupAndFetchMostPlayedHeroes(200, []).then(() => {
+                mostPlayedHeroesPromise.then((responseObject) => {
+                    expect(responseObject).toEqual([]);
+                });
             });
         });
     });
