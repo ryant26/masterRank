@@ -1,38 +1,20 @@
-const winston = require('winston');
+const {createLogger, transports, format} = require('winston');
+
 const config = require('config');
-require('winston-logstash');
+const logLevel = config.get('logLevel');
 
-const logstashHost = config.get('logstash.host');
-const systemPort = config.get('logstash.systemPort');
-const apachePort = config.get('logstash.apachePort');
-
-const getWinstonLogger = function () {
-    return new (winston.Logger)({
-        transports: [new (winston.transports.Console)()]
-    });
-};
-
-const sysLogger = getWinstonLogger();
-sysLogger.add(winston.transports.Logstash, {
-    port: systemPort,
-    node_name: 'heroApiServer',
-    host: logstashHost
+const sysLogger = createLogger({
+    level: logLevel,
+    format: format.simple(),
+    transports: [new transports.Console()]
 });
 
-const apacheLogger = getWinstonLogger();
-apacheLogger.add(winston.transports.Logstash, {
-    port: apachePort,
-    node_name: 'heroApiServer',
-    host: logstashHost
-});
-
-apacheLogger.stream = {
+sysLogger.stream = {
     write: function(message){
-        apacheLogger.info(message);
+        sysLogger.info(message);
     }
 };
 
 module.exports = {
-    sysLogger,
-    apacheLogger
+    sysLogger
 };
