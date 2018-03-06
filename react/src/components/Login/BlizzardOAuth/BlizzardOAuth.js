@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {pushBlockingEvent as pushBlockingEventAction} from '../../../actionCreators/loading';
 
+import LoginFailedCard from '../LoginFailedCard/LoginFailedCard';
+
 const BlizzardOAuth = ({region, setLoading}) => {
 
     function onClick() {
@@ -16,11 +18,14 @@ const BlizzardOAuth = ({region, setLoading}) => {
     }
 
     return(
-        <button className="BlizzardOAuth button-primary" onClick={onClick}>
-            <div className="button-content">
-                LOGIN VIA BATTLE.NET
+        <div className="BlizzardOAuth flex flex-column align-center">
+            <div className="button-primary flex align-center justify-center" onClick={onClick}>
+                <div className="button-content">
+                    LOGIN VIA BATTLE.NET
+                </div>
             </div>
-        </button>
+            <LoginFailedCard/>
+        </div>
     );
 };
 
