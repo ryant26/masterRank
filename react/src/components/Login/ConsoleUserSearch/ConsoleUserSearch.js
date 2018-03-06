@@ -45,7 +45,7 @@ export default class ConsoleUserSearch extends Component {
 
         fetch(this.urlForUserSearch(this.state.displayName))
             .then(response => {
-              if (!response.ok) {
+              if (!response.ok && response.status !== 304) {
                 throw Error("Network request failed");
               }
 
