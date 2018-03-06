@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const playerClient = require('../../../src/apiClients/PlayerClient');
-const logger = require('winston');
+const logger = require('../../../src/services/logger').sysLogger;
 const spawn = require('child_process').spawn;
 const config = require('config');
 
@@ -25,7 +25,7 @@ describe('PlayerClient', function() {
             apiServer.stdout.on('data', (data) => {
                 logger.info(`${data}`);
                 let stringForm = data.toString();
-                if (stringForm.endsWith(`port ${heroApiPort}\n`)) {
+                if (stringForm.includes(`port ${heroApiPort}`)) {
                     resolve(apiServer);
                 }
             });
