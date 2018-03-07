@@ -196,7 +196,7 @@ let _getStatsRequiringPercentiles = function(heroStats) {
 };
 
 let _getPercentiles = function (heroName, stats) {
-    return Hero.aggregate({$match: {heroName}}, {$sample: {size: 1000}}).then((result) => {
+    return Hero.aggregate([{$match: {heroName}}, {$sample: {size: 1000}}]).then((result) => {
         let percentiles = {};
         Object.entries(stats).forEach((keyVal) => {
             let numberOfDocumentsLessThan = 0;
