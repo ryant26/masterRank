@@ -44,7 +44,7 @@ describe('Model', () => {
 
     describe('Constructor', () => {
         it('should set the loading state', () => {
-            expect(store.getState().loading.blockUI).toBeTruthy();
+            expect(store.getState().loading.blockUI).toBe(1);
         });
     });
 
