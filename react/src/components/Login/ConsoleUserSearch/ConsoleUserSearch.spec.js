@@ -200,4 +200,30 @@ describe('ConsoleUserSearch', () => {
             expect(ConsoleUserSearchComponent.state().isSearching).toBe(false);
         });
     });
+
+    describe('when display name is set and form is submitted and fetch returns a cache hit', () => {
+
+        beforeEach(() => {
+            let fetchPromise = Promise.resolve(mockResponse(304, null, arrayUsers));
+            window.fetch = jest.fn().mockImplementation(() => fetchPromise);
+            ConsoleUserSearchComponent.setState({
+                displayName: displayName
+            });
+
+            ConsoleUserSearchComponent.find('form').simulate('submit', { preventDefault() {} });
+            return fetchPromise;
+        });
+
+        it('should fetch from the correct url', () => {
+            expect(window.fetch).toHaveBeenCalledWith(fetchUrl);
+        });
+
+        it('should set state users equal users fetch response users', () => {
+            expect(ConsoleUserSearchComponent.state().users).toEqual(arrayUsers);
+        });
+
+        it('should set state isSearching to false', () => {
+            expect(ConsoleUserSearchComponent.state().isSearching).toBe(false);
+        });
+    });
 });

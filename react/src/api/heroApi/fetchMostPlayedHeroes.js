@@ -14,7 +14,7 @@ function fetchMostPlayedHeroes(forUser) {
 
     return fetch(apiUrl, headers)
         .then(response => {
-            if (!response.ok) {
+            if (!response.ok && response.status !== 304) {
                 throw Error("Network request failed");
             }
             return response;
