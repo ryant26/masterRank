@@ -3,7 +3,6 @@ import {
     clearAllHeroes as clearAllHeroesAction
 } from "../heroes/hero";
 import {
-    pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../loading";
 import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroes';
@@ -16,7 +15,6 @@ export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
     return (dispatch, getState) => {
 
-        dispatch(pushBlockingLoadingAction());
         dispatch(clearAllHeroesAction());
         _loadMetaListFillerHeroes(dispatch);
 
@@ -37,6 +35,7 @@ export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
             dispatch(addHeroesToServer(heroes, socket));
         }
 
+        //Pushed in models.initialize
         dispatch(popBlockingLoadingAction());
     };
 };

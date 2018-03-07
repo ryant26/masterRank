@@ -66,10 +66,6 @@ describe('syncClientAndServerHeroes', () => {
             syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
         });
 
-        it('call pushBlockingLoadingAction', () => {
-            expect(pushBlockingLoadingAction).toHaveBeenCalled();
-        });
-
         it('call clearAllHeroesAction', () => {
             expect(clearAllHeroesAction).toHaveBeenCalled();
         });
@@ -100,7 +96,7 @@ describe('syncClientAndServerHeroes', () => {
             });
         });
 
-        it('call popBlockingLoadingAction', () => {
+        it('call popBlockingLoadingAction, to clear the pushed loading screen set in model.initialize', () => {
             expect(popBlockingLoadingAction).toHaveBeenCalled();
         });
     });
