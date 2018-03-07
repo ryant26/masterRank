@@ -4,7 +4,7 @@
     "hostname": "fireteam.gg",
     "port": 3000
   },
-  "logLevel": "warn",
+  "logLevel": "info",
   "db": "mongodb://heroapiserver-prod:o7NEWYsKmrudcjY3@fireteamcluster-shard-00-00-bnajc.mongodb.net:27017,fireteamcluster-shard-00-01-bnajc.mongodb.net:27017,fireteamcluster-shard-00-02-bnajc.mongodb.net:27017/heroapiserver-prod?ssl=true&replicaSet=FireTeamCluster-shard-0&authSource=admin",
   "bnet": {
     "id": "px5hdnte6h2xcu9e7fw44c8fczfnw4k4",
