@@ -174,9 +174,8 @@ describe('Model', () => {
 
             it('should not pop loading screen when hero added does not belong to the user', function() {
                 store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
-                store.getState().loading.blockUI = 1;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(store.getState().loading.blockUI).toBe(1);
+                expect(popBlockingLoadingAction).not.toHaveBeenCalled();
             });
 
             //TODO: is this something we want to add? can we delete this?
@@ -201,7 +200,8 @@ describe('Model', () => {
                 expect(removeHeroAction).toHaveBeenCalledWith(hero);
             });
 
-            xit('should remove hero from store.preferredHeroes.heroes', function() {
+            it("when hero belongs to user should remove hero from user's preferred heroes", function() {
+                store.getState().user.platformDisplayName = hero.platformDisplayName;
                 socket.socketClient.emit(clientEvents.heroRemoved, hero);
                 expect(removePreferredHeroAction).toHaveBeenCalledWith(hero.heroName, hero.priority);
             });
@@ -321,7 +321,7 @@ describe('Model', () => {
             beforeEach(() => {
                 store.getState().preferredHeroes.heroes = preferredHeroNames;
             });
-
+            
             it('should call update preferred heroes action', function() {
                 model.updatePreferredHeroes(notPreferredHeroNames);
                 expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
