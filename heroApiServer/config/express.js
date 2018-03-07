@@ -1,6 +1,6 @@
 const glob = require('glob');
 const logger = require('morgan');
-const logAggregator = require('../src/services/logger').apacheLogger;
+const logAggregator = require('../src/services/logger').sysLogger;
 const config = require('config');
 const path = require('path');
 const rootPath = path.normalize(__dirname + '/..');
@@ -14,7 +14,7 @@ module.exports = function(app) {
 
     app.set('trust proxy');
 
-    app.use(logger(config.get('loggingLevel'), {stream: logAggregator.stream}));
+    app.use(logger(config.get('logFormat'), {stream: logAggregator.stream}));
 
     app.use(passport.initialize());
 
