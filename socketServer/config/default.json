@@ -3,6 +3,7 @@
   "url": "https://localhost",
   "keyExpiry": 7200,
   "eventsAllowedPerMinute": 50,
+  "logLevel": "debug",
   "redis": {
     "host": "localhost",
     "port": 6379

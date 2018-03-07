@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const authenticationClient = require('../../../src/apiClients/authenticationClient');
-const logger = require('winston');
+const logger = require('../../../src/services/logger').sysLogger;
 const tokenHelper = require('../../../../heroApiServer/devTools/tokenHelpers');
 const spawn = require('child_process').spawn;
 const config = require('config');
@@ -25,7 +25,7 @@ describe('AuthenticationClient', function() {
             apiServer.stdout.on('data', (data) => {
                 logger.info(`${data}`);
                 let stringForm = data.toString();
-                if (stringForm.endsWith(`port ${heroApiPort}\n`)) {
+                if (stringForm.includes(`port ${heroApiPort}`)) {
                     resolve(apiServer);
                 }
             });
