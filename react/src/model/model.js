@@ -37,8 +37,6 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
-    store.dispatch(pushBlockingLoadingAction());
-
     socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(syncClientAndServerHeroes(heroesFromServer, socket)));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
