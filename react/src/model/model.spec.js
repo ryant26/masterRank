@@ -1,6 +1,7 @@
+import configureStore from 'redux-mock-store';
+
 import model from './model';
-import {createStore} from './store';
-import {clientEvents} from '../api/websocket';
+import { clientEvents } from '../api/websocket';
 
 const names = require('../../../shared/libs/allHeroNames').names;
 
@@ -17,6 +18,60 @@ jest.mock('../components/Notifications/Notifications');
 import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
 jest.mock('../actionCreators/initialData/syncClientAndServerHeroes');
 
+import {
+    addHero as addHeroAction,
+    removeHero as removeHeroAction,
+} from "../actionCreators/heroes/hero";
+jest.mock("../actionCreators/heroes/hero");
+import {
+    removeHero as removePreferredHeroAction,
+    updateHeroes as updatePreferredHeroesAction
+} from "../actionCreators/preferredHeroes/preferredHeroes";
+jest.mock("../actionCreators/preferredHeroes/preferredHeroes");
+import { updateUser as updateUserAction } from "../actionCreators/user";
+jest.mock("../actionCreators/user");
+import {
+    addFilter as addFilterAction,
+    removeFilter as removeFilterAction,
+} from "../actionCreators/heroFilters";
+jest.mock("../actionCreators/heroFilters");
+import {
+    updateGroup as updateGroupAction,
+    leaveGroup as leaveGroupAction
+} from '../actionCreators/group';
+jest.mock('../actionCreators/group');
+import {
+    addGroupInvite as addGroupInviteAction,
+    removeGroupInvite as removeGroupInviteAction
+} from '../actionCreators/groupInvites';
+jest.mock('../actionCreators/groupInvites');
+import {
+    pushBlockingEvent as pushBlockingLoadingAction,
+    popBlockingEvent as popBlockingLoadingAction,
+} from "../actionCreators/loading";
+jest.mock('../actionCreators/loading');
+
+const mockStore = configureStore();
+const getMockStore = (
+    heroes=[],
+    heroFilters=[],
+    group=initialGroup,
+    groupInvites=[],
+    preferredHeroes=[],
+    blockUI=0,) => {
+        return mockStore({
+            heroes,
+            heroFilters,
+            group,
+            groupInvites,
+            preferredHeroes: {
+                heroes: preferredHeroes
+            },
+            loading: {
+                blockUI
+            }
+        });
+};
 const clearStoreState = (store) => {
      store.getState().heroes = [];
      store.getState().preferredHeroes.heroes = [];
@@ -25,27 +80,37 @@ const clearStoreState = (store) => {
      store.getState().groupInvites = [];
      store.getState().heroFilters = [];
 };
-
+const clearAllMocks = () => {
+    addHeroAction.mockClear();
+    removeHeroAction.mockClear();
+    removePreferredHeroAction.mockClear();
+    updatePreferredHeroesAction.mockClear();
+    updateUserAction.mockClear();
+    addFilterAction.mockClear();
+    removeFilterAction.mockClear();
+    updateGroupAction.mockClear();
+    leaveGroupAction.mockClear();
+    addGroupInviteAction.mockClear();
+    removeGroupInviteAction.mockClear();
+    pushBlockingLoadingAction.mockClear();
+    popBlockingLoadingAction.mockClear();
+};
 describe('Model', () => {
     const user = generateMockUser();
     let store;
     let socket;
 
     beforeEach(() => {
-        store = createStore();
+        store = getMockStore();
         socket = getMockSocket();
         model.initialize(socket, store);
+        store.dispatch = jest.fn();
         store.getState().user = user;
     });
 
     afterEach(() => {
         clearStoreState(store);
-    });
-
-    describe('Constructor', () => {
-        it('should set the loading state', () => {
-            expect(store.getState().loading.blockUI).toBeTruthy();
-        });
+        clearAllMocks();
     });
 
     describe('Socket Events', () => {
@@ -60,14 +125,12 @@ describe('Model', () => {
             });
 
             it('should block user actions', () => {
-                store.getState().loading.blockUI = 0;
                 socket.socketClient.emit(clientEvents.disconnect, reason);
-                expect(store.getState().loading.blockUI).toBe(1);
+                expect(pushBlockingLoadingAction).toHaveBeenCalled();
             });
         });
 
         it('InitialData should call reconcileClientWith heroes from server and socket', () => {
-            store.dispatch = jest.fn();
             const heroesFromServer = [
                 generateMockHero('tracer'),
                 generateMockHero('winston')
@@ -82,32 +145,25 @@ describe('Model', () => {
                 Notifications.preferredHeroNotification.mockClear();
             });
 
-            it('should add the new hero to the store', function() {
+            it('should dispatch add hero action', function() {
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(store.getState().heroes).toEqual([hero]);
+                expect(addHeroAction).toHaveBeenCalledWith(hero);
             });
 
-            it('should ignore duplicate heroes', function() {
-                socket.socketClient.emit(clientEvents.heroAdded, hero);
-                socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(store.getState().heroes).toEqual([hero]);
-            });
+            //TODO: does error Have priority? If not then this _addHeroErrorHandler() does not work (
+            xit('when error occurs should remove error.hero from the store', function() {
+                const heroName = 'tracer';
+                store.getState().preferredHeroes.heroes = [heroName];
 
-            it('when error occurs should remove error.hero from the store', function() {
-                const hero = 'tracer';
-                store.getState().preferredHeroes.heroes = [hero];
-
-                expect(store.getState().preferredHeroes.heroes[0]).toEqual(hero);
-                socket.socketClient.emit(clientEvents.error.addHero, {heroName: hero});
-                expect(store.getState().preferredHeroes.heroes).toEqual([]);
-                expect(Notifications.errorNotification).toHaveBeenCalledWith(hero);
+                socket.socketClient.emit(clientEvents.error.addHero, {heroName: heroName});
+                expect(Notifications.errorNotification).toHaveBeenCalledWith(heroName);
+                expect(removePreferredHeroAction).toHaveBeenCalledWith(heroName);
             });
 
             it('should pop loading screen when hero belongs to the user', function() {
                 expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
-                store.getState().loading.blockUI = 1;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
-                expect(store.getState().loading.blockUI).toBe(0);
+                expect(popBlockingLoadingAction).toHaveBeenCalled();
             });
 
             it('should not send a preferred hero notifications when hero does not belong to the user', function() {
@@ -140,16 +196,14 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
             });
 
-            it('should remove hero from store.heroes', function() {
-                expect(store.getState().heroes).toEqual([hero]);
+            it('should call remove hero action', function() {
                 socket.socketClient.emit(clientEvents.heroRemoved, hero);
-                expect(store.getState().heroes).toEqual([]);
+                expect(removeHeroAction).toHaveBeenCalledWith(hero);
             });
-            
+
             xit('should remove hero from store.preferredHeroes.heroes', function() {
-                expect(store.getState().preferredHeroes.heroes).toEqual([hero.heroName]);
                 socket.socketClient.emit(clientEvents.heroRemoved, hero);
-                expect(store.getState().preferredHeroes.heroes).toEqual([]);
+                expect(removePreferredHeroAction).toHaveBeenCalledWith(hero.heroName, hero.priority);
             });
         });
 
@@ -172,10 +226,9 @@ describe('Model', () => {
                     Notifications.leaderLeftGroupNotification.mockClear();
                 });
 
-                it('should update store.group to new group when clientEvents.groupPromotedLeader is emitted', () => {
-                    expect(store.getState().group).toEqual(initialGroup);
+                it('should call update group action when clientEvents.groupPromotedLeader is emitted', () => {
                     socket.socketClient.emit(clientEvents.groupPromotedLeader, group);
-                    expect(store.getState().group).toEqual(group);
+                    expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });
 
                 it('should sent leaderLeftGroupNotification when user is not group leader', () => {
@@ -186,26 +239,23 @@ describe('Model', () => {
             });
 
             describe('Player Invited', () => {
-                it('should update store.group to new group when clientEvents.playerInvited is emitted', () => {
-                    expect(store.getState().group).toEqual(initialGroup);
+                it('should call update group action when clientEvents.playerInvited is emitted', () => {
                     socket.socketClient.emit(clientEvents.playerInvited, group);
-                    expect(store.getState().group).toEqual(group);
+                    expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });
             });
 
             describe('Group Hero Left', () => {
-                it('should update store.group to new group when clientEvents.playerHeroLeft is emitted', () => {
-                    expect(store.getState().group).toEqual(initialGroup);
+                it('should call update group action when clientEvents.playerHeroLeft is emitted', () => {
                     socket.socketClient.emit(clientEvents.playerHeroLeft, group);
-                    expect(store.getState().group).toEqual(group);
+                    expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });
             });
 
             describe('Group invite accepted', () => {
-                it('should update store.group to new group when clientEvents.groupInviteAccepted is emitted', () => {
-                    expect(store.getState().group).toEqual(initialGroup);
+                it('should call update group action when clientEvents.groupInviteAccepted is emitted', () => {
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
-                    expect(store.getState().group).toEqual(group);
+                    expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });
 
                 it('should send group members userJoinedGroupNotification with new members display name', () => {
@@ -223,49 +273,22 @@ describe('Model', () => {
 
             describe('Group Invite Canceled', () => {
                 it('should remove groupInvite from store.groupInvites', () => {
-                     socket.socketClient.emit(clientEvents.groupInviteReceived, group);
-                     expect(store.getState().groupInvites).toEqual([group]);
                      socket.socketClient.emit(clientEvents.groupInviteCanceled, group);
-                     expect(store.getState().groupInvites).toEqual([]);
+                     expect(removeGroupInviteAction).toHaveBeenCalledWith(group);
                 });
             });
 
             describe('Player Invite Canceled', () => {
-                it("should update all group member's store.group to new group", () => {
-                     expect(store.getState().group).toEqual(initialGroup);
+                it("should call update group action", () => {
                      socket.socketClient.emit(clientEvents.playerInviteCanceled, group);
-                     expect(store.getState().group).toEqual(group);
-                });
-            });
-
-            describe('Player Invite Canceled', () => {
-                it("should update all group member's store.group to new group", () => {
-                     expect(store.getState().group).toEqual(initialGroup);
-                     socket.socketClient.emit(clientEvents.playerInviteCanceled, group);
-                     expect(store.getState().group).toEqual(group);
+                     expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });
             });
 
             describe('Group Invite Received', () => {
-                it('should add group invite to store.groupInvites', () => {
-                    expect(store.getState().groupInvites).toEqual([]);
+                it('should call add group invite action', () => {
                     socket.socketClient.emit(clientEvents.groupInviteReceived, group);
-                    expect(store.getState().groupInvites).toEqual([group]);
-                });
-
-                it('should not add duplicate group invites to store.groupInvites', () => {
-                    expect(store.getState().groupInvites).toEqual([]);
-                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
-                    socket.socketClient.emit(clientEvents.groupInviteReceived, group);
-                    expect(store.getState().groupInvites).toEqual([group]);
-                });
-
-                it('should add multiple group invites to store.groupInvites', () => {
-                    expect(store.getState().groupInvites).toEqual([]);
-                    groupInvites.forEach((groupInvite) => {
-                        socket.socketClient.emit(clientEvents.groupInviteReceived, groupInvite);
-                    });
-                    expect(store.getState().groupInvites).toEqual(groupInvites);
+                    expect(addGroupInviteAction).toHaveBeenCalledWith(group);
                 });
 
                 it('should sent group invite received notification to user with group leaders display name', () => {
@@ -275,10 +298,9 @@ describe('Model', () => {
             });
 
             describe('Group invite declined', () => {
-                it('should update store.group to new group when clientEvents.groupInviteDeclined is emitted', () => {
-                    expect(store.getState().group).toEqual(initialGroup);
+                it('should call update preferred heroes action', function() {
                     socket.socketClient.emit(clientEvents.groupInviteDeclined, group);
-                    expect(store.getState().group).toEqual(group);
+                    expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });
             });
 
@@ -300,10 +322,9 @@ describe('Model', () => {
                 store.getState().preferredHeroes.heroes = preferredHeroNames;
             });
 
-            it('should update the preferred heroes array to the argument', function() {
-                expect(store.getState().preferredHeroes.heroes).not.toEqual(notPreferredHeroNames);
+            it('should call update preferred heroes action', function() {
                 model.updatePreferredHeroes(notPreferredHeroNames);
-                expect(store.getState().preferredHeroes.heroes).toEqual(notPreferredHeroNames);
+                expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
             });
 
             it('Should send the removeHero socket event for missing heroes', function(done) {
@@ -335,9 +356,8 @@ describe('Model', () => {
             });
 
             it('should push one loading screen for each new hero added to server', () => {
-                store.getState().loading.blockUI = 0;
                 model.updatePreferredHeroes(notPreferredHeroNames);
-                expect(store.getState().loading.blockUI).toBe(notPreferredHeroNames.length);
+                expect(pushBlockingLoadingAction.mock.calls.length).toBe(notPreferredHeroNames.length);
             });
 
             it('should send a preferred hero notifications when hero added to server', function() {
@@ -349,40 +369,26 @@ describe('Model', () => {
         });
 
         describe('addHeroFilter', function() {
-            it('should add the new filter to the filters array', function() {
+            it('should call remove filter action', function() {
                 let filter = names[0];
                 model.addHeroFilterToStore(filter);
-                expect(store.getState().heroFilters).toEqual([filter]);
+                expect(addFilterAction).toHaveBeenCalledWith(filter);
             });
         });
 
-        describe('removeHeroFilter', function() {
-            it('should remove the filter from the filters array', function() {
+        describe('removeHeroFilterFromStore', function() {
+            it('should call remove filter action', function() {
                 let filter = names[0];
-                model.addHeroFilterToStore(filter);
-                model.addHeroFilterToStore(names[1]);
                 model.removeHeroFilterFromStore(filter);
-                expect(store.getState().heroFilters).toEqual([names[1]]);
+                expect(removeFilterAction).toHaveBeenCalledWith(filter);
             });
         });
 
         describe('updateUser', () => {
-            it('should set the user object in the state', () => {
-                let user = generateMockUser('someRandomID');
+            it('should dispatch update user action', () => {
+                let user = generateMockUser();
                 model.updateUser(user);
-                expect(store.getState().user).toEqual(user);
-            });
-
-            it('should replace the user if one is already set', () => {
-                let user = generateMockUser('someRandomID');
-                let user2 = generateMockUser('anotherRandomId');
-
-                expect(user2).not.toEqual(user);
-
-                model.updateUser(user);
-                model.updateUser(user2);
-
-                expect(store.getState().user).toEqual(user2);
+                expect(updateUserAction).toHaveBeenCalledWith(user);
             });
         });
 
@@ -422,9 +428,8 @@ describe('Model', () => {
             });
 
             it('should clear group from store', () => {
-                expect(store.getState().group).not.toBe(initialGroup);
                 model.leaveGroup();
-                expect(store.getState().group).toEqual(initialGroup);
+                expect(leaveGroupAction).toHaveBeenCalled();
             });
 
             it('should call successfullyLeftGroupNotification with user platform display name when in a group with at least 1 member', () => {
@@ -451,11 +456,9 @@ describe('Model', () => {
         describe('acceptGroupInviteAndRemoveFromStore', () => {
             const invite = groupInvites[0];
 
-            it('should remove groupInvite from store groupInvites when passed groupInvite object', () => {
-                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
-                expect(store.getState().groupInvites).toEqual([invite]);
+            it('should dispatch remove group invite action', () => {
                 model.acceptGroupInviteAndRemoveFromStore(invite);
-                expect(store.getState().groupInvites).toEqual([]);
+                expect(removeGroupInviteAction).toHaveBeenCalledWith(invite);
             });
 
             it('should call websocket.groupInviteAccept with groupId when passed groupInvite object', () => {
@@ -473,10 +476,8 @@ describe('Model', () => {
             const invite = groupInvites[0];
 
             it('should remove groupInvite from store groupInvites when passed groupInvite object', () => {
-                socket.socketClient.emit(clientEvents.groupInviteReceived, invite);
-                expect(store.getState().groupInvites).toEqual([invite]);
                 model.declineGroupInviteAndRemoveFromStore(invite);
-                expect(store.getState().groupInvites).toEqual([]);
+                expect(removeGroupInviteAction).toHaveBeenCalledWith(invite);
             });
 
             it('should call websocket.groupInviteDecline with groupId when passed groupInvite object', () => {
