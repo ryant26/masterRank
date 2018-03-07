@@ -37,6 +37,9 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
+    //Popped in syncClientAndServerHeroes()
+    store.dispatch(pushBlockingLoadingAction());
+
     socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(syncClientAndServerHeroes(heroesFromServer, socket)));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
@@ -97,6 +100,7 @@ const updatePreferredHeroes = function(heroes) {
             if (newPreferredHero) {
                 Notifications.preferredHeroNotification(newPreferredHero);
                 socket.addHero(newPreferredHero, i+1);
+                //Popped in _addHeroToStore()
                 store.dispatch(pushBlockingLoadingAction());
             }
         }
@@ -146,6 +150,7 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
+        //Pushed in updatePreferredHeroes()
         store.dispatch(popBlockingLoadingAction());
     }
 

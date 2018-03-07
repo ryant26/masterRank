@@ -42,6 +42,12 @@ describe('Model', () => {
         clearStoreState(store);
     });
 
+    describe('Constructor', () => {
+        it('should set the loading state', () => {
+            expect(store.getState().loading.blockUI).toBe(1);
+        });
+    });
+
     describe('Socket Events', () => {
         const hero = generateMockHero('mercy', user.platformDisplayName);
 
