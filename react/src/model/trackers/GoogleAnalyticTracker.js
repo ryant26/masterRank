@@ -4,10 +4,9 @@ class GoogleAnalyticTracker {
         this.gtag = gtag;
     }
 
-    //TODO: figure out if dev flag can be more dynamic
-    trackEvent(action, dev=false) {
+    trackEvent(action) {
         let [eventCategory, eventAction] = action.type.split('/');
-        if(dev) {
+        if(process.env.NODE_ENV === 'development') {
             console.log(`GA event= [${action.region}, ${eventCategory}, ${eventAction}]`);
         } else {
             this.gtag('event', eventAction, {

@@ -164,9 +164,9 @@ const _removeHeroFromStore = function(hero) {
 
 const _addHeroErrorHandler = function(error) {
     Notifications.errorNotification(error.heroName);
-    removePreferredHeroFromStore(error.heroName);
+    //TODO: implement logic to remove error.heroName from users preferred hereos. Need to modify error, to send {heroName, priority}
+    // removePreferredHeroFromStore(error.heroName, error.priority);
     // Do whatever we do to shuffle heroes in the case that multiple were added
-    // After this one
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {

@@ -23,7 +23,8 @@ const shallowPreferredHeroesContainer = (heroes) => {
     ).dive();
 };
 
-//TODO: Add tests, I may do this when I take the story to match component.state with store.preferred.hereos.
+//TODO: Add tests, I may do this when I take the story to match component.state with store.preferred.heroes.
+//TODO: Test to verify the correct heroImage's are in the correct slots
 describe('PreferredHeroesContainer', () => {
     let component;
     let componentInstance;

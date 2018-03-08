@@ -1,7 +1,7 @@
 import { createStore as createReduxStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import GoogleAnalytic from '../middleware/GoogleAnalytic';
-import GoogleAnalyticTracker from './GoogleAnalyticTracker';
+import GoogleAnalyticTracker from './trackers/GoogleAnalyticTracker';
 
 import reducers from '../reducers/index';
 import { loadState } from './reduxSerializer';

@@ -150,16 +150,6 @@ describe('Model', () => {
                 expect(addHeroAction).toHaveBeenCalledWith(hero);
             });
 
-            //TODO: does error Have priority? If not then this _addHeroErrorHandler() does not work (
-            xit('when error occurs should remove error.hero from the store', function() {
-                const heroName = 'tracer';
-                store.getState().preferredHeroes.heroes = [heroName];
-
-                socket.socketClient.emit(clientEvents.error.addHero, {heroName: heroName});
-                expect(Notifications.errorNotification).toHaveBeenCalledWith(heroName);
-                expect(removePreferredHeroAction).toHaveBeenCalledWith(heroName);
-            });
-
             it('should pop loading screen when hero belongs to the user', function() {
                 expect(store.getState().user.platformDisplayName).toBe(hero.platformDisplayName);
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
@@ -321,7 +311,7 @@ describe('Model', () => {
             beforeEach(() => {
                 store.getState().preferredHeroes.heroes = preferredHeroNames;
             });
-            
+
             it('should call update preferred heroes action', function() {
                 model.updatePreferredHeroes(notPreferredHeroNames);
                 expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
