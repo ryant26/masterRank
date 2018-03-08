@@ -1,111 +1,120 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
 
 import HeroRolesContainer from './HeroRolesContainer';
-import {createStore} from '../../../../model/store';
-import {addHero} from '../../../../actionCreators/heroes/hero';
-import {addFilter} from '../../../../actionCreators/heroFilters';
-import {updateUser} from '../../../../actionCreators/user';
-import {users} from '../../../../resources/users';
+import HeroList from './HeroRolesList/HeroRolesList';
 
-const getHeroRolesContainer = (store) => {
-    return mount(
-        <Provider store={store}>
-            <HeroRolesContainer/>
-        </Provider>
-    );
+const mockStore = configureStore();
+
+const shallowHeroRolesContainer = (heroes, heroFilters) => {
+    let store = mockStore({
+        heroes,
+        heroFilters
+    });
+
+    return shallow(
+        <HeroRolesContainer store={store}/>
+    ).dive();
+};
+
+const getHeroConfig = function(heroName) {
+    return {
+        heroName,
+        platformDisplayName: 'PwNShoPP#1662',
+        skillRating: 2400,
+        stats: {
+            hoursPlayed: 3,
+            wins: 2,
+            losses: 1
+        }
+    };
 };
 
 describe('Hero Roles Container', () => {
-    let wrapper;
-    let store;
-
-    let getHeroConfig = function(heroName) {
-        return {
-            heroName,
-            platformDisplayName: 'PwNShoPP#1662',
-            skillRating: 2400,
-            stats: {
-                hoursPlayed: 3,
-                wins: 2,
-                losses: 1
-            }
-        };
-    };
+    const offenseHeroes = [
+        getHeroConfig('soldier76')
+    ];
+    const defenseHeroes = [
+        getHeroConfig('hanzo')
+    ];
+    const tankHeroes = [
+        getHeroConfig('orisa'),
+        getHeroConfig('reinhardt')
+    ];
+    const supportHeroes = [
+        getHeroConfig('mercy')
+    ];
+    const heroes = [
+        ...offenseHeroes,
+        ...defenseHeroes,
+        ...tankHeroes,
+        ...supportHeroes
+    ];
+    const noHeroFilters = [];
+    let component;
 
     beforeEach(() => {
-        store = createStore();
-        store.dispatch(addHero(getHeroConfig('soldier76')));
-        store.dispatch(addHero(getHeroConfig('hanzo')));
-        store.dispatch(addHero(getHeroConfig('orisa')));
-        store.dispatch(addHero(getHeroConfig('reinhardt')));
-        store.dispatch(addHero(getHeroConfig('mercy')));
-        store.dispatch(updateUser(users[0]));
-        wrapper = getHeroRolesContainer(store);
+        component = shallowHeroRolesContainer(heroes, noHeroFilters);
     });
 
     it ('should render without exploding', () => {
-        const HeroRolesContainerComponent = wrapper.find(HeroRolesContainer);
-        expect(HeroRolesContainerComponent.length).toBeTruthy();
+        expect(component).toHaveLength(1);
     });
 
-    it('should render offense characters in the correct HeroRole Component', () => {        
-        const HeroRolesComponent = wrapper.find("[role='Offense']");
-        expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
-            JSON.stringify(
-                [
-                    getHeroConfig('soldier76')
-                ]
-            )
-        );
+    it('should render offense characters in the correct HeroRole Component', () => {
+        const offenseComponent= component.find(HeroList).at(0);
+        expect(offenseComponent.props().role).toBe('Offense');
+        expect(offenseComponent.props().heroes).toEqual(offenseHeroes);
     });
 
     it('should render defense characters in the correct HeroRole Component', () => {
-        const HeroRolesComponent = wrapper.find("[role='Defense']");
-        expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
-            JSON.stringify(
-                [
-                    getHeroConfig('hanzo')
-                ]
-            )
-        );
+        const defenseComponent= component.find(HeroList).at(1);
+        expect(defenseComponent.props().role).toBe('Defense');
+        expect(defenseComponent.props().heroes).toEqual(defenseHeroes);
     });
 
     it('should render tank characters in the correct HeroRole Component', () => {
-        const HeroRolesComponent = wrapper.find("[role='Tank']");
-        expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
-            JSON.stringify(
-                [
-                  getHeroConfig('orisa'),
-                  getHeroConfig('reinhardt'),
-                ]
-            )
-        );
+        const tankComponent= component.find(HeroList).at(2);
+        expect(tankComponent.props().role).toBe('Tank');
+        expect(tankComponent.props().heroes).toEqual(tankHeroes);
     });
 
     it('should render support characters in the correct HeroRole Component', () => {
-        const HeroRolesComponent = wrapper.find("[role='Support']");
-        expect(JSON.stringify(HeroRolesComponent.props().heroes)).toBe(
-            JSON.stringify(
-                [
-                  getHeroConfig('mercy')
-                ]
-            )
-        );
+        const supportComponent= component.find(HeroList).at(3);
+        expect(supportComponent.props().role).toBe('Support');
+        expect(supportComponent.props().heroes).toEqual(supportHeroes);
     });
 
-    it('should filter out characters when filters are enabled', () => {
-        store.dispatch(addFilter('mccree'));
-        wrapper = getHeroRolesContainer(store);
-        const offensiveList = wrapper.find("[role='Offense']");
-        expect(offensiveList.props().heroes.length).toBe(0);
+    describe('when hero filter is set to mccree and mccree is not in the offensive heroes list', () => {
+        const heroFilter = ['mccree'];
+
+        beforeEach(() => {
+            component = shallowHeroRolesContainer(heroes, heroFilter);
+        });
+
+        it('should filter out all characters from offense role', () => {
+            offenseHeroes.forEach((hero) => {
+                expect(hero.heroName).not.toBe(heroFilter[0]);
+            });
+            const offenseComponent= component.find(HeroList).at(0);
+            expect(offenseComponent.props().role).toBe('Offense');
+            expect(offenseComponent.props().heroes.length).toBe(0);
+        });
+
+        it('should not filter out heroes for other roles', () => {
+            const defenseComponent = component.find(HeroList).at(1);
+            expect(defenseComponent.props().role).toBe('Defense');
+            expect(defenseComponent.props().heroes.length).toBe(defenseHeroes.length);
+
+            const tankComponent = component.find(HeroList).at(2);
+            expect(tankComponent.props().role).toBe('Tank');
+            expect(tankComponent.props().heroes.length).toBe(tankHeroes.length);
+
+            const supportComponent = component.find(HeroList).at(3);
+            expect(supportComponent.props().role).toBe('Support');
+            expect(supportComponent.props().heroes.length).toBe(supportHeroes.length);
+        });
     });
 
-    it('should not filter heroes for other roles', () => {
-        store.dispatch(addFilter('mccree'));
-        wrapper = getHeroRolesContainer(store);
-        const defensiveList = wrapper.find("[role='Defense']");
-        expect(defensiveList.props().heroes.length).toBe(1);
-    });
 });
