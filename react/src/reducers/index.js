@@ -7,8 +7,9 @@ import GroupReducer from './GroupReducer';
 import HeroFiltersReducer from './HeroFiltersReducer';
 import RegionReducer from './RegionReducer';
 import LoadingReducer from './LoadingReducer';
+import RootReducer from './RootReducer';
 
-export default combineReducers({
+const appReducers =  combineReducers({
   heroes: HeroReducer,
   preferredHeroes: PreferredHeroesReducer,
   user: UserReducer,
@@ -18,3 +19,7 @@ export default combineReducers({
   region: RegionReducer,
   loading: LoadingReducer
 });
+
+export default function allReducers(state, action) {
+  return appReducers(RootReducer(state, action), action);
+}
