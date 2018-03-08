@@ -11,14 +11,15 @@
     "react-dom": "16.0.0",
     "react-fontawesome": "^1.6.1",
     "react-helmet": "^5.2.0",
+    "react-joyride": "^1.11.4",
     "react-modal": "^3.1.10",
     "react-redux": "5.0.5",
     "react-router-dom": "4.2.2",
     "react-router-redux": "5.0.0-alpha.6",
+    "react-toastify": "3.3.4",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
-    "socket.io": "^2.0.4",
-    "react-toastify": "3.3.4"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
