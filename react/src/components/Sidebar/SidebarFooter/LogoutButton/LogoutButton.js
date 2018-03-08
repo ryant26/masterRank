@@ -1,9 +1,15 @@
 import React from 'react';
-import { home } from '../../../Routes/links';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const LogoutButton = () => {
+import { home } from '../../../Routes/links';
+import {logout as logoutAction} from "../../../../actionCreators/root";
+
+const LogoutButton = ({logout}) => {
 
     function onClick() {
+        logout();
         localStorage.clear();
         window.location.assign(home);
     }
@@ -15,4 +21,14 @@ const LogoutButton = () => {
     );
 };
 
-export default LogoutButton;
+LogoutButton.propTypes = {
+    logout: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = function (dispatch) {
+    return bindActionCreators({
+        logout: logoutAction,
+    }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(LogoutButton);
