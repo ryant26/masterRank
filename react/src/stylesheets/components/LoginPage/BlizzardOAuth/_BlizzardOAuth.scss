@@ -1,5 +1,15 @@
 .BlizzardOAuth {
-  width: 15%;
-  min-height: 50px;
-  font-family: Industry, Roboto, sans-serif;
+  width: 100%;
+
+  .button-primary {
+    width: 180px;
+    min-height: 35px;
+    font-family: Industry, Roboto, sans-serif;
+    margin-bottom: 35px;
+  }
+
+  .LoginFailedCard {
+    width: 44%;
+  }
+
 }
