@@ -22,6 +22,7 @@ $skewDegrees: -20deg;
   transform: skewX($skewDegrees);
   border: 1px solid $gray13;
   border-radius: 3px;
+  overflow: hidden;
 
   input[type="radio"] {
     display: none;
@@ -37,15 +38,6 @@ $skewDegrees: -20deg;
     box-shadow: -1px 0 0 0 $gray14;
     background-image: linear-gradient(to bottom, $gray15, $gray16);
     @include selectable(none);
-
-    &:first-of-type {
-      border-radius: 3px 0 0 3px;
-    }
-
-    &:last-of-type {
-      border-radius: 0 3px 3px 0;
-
-    }
   }
 
   input[type="radio"]:checked + label {
