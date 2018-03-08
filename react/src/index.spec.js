@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
 import App from './app/App';
-import Store from './model/store';
 import token from './resources/token';
 import {MemoryRouter} from 'react-router-dom';
+
+const mockStore = configureStore();
+jest.mock('./model/store', () => jest.fn());
 
 describe('index', () => {
     beforeEach(() => {
@@ -16,9 +20,10 @@ describe('index', () => {
     });
 
     it('renders without crashing', () => {
+        let store = mockStore({});
         const div = document.createElement('div');
         ReactDOM.render(
-            <Provider store={Store}>
+            <Provider store={store}>
                 <MemoryRouter>
                     <App />
                 </MemoryRouter>
