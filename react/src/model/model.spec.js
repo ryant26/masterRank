@@ -17,7 +17,6 @@ import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
 import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
 jest.mock('../actionCreators/initialData/syncClientAndServerHeroes');
-
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
@@ -102,15 +101,21 @@ describe('Model', () => {
 
     beforeEach(() => {
         store = getMockStore();
+        store.dispatch = jest.fn();
         socket = getMockSocket();
         model.initialize(socket, store);
-        store.dispatch = jest.fn();
         store.getState().user = user;
     });
 
     afterEach(() => {
         clearStoreState(store);
         clearAllMocks();
+    });
+
+    describe('Constructor', () => {
+        it('should set the loading state', () => {
+            expect(pushBlockingLoadingAction).toHaveBeenCalled();
+        });
     });
 
     describe('Socket Events', () => {
@@ -346,8 +351,10 @@ describe('Model', () => {
             });
 
             it('should push one loading screen for each new hero added to server', () => {
+                //Covers the pushBlockingLoadingAction called on model.initialize()
+                expect(pushBlockingLoadingAction.mock.calls.length).toBe(1);
                 model.updatePreferredHeroes(notPreferredHeroNames);
-                expect(pushBlockingLoadingAction.mock.calls.length).toBe(notPreferredHeroNames.length);
+                expect(pushBlockingLoadingAction.mock.calls.length).toBe(notPreferredHeroNames.length + 1);
             });
 
             it('should send a preferred hero notifications when hero added to server', function() {
