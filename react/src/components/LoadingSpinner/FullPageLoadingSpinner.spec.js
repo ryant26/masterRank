@@ -1,31 +1,37 @@
 import React from 'react';
+import configureStore from 'redux-mock-store';
+import { shallow } from 'enzyme';
+
 import FullPageLoadingSpinner from './FullPageLoadingSpinner';
 import LoadingSpinner from './LoadingSpinner';
-import {pushBlockingEvent} from "../../actionCreators/loading";
-import {createStore} from "../../model/store";
-import {mount} from 'enzyme';
+
+const mockStore = configureStore();
+
+const shallowFullPageLoadingSpinner = (blockUI) => {
+    const store = mockStore({
+        loading: {
+            blockUI: blockUI
+        }
+    });
+
+    return shallow(
+        <FullPageLoadingSpinner store={store}/>
+    );
+};
 
 describe('FullPageLoadingSpinner Component', () => {
-    let store;
     let wrapper;
+    let component;
 
-    beforeEach(() => {
-        store = createStore();
-        wrapper = mount(
-            <FullPageLoadingSpinner store={store}/>
-        );
+    it('Should not show the spinner when blockUI value is less than 1', () => {
+        wrapper = shallowFullPageLoadingSpinner(0);
+        component = wrapper.dive();
+        expect(component.find(LoadingSpinner)).toHaveLength(0);
     });
 
-    it('Should not show the spinner when blockUI is falsy', () => {
-        expect(wrapper.find(LoadingSpinner).length).toBeFalsy();
+    it('Should show the spinner when blockUI value is greater than or equal to 1', () => {
+        wrapper = shallowFullPageLoadingSpinner(1);
+        component = wrapper.dive();
+        expect(component.find(LoadingSpinner)).toHaveLength(1);
     });
-
-    it('Should show the spinner when blockUI is truthy', () => {
-        store.dispatch(pushBlockingEvent());
-        wrapper = mount(
-            <FullPageLoadingSpinner store={store}/>
-        );
-        expect(wrapper.find(LoadingSpinner).length).toBeTruthy();
-    });
-
 });
