@@ -57,5 +57,34 @@ describe('ErrorBoundary', () => {
             expect(ErrorBoundaryComponent.state().errorInfo).not.toBe(null);
             expect(ErrorBoundaryComponent.find('.ErrorBoundary')).toHaveLength(1);
         });
+
+        it('should render the "Clear State and Reload" button', () => {
+            expect(ErrorBoundaryComponent.find('button').text()).toBe('Clear State and Reload');
+        });
+
+        describe('when the button is clicked', () => {
+            let button;
+
+            beforeEach(() => {
+                global.window.localStorage = { clear: jest.fn() };
+                window.location.assign = jest.fn();
+
+                button = ErrorBoundaryComponent.find('button');
+            });
+
+            it('should call clear() on localStorage', () => {
+                expect(global.window.localStorage.clear).not.toHaveBeenCalled();
+                button.simulate('click');
+                expect(global.window.localStorage.clear).toHaveBeenCalled();
+            });
+
+            it('should redirect to the home page', () => {
+                expect(window.location.assign).not.toHaveBeenCalled();
+                button.simulate('click');
+                expect(window.location.assign).toHaveBeenCalled();
+            });
+        });
     });
+
+
 });
