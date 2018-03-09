@@ -64,7 +64,7 @@ const GroupStatsContainer = ({group, isLeading}) => {
                 </div>
                 <div className="pending-members">
                     <HeroStatsList
-                        heroes={groupHeroes}
+                        heroes={group.pending}
                         emptyMessage="We have no stats on this group."
                         showPlatformDisplayName={true}
                         groupLeader={group.leader.platformDisplayName+"not"}
