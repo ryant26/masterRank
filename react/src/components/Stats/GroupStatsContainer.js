@@ -54,19 +54,23 @@ const GroupStatsContainer = ({group, isLeading}) => {
                 </div>
             </div>
             <div className="body">
-                <HeroStatsList
-                    heroes={groupHeroes}
-                    emptyMessage="We have no stats on this group."
-                    showPlatformDisplayName={true}
-                    groupLeader={group.leader.platformDisplayName}
-                />
-                <HeroStatsList
-                    heroes={group.pending}
-                    emptyMessage="We have no stats on this group."
-                    showPlatformDisplayName={true}
-                    groupLeader={group.leader.platformDisplayName+"not"}
-                    isPending={true}
-                />
+                <div className="group-members">
+                    <HeroStatsList
+                        heroes={groupHeroes}
+                        emptyMessage="We have no stats on this group."
+                        showPlatformDisplayName={true}
+                        groupLeader={group.leader.platformDisplayName}
+                    />
+                </div>
+                <div className="pending-members">
+                    <HeroStatsList
+                        heroes={groupHeroes}
+                        emptyMessage="We have no stats on this group."
+                        showPlatformDisplayName={true}
+                        groupLeader={group.leader.platformDisplayName+"not"}
+                        isPending={true}
+                    />
+                </div>
             </div>
             {!isLeading ?
                 <div className="footer flex justify-between align-center">
