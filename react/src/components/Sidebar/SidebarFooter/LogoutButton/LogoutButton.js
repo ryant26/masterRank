@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { home } from '../../../Routes/links';
-import {logout as logoutAction} from "../../../../actionCreators/root";
+import {logout as logoutAction} from "../../../../actionCreators/app";
 
 const LogoutButton = ({logout}) => {
 
