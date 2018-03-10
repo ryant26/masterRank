@@ -28,7 +28,7 @@ class PreferredHeroesContainer extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState(() => {
             return {
-                pendingPreferredHeroes: nextProps.heroes
+                pendingPreferredHeroes: [...nextProps.heroes]
             };
         });
     }
