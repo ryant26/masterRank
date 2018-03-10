@@ -4,7 +4,6 @@ import React, {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Model from '../../../model/model';
 import MemberCard from './MemberCard/MemberCard';
 import Modal from "../../Modal/Modal";
 import GroupStatsContainer from "../../Stats/GroupStatsContainer";
@@ -19,10 +18,6 @@ class GroupContainer extends Component {
         };
 
         this.toggleModal = this.toggleModal.bind(this);
-    }
-
-    componentWillUnmount() {
-        Model.leaveGroup();
     }
 
     toggleModal() {

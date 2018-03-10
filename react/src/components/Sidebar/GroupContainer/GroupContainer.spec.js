@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import Model from '../../../model/model';
 import GroupContainer from './GroupContainer';
 import MemberCard from './MemberCard/MemberCard';
 import Modal from "../../Modal/Modal";
@@ -37,17 +36,6 @@ describe('GroupContainer', () => {
             "winston"
         ]
     };
-
-    describe('when component unmounts', () => {
-        it('should call Model.leaveGroup', () => {
-            Model.leaveGroup = jest.fn();
-            wrapper = shallowGroupContainerComponent(group, preferredHeroes, user);
-            GroupContainerComponent = wrapper.dive();
-            expect(Model.leaveGroup).not.toHaveBeenCalled();
-            GroupContainerComponent.unmount();
-            expect(Model.leaveGroup).toHaveBeenCalled();
-        });
-    });
 
     describe('when component loads', () => {
 

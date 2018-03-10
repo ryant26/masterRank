@@ -181,9 +181,4 @@ describe('<PreferredHeroSelector/>', () => {
             expect(wrapper.state(['selectedHero'])).toBe('ana');
         });
     });
-
-    describe('Setting heroes prop should be reflected in internal state', () => {
-        
-    });
-
 });
