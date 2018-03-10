@@ -4,8 +4,8 @@ import configureStore from 'redux-mock-store';
 
 import LogoutButton from './LogoutButton';
 import { home } from '../../../Routes/links';
-import { logout }from '../../../../actionCreators/root';
-jest.mock('../../../../actionCreators/root', () => ({
+import { logout }from '../../../../actionCreators/app';
+jest.mock('../../../../actionCreators/app', () => ({
     logout: jest.fn(() => ({type: 'sometype'}))
 }));
 
