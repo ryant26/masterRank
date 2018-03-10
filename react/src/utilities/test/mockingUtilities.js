@@ -32,8 +32,13 @@ export const mockGetState = (user=generateMockUser(), preferredHeroNames=[]) => 
 
 export const mockLocalStorage = () => {
     window.localStorage = {
-        getItem: jest.fn()
+        getItem: jest.fn(),
+        clear: jest.fn()
     };
+};
+
+export const mockLocation = () => {
+    window.location.assign = jest.fn();
 };
 
 export const getMockResponse = (status, statusText, jsonObj) => {
