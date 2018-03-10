@@ -103,6 +103,32 @@ export const getHeroes = () => {return [
             "pAvgObjTime": 1
         }
     },
+    {
+        "platformDisplayName": "PwNShoPP#1662",
+        "heroName": "ana",
+        "skillRating": 2400,
+        "priority": 4,
+        "stats": {
+            "hoursPlayed": 3,
+            "wins": 20,
+            "losses": 7,
+            "gamesPlayed": 27,
+            "kdRatio": 2.9936305732484074,
+            "accuracy": 36,
+            "blockedPerMin": 0,
+            "healingPerMin": 148.0888888888889,
+            "damagePerMin": 1338.638888888889,
+            "avgObjElims": 10.5,
+            "avgObjTime": 56.22222222222222,
+            "pKdRatio": 1,
+            "pAccuracy": 1,
+            "pBlockedPerMin": 0,
+            "pHealingPerMin": 1,
+            "pDamagePerMin": 1,
+            "pAvgObjElims": 1,
+            "pAvgObjTime": 1
+        }
+    },
 ];
 };
 
