@@ -9,6 +9,8 @@ jest.mock('../../../../actionCreators/app', () => ({
     logout: jest.fn(() => ({type: 'sometype'}))
 }));
 
+import {mockLocalStorage, mockLocation} from "../../../../utilities/test/mockingUtilities";
+
 describe('Logout button', () => {
     describe('when clicked', () => {
         let logoutComponent;
@@ -17,8 +19,8 @@ describe('Logout button', () => {
         beforeEach(() => {
             let mockStore = configureStore();
 
-            window.location.assign = jest.fn();
-            global.window.localStorage = { clear: jest.fn() };
+            mockLocation();
+            mockLocalStorage();
 
             logoutComponent = shallow(<LogoutButton store={mockStore()}/>).dive();
             logoutButton = logoutComponent.find('.LogoutButton');
@@ -29,9 +31,9 @@ describe('Logout button', () => {
         });
 
         it('should clear local storage', () => {
-            expect(global.window.localStorage.clear).not.toHaveBeenCalled();
+            expect(window.localStorage.clear).not.toHaveBeenCalled();
             logoutButton.simulate('click');
-            expect(global.window.localStorage.clear).toHaveBeenCalled();
+            expect(window.localStorage.clear).toHaveBeenCalled();
         });
 
         it('should redirect to login page', () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import ErrorBoundary from './ErrorBoundary';
+import {mockLocalStorage, mockLocation} from "../../utilities/test/mockingUtilities";
 
 const SomethingsWrong = () => {
   throw Error('Error something went wrong');
@@ -66,8 +67,8 @@ describe('ErrorBoundary', () => {
             let button;
 
             beforeEach(() => {
-                global.window.localStorage = { clear: jest.fn() };
-                window.location.assign = jest.fn();
+                mockLocalStorage();
+                mockLocation();
 
                 button = ErrorBoundaryComponent.find('button');
             });
@@ -79,9 +80,9 @@ describe('ErrorBoundary', () => {
             });
 
             it('should redirect to the home page', () => {
-                expect(window.location.assign).not.toHaveBeenCalled();
+                expect(global.window.location.assign).not.toHaveBeenCalled();
                 button.simulate('click');
-                expect(window.location.assign).toHaveBeenCalled();
+                expect(global.window.location.assign).toHaveBeenCalled();
             });
         });
     });
