@@ -7,7 +7,7 @@ import GroupReducer from './GroupReducer';
 import HeroFiltersReducer from './HeroFiltersReducer';
 import RegionReducer from './RegionReducer';
 import LoadingReducer from './LoadingReducer';
-import RootReducer from './RootReducer';
+import AppReducer from './AppReducer';
 
 const appReducers =  combineReducers({
   heroes: HeroReducer,
@@ -21,5 +21,5 @@ const appReducers =  combineReducers({
 });
 
 export default function allReducers(state, action) {
-  return appReducers(RootReducer(state, action), action);
+  return appReducers(AppReducer(state, action), action);
 }
