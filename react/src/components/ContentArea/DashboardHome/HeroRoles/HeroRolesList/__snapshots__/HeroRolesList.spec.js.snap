@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
+exports[`HeroRolesList Component should match the snapshot multiple heroes 1`] = `
 <div
   className="HeroRolesList card flex flex-column grow"
 >
@@ -23,6 +23,69 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
   <div
     className="body flex flex-column"
   >
+    <div
+      className="HeroCard flex align-center"
+    >
+      <div
+        className="invitePlayerButton"
+      >
+        <img
+          alt="ana icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+        <div
+          className="overlay"
+        >
+          <div
+            className="plus-container flex align-center justify-center"
+            onClick={[Function]}
+          >
+            <i
+              className="fa fa-plus"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="content flex flex-column"
+      >
+        <div
+          className="display-name"
+        >
+          You
+        </div>
+        <div
+          className="sub-title"
+        >
+          <span>
+            2400 SR
+          </span>
+          <span>
+             | 
+          </span>
+          <span>
+            74.1
+            % WR
+          </span>
+        </div>
+      </div>
+      <div
+        className="button-primary"
+        onClick={[Function]}
+      >
+        <div
+          className="button-content"
+        >
+          stats
+        </div>
+      </div>
+    </div>
     <div
       className="HeroCard flex align-center"
     >
@@ -279,7 +342,7 @@ exports[`HeroRoles Component should match the snapshot multiple heroes 1`] = `
 </div>
 `;
 
-exports[`HeroRoles Component should match the snapshot no heroes 1`] = `
+exports[`HeroRolesList Component should match the snapshot no heroes 1`] = `
 <div
   className="HeroRolesList card flex flex-column grow"
 >
@@ -313,7 +376,7 @@ exports[`HeroRoles Component should match the snapshot no heroes 1`] = `
 </div>
 `;
 
-exports[`HeroRoles Component should match the snapshot single hero 1`] = `
+exports[`HeroRolesList Component should match the snapshot single hero 1`] = `
 <div
   className="HeroRolesList card flex flex-column grow"
 >
@@ -343,7 +406,7 @@ exports[`HeroRoles Component should match the snapshot single hero 1`] = `
         className="invitePlayerButton"
       >
         <img
-          alt="soldier76 icon"
+          alt="ana icon"
           className="HeroImage"
           onClick={undefined}
           src={
@@ -383,7 +446,7 @@ exports[`HeroRoles Component should match the snapshot single hero 1`] = `
              | 
           </span>
           <span>
-            61.1
+            74.1
             % WR
           </span>
         </div>

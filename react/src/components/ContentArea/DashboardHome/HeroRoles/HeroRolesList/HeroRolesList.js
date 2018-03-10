@@ -12,8 +12,20 @@ export default class HeroRoles extends Component {
         const heroes = this.props.heroes;
         const role = this.props.role;
 
-        let heroCardComponents = heroes.map((hero, i) => {
-            return <HeroCard hero={hero} key={i}/>;
+        const getWinRate = (hero) => {
+
+            if (hero.stats) {
+                let wins = hero.stats.wins || 0;
+                let gamesPlayed = hero.stats.gamesPlayed || 1;
+
+                return wins / gamesPlayed;
+            }
+
+            return 0;
+        };
+
+        let heroCardComponents = heroes.sort((h1, h2) => getWinRate(h1) < getWinRate(h2)).map((hero) => {
+            return <HeroCard hero={hero} key={hero.platformDisplayName + hero.heroName}/>;
         });
 
         if (!heroCardComponents.length) {
