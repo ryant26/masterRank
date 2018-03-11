@@ -94,7 +94,8 @@
     ],
     "globals": {
       "__DEV__": false
-    }
+    },
+    "moduleDirectories": ["src","node_modules"]
   },
   "babel": {
     "presets": [
@@ -137,6 +138,13 @@
   },
   "eslintConfig": {
     "root": true,
+    "settings": {
+      "import/resolver":{
+        "node": {
+          "paths": ["src"]
+        }
+      }
+    },
     "extends": [
       "eslint:recommended",
       "plugin:import/errors",
