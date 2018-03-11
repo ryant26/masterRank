@@ -7,10 +7,10 @@ import renderer from 'react-test-renderer';
 import GroupStatsContainer from './GroupStatsContainer';
 import HeroStatsList from './HeroStatsList/HeroStatsList';
 import HeroImages from './HeroImages/HeroImages';
-import Model from '../../model/model';
+import Model from 'model/model';
 
-import { users } from '../../resources/users';
-import groups from '../../resources/groupInvites';
+import { users } from 'resources/users';
+import groups from 'resources/groupInvites';
 
 const mockStore = configureStore();
 

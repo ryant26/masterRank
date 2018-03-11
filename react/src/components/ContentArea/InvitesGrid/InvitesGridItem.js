@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HeroCard from '../DashboardHome/HeroRoles/HeroCard/HeroCard';
-import Model from '../../../model/model';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
+import Model from 'model/model';
 
 const InvitesGridItem = ({invite}) => {
     let numberOfMembers = invite.members.length + 1;

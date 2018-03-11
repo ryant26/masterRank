@@ -5,10 +5,10 @@ import configureStore from 'redux-mock-store';
 import 'isomorphic-fetch';
 
 import Authentication from './Authentication';
-import LoginPage from '../../../pages/LoginPage/LoginPage';
-import token from '../../../resources/token';
-import { home } from '../../Routes/links';
-jest.mock('../../../actionCreators/user', () => {
+import LoginPage from 'pages/LoginPage/LoginPage';
+import token from 'resources/token';
+import { home } from 'components/Routes/links';
+jest.mock('actionCreators/user', () => {
     return jest.fn();
 });
 

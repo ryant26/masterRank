@@ -7,9 +7,9 @@ import configureStore from 'redux-mock-store';
 
 
 import PrivateRoute from './PrivateRoute';
-import Authentication from '../../Login/Authentication/Authentication';
-import Title from '../../Sidebar/Title/Title';
-import { users as arrayUsers} from '../../../resources/users';
+import Authentication from 'components/Login/Authentication/Authentication';
+import Title from 'components/Sidebar/Title/Title';
+import { users as arrayUsers} from 'resources/users';
 
 const getPrivateRouteComponent = (component, user) => {
     let mockStore = configureStore();

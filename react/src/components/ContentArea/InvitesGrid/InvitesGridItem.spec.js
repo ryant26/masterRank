@@ -5,12 +5,12 @@ import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 
 import InvitesGridItem from './InvitesGridItem';
-import HeroCard from '../DashboardHome/HeroRoles/HeroCard/HeroCard';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 
 
-import Model from '../../../model/model';
-import groupInvites from '../../../resources/groupInvites';
-import { users } from '../../../resources/users';
+import Model from 'model/model';
+import groupInvites from 'resources/groupInvites';
+import { users } from 'resources/users';
 
 
 const mockStore = configureStore();

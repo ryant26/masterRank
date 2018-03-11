@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import HeroSlot from '../HeroSlot/HeroSlot';
 import PreferredHeroSelector from './PreferredHeroSelector';
-import HeroSelector from '../../../ContentArea/DashboardHome/HeroSelector/HeroSelector';
+import HeroSelector from 'components/ContentArea/DashboardHome/HeroSelector/HeroSelector';
 
 const heroNames = require('../../../../../../shared/libs/allHeroNames').names;
 

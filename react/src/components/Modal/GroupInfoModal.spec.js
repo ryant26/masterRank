@@ -5,10 +5,10 @@ import configureStore from 'redux-mock-store';
 import GroupInfoModal from './GroupInfoModal';
 import Modal from './Modal';
 
-import groups from '../../resources/groupInvites';
-import { users } from '../../resources/users';
+import groups from 'resources/groupInvites';
+import { users } from 'resources/users';
 
-import GroupStatsContainer from '../Stats/GroupStatsContainer';
+import GroupStatsContainer from 'components/Stats/GroupStatsContainer';
 
 const mockStore = configureStore();
 

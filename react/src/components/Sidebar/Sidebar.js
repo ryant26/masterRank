@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Title from './Title/Title';
-import UserCard from '../UserCard/UserCard';
+import UserCard from 'components/UserCard/UserCard';
 import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
 import Invites from './Invites/InvitesContainer';
 import GroupContainer from './GroupContainer/GroupContainer';

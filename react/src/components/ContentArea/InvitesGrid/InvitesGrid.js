@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {home} from '../../Routes/links';
+import {home} from 'components/Routes/links';
 import {connect} from 'react-redux';
-import Badge from '../../Badge/Badge';
+import Badge from 'components/Badge/Badge';
 import InvitesGridItem from './InvitesGridItem';
 import PropTypes from 'prop-types';
 

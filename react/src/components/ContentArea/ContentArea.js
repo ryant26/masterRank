@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import {home, allInvites} from "../Routes/links";
+import {home, allInvites} from "components/Routes/links";
 import DashboardHome from './DashboardHome/DashboardHome';
 import InvitesGrid from './InvitesGrid/InvitesGrid';
 

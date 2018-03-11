@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DisableableHeroImage from "../../Images/DisableableHeroImage/DisableableHeroImage";
+import DisableableHeroImage from "components/Images/DisableableHeroImage/DisableableHeroImage";
 import PropTypes from 'prop-types';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';

@@ -4,12 +4,12 @@ import configureStore from 'redux-mock-store';
 
 import GroupContainer from './GroupContainer';
 import MemberCard from './MemberCard/MemberCard';
-import Modal from "../../Modal/Modal";
-import GroupStatsContainer from "../../Stats/GroupStatsContainer";
+import Modal from "components/Modal/Modal";
+import GroupStatsContainer from "components/Stats/GroupStatsContainer";
 import LeaveGroupButton from './LeaveGroupButton/LeaveGroupButton';
 
-import { initialGroup, groupInvites } from '../../../resources/groupInvites';
-import { users } from '../../../resources/users';
+import { initialGroup, groupInvites } from 'resources/groupInvites';
+import { users } from 'resources/users';
 
 const mockStore = configureStore();
 

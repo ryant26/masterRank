@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import Notification from './Notification';
-import history from '../../../model/history';
-jest.mock('../../../model/history');
+import history from 'model/history';
+jest.mock('model/history');
 
 const shallowNotification = ({message, title, icon, type, redirectUrl}) => {
     return shallow(

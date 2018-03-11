@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 
 import AddHeroIcon from './AddHeroIcon';
 import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
-import Model from '../../../model/model';
-jest.mock('../../../model/model');
+import Model from 'model/model';
+jest.mock('model/model');
 
 import PreferredHeroesContainer from './PreferredHeroesContainer';
 

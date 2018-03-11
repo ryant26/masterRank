@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeroSelector from '../../../ContentArea/DashboardHome/HeroSelector/HeroSelector';
+import HeroSelector from 'components/ContentArea/DashboardHome/HeroSelector/HeroSelector';
 import PropTypes from 'prop-types';
 import HeroSlot from '../HeroSlot/HeroSlot';
 

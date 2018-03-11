@@ -6,10 +6,10 @@ import renderer from 'react-test-renderer';
 import HeroStatsListItem from './HeroStatsListItem';
 import RecordStat from './RecordStat';
 import HeroStat from './HeroStat';
-import DisableableHeroImage from "../../Images/DisableableHeroImage/DisableableHeroImage";
+import DisableableHeroImage from "components/Images/DisableableHeroImage/DisableableHeroImage";
 
-import { users } from '../../../resources/users';
-import { getHeroes } from '../../../resources/heroes';
+import { users } from 'resources/users';
+import { getHeroes } from 'resources/heroes';
 
 const mockStore = configureStore();
 

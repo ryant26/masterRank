@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import ErrorBoundary from './ErrorBoundary';
-import {mockLocalStorage, mockLocation} from "../../utilities/test/mockingUtilities";
+import {mockLocalStorage, mockLocation} from "utilities/test/mockingUtilities";
 
 const SomethingsWrong = () => {
   throw Error('Error something went wrong');

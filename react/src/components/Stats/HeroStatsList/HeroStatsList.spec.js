@@ -5,9 +5,9 @@ import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
 import HeroStatsList from './HeroStatsList';
-import HeroStatsListItem from '../HeroStatsListItem/HeroStatsListItem';
-import { users } from '../../../resources/users';
-import { getHeroes } from '../../../resources/heroes';
+import HeroStatsListItem from 'components/Stats/HeroStatsListItem/HeroStatsListItem';
+import { users } from 'resources/users';
+import { getHeroes } from 'resources/heroes';
 
 const mockStore = configureStore();
 const shallowHeroStatsList = (heroes, groupLeader='', showPlatformDisplayName=false, isPending=false) => {

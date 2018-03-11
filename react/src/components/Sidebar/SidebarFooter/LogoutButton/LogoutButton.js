@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { home } from '../../../Routes/links';
-import {logout as logoutAction} from "../../../../actionCreators/app";
+import { home } from 'components/Routes/links';
+import {logout as logoutAction} from "actionCreators/app";
 
 const LogoutButton = ({logout}) => {
 

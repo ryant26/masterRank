@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import UserCard from '../../UserCard/UserCard';
+import UserCard from 'components/UserCard/UserCard';
 import {
     pushBlockingEvent as pushLoadingEventAction,
     popBlockingEvent as popLoadingEventAction
-} from "../../../actionCreators/loading";
+} from "actionCreators/loading";
 
 const UserSelector = ({users, region, setLoading, clearLoading}) => {
 

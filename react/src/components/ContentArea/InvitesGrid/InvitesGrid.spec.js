@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import InvitesGrid from './InvitesGrid';
-import groupInvites from '../../../resources/groupInvites';
-import { users } from '../../../resources/users';
+import groupInvites from 'resources/groupInvites';
+import { users } from 'resources/users';
 
 const mockStore = configureStore();
 const getStore = () => {

@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 jest.mock('react-toastify');
 
 import Notification from './Notification/Notification';
-import { allInvites } from '../Routes/links';
+import { allInvites } from 'components/Routes/links';
 
-import groupInvites from '../../resources/groupInvites';
+import groupInvites from 'resources/groupInvites';
 
 import {
     inviteSentNotification,

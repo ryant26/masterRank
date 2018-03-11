@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import Model from '../../../../model/model';
-import HeroImage from '../../../Images/HeroImage/HeroImage';
+import Model from 'model/model';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
 import MemberCardInfo from './MemberCardInfo/MemberCardInfo';
 
 const classNames = require('classnames');

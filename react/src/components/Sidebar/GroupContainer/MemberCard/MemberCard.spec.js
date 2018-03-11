@@ -2,11 +2,11 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import MemberCard from './MemberCard';
-import HeroImage from '../../../Images/HeroImage/HeroImage';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
 import MemberCardInfo from './MemberCardInfo/MemberCardInfo';
-import Module from '../../../../model/model';
+import Module from 'model/model';
 
-import groupInvites from '../../../../resources/groupInvites';
+import groupInvites from 'resources/groupInvites';
 
 
 const getMemberCardComponent = (member, number, isPending, isLeader, isUser=false) => {

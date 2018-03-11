@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import {home} from "../Routes/links";
+import {home} from "components/Routes/links";
 
 class ErrorBoundary extends Component {
     constructor(props) {
