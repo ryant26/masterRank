@@ -8,6 +8,7 @@ import HeroFiltersReducer from './HeroFiltersReducer';
 import RegionReducer from './RegionReducer';
 import LoadingReducer from './LoadingReducer';
 import AppReducer from './AppReducer';
+import WalkthroughReducer from './walkthrough/WalkthroughReducer';
 
 const appReducers =  combineReducers({
   heroes: HeroReducer,
@@ -17,7 +18,8 @@ const appReducers =  combineReducers({
   groupInvites: GroupInvitesReducer,
   heroFilters: HeroFiltersReducer,
   region: RegionReducer,
-  loading: LoadingReducer
+  loading: LoadingReducer,
+  runWalkthrough: WalkthroughReducer
 });
 
 export default function allReducers(state, action) {

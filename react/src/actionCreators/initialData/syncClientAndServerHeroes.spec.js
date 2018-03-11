@@ -14,6 +14,8 @@ import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroe
 jest.mock('../preferredHeroes/preferMostPlayedHeroes');
 import { addHeroesToServer } from '../heroes/addHeroesToServer';
 jest.mock('../heroes/addHeroesToServer');
+import { toggleWalkthrough } from '../walkthrough/walkthrough';
+jest.mock('../walkthrough/walkthrough');
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
 import { autoPreferredNotification } from '../../components/Notifications/Notifications';
@@ -29,6 +31,7 @@ const clearAllMockedImports = () => {
     preferMostPlayedHeroes.mockClear();
     addHeroesToServer.mockClear();
     autoPreferredNotification.mockClear();
+    toggleWalkthrough.mockClear();
 };
 
 describe('syncClientAndServerHeroes', () => {
@@ -99,6 +102,10 @@ describe('syncClientAndServerHeroes', () => {
         it('call popBlockingLoadingAction, to clear the pushed loading screen set in model.initialize', () => {
             expect(popBlockingLoadingAction).toHaveBeenCalled();
         });
+
+        it('dispatch toggle walkthrough action', () => {
+            expect(toggleWalkthrough).toHaveBeenCalled();
+        });
     });
 
     describe('when user has no preferred heroes', () => {
@@ -122,8 +129,6 @@ describe('syncClientAndServerHeroes', () => {
             expect(getState().preferredHeroes.heroes).toEqual([]);
             expect(addHeroesToServer).not.toHaveBeenCalled();
         });
-
-
     });
 
     describe('when user has no preferred heroes', () => {

@@ -1,20 +1,25 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
 
 import JoyRide from 'react-joyride';
 import Walkthrough from './Walkthrough';
 
-const shallowWalkthrough = (start) => {
+const mockStore = configureStore();
+const shallowWalkthrough = (runWalkthrough) => {
+    let store = mockStore({
+        runWalkthrough
+    });
     return shallow(
-        <Walkthrough start={start}/>
-    );
+        <Walkthrough store={store}/>
+    ).dive();
 };
 
 describe('Walkthrough', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowWalkthrough();
+        wrapper = shallowWalkthrough(false);
     });
 
     it('should render', () => {
@@ -28,6 +33,7 @@ describe('Walkthrough', () => {
         });
 
         describe('step', () => {
+            //TODO: Finalize all steps and add their tests.
             describe('one', () => {
                 let stepOne;
 
@@ -54,11 +60,11 @@ describe('Walkthrough', () => {
             });
         });
 
-        it('should set run prop to false by default', () => {
+        it('should set run prop to false when runWalkthrough prop is false', () => {
             expect(wrapper.find(JoyRide).props().run).toBe(false);
         });
 
-        it('should set run prop to true when Walkthrough start prop is true', () => {
+        it('should set run prop to true when runWalkthrough prop is true', () => {
             wrapper = shallowWalkthrough(true);
             expect(wrapper.find(JoyRide).props().run).toBe(true);
         });

@@ -7,6 +7,7 @@ import {
 } from "../loading";
 import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroes';
 import { addHeroesToServer } from '../heroes/addHeroesToServer';
+import { toggleWalkthrough } from '../walkthrough/walkthrough';
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
 import { autoPreferredNotification } from '../../components/Notifications/Notifications';
@@ -37,6 +38,7 @@ export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
         //Pushed in models.initialize
         dispatch(popBlockingLoadingAction());
+        dispatch(toggleWalkthrough());
     };
 };
 
