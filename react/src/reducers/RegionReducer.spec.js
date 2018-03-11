@@ -1,5 +1,5 @@
-import RegionReducer from '../reducers/RegionReducer';
-import * as RegionActionTypes from '../actiontypes/region';
+import RegionReducer from 'reducers/RegionReducer';
+import * as RegionActionTypes from 'actiontypes/region';
 
 describe('Platform Reducer', () => {
 

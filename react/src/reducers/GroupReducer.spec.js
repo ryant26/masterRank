@@ -1,7 +1,7 @@
 import GroupReducer from './GroupReducer';
-import * as GroupActionTypes from '../actiontypes/group';
+import * as GroupActionTypes from 'actiontypes/group';
 
-import groupInvites from '../resources/groupInvites';
+import groupInvites from 'resources/groupInvites';
 
 const initialState = {
     groupId: null,

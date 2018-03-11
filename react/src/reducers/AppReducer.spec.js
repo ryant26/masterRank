@@ -1,5 +1,5 @@
 import AppReducer from './AppReducer';
-import * as AppActionTypes from '../actiontypes/app';
+import * as AppActionTypes from 'actiontypes/app';
 
 describe('App Reducer', () => {
 

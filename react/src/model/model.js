@@ -1,33 +1,33 @@
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
-} from "../actionCreators/heroes/hero";
+} from "actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
     updateHeroes as updatePreferredHeroesAction
-} from "../actionCreators/preferredHeroes/preferredHeroes";
-import { updateUser as updateUserAction } from "../actionCreators/user";
+} from "actionCreators/preferredHeroes/preferredHeroes";
+import { updateUser as updateUserAction } from "actionCreators/user";
 import {
     addFilter as addFilterAction,
     removeFilter as removeFilterAction,
     removeAllFilters as removeAllFiltersAction
-} from "../actionCreators/heroFilters";
+} from "actionCreators/heroFilters";
 import {
     updateGroup as updateGroupAction,
     leaveGroup as leaveGroupAction
-} from '../actionCreators/group';
-import { clientEvents } from "../api/websocket";
+} from 'actionCreators/group';
+import { clientEvents } from "api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
     removeGroupInvite as removeGroupInviteAction
-} from '../actionCreators/groupInvites';
+} from 'actionCreators/groupInvites';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
-} from "../actionCreators/loading";
-import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
+} from "actionCreators/loading";
+import { syncClientAndServerHeroes } from 'actionCreators/initialData/syncClientAndServerHeroes';
 
-import * as Notifications from '../components/Notifications/Notifications';
+import * as Notifications from 'components/Notifications/Notifications';
 
 
 let socket;

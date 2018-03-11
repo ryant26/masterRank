@@ -1,18 +1,18 @@
-import { getMockSocket, generateMockUser } from '../../utilities/test/mockingUtilities';
+import { getMockSocket, generateMockUser } from 'utilities/test/mockingUtilities';
 
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
-} from "../loading";
-jest.mock('../loading');
-import fetchMostPlayedHeroes from '../../api/heroApi/fetchMostPlayedHeroes';
-jest.mock('../../api/heroApi/fetchMostPlayedHeroes');
+} from "actionCreators/loading";
+jest.mock('actionCreators/loading');
+import fetchMostPlayedHeroes from 'api/heroApi/fetchMostPlayedHeroes';
+jest.mock('api/heroApi/fetchMostPlayedHeroes');
 import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
 jest.mock('./preferredHeroes');
-import { addHeroesToServer } from '../heroes/addHeroesToServer';
-jest.mock('../heroes/addHeroesToServer');
-import token from '../../resources/token';
-import { getHeroes } from '../../resources/heroes';
+import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
+jest.mock('actionCreators/heroes/addHeroesToServer');
+import token from 'resources/token';
+import { getHeroes } from 'resources/heroes';
 
 import { preferMostPlayedHeroes } from './preferMostPlayedHeroes';
 

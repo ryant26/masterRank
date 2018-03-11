@@ -1,4 +1,4 @@
-import * as GroupHeroActionTypes from '../actiontypes/group';
+import * as GroupHeroActionTypes from 'actiontypes/group';
 
 const initialState = {
     groupId: null,

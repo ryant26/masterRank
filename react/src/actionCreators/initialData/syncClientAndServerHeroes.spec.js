@@ -1,4 +1,4 @@
-import * as mockUtils from '../../utilities/test/mockingUtilities';
+import * as mockUtils from 'utilities/test/mockingUtilities';
 
 import {
     addHero as addHeroAction,

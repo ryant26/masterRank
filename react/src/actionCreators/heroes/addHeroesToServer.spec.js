@@ -1,4 +1,4 @@
-import { getMockSocket } from '../../utilities/test/mockingUtilities';
+import { getMockSocket } from 'utilities/test/mockingUtilities';
 
 import { addHeroesToServer } from './addHeroesToServer';
 

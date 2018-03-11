@@ -1,5 +1,5 @@
 import LoadingReducer from './LoadingReducer';
-import * as LoadingActionTypes from '../actiontypes/loading';
+import * as LoadingActionTypes from 'actiontypes/loading';
 
 const initialState = {
     blockUI: 0

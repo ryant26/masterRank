@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import logger from '../utilities/logger';
+import logger from 'utilities/logger';
 import {getSocketApiBase} from './apiRouter';
 const decode  = require('jwt-decode');
 

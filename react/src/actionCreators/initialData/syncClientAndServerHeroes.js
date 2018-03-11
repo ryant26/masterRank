@@ -1,15 +1,15 @@
 import {
     addHero as addHeroAction,
     clearAllHeroes as clearAllHeroesAction
-} from "../heroes/hero";
+} from "actionCreators/heroes/hero";
 import {
     popBlockingEvent as popBlockingLoadingAction,
-} from "../loading";
-import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroes';
-import { addHeroesToServer } from '../heroes/addHeroesToServer';
+} from "actionCreators/loading";
+import { preferMostPlayedHeroes } from 'actionCreators/preferredHeroes/preferMostPlayedHeroes';
+import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
 
-import NotRealHeroes from '../../resources/metaListFillerHeroes';
-import { autoPreferredNotification } from '../../components/Notifications/Notifications';
+import NotRealHeroes from 'resources/metaListFillerHeroes';
+import { autoPreferredNotification } from 'components/Notifications/Notifications';
 
 export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 

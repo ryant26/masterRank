@@ -5,12 +5,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import PlatformSelection from '../../components/Login/PlatformSelection/PlatformSelection';
-import RegionSelection from '../../components/Login/RegionSelection/RegionSelection';
-import FullPageLoadingSpinner from '../../components/LoadingSpinner/FullPageLoadingSpinner';
-import ConsoleUserSearch from '../../components/Login/ConsoleUserSearch/ConsoleUserSearch';
-import BlizzardOAuth from '../../components/Login/BlizzardOAuth/BlizzardOAuth';
-import {updateRegion as updateRegionAction} from '../../actionCreators/region';
+import PlatformSelection from 'components/Login/PlatformSelection/PlatformSelection';
+import RegionSelection from 'components/Login/RegionSelection/RegionSelection';
+import FullPageLoadingSpinner from 'components/LoadingSpinner/FullPageLoadingSpinner';
+import ConsoleUserSearch from 'components/Login/ConsoleUserSearch/ConsoleUserSearch';
+import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
+import {updateRegion as updateRegionAction} from 'actionCreators/region';
 
 
 class LoginPage extends Component {

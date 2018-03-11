@@ -1,4 +1,4 @@
-import * as UserActionTypes from '../actiontypes/user';
+import * as UserActionTypes from 'actiontypes/user';
 
 export default function UserReducer(state=null, action) {
     switch(action.type) {

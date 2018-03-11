@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 
-import { users } from '../../resources/users';
+import { users } from 'resources/users';
 
 const mockSocket = require('socket-io-mock');
 
