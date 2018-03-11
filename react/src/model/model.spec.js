@@ -17,6 +17,9 @@ import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
 import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
 jest.mock('../actionCreators/initialData/syncClientAndServerHeroes');
+import { leaveGroup as leaveGroupAction } from '../actionCreators/group/leaveGroup';
+jest.mock('../actionCreators/group/leaveGroup');
+
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
@@ -35,10 +38,9 @@ import {
 } from "../actionCreators/heroFilters";
 jest.mock("../actionCreators/heroFilters");
 import {
-    updateGroup as updateGroupAction,
-    leaveGroup as leaveGroupAction
-} from '../actionCreators/group';
-jest.mock('../actionCreators/group');
+    updateGroup as updateGroupAction
+} from '../actionCreators/group/group';
+jest.mock('../actionCreators/group/group');
 import {
     addGroupInvite as addGroupInviteAction,
     removeGroupInvite as removeGroupInviteAction
@@ -412,34 +414,9 @@ describe('Model', () => {
         });
 
         describe('leaveGroup', () => {
-            const group = groupInvites[0];
-
-            beforeEach(() => {
-                store.getState().group = group;
-                Notifications.successfullyLeftGroupNotification.mockClear();
-            });
-
-            it('should call websocket.leaveGroup', () => {
+            it('should dispatch leave group action with socket', () => {
                 model.leaveGroup();
-                expect(socket.groupLeave).toHaveBeenCalled();
-            });
-
-            it('should clear group from store', () => {
-                model.leaveGroup();
-                expect(leaveGroupAction).toHaveBeenCalled();
-            });
-
-            it('should call successfullyLeftGroupNotification with user platform display name when in a group with at least 1 member', () => {
-                model.leaveGroup();
-                expect(Notifications.successfullyLeftGroupNotification).toHaveBeenCalledWith(group.leader.platformDisplayName);
-            });
-
-            it('should not call successfullyLeftGroupNotification when leader of group with no members', () => {
-                let emptyGroup = initialGroup;
-                emptyGroup.leader = user;
-                store.getState().group = emptyGroup;
-                model.leaveGroup();
-                expect(Notifications.successfullyLeftGroupNotification).not.toHaveBeenCalled();
+                expect(leaveGroupAction).toHaveBeenCalledWith(socket);
             });
         });
 

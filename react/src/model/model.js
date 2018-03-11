@@ -13,9 +13,8 @@ import {
     removeAllFilters as removeAllFiltersAction
 } from "../actionCreators/heroFilters";
 import {
-    updateGroup as updateGroupAction,
-    leaveGroup as leaveGroupAction
-} from '../actionCreators/group';
+    updateGroup as updateGroupAction
+} from '../actionCreators/group/group';
 import { clientEvents } from "../api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
@@ -26,6 +25,7 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
+import { leaveGroup as leaveGroupAction } from '../actionCreators/group/leaveGroup';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
@@ -123,13 +123,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    const user = store.getState().user;
-    const group = store.getState().group;
-    if( !(group.leader.platformDisplayName === user.platformDisplayName && group.members.length === 0) ) {
-        Notifications.successfullyLeftGroupNotification(group.leader.platformDisplayName);
-    }
-    store.dispatch(leaveGroupAction());
-    socket.groupLeave();
+    store.dispatch(leaveGroupAction(socket));
 };
 
 const cancelInvite = function(userObject) {
