@@ -19,6 +19,8 @@ import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncCli
 jest.mock('../actionCreators/initialData/syncClientAndServerHeroes');
 import { leaveGroup as leaveGroupAction } from '../actionCreators/group/leaveGroup';
 jest.mock('../actionCreators/group/leaveGroup');
+import { updatePreferredHeroes as updatePreferredHeroesAction} from '../actionCreators/preferredHeroes/updatePreferredHeroes';
+jest.mock('../actionCreators/preferredHeroes/updatePreferredHeroes');
 
 import {
     addHero as addHeroAction,
@@ -26,8 +28,7 @@ import {
 } from "../actionCreators/heroes/hero";
 jest.mock("../actionCreators/heroes/hero");
 import {
-    removeHero as removePreferredHeroAction,
-    updateHeroes as updatePreferredHeroesAction
+    removeHero as removePreferredHeroAction
 } from "../actionCreators/preferredHeroes/preferredHeroes";
 jest.mock("../actionCreators/preferredHeroes/preferredHeroes");
 import { updateUser as updateUserAction } from "../actionCreators/user";
@@ -311,59 +312,12 @@ describe('Model', () => {
     });
 
     describe('Methods', () => {
-        describe('updatePreferredHeroes', function() {
-            const preferredHeroNames = ['genji', 'tracer', 'widowmaker'];
-            const notPreferredHeroNames = ['winston', 'phara'];
 
-            beforeEach(() => {
-                store.getState().preferredHeroes.heroes = preferredHeroNames;
-            });
-
-            it('should call update preferred heroes action', function() {
-                model.updatePreferredHeroes(notPreferredHeroNames);
-                expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
-            });
-
-            it('Should send the removeHero socket event for missing heroes', function(done) {
-                socket.removeHero = function(heroName) {
-                    expect(heroName).toBe(preferredHeroNames[0]);
-                    done();
-                };
-
-                model.updatePreferredHeroes([notPreferredHeroNames[0], 'tracer', 'widowmaker']);
-            });
-
-            it('should send the addHero socket event for new heroes', function(done) {
-                socket.addHero = function(heroName, preference) {
-                    expect(heroName).toBe(notPreferredHeroNames[0]);
-                    expect(preference).toBe(1);
-                    done();
-                };
-
-                model.updatePreferredHeroes([notPreferredHeroNames[0], 'tracer', 'widowmaker']);
-            });
-
-            it('should remove extra heroes when the new array is shorter', (done) => {
-                socket.removeHero = function(heroName) {
-                    expect(heroName).toBe(preferredHeroNames[2]);
-                    done();
-                };
-
-                model.updatePreferredHeroes(preferredHeroNames.slice(0,2));
-            });
-
-            it('should push one loading screen for each new hero added to server', () => {
-                //Covers the pushBlockingLoadingAction called on model.initialize()
-                expect(pushBlockingLoadingAction.mock.calls.length).toBe(1);
-                model.updatePreferredHeroes(notPreferredHeroNames);
-                expect(pushBlockingLoadingAction.mock.calls.length).toBe(notPreferredHeroNames.length + 1);
-            });
-
-            it('should send a preferred hero notifications when hero added to server', function() {
-                model.updatePreferredHeroes(notPreferredHeroNames);
-                notPreferredHeroNames.forEach((heroName) => {
-                    expect(Notifications.preferredHeroNotification).toHaveBeenCalledWith(heroName);
-                });
+        describe('updatePreferredHeroes', () => {
+            it('should dispatch updatePreferredHeroesAction', () => {
+                const newPreferredHeroNames = ['genji', 'tracer', 'widowmaker'];
+                model.updatePreferredHeroes(newPreferredHeroNames);
+                expect(updatePreferredHeroesAction).toHaveBeenCalledWith(newPreferredHeroNames, socket);
             });
         });
 

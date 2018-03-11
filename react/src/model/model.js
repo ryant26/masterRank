@@ -4,7 +4,6 @@ import {
 } from "../actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
-    updateHeroes as updatePreferredHeroesAction
 } from "../actionCreators/preferredHeroes/preferredHeroes";
 import { updateUser as updateUserAction } from "../actionCreators/user";
 import {
@@ -24,7 +23,9 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
+
 import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
+import { updatePreferredHeroes as updatePreferredHeroesAction} from '../actionCreators/preferredHeroes/updatePreferredHeroes';
 import { leaveGroup as leaveGroupAction } from '../actionCreators/group/leaveGroup';
 
 import * as Notifications from '../components/Notifications/Notifications';
@@ -80,33 +81,8 @@ const removePreferredHeroFromStore = function(heroName, preference) {
     store.dispatch(removePreferredHeroAction(heroName, preference));
 };
 
-const updatePreferredHeroesInStore = function(heroes) {
-    store.dispatch(updatePreferredHeroesAction(heroes));
-};
-
 const updatePreferredHeroes = function(heroes) {
-    let currentPreferredHeroes = store.getState().preferredHeroes.heroes;
-    let numberOfHeroesToCheck = Math.max(heroes.length, currentPreferredHeroes.length);
-
-    for (let i = 0; i < numberOfHeroesToCheck; i++) {
-        let currentPreferredHero = store.getState().preferredHeroes.heroes[i];
-        let newPreferredHero = heroes[i];
-
-        if (currentPreferredHero !== newPreferredHero){
-            if (currentPreferredHero) {
-                socket.removeHero(currentPreferredHero);
-            }
-
-            if (newPreferredHero) {
-                Notifications.preferredHeroNotification(newPreferredHero);
-                socket.addHero(newPreferredHero, i+1);
-                //Popped in _addHeroToStore()
-                store.dispatch(pushBlockingLoadingAction());
-            }
-        }
-    }
-
-    updatePreferredHeroesInStore(heroes);
+    store.dispatch(updatePreferredHeroesAction(heroes, socket));
 };
 
 const updateUser = function(user) {
