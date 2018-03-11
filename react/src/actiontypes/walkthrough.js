@@ -1,2 +1,3 @@
-export const TOGGLE_WALKTHROUGH = 'walkthrough/TOGGLE_WALKTHROUGH';
+export const RUN_WALKTHROUGH = 'walkthrough/RUN_WALKTHROUGH';
+export const FINISHED_WALKTHROUGH = 'walkthrough/FINISHED_WALKTHROUGH';
 

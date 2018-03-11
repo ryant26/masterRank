@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import JoyRide from 'react-joyride';
 import PropTypes from 'prop-types';
+
+import { finishedWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
 
 class Walkthrough extends Component {
 
     constructor(props) {
         super(props);
+
+        this.walkthroughCallback = this.walkthroughCallback.bind(this);
+    }
+
+    walkthroughCallback (event) {
+        if(event.type === 'finished') {
+            this.props.finishedWalkthrough();
+        }
     }
 
     render() {
@@ -51,19 +63,27 @@ class Walkthrough extends Component {
                 autoStart={true}
                 showSkipButton={true}
                 type={'continuous'}
+                callback={this.walkthroughCallback}
             />
         );
     }
 }
 
 Walkthrough.propTypes = {
-    runWalkthrough: PropTypes.bool.isRequired
+    runWalkthrough: PropTypes.bool.isRequired,
+    finishedWalkthrough: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        runWalkthrough: state.runWalkthrough
-    }
+        runWalkthrough: state.walkthrough === 'run'
+    };
 };
 
-export default connect(mapStateToProps)(Walkthrough);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        finishedWalkthrough: finishedWalkthrough
+    }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Walkthrough);

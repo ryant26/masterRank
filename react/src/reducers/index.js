@@ -19,7 +19,7 @@ const appReducers =  combineReducers({
   heroFilters: HeroFiltersReducer,
   region: RegionReducer,
   loading: LoadingReducer,
-  runWalkthrough: WalkthroughReducer
+  walkthrough: WalkthroughReducer
 });
 
 export default function allReducers(state, action) {

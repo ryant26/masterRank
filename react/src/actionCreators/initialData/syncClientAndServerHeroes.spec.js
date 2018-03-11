@@ -14,7 +14,7 @@ import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroe
 jest.mock('../preferredHeroes/preferMostPlayedHeroes');
 import { addHeroesToServer } from '../heroes/addHeroesToServer';
 jest.mock('../heroes/addHeroesToServer');
-import { toggleWalkthrough } from '../walkthrough/walkthrough';
+import { runWalkthrough } from '../walkthrough/walkthrough';
 jest.mock('../walkthrough/walkthrough');
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
@@ -31,7 +31,7 @@ const clearAllMockedImports = () => {
     preferMostPlayedHeroes.mockClear();
     addHeroesToServer.mockClear();
     autoPreferredNotification.mockClear();
-    toggleWalkthrough.mockClear();
+    runWalkthrough.mockClear();
 };
 
 describe('syncClientAndServerHeroes', () => {
@@ -104,7 +104,7 @@ describe('syncClientAndServerHeroes', () => {
         });
 
         it('dispatch toggle walkthrough action', () => {
-            expect(toggleWalkthrough).toHaveBeenCalled();
+            expect(runWalkthrough).toHaveBeenCalled();
         });
     });
 

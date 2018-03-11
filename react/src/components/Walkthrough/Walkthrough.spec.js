@@ -1,14 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-
 import JoyRide from 'react-joyride';
+
+import { finishedWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
+jest.mock('../../actionCreators/walkthrough/walkthrough');
+
 import Walkthrough from './Walkthrough';
 
+
 const mockStore = configureStore();
-const shallowWalkthrough = (runWalkthrough) => {
+const shallowWalkthrough = (walkthrough) => {
     let store = mockStore({
-        runWalkthrough
+        walkthrough
     });
     return shallow(
         <Walkthrough store={store}/>
@@ -19,7 +23,11 @@ describe('Walkthrough', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowWalkthrough(false);
+        wrapper = shallowWalkthrough('finished');
+    });
+
+    afterEach(() => {
+        finishedWalkthrough.mockClear();
     });
 
     it('should render', () => {
@@ -60,12 +68,12 @@ describe('Walkthrough', () => {
             });
         });
 
-        it('should set run prop to false when runWalkthrough prop is false', () => {
+        it('should set run prop to false when runWalkthrough prop is not "run"', () => {
             expect(wrapper.find(JoyRide).props().run).toBe(false);
         });
 
-        it('should set run prop to true when runWalkthrough prop is true', () => {
-            wrapper = shallowWalkthrough(true);
+        it('should set run prop to true when walkthrough prop is "run"', () => {
+            wrapper = shallowWalkthrough('run');
             expect(wrapper.find(JoyRide).props().run).toBe(true);
         });
 
@@ -79,6 +87,18 @@ describe('Walkthrough', () => {
 
         it('should set type prop to continuous', () => {
             expect(wrapper.find(JoyRide).props().type).toBe('continuous');
+        });
+
+        it('should set callback prop to tourComplete', () => {
+            expect(wrapper.find(JoyRide).props().callback).toBe(wrapper.instance().walkthroughCallback);
+        });
+
+        //TODO: dont know how to get the mocked dispatch into a connected component
+        xit('should dispatch finishedWalkthrough when tour is finished or skipped', () => {
+            wrapper.find(JoyRide).props().callback({
+                type: 'finished'
+            });
+            expect(finishedWalkthrough).toHaveBeenCalled();
         });
     });
 });
