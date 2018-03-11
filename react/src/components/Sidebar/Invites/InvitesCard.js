@@ -17,7 +17,7 @@ let InvitesCard = ({groupInvites}) => {
   ) : '';
 
   return (
-    <div className="flex flex-column sidebar-card">
+    <div className="InvitesCard flex flex-column sidebar-card">
       <div className="flex align-center justify-between sidebar-title">
         <div>
           Invites
