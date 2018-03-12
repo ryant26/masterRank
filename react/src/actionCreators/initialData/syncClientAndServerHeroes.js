@@ -10,7 +10,6 @@ import { addHeroesToServer } from '../heroes/addHeroesToServer';
 import { runWalkthrough } from '../walkthrough/walkthrough';
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
-import { autoPreferredNotification } from '../../components/Notifications/Notifications';
 
 export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
@@ -30,7 +29,6 @@ export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
         let heroes = getState().preferredHeroes.heroes;
         if( heroes.length <= 0) {
-            autoPreferredNotification();
             dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
         } else {
             dispatch(addHeroesToServer(heroes, socket));

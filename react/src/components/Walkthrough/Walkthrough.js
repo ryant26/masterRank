@@ -21,36 +21,33 @@ class Walkthrough extends Component {
         }
     }
 
+    //TODO: when you refresh joyride-overlay is enabled, why?
     render() {
         const steps = [
             {
                 title: 'Preferred Heroes',
-                text: 'These hero icons represent the heroes you are willing to play in-game. We\'ve selected your top 5 based on playtime. You can change them at any time by clicking on any hero icon.',
+                text: 'These hero icons represent the heroes you are willing to play in-game. We\'ve selected your 5 most played heroes. You can change them at any time by clicking on the hero icons.',
                 selector: '.PreferredHeroes-HeroList',
                 position: 'right'
             },
             {
-                title: 'Invites',
-                text: 'When you receive group invites they will show up here',
-                selector: '.InvitesCard',
-                position: 'right'
-            },
-            {
-                title: 'Your Group',
-                text: 'This area shows the members and pending members of your group',
-                selector: '.GroupContainer',
-                position: 'right'
-            },
-            {
-                title: 'People Looking For Group',
-                text: 'Everyone who is looking for a group will show up here.',
+                title: 'Players Currently Looking For a Group',
+                text: 'All players currently looking for a group will show up here.',
                 selector: '.HeroRolesContainer',
                 position: 'top'
             },
             {
-                title: 'Invite Player To Your Group',
-                text: 'Click on the hero icon to invite this player to your group.',
-                selector: '.invitePlayerButton:nth-child(1)', position: 'bottom',
+                title: 'Invite Player to Your Group',
+                text: 'Click on the hero icon to invite player to your group.',
+                selector: '.invitePlayerButton:nth-child(1)',
+                position: 'bottom',
+                allowClicksThruHole: true
+            },
+            {
+                title: 'Filter Players by Hero',
+                text: 'Filter players by the heroes they are willing to play. For instance, if you select mercy, only players willing to play mercy will show up',
+                selector: '.HeroSelector',
+                position: 'bottom',
                 allowClicksThruHole: true
             },
         ];
@@ -62,6 +59,7 @@ class Walkthrough extends Component {
                 run={this.props.runWalkthrough}
                 autoStart={true}
                 showSkipButton={true}
+                showStepsProgress={true}
                 type={'continuous'}
                 callback={this.walkthroughCallback}
             />
