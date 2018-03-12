@@ -6,7 +6,7 @@ import {MemoryRouter} from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from 'components/Routes/PrivateRoute/PrivateRoute';
 import Authentication from 'components/Login/Authentication/Authentication';
 import Title from 'components/Sidebar/Title/Title';
 import { users as arrayUsers} from 'resources/users';

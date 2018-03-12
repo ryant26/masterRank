@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
-import InvitesGrid from './InvitesGrid';
+import InvitesGrid from 'components/ContentArea/InvitesGrid/InvitesGrid';
 import groupInvites from 'resources/groupInvites';
 import { users } from 'resources/users';
 

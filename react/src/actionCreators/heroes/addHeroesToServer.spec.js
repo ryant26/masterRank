@@ -1,6 +1,6 @@
 import { getMockSocket } from 'utilities/test/mockingUtilities';
 
-import { addHeroesToServer } from './addHeroesToServer';
+import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
 
 describe('addHeroesToServer', () => {
     const heroNames = ['tracer', 'phara', 'winston'];

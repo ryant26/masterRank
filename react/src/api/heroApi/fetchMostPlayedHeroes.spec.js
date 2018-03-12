@@ -1,8 +1,8 @@
-import { mockLocalStorage, getMockResponse, generateMockUser } from '../../utilities/test/mockingUtilities';
+import { mockLocalStorage, getMockResponse, generateMockUser } from 'utilities/test/mockingUtilities';
 
-import fetchMostPlayedHeroes from './fetchMostPlayedHeroes';
+import fetchMostPlayedHeroes from 'api/heroApi/fetchMostPlayedHeroes';
 
-import { getHeroes } from '../../resources/heroes';
+import { getHeroes } from 'resources/heroes';
 
 describe('fetchMostPlayedHeroes', () => {
     const forUser = generateMockUser();

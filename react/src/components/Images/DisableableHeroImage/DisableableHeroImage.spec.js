@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DisableableHeroImage from './DisableableHeroImage';
+import DisableableHeroImage from 'components/Images/DisableableHeroImage/DisableableHeroImage';
 import HeroImage from 'components/Images/HeroImage/HeroImage';
 
 import HEROES from 'resources/heroes';

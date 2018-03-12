@@ -1,9 +1,9 @@
-import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
+import { updateHeroes as updatePreferredHeroesAction } from 'actionCreators/preferredHeroes/preferredHeroes';
 import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
-} from "actionCreators/loading";
+} from 'actionCreators/loading';
 
 import fetchMostPlayedHeroes from 'api/heroApi/fetchMostPlayedHeroes';
 
@@ -24,7 +24,7 @@ export const preferMostPlayedHeroes = (forUser, accessToken, socket) => {
             })
             .catch(() => {
                 dispatch(popBlockingLoadingAction());
-                throw Error("fetchMostPlayedHeroes failed");
+                throw Error('fetchMostPlayedHeroes failed');
             });
     };
 };

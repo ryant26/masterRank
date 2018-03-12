@@ -1,10 +1,10 @@
 import {
     addHero as addHeroAction,
     clearAllHeroes as clearAllHeroesAction
-} from "actionCreators/heroes/hero";
+} from 'actionCreators/heroes/hero';
 import {
     popBlockingEvent as popBlockingLoadingAction,
-} from "actionCreators/loading";
+} from 'actionCreators/loading';
 import { preferMostPlayedHeroes } from 'actionCreators/preferredHeroes/preferMostPlayedHeroes';
 import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
 

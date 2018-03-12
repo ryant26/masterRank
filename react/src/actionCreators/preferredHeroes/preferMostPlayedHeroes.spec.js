@@ -3,18 +3,18 @@ import { getMockSocket, generateMockUser } from 'utilities/test/mockingUtilities
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
-} from "actionCreators/loading";
+} from 'actionCreators/loading';
 jest.mock('actionCreators/loading');
 import fetchMostPlayedHeroes from 'api/heroApi/fetchMostPlayedHeroes';
 jest.mock('api/heroApi/fetchMostPlayedHeroes');
-import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
-jest.mock('./preferredHeroes');
+import { updateHeroes as updatePreferredHeroesAction } from 'actionCreators/preferredHeroes/preferredHeroes';
+jest.mock('actionCreators/preferredHeroes/preferredHeroes');
 import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
 jest.mock('actionCreators/heroes/addHeroesToServer');
 import token from 'resources/token';
 import { getHeroes } from 'resources/heroes';
 
-import { preferMostPlayedHeroes } from './preferMostPlayedHeroes';
+import { preferMostPlayedHeroes } from 'actionCreators/preferredHeroes/preferMostPlayedHeroes';
 
 describe('preferMostPlayedHeroes', () => {
     const forUser = generateMockUser();

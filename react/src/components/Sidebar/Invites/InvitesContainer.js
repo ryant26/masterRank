@@ -1,5 +1,5 @@
 import React from 'react';
-import InvitesCard from './InvitesCard';
+import InvitesCard from 'components/Sidebar/Invites/InvitesCard';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 

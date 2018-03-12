@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Title from './Title/Title';
+import Title from 'components/Sidebar/Title/Title';
 import UserCard from 'components/UserCard/UserCard';
-import PreferredHeroes from './PreferredHeroes/PreferredHeroesContainer';
-import Invites from './Invites/InvitesContainer';
-import GroupContainer from './GroupContainer/GroupContainer';
+import PreferredHeroes from 'components/Sidebar/PreferredHeroes/PreferredHeroesContainer';
+import Invites from 'components/Sidebar/Invites/InvitesContainer';
+import GroupContainer from 'components/Sidebar/GroupContainer/GroupContainer';
 
-import SidebarFooter from './SidebarFooter/SidebarFooter';
+import SidebarFooter from 'components/Sidebar/SidebarFooter/SidebarFooter';
 
 const Sidebar = ({user, region}) => {
     return (

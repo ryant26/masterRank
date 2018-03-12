@@ -1,5 +1,5 @@
 import * as actionsTypes from 'actiontypes/groupInvites';
-import {arrayHasDuplicate} from "./reducerUtilities";
+import { arrayHasDuplicate } from "reducers/reducerUtilities";
 
 export default function GroupInvitesReducer(state=[], action) {
   switch (action.type) {

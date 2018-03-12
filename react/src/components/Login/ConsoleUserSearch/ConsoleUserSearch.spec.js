@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import 'isomorphic-fetch';
 
-import ConsoleUserSearch from './ConsoleUserSearch';
+import ConsoleUserSearch from 'components/Login/ConsoleUserSearch/ConsoleUserSearch';
 import UserSelector from 'components/Login/UserSelector/UserSelector';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import { users as arrayUsers } from 'resources/users';

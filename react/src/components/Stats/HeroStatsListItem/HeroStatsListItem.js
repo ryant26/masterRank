@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import DisableableHeroImage from "components/Images/DisableableHeroImage/DisableableHeroImage";
 import PropTypes from 'prop-types';
-import RecordStat from './RecordStat';
-import HeroStat from './HeroStat';
+import RecordStat from 'components/Stats/HeroStatsListItem/RecordStat';
+import HeroStat from 'components/Stats/HeroStatsListItem/HeroStat';
 
 const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPending}) => {
     const statLabels = {

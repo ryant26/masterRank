@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Notification from './Notification';
+import Notification from 'components/Notifications/Notification/Notification';
 import history from 'model/history';
 jest.mock('model/history');
 

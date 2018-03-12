@@ -1,4 +1,4 @@
-import AppReducer from './AppReducer';
+import AppReducer from 'reducers/AppReducer';
 import * as AppActionTypes from 'actiontypes/app';
 
 describe('App Reducer', () => {

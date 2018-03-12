@@ -1,5 +1,5 @@
 import * as PreferredHeroActionTypes from 'actiontypes/preferredHeroes';
-import * as PreferredHeroActions from './preferredHeroes';
+import * as PreferredHeroActions from 'actionCreators/preferredHeroes/preferredHeroes';
 
 describe('addHero', () => {
   it ('should create the ADD_HERO action', () => {

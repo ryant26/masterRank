@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import HeroImage from 'components/Images/HeroImage/HeroImage';
-import AddHeroIcon from './AddHeroIcon';
+import AddHeroIcon from 'components/Sidebar/PreferredHeroes/AddHeroIcon';
 import Modal from 'components/Modal/Modal';
-import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
+import PreferredHeroSelector from 'components/Sidebar/PreferredHeroes/PreferredHeroSelector/PreferredHeroSelector';
 import PropTypes from 'prop-types';
 import Model from 'model/model';
 

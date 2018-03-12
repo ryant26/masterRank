@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import Notification from './Notification/Notification';
+import Notification from 'components/Notifications/Notification/Notification';
 import { allInvites } from 'components/Routes/links';
 
 const inviteTimeout = 30;

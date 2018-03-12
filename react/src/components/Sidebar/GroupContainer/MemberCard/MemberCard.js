@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Model from 'model/model';
 import HeroImage from 'components/Images/HeroImage/HeroImage';
-import MemberCardInfo from './MemberCardInfo/MemberCardInfo';
+import MemberCardInfo from 'components/Sidebar/GroupContainer/MemberCard/MemberCardInfo/MemberCardInfo';
 
 const classNames = require('classnames');
 

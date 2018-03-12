@@ -1,4 +1,4 @@
-import * as GroupActionTypes from '../actiontypes/group';
+import * as GroupActionTypes from 'actiontypes/group';
 
 export const updateGroup = (updatedGroupData) => {
   return {

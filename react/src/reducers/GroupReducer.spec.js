@@ -1,4 +1,4 @@
-import GroupReducer from './GroupReducer';
+import GroupReducer from 'reducers/GroupReducer';
 import * as GroupActionTypes from 'actiontypes/group';
 
 import groupInvites from 'resources/groupInvites';

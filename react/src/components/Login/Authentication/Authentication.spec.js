@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import 'isomorphic-fetch';
 
-import Authentication from './Authentication';
+import Authentication from 'components/Login/Authentication/Authentication';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import token from 'resources/token';
 import { home } from 'components/Routes/links';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import Modal from './Modal';
+import Modal from 'components/Modal/Modal';
 import GroupStatsContainer from 'components/Stats/GroupStatsContainer';
 
 const GroupInfoModal = ({group, user}) => {

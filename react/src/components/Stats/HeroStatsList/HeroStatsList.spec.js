@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
-import HeroStatsList from './HeroStatsList';
+import HeroStatsList from 'components/Stats/HeroStatsList/HeroStatsList';
 import HeroStatsListItem from 'components/Stats/HeroStatsListItem/HeroStatsListItem';
 import { users } from 'resources/users';
 import { getHeroes } from 'resources/heroes';

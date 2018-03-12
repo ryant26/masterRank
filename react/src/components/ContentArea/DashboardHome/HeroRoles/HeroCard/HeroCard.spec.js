@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
 import Model from 'model/model';
-import HeroCard from './HeroCard';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 import Modal from 'components/Modal/Modal';
 import UserStatsContainer from 'components/Stats/UserStatsContainer';
 

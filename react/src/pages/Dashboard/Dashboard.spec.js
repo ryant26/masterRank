@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Dashboard from './Dashboard';
+import Dashboard from 'pages/Dashboard/Dashboard';
 import Sidebar from 'components/Sidebar/Sidebar';
 import ContentArea from 'components/ContentArea/ContentArea';
 import GroupInfoModal from 'components/Modal/GroupInfoModal';

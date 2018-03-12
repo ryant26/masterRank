@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import HeroReducer from './HeroReducer';
-import PreferredHeroesReducer from './PreferredHeroesReducer';
-import GroupInvitesReducer from './GroupInvitesReducer';
-import UserReducer from './UserReducer';
-import GroupReducer from './GroupReducer';
-import HeroFiltersReducer from './HeroFiltersReducer';
-import RegionReducer from './RegionReducer';
-import LoadingReducer from './LoadingReducer';
-import AppReducer from './AppReducer';
+import HeroReducer from 'reducers/HeroReducer';
+import PreferredHeroesReducer from 'reducers/PreferredHeroesReducer';
+import GroupInvitesReducer from 'reducers/GroupInvitesReducer';
+import UserReducer from 'reducers/UserReducer';
+import GroupReducer from 'reducers/GroupReducer';
+import HeroFiltersReducer from 'reducers/HeroFiltersReducer';
+import RegionReducer from 'reducers/RegionReducer';
+import LoadingReducer from 'reducers/LoadingReducer';
+import AppReducer from 'reducers/AppReducer';
 
 const appReducers =  combineReducers({
   heroes: HeroReducer,

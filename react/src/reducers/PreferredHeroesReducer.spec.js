@@ -1,4 +1,4 @@
-import PreferredHeroesReducer from './PreferredHeroesReducer';
+import PreferredHeroesReducer from 'reducers/PreferredHeroesReducer';
 import * as PreferredHeroActionTypes from 'actiontypes/preferredHeroes';
 import Heroes from 'resources/heroes';
 

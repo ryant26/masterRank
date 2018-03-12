@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import LogoutButton from './LogoutButton';
+import LogoutButton from 'components/Sidebar/SidebarFooter/LogoutButton/LogoutButton';
 import { home } from 'components/Routes/links';
 import { logout }from 'actionCreators/app';
 jest.mock('actionCreators/app', () => ({

@@ -1,5 +1,5 @@
-import * as UserActionTypes from '../actiontypes/user';
-import * as UserActions from './user';
+import * as UserActionTypes from 'actiontypes/user';
+import * as UserActions from 'actionCreators/user';
 
 describe('Update User', () => {
     it ('should create the UPDATE_USER action', () => {

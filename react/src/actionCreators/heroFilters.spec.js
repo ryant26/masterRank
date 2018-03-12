@@ -1,5 +1,5 @@
-import * as heroFiltersActionType from '../actiontypes/heroFilters';
-import * as HeroFilterActionCreators from './heroFilters';
+import * as heroFiltersActionType from 'actiontypes/heroFilters';
+import * as HeroFilterActionCreators from 'actionCreators/heroFilters';
 
 const tracerFilter = 'tracer';
 

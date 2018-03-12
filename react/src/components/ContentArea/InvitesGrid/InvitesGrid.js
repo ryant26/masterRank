@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {home} from 'components/Routes/links';
 import {connect} from 'react-redux';
 import Badge from 'components/Badge/Badge';
-import InvitesGridItem from './InvitesGridItem';
+import InvitesGridItem from 'components/ContentArea/InvitesGrid/InvitesGridItem';
 import PropTypes from 'prop-types';
 
 const InvitesGrid = ({groupInvites}) => {

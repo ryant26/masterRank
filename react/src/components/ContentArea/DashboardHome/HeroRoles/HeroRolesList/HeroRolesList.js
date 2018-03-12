@@ -2,7 +2,7 @@ import React, {
     Component
 } from 'react';
 
-import HeroCard from '../HeroCard/HeroCard';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 import PropTypes from 'prop-types';
 
 export default class HeroRoles extends Component {

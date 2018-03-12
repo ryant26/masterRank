@@ -3,23 +3,23 @@ import * as mockUtils from 'utilities/test/mockingUtilities';
 import {
     addHero as addHeroAction,
     clearAllHeroes as clearAllHeroesAction
-} from "../heroes/hero";
-jest.mock('../heroes/hero');
+} from 'actionCreators/heroes/hero';
+jest.mock('actionCreators/heroes/hero');
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
-} from "../loading";
-jest.mock('../loading');
-import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroes';
-jest.mock('../preferredHeroes/preferMostPlayedHeroes');
-import { addHeroesToServer } from '../heroes/addHeroesToServer';
-jest.mock('../heroes/addHeroesToServer');
+} from 'actionCreators/loading';
+jest.mock('actionCreators/loading');
+import { preferMostPlayedHeroes } from 'actionCreators/preferredHeroes/preferMostPlayedHeroes';
+jest.mock('actionCreators/preferredHeroes/preferMostPlayedHeroes');
+import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
+jest.mock('actionCreators/heroes/addHeroesToServer');
 
-import NotRealHeroes from '../../resources/metaListFillerHeroes';
-import { autoPreferredNotification } from '../../components/Notifications/Notifications';
-jest.mock('../../components/Notifications/Notifications');
+import NotRealHeroes from 'resources/metaListFillerHeroes';
+import { autoPreferredNotification } from 'components/Notifications/Notifications';
+jest.mock('components/Notifications/Notifications');
 
-import { syncClientAndServerHeroes } from './syncClientAndServerHeroes';
+import { syncClientAndServerHeroes } from 'actionCreators/initialData/syncClientAndServerHeroes';
 
 const clearAllMockedImports = () => {
     addHeroAction.mockClear();

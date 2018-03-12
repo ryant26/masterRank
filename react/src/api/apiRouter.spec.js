@@ -1,4 +1,4 @@
-import { getSocketApiBase } from './apiRouter';
+import { getSocketApiBase } from 'api/apiRouter';
 
 const mockHostname = (hostname) => {
     Object.defineProperty(window.location, 'hostname', {

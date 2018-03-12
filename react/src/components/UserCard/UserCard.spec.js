@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import UserCard from './UserCard';
+import UserCard from 'components/UserCard/UserCard';
 import * as users from 'resources/users';
 
 const getUserCard = (user = users.users[0], region, showRank) => {

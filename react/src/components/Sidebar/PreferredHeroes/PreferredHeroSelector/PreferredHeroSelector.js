@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HeroSelector from 'components/ContentArea/DashboardHome/HeroSelector/HeroSelector';
 import PropTypes from 'prop-types';
-import HeroSlot from '../HeroSlot/HeroSlot';
+import HeroSlot from 'components/Sidebar/PreferredHeroes/HeroSlot/HeroSlot';
 
 class PreferredHeroSelector extends Component {
 

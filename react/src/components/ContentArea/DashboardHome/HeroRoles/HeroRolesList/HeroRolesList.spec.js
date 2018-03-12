@@ -6,8 +6,8 @@ import renderer from 'react-test-renderer';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { shallow} from 'enzyme';
 
-import HeroRoles from './HeroRolesList';
-import HeroCard from '../HeroCard/HeroCard';
+import HeroRoles from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesList/HeroRolesList';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 import HeroReducer from 'reducers/HeroReducer';
 import {addHero} from "actionCreators/heroes/hero";
 import heroes from 'resources/heroes';

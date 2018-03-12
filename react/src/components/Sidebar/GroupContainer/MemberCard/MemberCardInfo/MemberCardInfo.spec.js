@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import MemberCardInfo from './MemberCardInfo';
+import MemberCardInfo from 'components/Sidebar/GroupContainer/MemberCard/MemberCardInfo/MemberCardInfo';
 import groupInvites from 'resources/groupInvites';
 
 const getMemberCardInfoComponent = (member, isPending, isLeader) => {

@@ -4,7 +4,7 @@ import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 
-import InvitesGridItem from './InvitesGridItem';
+import InvitesGridItem from 'components/ContentArea/InvitesGrid/InvitesGridItem';
 import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 
 

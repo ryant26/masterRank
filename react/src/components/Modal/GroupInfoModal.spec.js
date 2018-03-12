@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import GroupInfoModal from './GroupInfoModal';
-import Modal from './Modal';
+import GroupInfoModal from 'components/Modal/GroupInfoModal';
+import Modal from 'components/Modal/Modal';
 
 import groups from 'resources/groupInvites';
 import { users } from 'resources/users';

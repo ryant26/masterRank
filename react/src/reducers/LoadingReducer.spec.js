@@ -1,4 +1,4 @@
-import LoadingReducer from './LoadingReducer';
+import LoadingReducer from 'reducers/LoadingReducer';
 import * as LoadingActionTypes from 'actiontypes/loading';
 
 const initialState = {

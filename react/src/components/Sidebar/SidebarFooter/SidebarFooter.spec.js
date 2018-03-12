@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import SidebarFooter from './SidebarFooter';
-import FeedbackButton from './FeedbackButton/FeedbackButton';
-import LogoutButton from './LogoutButton/LogoutButton';
+import SidebarFooter from 'components/Sidebar/SidebarFooter/SidebarFooter';
+import FeedbackButton from 'components/Sidebar/SidebarFooter/FeedbackButton/FeedbackButton';
+import LogoutButton from 'components/Sidebar/SidebarFooter/LogoutButton/LogoutButton';
 
 const shallowSidebarFooter = () => {
     return shallow(
