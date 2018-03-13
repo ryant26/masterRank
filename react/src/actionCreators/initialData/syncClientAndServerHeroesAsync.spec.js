@@ -59,7 +59,12 @@ describe('syncClientAndServerHeroesAsync', () => {
 
     describe('should always', () => {
         beforeEach(() => {
-            getState = mockUtils.mockGetState();
+            getState = mockUtils.mockGetState({
+                user,
+                preferredHeroes: {
+                    heroes: []
+                }
+            });
             syncClientAndServerHeroesAsync(heroesFromServer, socket)(dispatch, getState);
         });
 
@@ -101,7 +106,12 @@ describe('syncClientAndServerHeroesAsync', () => {
     describe('when user has no preferred heroes', () => {
 
         beforeEach(() => {
-            getState = mockUtils.mockGetState(user);
+            getState = mockUtils.mockGetState({
+                user,
+                preferredHeroes: {
+                    heroes: []
+                }
+            });
             syncClientAndServerHeroesAsync(heroesFromServer, socket)(dispatch, getState);
         });
 
@@ -120,7 +130,12 @@ describe('syncClientAndServerHeroesAsync', () => {
         const preferredHeroes = ['reinhard', 'sombra'];
 
         beforeEach(() => {
-            getState = mockUtils.mockGetState(user, preferredHeroes);
+            getState = mockUtils.mockGetState({
+                user,
+                preferredHeroes: {
+                    heroes: preferredHeroes
+                }
+            });
             syncClientAndServerHeroesAsync(heroesFromServer, socket)(dispatch, getState);
         });
 
