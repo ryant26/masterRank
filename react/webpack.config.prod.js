@@ -7,7 +7,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
@@ -73,6 +73,7 @@ export default {
             }
         }
     }),
+    new CopyWebpackPlugin(['src/google7e30785887950553.html'])
   ],
   module: {
     rules: [
