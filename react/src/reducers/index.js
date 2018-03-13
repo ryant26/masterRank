@@ -1,4 +1,7 @@
 import { combineReducers } from 'redux';
+
+import restStateOnLogout from './HigherOrderReducers/restStateOnLogout';
+
 import HeroReducer from './HeroReducer';
 import PreferredHeroesReducer from './PreferredHeroesReducer';
 import GroupInvitesReducer from './GroupInvitesReducer';
@@ -7,21 +10,18 @@ import GroupReducer from './GroupReducer';
 import HeroFiltersReducer from './HeroFiltersReducer';
 import RegionReducer from './RegionReducer';
 import LoadingReducer from './LoadingReducer';
-import AppReducer from './AppReducer';
 import WalkthroughReducer from './walkthrough/WalkthroughReducer';
 
 const appReducers =  combineReducers({
-  heroes: HeroReducer,
-  preferredHeroes: PreferredHeroesReducer,
-  user: UserReducer,
-  group: GroupReducer,
-  groupInvites: GroupInvitesReducer,
-  heroFilters: HeroFiltersReducer,
-  region: RegionReducer,
-  loading: LoadingReducer,
+  heroes: restStateOnLogout(HeroReducer),
+  preferredHeroes: restStateOnLogout(PreferredHeroesReducer),
+  user: restStateOnLogout(UserReducer),
+  group: restStateOnLogout(GroupReducer),
+  groupInvites: restStateOnLogout(GroupInvitesReducer),
+  heroFilters: restStateOnLogout(HeroFiltersReducer),
+  region: restStateOnLogout(RegionReducer),
+  loading: restStateOnLogout(LoadingReducer),
   walkthrough: WalkthroughReducer
 });
 
-export default function allReducers(state, action) {
-  return appReducers(AppReducer(state, action), action);
-}
+export default appReducers;

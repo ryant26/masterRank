@@ -12,7 +12,9 @@ import Walkthrough from './Walkthrough';
 const mockStore = configureStore();
 const shallowWalkthrough = (walkthrough) => {
     let store = mockStore({
-        walkthrough
+        walkthrough: {
+            state: walkthrough
+        }
     });
     return shallow(
         <Walkthrough store={store}/>
