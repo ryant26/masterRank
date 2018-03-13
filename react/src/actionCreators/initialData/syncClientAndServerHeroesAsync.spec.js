@@ -14,8 +14,6 @@ import { preferMostPlayedHeroesAsync } from '../preferredHeroes/preferMostPlayed
 jest.mock('../preferredHeroes/preferMostPlayedHeroesAsync');
 import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
 jest.mock('../heroes/addHeroesToServerAsync');
-import { runWalkthrough } from '../walkthrough/walkthrough';
-jest.mock('../walkthrough/walkthrough');
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
 
@@ -28,7 +26,6 @@ const clearAllMockedImports = () => {
     popBlockingLoadingAction.mockClear();
     preferMostPlayedHeroesAsync.mockClear();
     addHeroesToServerAsync.mockClear();
-    runWalkthrough.mockClear();
 };
 
 describe('syncClientAndServerHeroesAsync', () => {
@@ -98,10 +95,6 @@ describe('syncClientAndServerHeroesAsync', () => {
 
         it('call popBlockingLoadingAction, to clear the pushed loading screen set in model.initialize', () => {
             expect(popBlockingLoadingAction).toHaveBeenCalled();
-        });
-
-        it('dispatch toggle walkthrough action', () => {
-            expect(runWalkthrough).toHaveBeenCalled();
         });
     });
 

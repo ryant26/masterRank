@@ -10,11 +10,14 @@ import Walkthrough from './Walkthrough';
 
 
 const mockStore = configureStore();
-const shallowWalkthrough = (walkthrough) => {
+const shallowWalkthrough = (walkthrough, blockUI=0) => {
     let store = mockStore({
         walkthrough: {
             state: walkthrough
-        }
+        },
+        loading: {
+            blockUI: blockUI
+        },
     });
     return shallow(
         <Walkthrough store={store}/>
@@ -153,13 +156,32 @@ describe('Walkthrough', () => {
             });
         });
 
-        it('should set run prop to false when runWalkthrough prop is not "run"', () => {
-            expect(wrapper.find(JoyRide).props().run).toBe(false);
+        describe('when loading blockUI not equal 0', () => {
+            const blockUI = 1;
+
+            it('and walkthrough equals "run" should set run prop to false', () => {
+                wrapper = shallowWalkthrough('run', blockUI);
+                expect(wrapper.find(JoyRide).props().run).toBe(false);
+            });
+
+            it('and walkthrough equals "finished" should set run prop to false', () => {
+                wrapper = shallowWalkthrough('finished', blockUI);
+                expect(wrapper.find(JoyRide).props().run).toBe(false);
+            });
         });
 
-        it('should set run prop to true when walkthrough prop is "run"', () => {
-            wrapper = shallowWalkthrough('run');
-            expect(wrapper.find(JoyRide).props().run).toBe(true);
+        describe('when loading blockUI is equal 0', () => {
+            const blockUI = 0;
+
+            it('and walkthrough equals "run" should set run prop to true', () => {
+                wrapper = shallowWalkthrough('run', blockUI);
+                expect(wrapper.find(JoyRide).props().run).toBe(true);
+            });
+
+            it('and walkthrough equals "finished" should set run prop to false', () => {
+                wrapper = shallowWalkthrough('finished', blockUI);
+                expect(wrapper.find(JoyRide).props().run).toBe(false);
+            });
         });
 
         it('should set auto start prop to true Walkthrough ', () => {

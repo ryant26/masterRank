@@ -74,7 +74,7 @@ Walkthrough.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        runWalkthrough: state.walkthrough.state === 'run'
+        runWalkthrough:  state.loading.blockUI === 0 && state.walkthrough.state === 'run'
     };
 };
 

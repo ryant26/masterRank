@@ -7,7 +7,6 @@ import {
 } from "../loading";
 import { preferMostPlayedHeroesAsync } from '../preferredHeroes/preferMostPlayedHeroesAsync';
 import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
-import { runWalkthrough } from '../walkthrough/walkthrough';
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
 
@@ -36,7 +35,6 @@ export const syncClientAndServerHeroesAsync = (heroesFromServer, socket) => {
 
         //Pushed in models.initialize
         dispatch(popBlockingLoadingAction());
-        dispatch(runWalkthrough());
     };
 };
 
