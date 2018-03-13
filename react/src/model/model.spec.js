@@ -17,10 +17,10 @@ import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
 import { syncClientAndServerHeroesAsync } from '../actionCreators/initialData/syncClientAndServerHeroesAsync';
 jest.mock('../actionCreators/initialData/syncClientAndServerHeroesAsync');
-import { leaveGroup as leaveGroupAction } from '../actionCreators/group/leaveGroup';
-jest.mock('../actionCreators/group/leaveGroup');
-import { updatePreferredHeroes as updatePreferredHeroesAction} from '../actionCreators/preferredHeroes/updatePreferredHeroes';
-jest.mock('../actionCreators/preferredHeroes/updatePreferredHeroes');
+import { leaveGroupAsync } from '../actionCreators/group/leaveGroupAsync';
+jest.mock('../actionCreators/group/leaveGroupAsync');
+import { updatePreferredHeroesAsync } from '../actionCreators/preferredHeroes/updatePreferredHeroesAsync';
+jest.mock('../actionCreators/preferredHeroes/updatePreferredHeroesAsync');
 
 import {
     addHero as addHeroAction,
@@ -86,12 +86,12 @@ const clearAllMocks = () => {
     addHeroAction.mockClear();
     removeHeroAction.mockClear();
     removePreferredHeroAction.mockClear();
-    updatePreferredHeroesAction.mockClear();
+    updatePreferredHeroesAsync.mockClear();
     updateUserAction.mockClear();
     addFilterAction.mockClear();
     removeFilterAction.mockClear();
     updateGroupAction.mockClear();
-    leaveGroupAction.mockClear();
+    leaveGroupAsync.mockClear();
     addGroupInviteAction.mockClear();
     removeGroupInviteAction.mockClear();
     pushBlockingLoadingAction.mockClear();
@@ -314,10 +314,10 @@ describe('Model', () => {
     describe('Methods', () => {
 
         describe('updatePreferredHeroes', () => {
-            it('should dispatch updatePreferredHeroesAction', () => {
+            it('should dispatch updatePreferredHeroesAsync', () => {
                 const newPreferredHeroNames = ['genji', 'tracer', 'widowmaker'];
                 model.updatePreferredHeroes(newPreferredHeroNames);
-                expect(updatePreferredHeroesAction).toHaveBeenCalledWith(newPreferredHeroNames, socket);
+                expect(updatePreferredHeroesAsync).toHaveBeenCalledWith(newPreferredHeroNames, socket);
             });
         });
 
@@ -370,7 +370,7 @@ describe('Model', () => {
         describe('leaveGroup', () => {
             it('should dispatch leave group action with socket', () => {
                 model.leaveGroup();
-                expect(leaveGroupAction).toHaveBeenCalledWith(socket);
+                expect(leaveGroupAsync).toHaveBeenCalledWith(socket);
             });
         });
 

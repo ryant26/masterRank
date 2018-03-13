@@ -24,8 +24,8 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../actionCreators/loading";
 import { syncClientAndServerHeroesAsync } from '../actionCreators/initialData/syncClientAndServerHeroesAsync';
-import { updatePreferredHeroes as updatePreferredHeroesAction} from '../actionCreators/preferredHeroes/updatePreferredHeroes';
-import { leaveGroup as leaveGroupAction } from '../actionCreators/group/leaveGroup';
+import { updatePreferredHeroesAsync } from '../actionCreators/preferredHeroes/updatePreferredHeroesAsync';
+import { leaveGroupAsync } from '../actionCreators/group/leaveGroupAsync';
 
 import * as Notifications from '../components/Notifications/Notifications';
 
@@ -81,7 +81,7 @@ const removePreferredHeroFromStore = function(heroName, preference) {
 };
 
 const updatePreferredHeroes = function(heroes) {
-    store.dispatch(updatePreferredHeroesAction(heroes, socket));
+    store.dispatch(updatePreferredHeroesAsync(heroes, socket));
 };
 
 const updateUser = function(user) {
@@ -98,7 +98,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    store.dispatch(leaveGroupAction(socket));
+    store.dispatch(leaveGroupAsync(socket));
 };
 
 const cancelInvite = function(userObject) {
@@ -119,7 +119,7 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        //Pushed in updatePreferredHeroes()
+        //Pushed in updatePreferredHeroesAsync()
         store.dispatch(popBlockingLoadingAction());
     }
 

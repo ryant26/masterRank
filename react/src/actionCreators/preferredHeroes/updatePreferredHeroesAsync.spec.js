@@ -8,9 +8,9 @@ jest.mock('./preferredHeroes');
 import { pushBlockingEvent as pushBlockingLoadingAction } from "../loading";
 jest.mock('../loading');
 
-import { updatePreferredHeroes } from './updatePreferredHeroes';
+import { updatePreferredHeroesAsync } from './updatePreferredHeroesAsync';
 
-describe('updatePreferredHeroes', () => {
+describe('updatePreferredHeroesAsync', () => {
     const preferredHeroNames = ['genji', 'tracer', 'widowmaker'];
     const notPreferredHeroNames = ['winston', 'phara'];
     let dispatch;
@@ -39,7 +39,7 @@ describe('updatePreferredHeroes', () => {
             done();
         };
 
-        updatePreferredHeroes([...preferredHeroNames.slice(0,2), notPreferredHeroNames[0]], socket)(dispatch, getState);
+        updatePreferredHeroesAsync([...preferredHeroNames.slice(0,2), notPreferredHeroNames[0]], socket)(dispatch, getState);
     });
 
     it('should remove preferred heroes from the last index if the new preferred heroes list is shorter', (done) => {
@@ -48,30 +48,30 @@ describe('updatePreferredHeroes', () => {
             done();
         };
 
-        updatePreferredHeroes(preferredHeroNames.slice(0,2), socket)(dispatch, getState);
+        updatePreferredHeroesAsync(preferredHeroNames.slice(0,2), socket)(dispatch, getState);
     });
 
     it('should send a preferred hero notifications for each new preferred hero', function() {
-        updatePreferredHeroes(notPreferredHeroNames, socket)(dispatch, getState);
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         notPreferredHeroNames.forEach((heroName) => {
             expect(preferredHeroNotification).toHaveBeenCalledWith(heroName);
         });
     });
 
     it('should add each new preferred hero to the server', function() {
-        updatePreferredHeroes(notPreferredHeroNames, socket)(dispatch, getState);
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         notPreferredHeroNames.forEach((heroName, i) => {
             expect(socket.addHero).toHaveBeenCalledWith(heroName, (i+1));
         });
     });
 
     it('should push one loading screen for each new preferred hero added to server', () => {
-        updatePreferredHeroes(notPreferredHeroNames, socket)(dispatch, getState);
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         expect(pushBlockingLoadingAction.mock.calls.length).toBe(notPreferredHeroNames.length);
     });
 
     it('should call update preferred heroes action', function() {
-        updatePreferredHeroes(notPreferredHeroNames, socket)(dispatch, getState);
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
     });
 });

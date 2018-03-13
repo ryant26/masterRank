@@ -6,9 +6,9 @@ jest.mock('../../components/Notifications/Notifications');
 import { initializeGroup as initializeGroupAction } from './group';
 jest.mock('./group');
 
-import { leaveGroup } from './leaveGroup';
+import { leaveGroupAsync } from './leaveGroupAsync';
 
-describe('leaveGroup', () => {
+describe('leaveGroupAsync', () => {
     const user = generateMockUser();
     let dispatch;
     let socket;
@@ -34,7 +34,7 @@ describe('leaveGroup', () => {
                     members: []
                 }
             });
-            return leaveGroup(socket)(dispatch, getState);
+            return leaveGroupAsync(socket)(dispatch, getState);
         });
 
         it('should not call successfullyLeftGroupNotification when leader of group with no members', () => {
@@ -60,7 +60,7 @@ describe('leaveGroup', () => {
                     members: [generateMockUser()]
                 }
             });
-            return leaveGroup(socket)(dispatch, getState);
+            return leaveGroupAsync(socket)(dispatch, getState);
         });
 
         it('should call successfullyLeftGroupNotification with user platform display name when in a group with at least 1 member', () => {
@@ -86,7 +86,7 @@ describe('leaveGroup', () => {
                     members: [user]
                 }
             });
-            return leaveGroup(socket)(dispatch, getState);
+            return leaveGroupAsync(socket)(dispatch, getState);
         });
 
         it("should call successfullyLeftGroupNotification with leader's platform display name", () => {
