@@ -26,7 +26,7 @@ module.exports = class PlayerController extends BaseController{
         this.on(serverEvents.addHero, (data) => {
             return playerService.addHeroByName(this.token, this.rank, this.namespace, data.eventData).catch((err) => {
                 logger.error(`Error adding hero ${data.eventData.heroName}: ${err}`);
-                throw new SocketError(exceptions.errorAddingHero, 'heroName', data.eventData.heroName);
+                throw new SocketError(exceptions.errorAddingHero, 'hero', data.eventData);
             });
         });
 

@@ -1,6 +1,7 @@
 const playerValidators = require('../../validators/playerValidators');
 const serverEvents = require('../../socketEvents/serverEvents');
 const PlayerController = require('../PlayerController');
+const SocketError = require('../../validators/exceptions/SocketError');
 
 /**
  * This function returns a constructed GroupController with access controls and other setup completed
@@ -22,6 +23,8 @@ let configureValidateHeroNameInput = function(playerController) {
                 heroName = data.eventData.heroName || data.eventData;
             }
             resolve(playerValidators.validateHeroName(heroName));
+        }).catch((error) => {
+            throw new SocketError(error, 'hero', data.eventData);
         });
     });
 };
@@ -30,6 +33,8 @@ let configureValidatePriorityInput = function(playerController) {
     playerController.before([serverEvents.addHero], (data) => {
         return new Promise((resolve) => {
             resolve(playerValidators.validatePriority(data.eventData.priority));
+        }).catch((error) => {
+            throw new SocketError(error, 'hero', data.eventData);
         });
     });
 };
