@@ -1,6 +1,6 @@
 import * as actionsTypes from '../../actiontypes/walkthrough';
 
-export default function WalkthroughReducer(state={}, action) {
+export default function WalkthroughReducer(state={state: ''}, action) {
     switch (action.type) {
         case actionsTypes.RUN_WALKTHROUGH: {
             if(state.state === 'finished') {

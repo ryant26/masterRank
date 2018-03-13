@@ -5,7 +5,7 @@ describe('Walkthrough Reducer', () => {
 
     describe('when state is undefined', () => {
         it ('should have default initial state of undefined', () => {
-            expect(WalkthroughReducer(undefined, {})).toEqual({});
+            expect(WalkthroughReducer(undefined, {})).toEqual({state: ''});
         });
 
         it('should handle RUN_WALKTHROUGH by setting walkthrough to "run"', () => {

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import restStateOnLogout from './HigherOrderReducers/restStateOnLogout';
+import resetStateOnLogout from './HigherOrderReducers/resetStateOnLogout';
 
 import HeroReducer from './HeroReducer';
 import PreferredHeroesReducer from './PreferredHeroesReducer';
@@ -13,14 +13,14 @@ import LoadingReducer from './LoadingReducer';
 import WalkthroughReducer from './walkthrough/WalkthroughReducer';
 
 const appReducers =  combineReducers({
-  heroes: restStateOnLogout(HeroReducer),
-  preferredHeroes: restStateOnLogout(PreferredHeroesReducer),
-  user: restStateOnLogout(UserReducer),
-  group: restStateOnLogout(GroupReducer),
-  groupInvites: restStateOnLogout(GroupInvitesReducer),
-  heroFilters: restStateOnLogout(HeroFiltersReducer),
-  region: restStateOnLogout(RegionReducer),
-  loading: restStateOnLogout(LoadingReducer),
+  heroes: resetStateOnLogout(HeroReducer),
+  preferredHeroes: resetStateOnLogout(PreferredHeroesReducer),
+  user: resetStateOnLogout(UserReducer),
+  group: resetStateOnLogout(GroupReducer),
+  groupInvites: resetStateOnLogout(GroupInvitesReducer),
+  heroFilters: resetStateOnLogout(HeroFiltersReducer),
+  region: resetStateOnLogout(RegionReducer),
+  loading: resetStateOnLogout(LoadingReducer),
   walkthrough: WalkthroughReducer
 });
 

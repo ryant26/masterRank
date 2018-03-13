@@ -15,8 +15,8 @@ import { initialGroup, groupInvites } from '../resources/groupInvites';
 
 import * as Notifications from '../components/Notifications/Notifications';
 jest.mock('../components/Notifications/Notifications');
-import { syncClientAndServerHeroes } from '../actionCreators/initialData/syncClientAndServerHeroes';
-jest.mock('../actionCreators/initialData/syncClientAndServerHeroes');
+import { syncClientAndServerHeroesAsync } from '../actionCreators/initialData/syncClientAndServerHeroesAsync';
+jest.mock('../actionCreators/initialData/syncClientAndServerHeroesAsync');
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
@@ -141,7 +141,7 @@ describe('Model', () => {
                 generateMockHero('winston')
             ];
             socket.socketClient.emit(clientEvents.initialData, heroesFromServer);
-            expect(syncClientAndServerHeroes).toHaveBeenCalledWith(heroesFromServer, socket);
+            expect(syncClientAndServerHeroesAsync).toHaveBeenCalledWith(heroesFromServer, socket);
         });
 
         describe('Hero Added', () => {
