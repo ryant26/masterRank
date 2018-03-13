@@ -7,7 +7,7 @@ export const leaveGroup = (socket) => {
         const user = getState().user;
         const group = getState().group;
 
-        if( !(group.leader.platformDisplayName === user.platformDisplayName && group.members.length) ) {
+        if( group.leader.platformDisplayName === user.platformDisplayName && group.members.length > 0 ) {
             successfullyLeftGroupNotification(group.leader.platformDisplayName);
         }
 
