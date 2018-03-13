@@ -7,7 +7,7 @@ export const leaveGroup = (socket) => {
         const user = getState().user;
         const group = getState().group;
 
-        if( group.leader.platformDisplayName === user.platformDisplayName && group.members.length > 0 ) {
+        if( !(isLeaderOfEmptyGroup(user, group)) ) {
             successfullyLeftGroupNotification(group.leader.platformDisplayName);
         }
 
@@ -15,3 +15,7 @@ export const leaveGroup = (socket) => {
         socket.groupLeave();
     };
 };
+
+const isLeaderOfEmptyGroup = (user, group) => {
+    return user.platformDisplayName  ===  group.leader.platformDisplayName && group.members.length === 0;
+}

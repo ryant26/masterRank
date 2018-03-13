@@ -75,4 +75,30 @@ describe('leaveGroup', () => {
             expect(socket.groupLeave).toHaveBeenCalled();
         });
     });
+
+    describe('when user is a member of a group', () => {
+        const leader = generateMockUser('not user');
+        beforeEach(() => {
+            getState = mockGetState({
+                user,
+                group: {
+                    leader: leader,
+                    members: [user]
+                }
+            });
+            return leaveGroup(socket)(dispatch, getState);
+        });
+
+        it("should call successfullyLeftGroupNotification with leader's platform display name", () => {
+            expect(successfullyLeftGroupNotification).toHaveBeenCalledWith(leader.platformDisplayName);
+        });
+
+        it('should set store group to initial state', () => {
+            expect(initializeGroupAction).toHaveBeenCalled();
+        });
+
+        it('should call websocket.leaveGroup', () => {
+            expect(socket.groupLeave).toHaveBeenCalled();
+        });
+    });
 });
