@@ -6,8 +6,8 @@ export const runWalkthrough = () => {
     };
 };
 
-export const finishedWalkthrough = () => {
+export const finishWalkthrough = () => {
     return {
-        type: WalkthroughActionTypes.FINISHED_WALKTHROUGH
+        type: WalkthroughActionTypes.FINISH_WALKTHROUGH
     };
 };

@@ -9,10 +9,10 @@ describe('Walkthrough', () => {
             });
     });
 
-    it ('should create the FINISHED_WALKTHROUGH action', () => {
-        expect(WalkthroughActions.finishedWalkthrough())
+    it ('should create the FINISH_WALKTHROUGH action', () => {
+        expect(WalkthroughActions.finishWalkthrough())
             .toEqual({
-                type: WalkthroughActionTypes.FINISHED_WALKTHROUGH,
+                type: WalkthroughActionTypes.FINISH_WALKTHROUGH,
             });
     });
 });

@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import JoyRide from 'react-joyride';
 
-import { finishedWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
+import { finishWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
 jest.mock('../../actionCreators/walkthrough/walkthrough');
 
 import Walkthrough from './Walkthrough';
@@ -27,7 +27,7 @@ describe('Walkthrough', () => {
     });
 
     afterEach(() => {
-        finishedWalkthrough.mockClear();
+        finishWalkthrough.mockClear();
     });
 
     it('should render', () => {
@@ -133,7 +133,7 @@ describe('Walkthrough', () => {
                 });
 
                 it('should have a text prop equal to...', () => {
-                    let text = 'Filter players by the heroes they are willing to play. For instance, if you select mercy, only players willing to play mercy will show up';
+                    let text = 'Filter the lists below by Hero. For instance, if you select mercy, only players willing to play mercy will show up';
                     expect(stepOne.text).toBe(text);
                 });
 
@@ -177,11 +177,11 @@ describe('Walkthrough', () => {
         });
 
         //TODO: dont know how to get the mocked dispatch into a connected component
-        xit('should dispatch finishedWalkthrough when tour is finished or skipped', () => {
+        xit('should dispatch finishWalkthrough when tour is finished or skipped', () => {
             wrapper.find(JoyRide).props().callback({
                 type: 'finished'
             });
-            expect(finishedWalkthrough).toHaveBeenCalled();
+            expect(finishWalkthrough).toHaveBeenCalled();
         });
     });
 });

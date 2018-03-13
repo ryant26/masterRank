@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import JoyRide from 'react-joyride';
 import PropTypes from 'prop-types';
 
-import { finishedWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
+import { finishWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
 
 class Walkthrough extends Component {
 
@@ -17,7 +17,7 @@ class Walkthrough extends Component {
 
     walkthroughCallback (event) {
         if(event.type === 'finished') {
-            this.props.finishedWalkthrough();
+            this.props.finishWalkthrough();
         }
     }
 
@@ -45,7 +45,7 @@ class Walkthrough extends Component {
             },
             {
                 title: 'Filter Players by Hero',
-                text: 'Filter players by the heroes they are willing to play. For instance, if you select mercy, only players willing to play mercy will show up',
+                text: 'Filter the lists below by Hero. For instance, if you select mercy, only players willing to play mercy will show up',
                 selector: '.HeroSelector',
                 position: 'bottom',
                 allowClicksThruHole: true
@@ -69,18 +69,18 @@ class Walkthrough extends Component {
 
 Walkthrough.propTypes = {
     runWalkthrough: PropTypes.bool.isRequired,
-    finishedWalkthrough: PropTypes.func.isRequired
+    finishWalkthrough: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        runWalkthrough: state.walkthrough === 'run'
+        runWalkthrough: state.walkthrough.state === 'run'
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        finishedWalkthrough: finishedWalkthrough
+        finishWalkthrough: finishWalkthrough
     }, dispatch);
 };
 
