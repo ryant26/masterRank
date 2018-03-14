@@ -1,17 +1,53 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
 
 import LogoutButton from './LogoutButton';
 import { home } from '../../../Routes/links';
+import { logout }from '../../../../actionCreators/app';
+jest.mock('../../../../actionCreators/app', () => ({
+    logout: jest.fn(() => ({type: 'sometype'}))
+}));
+import { clearAccessToken } from '../../../../utilities/localStorage/localStorageUtilities';
+jest.mock('../../../../utilities/localStorage/localStorageUtilities');
+
+import { mockLocation } from "../../../../utilities/test/mockingUtilities";
 
 describe('Logout button', () => {
-    it('should clear local storage and redirect to login page when clicked', () => {
-        window.location.assign = jest.fn();
-        global.window.localStorage = { clear: jest.fn() };
-        const LogoutComponent = shallow(<LogoutButton/>);
-        LogoutComponent.find('.LogoutButton').simulate('click');
+    describe('when clicked', () => {
+        let logoutComponent;
+        let logoutButton;
 
-        expect(window.location.assign).toHaveBeenCalledWith(home);
-        expect(global.window.localStorage.clear).toHaveBeenCalled();
+        beforeEach(() => {
+            let mockStore = configureStore();
+
+            mockLocation();
+
+            logoutComponent = shallow(<LogoutButton store={mockStore()}/>).dive();
+            logoutButton = logoutComponent.find('.LogoutButton');
+        });
+
+        afterEach(() => {
+            logout.mockClear();
+            clearAccessToken.mockClear();
+        });
+
+        it('should clear access token', () => {
+            expect(clearAccessToken).not.toHaveBeenCalled();
+            logoutButton.simulate('click');
+            expect(clearAccessToken).toHaveBeenCalled();
+        });
+
+        it('should redirect to login page', () => {
+            expect(window.location.assign).not.toHaveBeenCalled();
+            logoutButton.simulate('click');
+            expect(window.location.assign).toHaveBeenCalledWith(home);
+        });
+
+        it('should call the logout action creator', () => {
+            expect(logout).not.toHaveBeenCalled();
+            logoutButton.simulate('click');
+            expect(logout).toHaveBeenCalled();
+        });
     });
 });

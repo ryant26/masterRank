@@ -25,6 +25,14 @@ class PreferredHeroesContainer extends Component {
         this.clearHeroPreference = this.clearHeroPreference.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState(() => {
+            return {
+                pendingPreferredHeroes: [...nextProps.heroes]
+            };
+        });
+    }
+
     setHeroPreference(heroName) {
         // In-place operation
         this.state.pendingPreferredHeroes.splice(this.state.selectedSlot - 1, 1, heroName);

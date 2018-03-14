@@ -22,6 +22,7 @@ export const saveState = (state) => {
             heroFilters: state.heroFilters,
             platform: state.platform,
             region: state.region,
+            walkthrough: state.walkthrough
         });
 
         localStorage.setItem("state", serializedState);

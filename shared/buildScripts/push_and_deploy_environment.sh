@@ -53,8 +53,8 @@ echo ===================================
 echo ======== ECS Images Pushed ========
 echo ===================================
 
-$scriptsDir/ecs_deploy.sh -k $awsKey -s $awsSecret -r $region -c $cluster_ecs -n $heroApiService_ecs -i $heroApiServerTag_ecs -t 300
-$scriptsDir/ecs_deploy.sh -k $awsKey -s $awsSecret -r $region -c $cluster_ecs -n $socketServerService_ecs -i $socketServerTag_ecs -t 300
+$scriptsDir/ecs_deploy.sh -k $awsKey -s $awsSecret -r $region -c $cluster_ecs -n $heroApiService_ecs -i $heroApiServerTag_ecs -t 600
+$scriptsDir/ecs_deploy.sh -k $awsKey -s $awsSecret -r $region -c $cluster_ecs -n $socketServerService_ecs -i $socketServerTag_ecs -t 600
 
 echo ===================================
 echo ======= Deployment Complete =======
