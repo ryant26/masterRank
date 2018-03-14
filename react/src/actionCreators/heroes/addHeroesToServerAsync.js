@@ -1,4 +1,4 @@
-export const addHeroesToServer = (heroNames, socket) => {
+export const addHeroesToServerAsync = (heroNames, socket) => {
 
     return () => {
         heroNames.forEach((heroName, i) => {

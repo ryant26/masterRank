@@ -2,7 +2,7 @@ import { preferredHeroNotification } from '../../components/Notifications/Notifi
 import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
 import { pushBlockingEvent as pushBlockingLoadingAction } from "../loading";
 
-export const updatePreferredHeroes = function(heroes, socket) {
+export const updatePreferredHeroesAsync = function(heroes, socket) {
 
     return (dispatch, getState) => {
 

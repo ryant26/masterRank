@@ -2,7 +2,7 @@
 
 exports[`HeroCard Component should render a single invite 1`] = `
 <div
-  className="flex flex-column sidebar-card"
+  className="InvitesCard flex flex-column sidebar-card"
 >
   <div
     className="flex align-center justify-between sidebar-title"
@@ -75,7 +75,7 @@ exports[`HeroCard Component should render a single invite 1`] = `
 
 exports[`HeroCard Component should render three invites 1`] = `
 <div
-  className="flex flex-column sidebar-card"
+  className="InvitesCard flex flex-column sidebar-card"
 >
   <div
     className="flex align-center justify-between sidebar-title"
@@ -186,7 +186,7 @@ exports[`HeroCard Component should render three invites 1`] = `
 
 exports[`HeroCard Component should render two invites 1`] = `
 <div
-  className="flex flex-column sidebar-card"
+  className="InvitesCard flex flex-column sidebar-card"
 >
   <div
     className="flex align-center justify-between sidebar-title"

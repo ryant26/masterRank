@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
+import { clearLocalStorage } from '../../utilities/localStorage/localStorageUtilities';
 import {home} from "../Routes/links";
 
 class ErrorBoundary extends Component {
@@ -23,7 +24,7 @@ class ErrorBoundary extends Component {
     }
 
     clearStateAndReload() {
-        window.localStorage.clear();
+        clearLocalStorage();
         window.location.assign(home);
     }
 
