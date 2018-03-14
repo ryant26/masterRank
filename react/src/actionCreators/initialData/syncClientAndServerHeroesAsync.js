@@ -5,13 +5,12 @@ import {
 import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../loading";
-import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroes';
-import { addHeroesToServer } from '../heroes/addHeroesToServer';
+import { preferMostPlayedHeroesAsync } from '../preferredHeroes/preferMostPlayedHeroesAsync';
+import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
-import { autoPreferredNotification } from '../../components/Notifications/Notifications';
 
-export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
+export const syncClientAndServerHeroesAsync = (heroesFromServer, socket) => {
 
     return (dispatch, getState) => {
 
@@ -29,10 +28,9 @@ export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
         let heroes = getState().preferredHeroes.heroes;
         if( heroes.length <= 0) {
-            autoPreferredNotification();
-            dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
+            dispatch(preferMostPlayedHeroesAsync(user, localStorage.getItem('accessToken'), socket));
         } else {
-            dispatch(addHeroesToServer(heroes, socket));
+            dispatch(addHeroesToServerAsync(heroes, socket));
         }
 
         //Pushed in models.initialize

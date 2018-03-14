@@ -1,4 +1,4 @@
-import * as GroupActionTypes from '../actiontypes/group';
+import * as GroupActionTypes from '../../actiontypes/group';
 
 export const updateGroup = (updatedGroupData) => {
   return {
@@ -7,8 +7,8 @@ export const updateGroup = (updatedGroupData) => {
   };
 };
 
-export const leaveGroup = () => {
+export const initializeGroup = () => {
   return {
-    type: GroupActionTypes.LEAVE_GROUP,
+    type: GroupActionTypes.INITIALIZE_GROUP,
   };
 };

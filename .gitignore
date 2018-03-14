@@ -9,4 +9,10 @@ node_modules
 
 #Frontend
 dist/
-coverage/
+
+package-lock.json
+dump.rdb
+react/package-lock.json
+react/dump.rdb
+heroApiServer/package-lock.json
+runAll/dump.rdb
