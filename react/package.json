@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "copy-webpack-plugin": "^4.5.1",
     "jwt-decode": "^2.2.0",
     "object-assign": "4.1.0",
     "raven-js": "^3.22.3",
