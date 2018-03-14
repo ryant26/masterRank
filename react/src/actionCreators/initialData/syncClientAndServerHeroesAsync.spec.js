@@ -10,28 +10,25 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from "../loading";
 jest.mock('../loading');
-import { preferMostPlayedHeroes } from '../preferredHeroes/preferMostPlayedHeroes';
-jest.mock('../preferredHeroes/preferMostPlayedHeroes');
-import { addHeroesToServer } from '../heroes/addHeroesToServer';
-jest.mock('../heroes/addHeroesToServer');
+import { preferMostPlayedHeroesAsync } from '../preferredHeroes/preferMostPlayedHeroesAsync';
+jest.mock('../preferredHeroes/preferMostPlayedHeroesAsync');
+import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
+jest.mock('../heroes/addHeroesToServerAsync');
 
 import NotRealHeroes from '../../resources/metaListFillerHeroes';
-import { autoPreferredNotification } from '../../components/Notifications/Notifications';
-jest.mock('../../components/Notifications/Notifications');
 
-import { syncClientAndServerHeroes } from './syncClientAndServerHeroes';
+import { syncClientAndServerHeroesAsync } from './syncClientAndServerHeroesAsync';
 
 const clearAllMockedImports = () => {
     addHeroAction.mockClear();
     clearAllHeroesAction.mockClear();
     pushBlockingLoadingAction.mockClear();
     popBlockingLoadingAction.mockClear();
-    preferMostPlayedHeroes.mockClear();
-    addHeroesToServer.mockClear();
-    autoPreferredNotification.mockClear();
+    preferMostPlayedHeroesAsync.mockClear();
+    addHeroesToServerAsync.mockClear();
 };
 
-describe('syncClientAndServerHeroes', () => {
+describe('syncClientAndServerHeroesAsync', () => {
     const user = mockUtils.generateMockUser();
     const usersHeroes = [
         mockUtils.generateMockHero('tracer', user.platformDisplayName),
@@ -68,7 +65,7 @@ describe('syncClientAndServerHeroes', () => {
                     heroes: []
                 }
             });
-            syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
+            syncClientAndServerHeroesAsync(heroesFromServer, socket)(dispatch, getState);
         });
 
         it('call clearAllHeroesAction', () => {
@@ -115,25 +112,18 @@ describe('syncClientAndServerHeroes', () => {
                     heroes: []
                 }
             });
-            syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
+            syncClientAndServerHeroesAsync(heroesFromServer, socket)(dispatch, getState);
         });
 
-        it('should send user a notification that we automatically preferred there top 5 most played heroes', () => {
+        it('should call preferMostPlayedHeroesAsync', () => {
             expect(getState().preferredHeroes.heroes).toEqual([]);
-            expect(autoPreferredNotification).toHaveBeenCalled();
+            expect(preferMostPlayedHeroesAsync).toHaveBeenCalledWith(user, localStorage.getItem('accessToken'), socket);
         });
 
-        it('should call preferMostPlayedHeroes', () => {
+        it('should not call addHeroesToServerAsync', () => {
             expect(getState().preferredHeroes.heroes).toEqual([]);
-            expect(preferMostPlayedHeroes).toHaveBeenCalledWith(user, localStorage.getItem('accessToken'), socket);
+            expect(addHeroesToServerAsync).not.toHaveBeenCalled();
         });
-
-        it('should not call addHeroesToServer', () => {
-            expect(getState().preferredHeroes.heroes).toEqual([]);
-            expect(addHeroesToServer).not.toHaveBeenCalled();
-        });
-
-
     });
 
     describe('when user has no preferred heroes', () => {
@@ -146,17 +136,17 @@ describe('syncClientAndServerHeroes', () => {
                     heroes: preferredHeroes
                 }
             });
-            syncClientAndServerHeroes(heroesFromServer, socket)(dispatch, getState);
+            syncClientAndServerHeroesAsync(heroesFromServer, socket)(dispatch, getState);
         });
 
-        it('should not call preferMostPlayedHeroes if user has preferred heroes', () => {
+        it('should not call preferMostPlayedHeroesAsync if user has preferred heroes', () => {
             expect(getState().preferredHeroes.heroes).toEqual(preferredHeroes);
-            expect(preferMostPlayedHeroes).not.toHaveBeenCalled();
+            expect(preferMostPlayedHeroesAsync).not.toHaveBeenCalled();
         });
 
-        it('should call addHeroesToServer with preferred hero and socket', () => {
+        it('should call addHeroesToServerAsync with preferred hero and socket', () => {
             expect(getState().preferredHeroes.heroes).toEqual(preferredHeroes);
-            expect(addHeroesToServer).toHaveBeenCalledWith(preferredHeroes, socket);
+            expect(addHeroesToServerAsync).toHaveBeenCalledWith(preferredHeroes, socket);
         });
     });
 });

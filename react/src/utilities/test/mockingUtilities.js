@@ -28,6 +28,7 @@ export const mockGetState = (state={}) => {
 export const mockLocalStorage = () => {
     window.localStorage = {
         getItem: jest.fn(),
+        removeItem: jest.fn(),
         clear: jest.fn()
     };
 };

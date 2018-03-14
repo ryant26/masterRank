@@ -1,10 +1,10 @@
 import { mockLocalStorage, getMockResponse, generateMockUser } from '../../utilities/test/mockingUtilities';
 
-import fetchMostPlayedHeroes from './fetchMostPlayedHeroes';
+import fetchMostPlayedHeroesAsync from './fetchMostPlayedHeroesAsync';
 
 import { getHeroes } from '../../resources/heroes';
 
-describe('fetchMostPlayedHeroes', () => {
+describe('fetchMostPlayedHeroesAsync', () => {
     const forUser = generateMockUser();
     const mostPlayedHeroesArray = getHeroes();
     let mostPlayedHeroesPromise;
@@ -15,7 +15,7 @@ describe('fetchMostPlayedHeroes', () => {
         );
 
         window.fetch = jest.fn().mockImplementation(() => fetchPromise);
-        mostPlayedHeroesPromise = fetchMostPlayedHeroes(forUser);
+        mostPlayedHeroesPromise = fetchMostPlayedHeroesAsync(forUser);
         return fetchPromise;
     };
 
@@ -70,7 +70,7 @@ describe('fetchMostPlayedHeroes', () => {
             );
 
             window.fetch = jest.fn().mockImplementation(() => fetchPromise);
-            mostPlayedHeroesPromise = fetchMostPlayedHeroes(forUser);
+            mostPlayedHeroesPromise = fetchMostPlayedHeroesAsync(forUser);
             return fetchPromise;
         });
 

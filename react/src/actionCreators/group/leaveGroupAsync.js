@@ -1,7 +1,7 @@
 import { successfullyLeftGroupNotification } from '../../components/Notifications/Notifications';
 import { initializeGroup as initializeGroupAction} from './group';
 
-export const leaveGroup = (socket) => {
+export const leaveGroupAsync = (socket) => {
 
     return (dispatch, getState) => {
         const user = getState().user;
@@ -18,4 +18,4 @@ export const leaveGroup = (socket) => {
 
 const isLeaderOfEmptyGroup = (user, group) => {
     return user.platformDisplayName  ===  group.leader.platformDisplayName && group.members.length === 0;
-}
+};
