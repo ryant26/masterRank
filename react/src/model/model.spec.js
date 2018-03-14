@@ -175,16 +175,6 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(popBlockingLoadingAction).not.toHaveBeenCalled();
             });
-
-            //TODO: is this something we want to add? can we delete this?
-            xit('should create a new group for the current user if the hero added is the first preferred hero', () => {
-
-            });
-
-            //TODO: is this something we want to add? can we delete this?
-            xit('should promote leader of the group for the current user if the hero added replaces the first preferred hero', () => {
-
-            });
         });
 
         describe('heroRemoved', () => {

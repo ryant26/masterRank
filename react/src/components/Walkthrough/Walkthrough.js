@@ -17,11 +17,10 @@ class Walkthrough extends Component {
 
     walkthroughCallback (event) {
         if(event.type === 'finished') {
-            this.props.finishWalkthrough();
+            this.props.finishWalkthrough(this.props.platformDisplayName);
         }
     }
 
-    //TODO: when you refresh joyride-overlay is enabled, why?
     render() {
         const steps = [
             {
@@ -69,12 +68,15 @@ class Walkthrough extends Component {
 
 Walkthrough.propTypes = {
     runWalkthrough: PropTypes.bool.isRequired,
-    finishWalkthrough: PropTypes.func.isRequired
+    finishWalkthrough: PropTypes.func.isRequired,
+    platformDisplayName: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => {
+    const platformDisplayName = state.user.platformDisplayName;
     return {
-        runWalkthrough:  state.loading.blockUI === 0 && state.walkthrough.state === 'run'
+        runWalkthrough:  state.loading.blockUI === 0 && !state.walkthrough.finished[platformDisplayName],
+        platformDisplayName
     };
 };
 

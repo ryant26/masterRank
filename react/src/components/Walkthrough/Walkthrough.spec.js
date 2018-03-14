@@ -3,22 +3,27 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import JoyRide from 'react-joyride';
 
+import { generateMockUser } from '../../utilities/test/mockingUtilities';
+
 import { finishWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
 jest.mock('../../actionCreators/walkthrough/walkthrough');
 
+
 import Walkthrough from './Walkthrough';
 
-
 const mockStore = configureStore();
-const shallowWalkthrough = (walkthrough, blockUI=0) => {
+
+const shallowWalkthrough = (finished={}, blockUI=0, user=generateMockUser()) => {
     let store = mockStore({
+        user,
         walkthrough: {
-            state: walkthrough
+            finished
         },
         loading: {
             blockUI: blockUI
         },
     });
+    store.dispatch = jest.fn();
     return shallow(
         <Walkthrough store={store}/>
     ).dive();
@@ -28,7 +33,7 @@ describe('Walkthrough', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowWalkthrough('finished');
+        wrapper = shallowWalkthrough();
     });
 
     afterEach(() => {
@@ -46,7 +51,6 @@ describe('Walkthrough', () => {
         });
 
         describe('step', () => {
-            //TODO: Finalize all steps and add their tests.
             describe('one', () => {
                 let stepOne;
 
@@ -158,28 +162,36 @@ describe('Walkthrough', () => {
 
         describe('when loading blockUI not equal 0', () => {
             const blockUI = 1;
+            const user = generateMockUser();
 
-            it('and walkthrough equals "run" should set run prop to false', () => {
-                wrapper = shallowWalkthrough('run', blockUI);
+            it('and user has not finished walkthrough should set run prop to false', () => {
+                wrapper = shallowWalkthrough({}, blockUI, user);
                 expect(wrapper.find(JoyRide).props().run).toBe(false);
             });
 
-            it('and walkthrough equals "finished" should set run prop to false', () => {
-                wrapper = shallowWalkthrough('finished', blockUI);
+            it('and user has finished walkthrough  should set run prop to false', () => {
+                let finished = {};
+                finished[user.platformDisplayName] = true;
+
+                wrapper = shallowWalkthrough(finished, blockUI, user);
                 expect(wrapper.find(JoyRide).props().run).toBe(false);
             });
         });
 
         describe('when loading blockUI is equal 0', () => {
             const blockUI = 0;
+            const user = generateMockUser();
 
-            it('and walkthrough equals "run" should set run prop to true', () => {
-                wrapper = shallowWalkthrough('run', blockUI);
+            it('and user has not finished walkthrough should set run prop to true', () => {
+                wrapper = shallowWalkthrough({}, blockUI, user);
                 expect(wrapper.find(JoyRide).props().run).toBe(true);
             });
 
-            it('and walkthrough equals "finished" should set run prop to false', () => {
-                wrapper = shallowWalkthrough('finished', blockUI);
+            it('and user has finished walkthrough should set run prop to false', () => {
+                let finished = {};
+                finished[user.platformDisplayName] = true;
+
+                wrapper = shallowWalkthrough(finished, blockUI, user);
                 expect(wrapper.find(JoyRide).props().run).toBe(false);
             });
         });
@@ -200,12 +212,16 @@ describe('Walkthrough', () => {
             expect(wrapper.find(JoyRide).props().callback).toBe(wrapper.instance().walkthroughCallback);
         });
 
-        //TODO: dont know how to get the mocked dispatch into a connected component
-        xit('should dispatch finishWalkthrough when tour is finished or skipped', () => {
+        it('should dispatch finishWalkthrough when tour is finished or skipped', () => {
+            const finished = {};
+            const blockUI = 0;
+            const user = generateMockUser();
+            wrapper = shallowWalkthrough(finished, blockUI, user);
             wrapper.find(JoyRide).props().callback({
                 type: 'finished'
             });
-            expect(finishWalkthrough).toHaveBeenCalled();
+
+            expect(finishWalkthrough).toHaveBeenCalledWith(user.platformDisplayName);
         });
     });
 });
