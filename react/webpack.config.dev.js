@@ -2,7 +2,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
-var BabelPlugin = require("babel-webpack-plugin");
+const BabelPlugin = require("babel-webpack-plugin");
 
 export default {
   resolve: {
@@ -11,6 +11,7 @@ export default {
   devtool: 'cheap-module-eval-source-map', // more info:https://webpack.js.org/guides/development/#using-source-maps and https://webpack.js.org/configuration/devtool/
   entry: [
     // must be first entry to properly set public path
+    'babel-polyfill',
     './src/webpack-public-path',
     'react-hot-loader/patch',
     'webpack-hot-middleware/client?reload=true',
@@ -23,6 +24,29 @@ export default {
     filename: 'bundle.js'
   },
   plugins: [
+    new BabelPlugin({
+      test: /\.js$/,
+      presets: [
+        [
+          'env',
+          {
+            exclude: [
+              'transform-regenerator'
+            ],
+            loose: true,
+            modules: false,
+            targets: {
+              browsers: [
+                '>1%'
+              ]
+            },
+            useBuiltIns: true
+          }
+        ]
+      ],
+     sourceMaps: false,
+     compact: false
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
       __DEV__: true
@@ -40,29 +64,6 @@ export default {
   ],
   module: {
     rules: [
-      new BabelPlugin({
-        test: /\.js$/,
-        presets: [
-          [
-            'env',
-            {
-              exclude: [
-                'transform-regenerator'
-              ],
-              loose: true,
-              modules: false,
-              targets: {
-                browsers: [
-                  '>1%'
-                ]
-              },
-              useBuiltIns: true
-            }
-          ]
-        ],
-       sourceMaps: false,
-       compact: false
-      }),
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
         use: ['file-loader']
