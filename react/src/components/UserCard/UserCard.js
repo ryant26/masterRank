@@ -7,19 +7,19 @@ const UserCard = ({user, onClick, region, showRank}) => {
 
     function addIcon(sr) {
         if(sr < 1500) {
-            return require(`../../assets/bronze-icon.png`);
+            return require(`assets/bronze-icon.png`);
         } else if (sr < 2000) {
-            return require(`../../assets/silver-icon.png`);
+            return require(`assets/silver-icon.png`);
         } else if (sr < 2500) {
-            return require(`../../assets/gold-icon.png`);
+            return require(`assets/gold-icon.png`);
         } else if (sr < 3000) {
-            return require(`../../assets/platinum-icon.png`);
+            return require(`assets/platinum-icon.png`);
         } else if (sr < 3500) {
-            return require(`../../assets/diamond-icon.png`);
+            return require(`assets/diamond-icon.png`);
         } else if (sr < 4000) {
-            return require(`../../assets/master-icon.png`);
+            return require(`assets/master-icon.png`);
         } else {
-            return require(`../../assets/grandmaster-icon.png`);
+            return require(`assets/grandmaster-icon.png`);
         }
     }
 

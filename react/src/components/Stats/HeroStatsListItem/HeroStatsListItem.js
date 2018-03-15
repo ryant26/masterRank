@@ -27,7 +27,7 @@ const HeroStatsListItem = ({user, hero, showPlatformDisplayName, isLeader, isPen
 
     const leaderIcon = isLeader ?
         (<img className="crown"
-            src={require(`../../../assets/leader-icon.svg`)}
+            src={require(`assets/leader-icon.svg`)}
             alt = "leader-icon"
         />) : undefined;
 

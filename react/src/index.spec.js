@@ -8,7 +8,7 @@ import token from 'resources/token';
 import {MemoryRouter} from 'react-router-dom';
 
 const mockStore = configureStore();
-jest.mock('./model/store', () => jest.fn());
+jest.mock('model/store', () => jest.fn());
 
 describe('index', () => {
     beforeEach(() => {

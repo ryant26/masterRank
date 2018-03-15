@@ -1,4 +1,4 @@
-import HeroReducer from './HeroReducer';
+import HeroReducer from 'reducers/HeroReducer';
 import Heroes from 'resources/heroes';
 import * as HeroActionTypes from 'actiontypes/hero';
 
