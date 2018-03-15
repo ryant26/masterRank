@@ -105,6 +105,11 @@ export default {
   module: {
     rules: [
       {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
+      {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
         use: [
           {
