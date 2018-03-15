@@ -66,24 +66,7 @@ export default {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader'],
-        presets: [
-          [
-            'env',
-            {
-              exclude: [
-                'transform-regenerator'
-              ],
-              loose: true,
-              targets: {
-                browsers: [
-                  '>1%'
-                ]
-              },
-              useBuiltIns: true
-            }
-          ]
-        ]
+        use: ['babel-loader']
       },
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
