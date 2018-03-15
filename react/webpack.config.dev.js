@@ -2,8 +2,6 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
-const BabelPlugin = require("babel-webpack-plugin");
-
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
@@ -24,29 +22,6 @@ export default {
     filename: 'bundle.js'
   },
   plugins: [
-    new BabelPlugin({
-      test: /\.js$/,
-      presets: [
-        [
-          'env',
-          {
-            exclude: [
-              'transform-regenerator'
-            ],
-            loose: true,
-            modules: false,
-            targets: {
-              browsers: [
-                '>1%'
-              ]
-            },
-            useBuiltIns: true
-          }
-        ]
-      ],
-     sourceMaps: false,
-     compact: false
-    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
       __DEV__: true
