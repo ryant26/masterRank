@@ -2,6 +2,8 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
+var BabelPlugin = require("babel-webpack-plugin");
+
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
@@ -38,27 +40,29 @@ export default {
   ],
   module: {
     rules: [
-      {
+      new BabelPlugin({
         test: /\.js$/,
-        use: {
-            loader: 'babel-loader',
-            options: {
-                modules: true,
-                presets: ['env',
-                    {
-                      "loose": true,
-                      "modules": false,
-                      "targets": {
-                        "browsers": [
-                          ">1%"
-                        ]
-                      },
-                      "useBuiltIns": true
-                    }
+        presets: [
+          [
+            'env',
+            {
+              exclude: [
+                'transform-regenerator'
+              ],
+              loose: true,
+              modules: false,
+              targets: {
+                browsers: [
+                  '>1%'
                 ]
+              },
+              useBuiltIns: true
             }
-        }
-      },
+          ]
+        ],
+       sourceMaps: false,
+       compact: false
+      }),
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
         use: ['file-loader']
