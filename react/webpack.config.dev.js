@@ -10,9 +10,6 @@ export default {
     entry: [
         // must be first entry to properly set public path
         'babel-polyfill',
-        './src/webpack-public-path',
-        'react-hot-loader/patch',
-        'webpack-hot-middleware/client?reload=true',
         path.resolve(__dirname, 'src/index.js') // Defining path seems necessary for this to work consistently on Windows machines.
     ],
     target: 'web',
@@ -26,8 +23,6 @@ export default {
             'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
             __DEV__: true
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({     // Create HTML file that includes references to bundled CSS and JS.
             template: 'src/index.html',
             minify: {
