@@ -39,9 +39,25 @@ export default {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
+        test: /\.js$/,
+        use: {
+            loader: 'babel-loader',
+            options: {
+                modules: true,
+                presets: ['env',
+                    {
+                      "loose": true,
+                      "modules": false,
+                      "targets": {
+                        "browsers": [
+                          ">1%"
+                        ]
+                      },
+                      "useBuiltIns": true
+                    }
+                ]
+            }
+        }
       },
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
