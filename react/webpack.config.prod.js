@@ -80,11 +80,29 @@ export default {
   ],
   module: {
     rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      },
+      new BabelPlugin({
+          test: /\.js$/,
+          presets: [
+            [
+              'env',
+              {
+                exclude: [
+                  'transform-regenerator'
+                ],
+                loose: true,
+                modules: false,
+                targets: {
+                  browsers: [
+                    '>1%'
+                  ]
+                },
+                useBuiltIns: true
+              }
+            ]
+          ],
+         sourceMaps: false,
+         compact: false
+      }),
       {
         test: /\.eot(\?v=\d+.\d+.\d+)?$/,
         use: [
