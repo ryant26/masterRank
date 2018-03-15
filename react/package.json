@@ -107,7 +107,21 @@
     "env": {
       "development": {
         "presets": [
-          "env",
+          [
+            "env",
+            {
+              "exclude": [
+                "transform-regenerator"
+              ],
+              "loose": true,
+              "targets": {
+                "browsers": [
+                  ">1%"
+                ]
+              },
+              "useBuiltIns": true
+            }
+          ],
           "react-hmre"
         ]
       },
@@ -116,13 +130,16 @@
           [
             "env",
             {
-              "es2015": {
-                "modules": false
-              },
+              "exclude": [
+                "transform-regenerator"
+              ],
+              "loose": true,
               "targets": {
-                "ie": 9,
-                "uglify": true
-              }
+                "browsers": [
+                  ">1%"
+                ]
+              },
+              "useBuiltIns": true
             }
           ]
         ],

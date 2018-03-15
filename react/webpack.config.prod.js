@@ -105,8 +105,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
+        test: /\.js$/,
         use: ['babel-loader']
       },
       {
