@@ -51,18 +51,22 @@ class Walkthrough extends Component {
             },
         ];
 
-        return (
-            <JoyRide
-                ref="joyride"
-                steps={steps}
-                run={this.props.runWalkthrough}
-                autoStart={true}
-                showSkipButton={true}
-                showStepsProgress={true}
-                type={'continuous'}
-                callback={this.walkthroughCallback}
-            />
-        );
+        let joyride = null;
+        if(this.props.runWalkthrough) {
+            joyride = (
+                <JoyRide
+                    ref="joyride"
+                    steps={steps}
+                    run={this.props.runWalkthrough}
+                    autoStart={true}
+                    showSkipButton={true}
+                    showStepsProgress={true}
+                    type={'continuous'}
+                    callback={this.walkthroughCallback}
+                />
+            );
+        }
+        return ( joyride );
     }
 }
 
