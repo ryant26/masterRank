@@ -7,10 +7,10 @@ import {logout as logoutAction} from "../../../../actionCreators/app";
 import { clearAccessToken } from '../../../../utilities/localStorage/localStorageUtilities';
 import { home } from '../../../Routes/links';
 
-const LogoutButton = ({logout}) => {
+const LogoutButton = ({onLogout}) => {
 
     function onClick() {
-        logout();
+        onLogout();
         clearAccessToken();
         window.location.assign(home);
     }
@@ -23,12 +23,12 @@ const LogoutButton = ({logout}) => {
 };
 
 LogoutButton.propTypes = {
-    logout: PropTypes.func.isRequired
+    onLogout: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = function (dispatch) {
     return bindActionCreators({
-        logout: logoutAction,
+        onLogout: logoutAction,
     }, dispatch);
 };
 

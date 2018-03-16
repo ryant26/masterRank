@@ -164,17 +164,21 @@ describe('Walkthrough', () => {
             const blockUI = 1;
             const user = generateMockUser();
 
-            it('and user has not finished walkthrough should set run prop to false', () => {
-                wrapper = shallowWalkthrough({}, blockUI, user);
-                expect(wrapper.find(JoyRide).props().run).toBe(false);
+            describe('and user has not finished walkthrough', () => {
+                it('JoyRide should not be rendered', () => {
+                    wrapper = shallowWalkthrough({}, blockUI, user);
+                    expect(wrapper.find(JoyRide)).toHaveLength(0);
+                });
             });
 
-            it('and user has finished walkthrough  should set run prop to false', () => {
-                let finished = {};
-                finished[user.platformDisplayName] = true;
+            describe('and user has finished walkthrough', () => {
+                it('JoyRide should not be rendered', () => {
+                    let finished = {};
+                    finished[user.platformDisplayName] = true;
 
-                wrapper = shallowWalkthrough(finished, blockUI, user);
-                expect(wrapper.find(JoyRide).props().run).toBe(false);
+                    wrapper = shallowWalkthrough(finished, blockUI, user);
+                    expect(wrapper.find(JoyRide)).toHaveLength(0);
+                });
             });
         });
 
@@ -182,17 +186,28 @@ describe('Walkthrough', () => {
             const blockUI = 0;
             const user = generateMockUser();
 
-            it('and user has not finished walkthrough should set run prop to true', () => {
-                wrapper = shallowWalkthrough({}, blockUI, user);
-                expect(wrapper.find(JoyRide).props().run).toBe(true);
+            describe('and user has not finished walkthrough', () => {
+                beforeEach(() => {
+                    wrapper = shallowWalkthrough({}, blockUI, user);
+                });
+
+                it('should render JoyRide', () => {
+                    expect(wrapper.find(JoyRide)).toHaveLength(1);
+                });
+
+                it('should set JoyRide run prop to true', () => {
+                    expect(wrapper.find(JoyRide).props().run).toBe(true);
+                });
             });
 
-            it('and user has finished walkthrough should set run prop to false', () => {
-                let finished = {};
-                finished[user.platformDisplayName] = true;
+            describe('and user has finished walkthrough', () => {
+                it('JoyRide should not be rendered', () => {
+                    let finished = {};
+                    finished[user.platformDisplayName] = true;
 
-                wrapper = shallowWalkthrough(finished, blockUI, user);
-                expect(wrapper.find(JoyRide).props().run).toBe(false);
+                    wrapper = shallowWalkthrough(finished, blockUI, user);
+                    expect(wrapper.find(JoyRide)).toHaveLength(0);
+                });
             });
         });
 
