@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        onStartTutorial: (platformDisplayName) => { return startWalkthrough(platformDisplayName); }
+        onStartTutorial: startWalkthrough
     }, dispatch);
 };
 
