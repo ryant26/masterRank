@@ -28,7 +28,7 @@ export default {
     output: {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
-        filename: '[name].[chunkhash]test.js'
+        filename: '[name].[chunkhash].js'
     },
     plugins: [
         new BabelPlugin({
