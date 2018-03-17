@@ -8,6 +8,7 @@ import path from 'path';
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BabelPlugin = require("babel-webpack-plugin");
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production'),
@@ -76,7 +77,30 @@ export default {
                 }
             }
         }),
-        new CopyWebpackPlugin(['src/google7e30785887950553.html'])
+        new CopyWebpackPlugin(['src/google7e30785887950553.html']),
+        new BabelPlugin({
+          test: /\.js$/,
+          presets: [
+            [
+              'env',
+              {
+                exclude: [
+                  'transform-regenerator'
+                ],
+                loose: true,
+                modules: false,
+                targets: {
+                  browsers: [
+                    '>1%'
+                  ]
+                },
+                useBuiltIns: true
+              }
+            ]
+          ],
+         sourceMaps: false,
+         compact: false
+        })
     ],
     module: {
         rules: [
