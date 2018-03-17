@@ -31,6 +31,28 @@ export default {
         filename: '[name].[chunkhash].js'
     },
     plugins: [
+        new BabelPlugin({
+          test: /\.js$/,
+          presets: [
+            [
+              'env',
+              {
+                exclude: [
+                  'transform-regenerator'
+                ],
+                loose: true,
+                targets: {
+                  browsers: [
+                    '>1%'
+                  ]
+                },
+                useBuiltIns: true
+              }
+            ]
+          ],
+         sourceMaps: false,
+         compact: false
+        }),
         // Hash the files using MD5 so that their names change when the content changes.
         new WebpackMd5Hash(),
 
@@ -77,30 +99,7 @@ export default {
                 }
             }
         }),
-        new CopyWebpackPlugin(['src/google7e30785887950553.html']),
-        new BabelPlugin({
-          test: /\.js$/,
-          presets: [
-            [
-              'env',
-              {
-                exclude: [
-                  'transform-regenerator'
-                ],
-                loose: true,
-                modules: false,
-                targets: {
-                  browsers: [
-                    '>1%'
-                  ]
-                },
-                useBuiltIns: true
-              }
-            ]
-          ],
-         sourceMaps: false,
-         compact: false
-        })
+        new CopyWebpackPlugin(['src/google7e30785887950553.html'])
     ],
     module: {
         rules: [
