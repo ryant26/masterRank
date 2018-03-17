@@ -17,14 +17,9 @@ export const getMockSocket = () => {
     return websocket;
 };
 
-export const mockGetState = (user=generateMockUser(), preferredHeroNames=[]) => {
+export const mockGetState = (state={}) => {
     const getState = jest.fn().mockImplementation(() => {
-        return {
-            user: user,
-            preferredHeroes: {
-                heroes: preferredHeroNames
-            }
-        };
+        return state;
     });
 
     return getState;
@@ -33,6 +28,7 @@ export const mockGetState = (user=generateMockUser(), preferredHeroNames=[]) => 
 export const mockLocalStorage = () => {
     window.localStorage = {
         getItem: jest.fn(),
+        removeItem: jest.fn(),
         clear: jest.fn()
     };
 };

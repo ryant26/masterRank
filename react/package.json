@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-webpack-plugin": "^0.1.1",
     "classnames": "^2.2.5",
+    "copy-webpack-plugin": "^4.5.1",
     "jwt-decode": "^2.2.0",
     "object-assign": "4.1.0",
     "raven-js": "^3.22.3",
@@ -11,14 +14,15 @@
     "react-dom": "16.0.0",
     "react-fontawesome": "^1.6.1",
     "react-helmet": "^5.2.0",
+    "react-joyride": "^1.11.4",
     "react-modal": "^3.1.10",
     "react-redux": "5.0.5",
     "react-router-dom": "4.2.2",
     "react-router-redux": "5.0.0-alpha.6",
+    "react-toastify": "3.3.4",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
-    "socket.io": "^2.0.4",
-    "react-toastify": "3.3.4"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -29,7 +33,6 @@
     "babel-loader": "7.1.1",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.6",
-    "babel-polyfill": "6.23.0",
     "babel-preset-env": "1.6.0",
     "babel-preset-react": "6.24.1",
     "babel-preset-react-hmre": "1.1.1",
@@ -113,13 +116,16 @@
           [
             "env",
             {
-              "es2015": {
-                "modules": false
-              },
+              "exclude": [
+                "transform-regenerator"
+              ],
+              "loose": true,
               "targets": {
-                "ie": 9,
-                "uglify": true
-              }
+                "browsers": [
+                  ">1%"
+                ]
+              },
+              "useBuiltIns": true
             }
           ]
         ],

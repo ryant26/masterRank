@@ -1,5 +1,4 @@
 const logger = require('../services/logger').sysLogger;
-const SocketError = require('./exceptions/SocketError');
 const exceptions = require('./exceptions/exceptions');
 const stringValidator = require('./stringValidators').runAllValidators;
 
@@ -10,7 +9,7 @@ let heroExists = function(playerHeros, hero) {
 
     if (!heroStats) {
         logger.error(`Hero ${hero.platformDisplayName}:${hero.heroName} does not exist`);
-        throw new SocketError(exceptions.heroNotFound, 'hero', hero);
+        throw exceptions.heroNotFound;
     }
 };
 
@@ -22,7 +21,7 @@ let validHeroObject = function (hero) {
         return validateHeroName(hero.heroName);
     }
     logger.error(`Received malformed hero object [${hero}]`);
-    throw new SocketError(exceptions.malformedHeroObject, 'hero', hero);
+    throw exceptions.malformedHeroObject;
 };
 
 let validateHeroName = function (heroName) {
@@ -30,7 +29,7 @@ let validateHeroName = function (heroName) {
         return true;
     }
     logger.error(`Received invalid hero name [${heroName}]`);
-    throw new SocketError(exceptions.invalidHeroName, 'heroName', heroName);
+    throw exceptions.invalidHeroName;
 };
 
 let validatePriority = function (priority) {
@@ -41,7 +40,7 @@ let validatePriority = function (priority) {
     }
 
     logger.error(`Reveived invalid priority [${priority}]`);
-    throw new SocketError(exceptions.invalidPriority, 'priority', priority);
+    throw exceptions.invalidPriority;
 };
 
 module.exports = {

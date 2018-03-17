@@ -1,4 +1,4 @@
-import * as groupActionType from '../actiontypes/group';
+import * as groupActionType from '../../actiontypes/group';
 import * as groupActionCreators from './group';
 
 describe('updateGroup',() => {
@@ -11,10 +11,10 @@ describe('updateGroup',() => {
             });
     });
 
-    it ('should create the LEAVE_GROUP action', ()=> {
-        expect(groupActionCreators.leaveGroup())
+    it ('should create the INITIALIZE_GROUP action', ()=> {
+        expect(groupActionCreators.initializeGroup())
             .toEqual({
-                type: groupActionType.LEAVE_GROUP,
+                type: groupActionType.INITIALIZE_GROUP,
             });
     });
 });

@@ -12,7 +12,7 @@ export default function GroupReducer(state=initialState, action) {
         case GroupHeroActionTypes.UPDATE_GROUP: {
             return action.updatedGroupData;
         }
-        case GroupHeroActionTypes.LEAVE_GROUP: {
+        case GroupHeroActionTypes.INITIALIZE_GROUP: {
             return initialState;
         }
         default:
