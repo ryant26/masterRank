@@ -41,6 +41,7 @@ export default {
                   'transform-regenerator'
                 ],
                 loose: true,
+                modules: false,
                 targets: {
                   browsers: [
                     '>1%'
