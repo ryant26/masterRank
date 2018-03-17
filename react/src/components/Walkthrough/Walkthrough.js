@@ -17,7 +17,7 @@ class Walkthrough extends Component {
 
     walkthroughCallback (event) {
         if(event.type === 'finished') {
-            this.props.finishWalkthrough(this.props.platformDisplayName);
+            this.props.onWalkthroughFinished(this.props.platformDisplayName);
         }
     }
 
@@ -51,24 +51,28 @@ class Walkthrough extends Component {
             },
         ];
 
-        return (
-            <JoyRide
-                ref="joyride"
-                steps={steps}
-                run={this.props.runWalkthrough}
-                autoStart={true}
-                showSkipButton={true}
-                showStepsProgress={true}
-                type={'continuous'}
-                callback={this.walkthroughCallback}
-            />
-        );
+        let joyride = null;
+        if(this.props.runWalkthrough) {
+            joyride = (
+                <JoyRide
+                    ref="joyride"
+                    steps={steps}
+                    run={this.props.runWalkthrough}
+                    autoStart={true}
+                    showSkipButton={true}
+                    showStepsProgress={true}
+                    type={'continuous'}
+                    callback={this.walkthroughCallback}
+                />
+            );
+        }
+        return ( joyride );
     }
 }
 
 Walkthrough.propTypes = {
     runWalkthrough: PropTypes.bool.isRequired,
-    finishWalkthrough: PropTypes.func.isRequired,
+    onWalkthroughFinished: PropTypes.func.isRequired,
     platformDisplayName: PropTypes.string.isRequired
 };
 
@@ -82,7 +86,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        finishWalkthrough: finishWalkthrough
+        onWalkthroughFinished: finishWalkthrough
     }, dispatch);
 };
 
