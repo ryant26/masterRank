@@ -27,7 +27,7 @@ describe('HeroStatsList Component', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowHeroStatsList(heroes);
+        wrapper = shallowHeroStatsList([heroes[0], heroes[1], heroes[2], heroes[3]]);
     });
 
     it('should match the snapshot', () => {

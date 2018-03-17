@@ -2,7 +2,10 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 
 import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
-import {mockLocalStorage, mockLocation} from "utilities/test/mockingUtilities";
+import { clearLocalStorage } from 'utilities/localStorage/localStorageUtilities';
+jest.mock('utilities/localStorage/localStorageUtilities');
+
+import { mockLocation } from "utilities/test/mockingUtilities";
 
 const SomethingsWrong = () => {
   throw Error('Error something went wrong');
@@ -29,6 +32,10 @@ describe('ErrorBoundary', () => {
 
         beforeEach(() => {
             ErrorBoundaryComponent = shallowErrorBoundaryWithNoError();
+        });
+
+        afterEach(() => {
+            clearLocalStorage.mockClear();
         });
 
         it('should mount', () => {
@@ -67,16 +74,15 @@ describe('ErrorBoundary', () => {
             let button;
 
             beforeEach(() => {
-                mockLocalStorage();
                 mockLocation();
 
                 button = ErrorBoundaryComponent.find('button');
             });
 
-            it('should call clear() on localStorage', () => {
-                expect(global.window.localStorage.clear).not.toHaveBeenCalled();
+            it('should call clearLocalStorage()', () => {
+                expect(clearLocalStorage).not.toHaveBeenCalled();
                 button.simulate('click');
-                expect(global.window.localStorage.clear).toHaveBeenCalled();
+                expect(clearLocalStorage).toHaveBeenCalled();
             });
 
             it('should redirect to the home page', () => {

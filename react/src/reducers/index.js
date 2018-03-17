@@ -1,25 +1,27 @@
 import { combineReducers } from 'redux';
-import HeroReducer from 'reducers/HeroReducer';
-import PreferredHeroesReducer from 'reducers/PreferredHeroesReducer';
-import GroupInvitesReducer from 'reducers/GroupInvitesReducer';
-import UserReducer from 'reducers/UserReducer';
-import GroupReducer from 'reducers/GroupReducer';
-import HeroFiltersReducer from 'reducers/HeroFiltersReducer';
-import RegionReducer from 'reducers/RegionReducer';
-import LoadingReducer from 'reducers/LoadingReducer';
-import AppReducer from 'reducers/AppReducer';
+
+import resetStateOnLogout from './HigherOrderReducers/resetStateOnLogout';
+
+import HeroReducer from './HeroReducer';
+import PreferredHeroesReducer from './PreferredHeroesReducer';
+import GroupInvitesReducer from './GroupInvitesReducer';
+import UserReducer from './UserReducer';
+import GroupReducer from './GroupReducer';
+import HeroFiltersReducer from './HeroFiltersReducer';
+import RegionReducer from './RegionReducer';
+import LoadingReducer from './LoadingReducer';
+import WalkthroughReducer from './walkthrough/WalkthroughReducer';
 
 const appReducers =  combineReducers({
-  heroes: HeroReducer,
-  preferredHeroes: PreferredHeroesReducer,
-  user: UserReducer,
-  group: GroupReducer,
-  groupInvites: GroupInvitesReducer,
-  heroFilters: HeroFiltersReducer,
-  region: RegionReducer,
-  loading: LoadingReducer
+  heroes: resetStateOnLogout(HeroReducer),
+  preferredHeroes: resetStateOnLogout(PreferredHeroesReducer),
+  user: resetStateOnLogout(UserReducer),
+  group: resetStateOnLogout(GroupReducer),
+  groupInvites: resetStateOnLogout(GroupInvitesReducer),
+  heroFilters: resetStateOnLogout(HeroFiltersReducer),
+  region: resetStateOnLogout(RegionReducer),
+  loading: resetStateOnLogout(LoadingReducer),
+  walkthrough: WalkthroughReducer
 });
 
-export default function allReducers(state, action) {
-  return appReducers(AppReducer(state, action), action);
-}
+export default appReducers;

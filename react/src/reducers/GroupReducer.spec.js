@@ -32,10 +32,10 @@ describe('Group Reducer', ()=> {
         });
     });
 
-    it ('should handle LEAVE_GROUP by replacing the current group with initial state', () => {
+    it ('should handle INITIALIZE_GROUP by replacing the current group with initial state', () => {
         const group = groupInvites[0];
         expect(GroupReducer(group, {
-            type: GroupActionTypes.LEAVE_GROUP,
+            type: GroupActionTypes.INITIALIZE_GROUP,
         })).toEqual({
             groupId: null,
             members: [],

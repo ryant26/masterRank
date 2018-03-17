@@ -7,8 +7,8 @@ export const updateGroup = (updatedGroupData) => {
   };
 };
 
-export const leaveGroup = () => {
+export const initializeGroup = () => {
   return {
-    type: GroupActionTypes.LEAVE_GROUP,
+    type: GroupActionTypes.INITIALIZE_GROUP,
   };
 };

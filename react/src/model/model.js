@@ -4,7 +4,6 @@ import {
 } from "actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
-    updateHeroes as updatePreferredHeroesAction
 } from "actionCreators/preferredHeroes/preferredHeroes";
 import { updateUser as updateUserAction } from "actionCreators/user";
 import {
@@ -13,9 +12,8 @@ import {
     removeAllFilters as removeAllFiltersAction
 } from "actionCreators/heroFilters";
 import {
-    updateGroup as updateGroupAction,
-    leaveGroup as leaveGroupAction
-} from 'actionCreators/group';
+    updateGroup as updateGroupAction
+} from 'actionCreators/group/group';
 import { clientEvents } from "api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
@@ -25,7 +23,9 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "actionCreators/loading";
-import { syncClientAndServerHeroes } from 'actionCreators/initialData/syncClientAndServerHeroes';
+import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
+import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
+import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
 
 import * as Notifications from 'components/Notifications/Notifications';
 
@@ -37,10 +37,10 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
-    //Popped in syncClientAndServerHeroes()
+    //Popped in syncClientAndServerHeroesAsync()
     store.dispatch(pushBlockingLoadingAction());
 
-    socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(syncClientAndServerHeroes(heroesFromServer, socket)));
+    socket.on(clientEvents.initialData, (heroesFromServer) => store.dispatch(syncClientAndServerHeroesAsync(heroesFromServer, socket)));
     socket.on(clientEvents.heroAdded, (hero) => _addHeroToStore(hero));
     socket.on(clientEvents.heroRemoved, (hero) => _removeHeroFromStore(hero));
 
@@ -80,33 +80,8 @@ const removePreferredHeroFromStore = function(heroName, preference) {
     store.dispatch(removePreferredHeroAction(heroName, preference));
 };
 
-const updatePreferredHeroesInStore = function(heroes) {
-    store.dispatch(updatePreferredHeroesAction(heroes));
-};
-
 const updatePreferredHeroes = function(heroes) {
-    let currentPreferredHeroes = store.getState().preferredHeroes.heroes;
-    let numberOfHeroesToCheck = Math.max(heroes.length, currentPreferredHeroes.length);
-
-    for (let i = 0; i < numberOfHeroesToCheck; i++) {
-        let currentPreferredHero = store.getState().preferredHeroes.heroes[i];
-        let newPreferredHero = heroes[i];
-
-        if (currentPreferredHero !== newPreferredHero){
-            if (currentPreferredHero) {
-                socket.removeHero(currentPreferredHero);
-            }
-
-            if (newPreferredHero) {
-                Notifications.preferredHeroNotification(newPreferredHero);
-                socket.addHero(newPreferredHero, i+1);
-                //Popped in _addHeroToStore()
-                store.dispatch(pushBlockingLoadingAction());
-            }
-        }
-    }
-
-    updatePreferredHeroesInStore(heroes);
+    store.dispatch(updatePreferredHeroesAsync(heroes, socket));
 };
 
 const updateUser = function(user) {
@@ -123,13 +98,7 @@ const createNewGroup = function() {
 };
 
 const leaveGroup = function() {
-    const user = store.getState().user;
-    const group = store.getState().group;
-    if( !(group.leader.platformDisplayName === user.platformDisplayName && group.members.length === 0) ) {
-        Notifications.successfullyLeftGroupNotification(group.leader.platformDisplayName);
-    }
-    store.dispatch(leaveGroupAction());
-    socket.groupLeave();
+    store.dispatch(leaveGroupAsync(socket));
 };
 
 const cancelInvite = function(userObject) {
@@ -150,7 +119,7 @@ const declineGroupInviteAndRemoveFromStore = function(groupInviteObject) {
 const _addHeroToStore = function(hero) {
     store.dispatch(addHeroAction(hero));
     if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        //Pushed in updatePreferredHeroes()
+        //Pushed in updatePreferredHeroesAsync()
         store.dispatch(popBlockingLoadingAction());
     }
 
@@ -168,10 +137,8 @@ const _removeHeroFromStore = function(hero) {
 };
 
 const _addHeroErrorHandler = function(error) {
-    Notifications.errorNotification(error.heroName);
-    //TODO: implement logic to remove error.heroName from users preferred hereos. Need to modify error, to send {heroName, priority}
-    // removePreferredHeroFromStore(error.heroName, error.priority);
-    // Do whatever we do to shuffle heroes in the case that multiple were added
+    Notifications.errorNotification(error.hero.heroName);
+    removePreferredHeroFromStore(error.hero.heroName, error.hero.priority);
 };
 
 const _addGroupInviteToStore = function(groupInviteObject) {

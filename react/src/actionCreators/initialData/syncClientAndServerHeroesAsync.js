@@ -4,14 +4,13 @@ import {
 } from 'actionCreators/heroes/hero';
 import {
     popBlockingEvent as popBlockingLoadingAction,
-} from 'actionCreators/loading';
-import { preferMostPlayedHeroes } from 'actionCreators/preferredHeroes/preferMostPlayedHeroes';
-import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
+} from "actionCreators/loading";
+import { preferMostPlayedHeroesAsync } from 'actionCreators/preferredHeroes/preferMostPlayedHeroesAsync';
+import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
 
 import NotRealHeroes from 'resources/metaListFillerHeroes';
-import { autoPreferredNotification } from 'components/Notifications/Notifications';
 
-export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
+export const syncClientAndServerHeroesAsync = (heroesFromServer, socket) => {
 
     return (dispatch, getState) => {
 
@@ -29,10 +28,9 @@ export const syncClientAndServerHeroes = (heroesFromServer, socket) => {
 
         let heroes = getState().preferredHeroes.heroes;
         if( heroes.length <= 0) {
-            autoPreferredNotification();
-            dispatch(preferMostPlayedHeroes(user, localStorage.getItem('accessToken'), socket));
+            dispatch(preferMostPlayedHeroesAsync(user, localStorage.getItem('accessToken'), socket));
         } else {
-            dispatch(addHeroesToServer(heroes, socket));
+            dispatch(addHeroesToServerAsync(heroes, socket));
         }
 
         //Pushed in models.initialize

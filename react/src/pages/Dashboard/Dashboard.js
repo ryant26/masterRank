@@ -9,6 +9,7 @@ import FullScreenLoadingSpinner from 'components/LoadingSpinner/FullPageLoadingS
 import Websocket from 'api/websocket';
 import Model from 'model/model';
 import store from 'model/store';
+import Walkthrough from 'components/Walkthrough/Walkthrough';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -28,6 +29,7 @@ export default class Dashboard extends Component {
 
         return (
             <div className="Dashboard flex stretch grow">
+                <Walkthrough/>
                 <Sidebar />
                 <ContentArea/>
                 <GroupInfoModal/>

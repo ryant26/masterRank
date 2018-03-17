@@ -1,30 +1,30 @@
-import { updateHeroes as updatePreferredHeroesAction } from 'actionCreators/preferredHeroes/preferredHeroes';
-import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
+import { updateHeroes as updatePreferredHeroesAction } from "actionCreators/preferredHeroes/preferredHeroes";
+import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
 } from 'actionCreators/loading';
 
-import fetchMostPlayedHeroes from 'api/heroApi/fetchMostPlayedHeroes';
+import fetchMostPlayedHeroesAsync from 'api/heroApi/fetchMostPlayedHeroesAsync';
 
-export const preferMostPlayedHeroes = (forUser, accessToken, socket) => {
+export const preferMostPlayedHeroesAsync = (forUser, accessToken, socket) => {
 
     return (dispatch) => {
 
         dispatch(pushBlockingLoadingAction());
 
-        fetchMostPlayedHeroes(forUser)
+        fetchMostPlayedHeroesAsync(forUser)
             .then(mostPlayedHeroesArray => {
                 if( mostPlayedHeroesArray.length > 0) {
                     let mostPlayedHeroNames = mostPlayedHeroesArray.map((hero) => hero.heroName);
                     dispatch(updatePreferredHeroesAction(mostPlayedHeroNames));
-                    dispatch(addHeroesToServer(mostPlayedHeroNames, socket));
+                    dispatch(addHeroesToServerAsync(mostPlayedHeroNames, socket));
                 }
                 dispatch(popBlockingLoadingAction());
             })
             .catch(() => {
                 dispatch(popBlockingLoadingAction());
-                throw Error('fetchMostPlayedHeroes failed');
+                throw Error("fetchMostPlayedHeroesAsync failed");
             });
     };
 };

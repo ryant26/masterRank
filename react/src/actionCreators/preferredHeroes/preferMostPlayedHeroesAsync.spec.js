@@ -3,20 +3,20 @@ import { getMockSocket, generateMockUser } from 'utilities/test/mockingUtilities
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
-} from 'actionCreators/loading';
+} from "actionCreators/loading";
 jest.mock('actionCreators/loading');
-import fetchMostPlayedHeroes from 'api/heroApi/fetchMostPlayedHeroes';
-jest.mock('api/heroApi/fetchMostPlayedHeroes');
-import { updateHeroes as updatePreferredHeroesAction } from 'actionCreators/preferredHeroes/preferredHeroes';
+import fetchMostPlayedHeroesAsync from 'api/heroApi/fetchMostPlayedHeroesAsync';
+jest.mock('api/heroApi/fetchMostPlayedHeroesAsync');
+import { updateHeroes as updatePreferredHeroesAction } from "actionCreators/preferredHeroes/preferredHeroes";
 jest.mock('actionCreators/preferredHeroes/preferredHeroes');
-import { addHeroesToServer } from 'actionCreators/heroes/addHeroesToServer';
-jest.mock('actionCreators/heroes/addHeroesToServer');
+import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
+jest.mock('actionCreators/heroes/addHeroesToServerAsync');
 import token from 'resources/token';
 import { getHeroes } from 'resources/heroes';
 
-import { preferMostPlayedHeroes } from 'actionCreators/preferredHeroes/preferMostPlayedHeroes';
+import { preferMostPlayedHeroesAsync } from 'actionCreators/preferredHeroes/preferMostPlayedHeroesAsync';
 
-describe('preferMostPlayedHeroes', () => {
+describe('preferMostPlayedHeroesAsync', () => {
     const forUser = generateMockUser();
     const mostPlayedHeroesArray = getHeroes();
     let socket;
@@ -24,9 +24,9 @@ describe('preferMostPlayedHeroes', () => {
     let fetchPromise;
 
     afterEach(() => {
-        fetchMostPlayedHeroes.mockClear();
+        fetchMostPlayedHeroesAsync.mockClear();
         updatePreferredHeroesAction.mockClear();
-        addHeroesToServer.mockClear();
+        addHeroesToServerAsync.mockClear();
         pushBlockingLoadingAction.mockClear();
         popBlockingLoadingAction.mockClear();
     });
@@ -39,8 +39,8 @@ describe('preferMostPlayedHeroes', () => {
             dispatch = jest.fn();
 
             fetchPromise = Promise.resolve(mostPlayedHeroesArray);
-            fetchMostPlayedHeroes.mockImplementation(() => fetchPromise);
-            return preferMostPlayedHeroes(forUser, token, socket)(dispatch);
+            fetchMostPlayedHeroesAsync.mockImplementation(() => fetchPromise);
+            return preferMostPlayedHeroesAsync(forUser, token, socket)(dispatch);
         });
 
         it('should dispatch pushBlockingLoadingAction', () => {
@@ -48,9 +48,9 @@ describe('preferMostPlayedHeroes', () => {
             expect(dispatch).toHaveBeenCalledWith(pushBlockingLoadingAction());
         });
 
-        it('should call fetchMostPlayedHeroes with user', () => {
+        it('should call fetchMostPlayedHeroesAsync with user', () => {
             expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
-            expect(fetchMostPlayedHeroes).toHaveBeenCalledWith(forUser);
+            expect(fetchMostPlayedHeroesAsync).toHaveBeenCalledWith(forUser);
         });
 
         it("should updated preferred heroes with most played heroes' names", () => {
@@ -60,7 +60,7 @@ describe('preferMostPlayedHeroes', () => {
 
         it('should add most played heroes to the server', () => {
             expect(mostPlayedHeroNames.length).toBeGreaterThan(1);
-            expect(addHeroesToServer).toHaveBeenCalledWith(mostPlayedHeroNames, socket);
+            expect(addHeroesToServerAsync).toHaveBeenCalledWith(mostPlayedHeroNames, socket);
         });
 
         it('should clear loading screen', () => {
@@ -78,9 +78,9 @@ describe('preferMostPlayedHeroes', () => {
             dispatch = jest.fn();
 
             fetchPromise = Promise.resolve(noHeroesReturned);
-            fetchMostPlayedHeroes.mockImplementation(() => fetchPromise);
-            preferMostPlayedHeroes(forUser, token, socket)(dispatch);
-            return fetchMostPlayedHeroes;
+            fetchMostPlayedHeroesAsync.mockImplementation(() => fetchPromise);
+            preferMostPlayedHeroesAsync(forUser, token, socket)(dispatch);
+            return fetchMostPlayedHeroesAsync;
         });
 
         it('should not update preferred heroes', () => {
@@ -88,7 +88,7 @@ describe('preferMostPlayedHeroes', () => {
         });
 
         it('should not add any heroes to the server', () => {
-            expect(addHeroesToServer).not.toHaveBeenCalled();
+            expect(addHeroesToServerAsync).not.toHaveBeenCalled();
         });
 
         it('should dispatch popBlockingLoadingAction', () => {
@@ -104,14 +104,14 @@ describe('preferMostPlayedHeroes', () => {
             dispatch = jest.fn();
 
             fetchPromise = Promise.reject(noHeroesReturned);
-            fetchMostPlayedHeroes.mockImplementation(() => fetchPromise);
-            preferMostPlayedHeroes(forUser, token, socket)(dispatch);
-            return fetchMostPlayedHeroes;
+            fetchMostPlayedHeroesAsync.mockImplementation(() => fetchPromise);
+            preferMostPlayedHeroesAsync(forUser, token, socket)(dispatch);
+            return fetchMostPlayedHeroesAsync;
         });
 
         //TODO: Don't currently know how to make this test work.
         xit('should thrown fetch most played heroes failed error', () => {
-            expect(fetchMostPlayedHeroes).toThrow(Error("fetchMostPlayedHeroes failed"));
+            expect(fetchMostPlayedHeroesAsync).toThrow(Error("fetchMostPlayedHeroesAsync failed"));
         });
 
         it('should dispatch popBlockingLoadingAction', () => {

@@ -3,7 +3,7 @@ import React, {
   } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import HeroList from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesList/HeroRolesList';
+import HeroRolesList from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesList/HeroRolesList';
 const heroNames = require('../../../../../../shared/libs/allHeroNames');
 
 export class HeroRolesContainer extends Component {
@@ -41,10 +41,10 @@ export class HeroRolesContainer extends Component {
 
         return (
             <div className="HeroRolesContainer flex justify-between stretch">
-                <HeroList role="Offense" key="Offense" heroes={offensiveHeroes}/>
-                <HeroList role="Defense" key="Defense" heroes={defensiveHeroes}/>
-                <HeroList role="Tank" key="Tank" heroes={tankHeroes}/>
-                <HeroList role="Support" key="Support" heroes={supportHeroes}/>
+                <HeroRolesList role="Offense" key="Offense" heroes={offensiveHeroes}/>
+                <HeroRolesList role="Defense" key="Defense" heroes={defensiveHeroes}/>
+                <HeroRolesList role="Tank" key="Tank" heroes={tankHeroes}/>
+                <HeroRolesList role="Support" key="Support" heroes={supportHeroes}/>
             </div>
         );
     }

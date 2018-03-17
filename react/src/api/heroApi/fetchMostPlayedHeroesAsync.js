@@ -1,7 +1,7 @@
 const apiBase = "/api";
 const heroesEndpoint = `${apiBase}/heros`;
 
-function fetchMostPlayedHeroes(forUser) {
+function fetchMostPlayedHeroesAsync(forUser) {
     let platformDisplayName = forUser.platformDisplayName.replace(/#/g, '-');
 
     const apiUrl = `${heroesEndpoint}?platformDisplayName=${platformDisplayName}&platform=${forUser.platform}&region=${forUser.region}&filterBy=top&limit=5`;
@@ -22,4 +22,4 @@ function fetchMostPlayedHeroes(forUser) {
         .then(response => response.json());
 }
 
-export default fetchMostPlayedHeroes;
+export default fetchMostPlayedHeroesAsync;

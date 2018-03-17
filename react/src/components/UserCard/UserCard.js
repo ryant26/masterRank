@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import test from '../../assets';
 
 const UserCard = ({user, onClick, region, showRank}) => {
 
