@@ -7,18 +7,14 @@ const initialState = {
 export default function WalkthroughReducer(state=initialState, action) {
     switch (action.type) {
         case actionsTypes.START_WALKTHROUGH: {
-            let finished = state.finished;
-            delete finished[action.platformDisplayName];
-            return {
-                finished
-            };
+            let outState = { ...state };
+            delete outState.finished[action.platformDisplayName];
+            return outState;
         }
         case actionsTypes.FINISH_WALKTHROUGH: {
-            let finished = state.finished;
-            finished[action.platformDisplayName] = true;
-            return {
-                finished
-            };
+            let outState = { ...state };
+            outState.finished[action.platformDisplayName] = true;
+            return outState;
         }
         default:
             return state;

@@ -40,6 +40,7 @@ describe('TutorialButton', () => {
     describe('when clicked', () => {
 
         beforeEach(() => {
+            expect(startWalkthrough).not.toHaveBeenCalled();
             wrapper.simulate('click');
         });
 
