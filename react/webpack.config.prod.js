@@ -28,7 +28,7 @@ export default {
     output: {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
-        filename: '[name].[chunkhash].js'
+        filename: '[name].[chunkhash]test.js'
     },
     plugins: [
         new BabelPlugin({
@@ -41,7 +41,6 @@ export default {
                   'transform-regenerator'
                 ],
                 loose: true,
-                modules: false,
                 targets: {
                   browsers: [
                     '>1%'
