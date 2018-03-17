@@ -175,6 +175,15 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(popBlockingLoadingAction).not.toHaveBeenCalled();
             });
+
+            it('should dispatch the removePreferredHero action upon error', function () {
+                const heroName = 'mercy';
+                const priority = 1;
+
+                expect(removePreferredHeroAction).not.toHaveBeenCalled();
+                socket.socketClient.emit(clientEvents.error.addHero, {hero: {heroName, priority}});
+                expect(removePreferredHeroAction).toHaveBeenCalledWith(heroName, priority);
+            });
         });
 
         describe('heroRemoved', () => {

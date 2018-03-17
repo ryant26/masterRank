@@ -212,15 +212,17 @@ describe(serverEvents.addHero, function() {
 
     it('should return an error when the heroAPI throws an error', function(done) {
         const heroName = 'genji';
+        const priority = 1;
         mockingUtilities.makeHeroAPIReturnError('an error occured!!');
 
         socket.on(clientEvents.error.addHero, (error) => {
             assert.equal(error.err, exceptions.errorAddingHero);
-            assert.equal(error.heroName, heroName);
+            assert.equal(error.hero.heroName, heroName);
+            assert.equal(error.hero.priority, priority);
             done();
         });
 
-        socket.emit(serverEvents.addHero, {heroName: 'genji', priority: 1});
+        socket.emit(serverEvents.addHero, {heroName, priority});
     });
 
     it('should not allow anyone to have more than 10 heroes', function(done) {

@@ -45,6 +45,8 @@ let configureHeroExistsValidation = function(groupController) {
     groupController.before(serverEvents.groupInviteSend, (data) => {
         return RedisClient.getPlayerHeros(data.eventData.platformDisplayName, groupController.token.platform).then((heros) => {
             playerValidators.heroExists(heros, data.eventData);
+        }).catch((error) => {
+            throw new SocketError(error, 'hero', data.eventData);
         });
     });
 };
@@ -95,6 +97,8 @@ let configureValidHeroObjectInput = function(groupController) {
     groupController.before([serverEvents.groupInviteCancel, serverEvents.groupInviteSend], (data) => {
         return new Promise((resolve) => {
             resolve(playerValidators.validHeroObject(data.eventData));
+        }).catch((error) => {
+            throw new SocketError(error, 'hero', data.eventData);
         });
     });
 };
