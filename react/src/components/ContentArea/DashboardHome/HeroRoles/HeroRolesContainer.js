@@ -4,7 +4,7 @@ import React, {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import HeroRolesList from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesList/HeroRolesList';
-const heroNames = require('../../../../../../shared/libs/allHeroNames');
+const heroNames = require('shared/libs/allHeroNames');
 
 export class HeroRolesContainer extends Component {
 

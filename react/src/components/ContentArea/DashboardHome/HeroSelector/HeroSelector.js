@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SelectorButton from 'components/ContentArea/DashboardHome/HeroSelector/HeroButton/HeroButton';
-const AllHeroes = require('../../../../../../shared/libs/allHeroNames');
+const AllHeroes = require('shared/libs/allHeroNames');
 
 const HeroSelector = ({selectedHeroes, onHeroSelected, disabledHeroes}) => {
   return (
