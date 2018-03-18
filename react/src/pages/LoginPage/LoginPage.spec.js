@@ -2,11 +2,11 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import { shallow } from 'enzyme';
 
-import LoginPage from './LoginPage';
-import PlatformSelection from '../../components/Login/PlatformSelection/PlatformSelection';
-import RegionSelection from '../../components/Login/RegionSelection/RegionSelection';
-import BlizzardOAuth from '../../components/Login/BlizzardOAuth/BlizzardOAuth';
-import ConsoleUserSearch from '../../components/Login/ConsoleUserSearch/ConsoleUserSearch';
+import LoginPage from 'pages/LoginPage/LoginPage';
+import PlatformSelection from 'components/Login/PlatformSelection/PlatformSelection';
+import RegionSelection from 'components/Login/RegionSelection/RegionSelection';
+import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
+import ConsoleUserSearch from 'components/Login/ConsoleUserSearch/ConsoleUserSearch';
 
 describe('Login Page', () => {
     const mockStore = configureStore();

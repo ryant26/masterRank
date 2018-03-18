@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HeroStatsListItem from "../HeroStatsListItem/HeroStatsListItem";
+import HeroStatsListItem from "components/Stats/HeroStatsListItem/HeroStatsListItem";
 
 const HeroStatsList =  ({heroes, showPlatformDisplayName, groupLeader, isPending}) => {
 

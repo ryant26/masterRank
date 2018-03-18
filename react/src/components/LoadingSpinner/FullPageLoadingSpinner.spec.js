@@ -2,8 +2,8 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import { shallow } from 'enzyme';
 
-import FullPageLoadingSpinner from './FullPageLoadingSpinner';
-import LoadingSpinner from './LoadingSpinner';
+import FullPageLoadingSpinner from 'components/LoadingSpinner/FullPageLoadingSpinner';
+import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 
 const mockStore = configureStore();
 

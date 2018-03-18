@@ -2,12 +2,12 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import { shallow } from 'enzyme';
 
-import AddHeroIcon from './AddHeroIcon';
-import PreferredHeroSelector from './PreferredHeroSelector/PreferredHeroSelector';
-import Model from '../../../model/model';
-jest.mock('../../../model/model');
+import AddHeroIcon from 'components/Sidebar/PreferredHeroes/AddHeroIcon';
+import PreferredHeroSelector from 'components/Sidebar/PreferredHeroes/PreferredHeroSelector/PreferredHeroSelector';
+import Model from 'model/model';
+jest.mock('model/model');
 
-import PreferredHeroesContainer from './PreferredHeroesContainer';
+import PreferredHeroesContainer from 'components/Sidebar/PreferredHeroes/PreferredHeroesContainer';
 
 const mockStore = configureStore();
 

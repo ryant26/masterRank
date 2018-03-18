@@ -3,9 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {logout as logoutAction} from "../../../../actionCreators/app";
-import { clearAccessToken } from '../../../../utilities/localStorage/localStorageUtilities';
-import { home } from '../../../Routes/links';
+import {logout as logoutAction} from "actionCreators/app";
+import { clearAccessToken } from 'utilities/localStorage/localStorageUtilities';
+import { home } from 'components/Routes/links';
 
 const LogoutButton = ({onLogout}) => {
 

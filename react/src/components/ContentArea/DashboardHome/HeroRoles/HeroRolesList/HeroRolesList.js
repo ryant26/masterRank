@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HeroCard from '../HeroCard/HeroCard';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 import PropTypes from 'prop-types';
 
 const HeroRolesList = ({heroes, role}) => {
@@ -35,7 +35,7 @@ const HeroRolesList = ({heroes, role}) => {
             <div className="header flex justify-between">
                 <h3>{role}</h3>
                 <img className="role-icon"
-                     src={require(`../../../../../assets/${role}.png`)}
+                     src={require(`assets/${role}.png`)}
                      alt = {`${role} icon`}
                 />
             </div>

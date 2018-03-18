@@ -1,20 +1,20 @@
-import { getMockSocket, generateMockUser } from '../../utilities/test/mockingUtilities';
+import { getMockSocket, generateMockUser } from 'utilities/test/mockingUtilities';
 
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
-} from "../loading";
-jest.mock('../loading');
-import fetchMostPlayedHeroesAsync from '../../api/heroApi/fetchMostPlayedHeroesAsync';
-jest.mock('../../api/heroApi/fetchMostPlayedHeroesAsync');
-import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
-jest.mock('./preferredHeroes');
-import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
-jest.mock('../heroes/addHeroesToServerAsync');
-import token from '../../resources/token';
-import { getHeroes } from '../../resources/heroes';
+} from "actionCreators/loading";
+jest.mock('actionCreators/loading');
+import fetchMostPlayedHeroesAsync from 'api/heroApi/fetchMostPlayedHeroesAsync';
+jest.mock('api/heroApi/fetchMostPlayedHeroesAsync');
+import { updateHeroes as updatePreferredHeroesAction } from "actionCreators/preferredHeroes/preferredHeroes";
+jest.mock('actionCreators/preferredHeroes/preferredHeroes');
+import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
+jest.mock('actionCreators/heroes/addHeroesToServerAsync');
+import token from 'resources/token';
+import { getHeroes } from 'resources/heroes';
 
-import { preferMostPlayedHeroesAsync } from './preferMostPlayedHeroesAsync';
+import { preferMostPlayedHeroesAsync } from 'actionCreators/preferredHeroes/preferMostPlayedHeroesAsync';
 
 describe('preferMostPlayedHeroesAsync', () => {
     const forUser = generateMockUser();

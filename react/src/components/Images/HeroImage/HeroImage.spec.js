@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import HeroImage from './HeroImage';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
 
-import HEROES from '../../../resources/heroes';
+import HEROES from 'resources/heroes';
 
 const shallowHeroImage = (heroName, onClick) => {
     return shallow(

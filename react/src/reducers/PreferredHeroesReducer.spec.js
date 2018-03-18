@@ -1,6 +1,6 @@
-import PreferredHeroesReducer from './PreferredHeroesReducer';
-import * as PreferredHeroActionTypes from '../actiontypes/preferredHeroes';
-import Heroes from '../resources/heroes';
+import PreferredHeroesReducer from 'reducers/PreferredHeroesReducer';
+import * as PreferredHeroActionTypes from 'actiontypes/preferredHeroes';
+import Heroes from 'resources/heroes';
 
 const initialState = {heroes: []};
 

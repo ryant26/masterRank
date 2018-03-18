@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { startWalkthrough } from '../../../../actionCreators/walkthrough/walkthrough';
+import { startWalkthrough } from 'actionCreators/walkthrough/walkthrough';
 
 const TutorialButton = ({ platformDisplayName, onStartTutorial }) => {
 

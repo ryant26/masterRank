@@ -1,4 +1,4 @@
-import * as RegionActionTypes from '../actiontypes/region';
+import * as RegionActionTypes from 'actiontypes/region';
 
 export default function RegionReducer(state=null, action) {
     switch(action.type) {

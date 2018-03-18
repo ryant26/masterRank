@@ -2,16 +2,16 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import LogoutButton from './LogoutButton';
-import { home } from '../../../Routes/links';
-import { logout }from '../../../../actionCreators/app';
-jest.mock('../../../../actionCreators/app', () => ({
+import LogoutButton from 'components/Sidebar/SidebarFooter/LogoutButton/LogoutButton';
+import { home } from 'components/Routes/links';
+import { logout }from 'actionCreators/app';
+jest.mock('actionCreators/app', () => ({
     logout: jest.fn(() => ({type: 'sometype'}))
 }));
-import { clearAccessToken } from '../../../../utilities/localStorage/localStorageUtilities';
-jest.mock('../../../../utilities/localStorage/localStorageUtilities');
+import { clearAccessToken } from 'utilities/localStorage/localStorageUtilities';
+jest.mock('utilities/localStorage/localStorageUtilities');
 
-import { mockLocation } from "../../../../utilities/test/mockingUtilities";
+import { mockLocation } from "utilities/test/mockingUtilities";
 
 describe('Logout button', () => {
     describe('when clicked', () => {

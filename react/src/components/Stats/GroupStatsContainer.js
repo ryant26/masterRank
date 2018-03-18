@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HeroStatsList from './HeroStatsList/HeroStatsList';
-import HeroImages from './HeroImages/HeroImages';
-import Model from '../../model/model';
+import HeroStatsList from 'components/Stats/HeroStatsList/HeroStatsList';
+import HeroImages from 'components/Stats/HeroImages/HeroImages';
+import Model from 'model/model';
 
 const GroupStatsContainer = ({group, isLeading}) => {
     const groupHeroes = [group.leader, ...group.members];

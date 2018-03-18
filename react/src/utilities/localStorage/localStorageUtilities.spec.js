@@ -1,6 +1,6 @@
-import { mockLocalStorage } from '../test/mockingUtilities';
+import { mockLocalStorage } from 'utilities/test/mockingUtilities';
 
-import { clearAccessToken, clearLocalStorage} from './localStorageUtilities';
+import { clearAccessToken, clearLocalStorage} from 'utilities/localStorage/localStorageUtilities';
 
 describe('clearAccessToken', () => {
 

@@ -1,12 +1,12 @@
-import { getMockSocket, mockGetState, generateMockUser } from '../../utilities/test/mockingUtilities';
+import { getMockSocket, mockGetState, generateMockUser } from 'utilities/test/mockingUtilities';
 
-import { successfullyLeftGroupNotification } from '../../components/Notifications/Notifications';
-jest.mock('../../components/Notifications/Notifications');
+import { successfullyLeftGroupNotification } from 'components/Notifications/Notifications';
+jest.mock('components/Notifications/Notifications');
 
-import { initializeGroup as initializeGroupAction } from './group';
-jest.mock('./group');
+import { initializeGroup as initializeGroupAction } from 'actionCreators/group/group';
+jest.mock('actionCreators/group/group');
 
-import { leaveGroupAsync } from './leaveGroupAsync';
+import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
 
 describe('leaveGroupAsync', () => {
     const user = generateMockUser();

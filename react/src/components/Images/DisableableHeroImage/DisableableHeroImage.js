@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HeroImage from '../HeroImage/HeroImage';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
 
 const classNames = require('classnames');
 

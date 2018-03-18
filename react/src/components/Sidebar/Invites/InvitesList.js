@@ -1,5 +1,5 @@
 import React from 'react';
-import InviteListItem from './InviteListItem';
+import InviteListItem from 'components/Sidebar/Invites/InviteListItem';
 import PropTypes from 'prop-types';
 
 const InvitesList = ({groupInvites}) => {

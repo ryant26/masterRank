@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import FeedbackButton from './FeedbackButton';
-import { feedback } from '../../../Routes/links';
+import FeedbackButton from 'components/Sidebar/SidebarFooter/FeedbackButton/FeedbackButton';
+import { feedback } from 'components/Routes/links';
 
 describe('Feedback button', () => {
     it('should redirect to login page when clicked', () => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import HeroRolesList from './HeroRolesList';
-import HeroCard from '../HeroCard/HeroCard';
-import heroes from '../../../../../resources/heroes';
-import {users} from '../../../../../resources/users';
+import HeroRolesList from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesList/HeroRolesList';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
+import heroes from 'resources/heroes';
+import {users} from 'resources/users';
 
 
 describe('HeroRolesList Component', () => {

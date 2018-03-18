@@ -1,8 +1,8 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 
-import DisableableHeroImage from '../../Images/DisableableHeroImage/DisableableHeroImage';
-import HeroImage from '../../Images/HeroImage/HeroImage';
+import DisableableHeroImage from 'components/Images/DisableableHeroImage/DisableableHeroImage';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
 
 const HeroImages = ({heroNames, disabled}) => {
 

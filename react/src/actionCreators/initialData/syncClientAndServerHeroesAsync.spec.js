@@ -1,23 +1,23 @@
-import * as mockUtils from '../../utilities/test/mockingUtilities';
+import * as mockUtils from 'utilities/test/mockingUtilities';
 
 import {
     addHero as addHeroAction,
     clearAllHeroes as clearAllHeroesAction
-} from "../heroes/hero";
-jest.mock('../heroes/hero');
+} from 'actionCreators/heroes/hero';
+jest.mock('actionCreators/heroes/hero');
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
-} from "../loading";
-jest.mock('../loading');
-import { preferMostPlayedHeroesAsync } from '../preferredHeroes/preferMostPlayedHeroesAsync';
-jest.mock('../preferredHeroes/preferMostPlayedHeroesAsync');
-import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
-jest.mock('../heroes/addHeroesToServerAsync');
+} from "actionCreators/loading";
+jest.mock('actionCreators/loading');
+import { preferMostPlayedHeroesAsync } from 'actionCreators/preferredHeroes/preferMostPlayedHeroesAsync';
+jest.mock('actionCreators/preferredHeroes/preferMostPlayedHeroesAsync');
+import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
+jest.mock('actionCreators/heroes/addHeroesToServerAsync');
 
-import NotRealHeroes from '../../resources/metaListFillerHeroes';
+import NotRealHeroes from 'resources/metaListFillerHeroes';
 
-import { syncClientAndServerHeroesAsync } from './syncClientAndServerHeroesAsync';
+import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
 
 const clearAllMockedImports = () => {
     addHeroAction.mockClear();

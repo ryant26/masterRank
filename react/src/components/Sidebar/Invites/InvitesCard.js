@@ -1,9 +1,9 @@
 import React from 'react';
-import Badge from '../../Badge/Badge';
-import InvitesList from './InvitesList';
+import Badge from 'components/Badge/Badge';
+import InvitesList from 'components/Sidebar/Invites/InvitesList';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {allInvites} from "../../Routes/links";
+import {allInvites} from "components/Routes/links";
 
 let InvitesCard = ({groupInvites}) => {
   let button = groupInvites.length ? (

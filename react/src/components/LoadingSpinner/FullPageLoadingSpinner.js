@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 
 const FullPageLoadingSpinner = ({isLoading}) => {
     const loadingSpinner = (

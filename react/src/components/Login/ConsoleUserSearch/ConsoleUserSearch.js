@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import UserSelector from '../UserSelector/UserSelector';
-import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
+import UserSelector from 'components/Login/UserSelector/UserSelector';
+import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 
 export default class ConsoleUserSearch extends Component {
     constructor(props) {

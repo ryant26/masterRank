@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { feedback } from '../../../Routes/links';
+import { feedback } from 'components/Routes/links';
 
 const AlphaCard = () => {
     const feedbackLink = ( <a className="feedback-link" href={feedback}><b>feedback</b></a> );
