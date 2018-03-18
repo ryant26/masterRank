@@ -1,4 +1,4 @@
-import * as GroupInviteActionTypes from '../actiontypes/groupInvites';
+import * as GroupInviteActionTypes from 'actiontypes/groupInvites';
 
 export const addGroupInvite = (invite) => {
   return {

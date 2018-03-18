@@ -9,6 +9,7 @@ node_modules
 
 #Frontend
 dist/
+coverage/
 
 package-lock.json
 dump.rdb

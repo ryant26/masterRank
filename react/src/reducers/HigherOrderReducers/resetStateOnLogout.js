@@ -1,4 +1,4 @@
-import * as appActionsTypes from '../../actiontypes/app';
+import * as appActionsTypes from 'actiontypes/app';
 
 export default function resetStateOnLogout(reducerFunction) {
     return (state, action) => {

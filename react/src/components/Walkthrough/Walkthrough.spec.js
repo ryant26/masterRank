@@ -3,13 +3,13 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import JoyRide from 'react-joyride';
 
-import { generateMockUser } from '../../utilities/test/mockingUtilities';
+import { generateMockUser } from 'utilities/test/mockingUtilities';
 
-import { finishWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
-jest.mock('../../actionCreators/walkthrough/walkthrough');
+import { finishWalkthrough } from 'actionCreators/walkthrough/walkthrough';
+jest.mock('actionCreators/walkthrough/walkthrough');
 
 
-import Walkthrough from './Walkthrough';
+import Walkthrough from 'components/Walkthrough/Walkthrough';
 
 const mockStore = configureStore();
 

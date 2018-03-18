@@ -1,6 +1,6 @@
-import Websocket from './websocket';
-import token from '../resources/token';
-import groupInvites from '../resources/groupInvites';
+import Websocket from 'api/websocket';
+import token from 'resources/token';
+import groupInvites from 'resources/groupInvites';
 
 describe('Websocket API', () => {
     let websocket;

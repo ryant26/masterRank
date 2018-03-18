@@ -1,4 +1,4 @@
-import * as WalkthroughActionTypes from '../../actiontypes/walkthrough';
+import * as WalkthroughActionTypes from 'actiontypes/walkthrough';
 
 export const startWalkthrough = ( platformDisplayName ) => {
     return {

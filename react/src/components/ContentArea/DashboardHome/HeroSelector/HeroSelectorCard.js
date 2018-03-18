@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HeroSelector from './HeroSelector';
+import HeroSelector from 'components/ContentArea/DashboardHome/HeroSelector/HeroSelector';
 import {connect} from 'react-redux';
-import model from '../../../../model/model';
+import model from 'model/model';
 
 const HeroSelectorCard = ({selectedHeroes}) => {
 

@@ -1,4 +1,4 @@
-import * as UserActionTypes from '../actiontypes/user';
+import * as UserActionTypes from 'actiontypes/user';
 
 export const updateUser = (user) => {
     return {

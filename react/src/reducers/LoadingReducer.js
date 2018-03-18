@@ -1,4 +1,4 @@
-import * as LoadingActionTypes from '../actiontypes/loading';
+import * as LoadingActionTypes from 'actiontypes/loading';
 
 const initalState = {
     blockUI: 0

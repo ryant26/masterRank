@@ -1,6 +1,6 @@
-import HeroReducer from './HeroReducer';
-import Heroes from '../resources/heroes';
-import * as HeroActionTypes from '../actiontypes/hero';
+import HeroReducer from 'reducers/HeroReducer';
+import Heroes from 'resources/heroes';
+import * as HeroActionTypes from 'actiontypes/hero';
 
 const initialState = [];
 

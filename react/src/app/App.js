@@ -9,15 +9,15 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
-import Dashboard from '../pages/Dashboard/Dashboard';
-import history from '../model/history';
+import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
+import PrivateRoute from 'components/Routes/PrivateRoute/PrivateRoute';
+import Dashboard from 'pages/Dashboard/Dashboard';
+import history from 'model/history';
 
 import { ToastContainer} from 'react-toastify';
 
-import { home } from '../components/Routes/links';
-import hotjar from '../utilities/hotjar';
+import { home } from 'components/Routes/links';
+import hotjar from 'utilities/hotjar';
 import Raven from 'raven-js';
 
 

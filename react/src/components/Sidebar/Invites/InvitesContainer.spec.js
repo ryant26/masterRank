@@ -1,11 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import INVITES from '../../../resources/groupInvites';
+import INVITES from 'resources/groupInvites';
 import configureStore from 'redux-mock-store';
 import {MemoryRouter} from 'react-router-dom';
 
-import InvitesContainer from './InvitesContainer';
+import InvitesContainer from 'components/Sidebar/Invites/InvitesContainer';
 
 const mockStore = configureStore();
 

@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import App from './app/App';
-import token from './resources/token';
+import App from 'app/App';
+import token from 'resources/token';
 import {MemoryRouter} from 'react-router-dom';
 
 const mockStore = configureStore();
-jest.mock('./model/store', () => jest.fn());
+jest.mock('model/store', () => jest.fn());
 
 describe('index', () => {
     beforeEach(() => {

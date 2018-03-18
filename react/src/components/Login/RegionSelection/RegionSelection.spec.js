@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import RegionSelection from './RegionSelection';
+import RegionSelection from 'components/Login/RegionSelection/RegionSelection';
 
 const getRegionSelectionComponent = (selectedRegion) => {
     let onChange = jest.fn();

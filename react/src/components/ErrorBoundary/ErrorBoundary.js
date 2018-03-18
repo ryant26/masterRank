@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import { clearLocalStorage } from '../../utilities/localStorage/localStorageUtilities';
-import {home} from "../Routes/links";
+import { clearLocalStorage } from 'utilities/localStorage/localStorageUtilities';
+import {home} from "components/Routes/links";
 
 class ErrorBoundary extends Component {
     constructor(props) {

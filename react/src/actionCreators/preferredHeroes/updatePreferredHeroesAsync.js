@@ -1,6 +1,6 @@
-import { preferredHeroNotification } from '../../components/Notifications/Notifications';
-import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
-import { pushBlockingEvent as pushBlockingLoadingAction } from "../loading";
+import { preferredHeroNotification } from 'components/Notifications/Notifications';
+import { updateHeroes as updatePreferredHeroesAction } from "actionCreators/preferredHeroes/preferredHeroes";
+import { pushBlockingEvent as pushBlockingLoadingAction } from "actionCreators/loading";
 
 export const updatePreferredHeroesAsync = function(heroes, socket) {
 

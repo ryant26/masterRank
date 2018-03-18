@@ -1,5 +1,5 @@
-import UserReducer from '../reducers/UserReducer';
-import * as UserActionTypes from '../actiontypes/user';
+import UserReducer from 'reducers/UserReducer';
+import * as UserActionTypes from 'actiontypes/user';
 
 describe('User Reducer', () => {
 

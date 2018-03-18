@@ -2,10 +2,10 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import 'isomorphic-fetch';
 
-import ConsoleUserSearch from './ConsoleUserSearch';
-import UserSelector from '../UserSelector/UserSelector';
-import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
-import { users as arrayUsers } from '../../../resources/users';
+import ConsoleUserSearch from 'components/Login/ConsoleUserSearch/ConsoleUserSearch';
+import UserSelector from 'components/Login/UserSelector/UserSelector';
+import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
+import { users as arrayUsers } from 'resources/users';
 
 const mockResponse = (status, statusText, jsonObj) => {
     return new Response(JSON.stringify(jsonObj), {

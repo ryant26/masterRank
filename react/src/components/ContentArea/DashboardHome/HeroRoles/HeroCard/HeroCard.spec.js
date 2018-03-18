@@ -2,14 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import Model from '../../../../../model/model';
-import HeroCard from './HeroCard';
-import Modal from '../../../../Modal/Modal';
-import UserStatsContainer from '../../../../Stats/UserStatsContainer';
+import Model from 'model/model';
+import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
+import Modal from 'components/Modal/Modal';
+import UserStatsContainer from 'components/Stats/UserStatsContainer';
 
-import heroes from '../../../../../resources/heroes';
-import { users } from '../../../../../resources/users';
-import groupInvites from '../../../../../resources/groupInvites';
+import heroes from 'resources/heroes';
+import { users } from 'resources/users';
+import groupInvites from 'resources/groupInvites';
 
 
 

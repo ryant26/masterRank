@@ -1,5 +1,5 @@
-import * as RegionActionTypes from '../actiontypes/region';
-import * as RegionActions from './region';
+import * as RegionActionTypes from 'actiontypes/region';
+import * as RegionActions from 'actionCreators/region';
 
 describe('Update Region', () => {
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import HeroStatsList from './HeroStatsList/HeroStatsList';
-import HeroImages from './HeroImages/HeroImages';
-import Model from '../../model/model';
+import HeroStatsList from 'components/Stats/HeroStatsList/HeroStatsList';
+import HeroImages from 'components/Stats/HeroImages/HeroImages';
+import Model from 'model/model';
 
 const UserStatsContainer = ({hero, heroes, invitable, toggleModal}) => {
     const userHeroes = heroes.filter((userHero) => userHero.platformDisplayName === hero.platformDisplayName).sort((hero1, hero2) => {

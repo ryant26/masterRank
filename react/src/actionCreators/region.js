@@ -1,4 +1,4 @@
-import * as RegionActionTypes from '../actiontypes/region';
+import * as RegionActionTypes from 'actiontypes/region';
 
 export const updateRegion = (region) => {
     return {

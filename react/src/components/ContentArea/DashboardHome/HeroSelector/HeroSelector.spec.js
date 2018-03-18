@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import HeroSelector from './HeroSelector';
-import HeroButton from './HeroButton/HeroButton';
+import HeroSelector from 'components/ContentArea/DashboardHome/HeroSelector/HeroSelector';
+import HeroButton from 'components/ContentArea/DashboardHome/HeroSelector/HeroButton/HeroButton';
 
 let renderComponent = (selectedHeroes=[]) => {
     return renderer.create(

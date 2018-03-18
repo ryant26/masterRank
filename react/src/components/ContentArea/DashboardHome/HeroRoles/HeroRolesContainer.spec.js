@@ -2,8 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import HeroRolesContainer from './HeroRolesContainer';
-import HeroList from './HeroRolesList/HeroRolesList';
+import HeroRolesContainer from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesContainer';
+import HeroList from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesList/HeroRolesList';
 
 const mockStore = configureStore();
 

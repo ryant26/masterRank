@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import ErrorBoundary from './ErrorBoundary';
-import { clearLocalStorage } from '../../utilities/localStorage/localStorageUtilities';
-jest.mock('../../utilities/localStorage/localStorageUtilities');
+import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
+import { clearLocalStorage } from 'utilities/localStorage/localStorageUtilities';
+jest.mock('utilities/localStorage/localStorageUtilities');
 
-import { mockLocation } from "../../utilities/test/mockingUtilities";
+import { mockLocation } from "utilities/test/mockingUtilities";
 
 const SomethingsWrong = () => {
   throw Error('Error something went wrong');

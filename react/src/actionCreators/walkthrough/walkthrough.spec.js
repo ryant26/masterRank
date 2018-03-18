@@ -1,7 +1,7 @@
-import * as WalkthroughActionTypes from '../../actiontypes/walkthrough';
-import * as WalkthroughActions from './walkthrough';
+import * as WalkthroughActionTypes from 'actiontypes/walkthrough';
+import * as WalkthroughActions from 'actionCreators/walkthrough/walkthrough';
 
-import { generateMockUser } from '../../utilities/test/mockingUtilities';
+import { generateMockUser } from 'utilities/test/mockingUtilities';
 
 describe('Walkthrough', () => {
     const user = generateMockUser();

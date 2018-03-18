@@ -1,10 +1,10 @@
 import { createStore as createReduxStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import GoogleAnalytic from '../middleware/GoogleAnalytic';
-import GoogleAnalyticTracker from './trackers/GoogleAnalyticTracker';
+import GoogleAnalytic from 'middleware/GoogleAnalytic';
+import GoogleAnalyticTracker from 'model/trackers/GoogleAnalyticTracker';
 
-import reducers from '../reducers/index';
-import { loadState } from './reduxSerializer';
+import reducers from 'reducers/index';
+import { loadState } from 'model/reduxSerializer';
 
 export const createStore = function() {
     const tracker = new GoogleAnalyticTracker(gtag); // eslint-disable-line

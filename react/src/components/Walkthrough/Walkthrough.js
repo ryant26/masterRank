@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import JoyRide from 'react-joyride';
 import PropTypes from 'prop-types';
 
-import { finishWalkthrough } from '../../actionCreators/walkthrough/walkthrough';
+import { finishWalkthrough } from 'actionCreators/walkthrough/walkthrough';
 
 class Walkthrough extends Component {
 

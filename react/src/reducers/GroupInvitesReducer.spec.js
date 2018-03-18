@@ -1,6 +1,6 @@
-import GroupInvitesReducer from './GroupInvitesReducer';
-import Invites from '../resources/groupInvites';
-import * as actionTypes from '../actiontypes/groupInvites';
+import GroupInvitesReducer from 'reducers/GroupInvitesReducer';
+import Invites from 'resources/groupInvites';
+import * as actionTypes from 'actiontypes/groupInvites';
 
 
 describe('Group Invite Reducer', () => {

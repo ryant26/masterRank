@@ -1,6 +1,6 @@
 import React from 'react';
 import Proptypes from 'prop-types';
-import history from '../../../model/history';
+import history from 'model/history';
 
 const Notification = ({type, icon, title, message, redirectUrl}) => {
 

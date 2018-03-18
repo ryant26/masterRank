@@ -1,5 +1,5 @@
 import React from 'react';
-import { feedback } from '../../../Routes/links';
+import { feedback } from 'components/Routes/links';
 
 const FeedbackButton = () => {
 

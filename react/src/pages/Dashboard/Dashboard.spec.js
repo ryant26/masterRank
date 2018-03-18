@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Dashboard from './Dashboard';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import ContentArea from '../../components/ContentArea/ContentArea';
-import GroupInfoModal from '../../components/Modal/GroupInfoModal';
-import Module from '../../model/model';
+import Dashboard from 'pages/Dashboard/Dashboard';
+import Sidebar from 'components/Sidebar/Sidebar';
+import ContentArea from 'components/ContentArea/ContentArea';
+import GroupInfoModal from 'components/Modal/GroupInfoModal';
+import Module from 'model/model';
 
-jest.mock('../../api/websocket', () => {
+jest.mock('api/websocket', () => {
     return jest.fn();
 });
-jest.mock('../../model/store', () => {
+jest.mock('model/store', () => {
     return jest.fn();
 });
 

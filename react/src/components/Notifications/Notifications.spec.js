@@ -2,10 +2,10 @@ import React from 'react';
 import { toast } from 'react-toastify';
 jest.mock('react-toastify');
 
-import Notification from './Notification/Notification';
-import { allInvites } from '../Routes/links';
+import Notification from 'components/Notifications/Notification/Notification';
+import { allInvites } from 'components/Routes/links';
 
-import groupInvites from '../../resources/groupInvites';
+import groupInvites from 'resources/groupInvites';
 
 import {
     inviteSentNotification,
@@ -18,7 +18,7 @@ import {
     errorNotification,
     disconnectedNotification,
     autoPreferredNotification,
-} from './Notifications';
+} from 'components/Notifications/Notifications';
 
 
 describe('Notifications', () => {

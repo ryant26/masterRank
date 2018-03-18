@@ -1,5 +1,5 @@
-import { successfullyLeftGroupNotification } from '../../components/Notifications/Notifications';
-import { initializeGroup as initializeGroupAction} from './group';
+import { successfullyLeftGroupNotification } from 'components/Notifications/Notifications';
+import { initializeGroup as initializeGroupAction} from 'actionCreators/group/group';
 
 export const leaveGroupAsync = (socket) => {
 

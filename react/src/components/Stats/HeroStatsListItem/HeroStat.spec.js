@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import renderer from 'react-test-renderer';
-import HeroStat from './HeroStat';
+import HeroStat from 'components/Stats/HeroStatsListItem/HeroStat';
 
 describe('HeroStat Component', () => {
     let wrapper;

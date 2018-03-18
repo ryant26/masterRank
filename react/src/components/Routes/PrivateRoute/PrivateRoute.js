@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Authentication from '../../Login/Authentication/Authentication';
+import Authentication from 'components/Login/Authentication/Authentication';
 
 const PrivateRoute = ({ component, user, ...rest }) => {
   return (

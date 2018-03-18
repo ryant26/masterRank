@@ -1,57 +1,57 @@
 import configureStore from 'redux-mock-store';
 
-import model from './model';
-import { clientEvents } from '../api/websocket';
+import model from 'model/model';
+import { clientEvents } from 'api/websocket';
 
-const names = require('../../../shared/libs/allHeroNames').names;
+const names = require('shared/libs/allHeroNames').names;
 
 import {
     getMockSocket,
     generateMockUser,
     generateMockHero
-} from '../utilities/test/mockingUtilities';
+} from 'utilities/test/mockingUtilities';
 
-import { initialGroup, groupInvites } from '../resources/groupInvites';
+import { initialGroup, groupInvites } from 'resources/groupInvites';
 
-import * as Notifications from '../components/Notifications/Notifications';
-jest.mock('../components/Notifications/Notifications');
-import { syncClientAndServerHeroesAsync } from '../actionCreators/initialData/syncClientAndServerHeroesAsync';
-jest.mock('../actionCreators/initialData/syncClientAndServerHeroesAsync');
-import { leaveGroupAsync } from '../actionCreators/group/leaveGroupAsync';
-jest.mock('../actionCreators/group/leaveGroupAsync');
-import { updatePreferredHeroesAsync } from '../actionCreators/preferredHeroes/updatePreferredHeroesAsync';
-jest.mock('../actionCreators/preferredHeroes/updatePreferredHeroesAsync');
+import * as Notifications from 'components/Notifications/Notifications';
+jest.mock('components/Notifications/Notifications');
+import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
+jest.mock('actionCreators/initialData/syncClientAndServerHeroesAsync');
+import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
+jest.mock('actionCreators/group/leaveGroupAsync');
+import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
+jest.mock('actionCreators/preferredHeroes/updatePreferredHeroesAsync');
 
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
-} from "../actionCreators/heroes/hero";
-jest.mock("../actionCreators/heroes/hero");
+} from 'actionCreators/heroes/hero';
+jest.mock('actionCreators/heroes/hero');
 import {
     removeHero as removePreferredHeroAction
-} from "../actionCreators/preferredHeroes/preferredHeroes";
-jest.mock("../actionCreators/preferredHeroes/preferredHeroes");
-import { updateUser as updateUserAction } from "../actionCreators/user";
-jest.mock("../actionCreators/user");
+} from 'actionCreators/preferredHeroes/preferredHeroes';
+jest.mock('actionCreators/preferredHeroes/preferredHeroes');
+import { updateUser as updateUserAction } from 'actionCreators/user';
+jest.mock('actionCreators/user');
 import {
     addFilter as addFilterAction,
     removeFilter as removeFilterAction,
-} from "../actionCreators/heroFilters";
-jest.mock("../actionCreators/heroFilters");
+} from 'actionCreators/heroFilters';
+jest.mock('actionCreators/heroFilters');
 import {
     updateGroup as updateGroupAction
-} from '../actionCreators/group/group';
-jest.mock('../actionCreators/group/group');
+} from 'actionCreators/group/group';
+jest.mock('actionCreators/group/group');
 import {
     addGroupInvite as addGroupInviteAction,
     removeGroupInvite as removeGroupInviteAction
-} from '../actionCreators/groupInvites';
-jest.mock('../actionCreators/groupInvites');
+} from 'actionCreators/groupInvites';
+jest.mock('actionCreators/groupInvites');
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
-} from "../actionCreators/loading";
-jest.mock('../actionCreators/loading');
+} from 'actionCreators/loading';
+jest.mock('actionCreators/loading');
 
 const mockStore = configureStore();
 const getMockStore = (
@@ -125,7 +125,7 @@ describe('Model', () => {
         const hero = generateMockHero('mercy', user.platformDisplayName);
 
         describe('when socket disconnects', () => {
-            const reason = "lost connection to socket server";
+            const reason = 'lost connection to socket server';
 
             it('should send disconnect notification to user', () => {
                 socket.socketClient.emit(clientEvents.disconnect, reason);
@@ -165,13 +165,13 @@ describe('Model', () => {
             });
 
             it('should not send a preferred hero notifications when hero does not belong to the user', function() {
-                store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
+                store.getState().user.platformDisplayName = 'Not' + hero.platformDisplayName;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(Notifications.preferredHeroNotification).not.toHaveBeenCalled();
             });
 
             it('should not pop loading screen when hero added does not belong to the user', function() {
-                store.getState().user.platformDisplayName = "Not" + hero.platformDisplayName;
+                store.getState().user.platformDisplayName = 'Not' + hero.platformDisplayName;
                 socket.socketClient.emit(clientEvents.heroAdded, hero);
                 expect(popBlockingLoadingAction).not.toHaveBeenCalled();
             });
@@ -209,7 +209,7 @@ describe('Model', () => {
 
             const shouldCallErrorNotification = (errorEvent) => {
                 const error = {
-                    message: "Something went wrong!"
+                    message: 'Something went wrong!'
                 };
                 it(`should call errorNotification() with error when ${errorEvent} is emitted`, () => {
                     socket.socketClient.emit(errorEvent, error);
@@ -276,7 +276,7 @@ describe('Model', () => {
             });
 
             describe('Player Invite Canceled', () => {
-                it("should call update group action", () => {
+                it('should call update group action', () => {
                      socket.socketClient.emit(clientEvents.playerInviteCanceled, group);
                      expect(updateGroupAction).toHaveBeenCalledWith(group);
                 });

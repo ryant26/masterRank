@@ -1,8 +1,8 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import {home, allInvites} from "../Routes/links";
-import DashboardHome from './DashboardHome/DashboardHome';
-import InvitesGrid from './InvitesGrid/InvitesGrid';
+import {home, allInvites} from "components/Routes/links";
+import DashboardHome from 'components/ContentArea/DashboardHome/DashboardHome';
+import InvitesGrid from 'components/ContentArea/InvitesGrid/InvitesGrid';
 
 const ContentArea = () => {
     return (

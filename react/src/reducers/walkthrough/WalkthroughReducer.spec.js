@@ -1,7 +1,7 @@
-import WalkthroughReducer from './WalkthroughReducer';
-import * as WalkthroughActionTypes from '../../actiontypes/walkthrough';
+import WalkthroughReducer from 'reducers/walkthrough/WalkthroughReducer';
+import * as WalkthroughActionTypes from 'actiontypes/walkthrough';
 
-import { generateMockUser } from '../../utilities/test/mockingUtilities';
+import { generateMockUser } from 'utilities/test/mockingUtilities';
 
 describe('Walkthrough Reducer', () => {
     const user = generateMockUser('user');

@@ -1,14 +1,14 @@
-import { getMockSocket, mockGetState } from '../../utilities/test/mockingUtilities';
+import { getMockSocket, mockGetState } from 'utilities/test/mockingUtilities';
 
-import { preferredHeroNotification } from '../../components/Notifications/Notifications';
-jest.mock('../../components/Notifications/Notifications');
+import { preferredHeroNotification } from 'components/Notifications/Notifications';
+jest.mock('components/Notifications/Notifications');
 
-import { updateHeroes as updatePreferredHeroesAction } from './preferredHeroes';
-jest.mock('./preferredHeroes');
-import { pushBlockingEvent as pushBlockingLoadingAction } from "../loading";
-jest.mock('../loading');
+import { updateHeroes as updatePreferredHeroesAction } from 'actionCreators/preferredHeroes/preferredHeroes';
+jest.mock('actionCreators/preferredHeroes/preferredHeroes');
+import { pushBlockingEvent as pushBlockingLoadingAction } from "actionCreators/loading";
+jest.mock('actionCreators/loading');
 
-import { updatePreferredHeroesAsync } from './updatePreferredHeroesAsync';
+import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 
 describe('updatePreferredHeroesAsync', () => {
     const preferredHeroNames = ['genji', 'tracer', 'widowmaker'];

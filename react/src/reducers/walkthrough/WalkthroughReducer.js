@@ -1,4 +1,4 @@
-import * as actionsTypes from '../../actiontypes/walkthrough';
+import * as actionsTypes from 'actiontypes/walkthrough';
 
 const initialState = {
     finished: {}
