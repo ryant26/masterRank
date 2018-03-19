@@ -1,16 +1,31 @@
 import Websocket from 'api/websocket';
 import token from 'resources/token';
 import groupInvites from 'resources/groupInvites';
+import { mockSocketServer } from 'utilities/test/mockingUtilities';
+import {SocketIO} from 'mock-socket';
 
 describe('Websocket API', () => {
     let websocket;
+    let socketServer;
 
     beforeEach(() => {
-        websocket = new Websocket(token);
+        socketServer = mockSocketServer();
+        websocket = new Websocket(token, SocketIO);
     });
 
-    afterEach(() => {
+    afterEach((done) => {
         websocket.disconnect();
+        socketServer.stop(done);
+    });
+
+    describe('on connect event', () => {
+        it('should emit the authenticate event', (done) => {
+            websocket.socket.emit = function(event) {
+                expect(event).toEqual('authenticate');
+                done();
+            };
+            socketServer.emit('connect');
+        });
     });
 
     describe('addHero', () => {

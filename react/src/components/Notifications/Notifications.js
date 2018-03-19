@@ -106,7 +106,7 @@ export const disconnectedNotification = ( ) => {
     showNotification({
         icon: 'fa fa-plug',
         title: "You've been disconnected",
-        message: 'You were disconnected please refresh the page to continue',
+        message: 'You were disconnected, please wait while we try to reconnect...',
         type: 'warning'
     });
 };
