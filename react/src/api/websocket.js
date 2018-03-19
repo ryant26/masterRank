@@ -1,10 +1,11 @@
-import io from 'socket.io-client';
+import SocketIO from 'socket.io-client';
 import logger from 'utilities/logger';
 import {getSocketApiBase} from 'api/apiRouter';
 const decode  = require('jwt-decode');
 
 export const clientEvents = {
     initialData: 'initialData',
+    connect: 'connect',
     disconnect: 'disconnect',
     authenticated: 'authenticated',
     heroAdded: 'heroAdded',
@@ -41,12 +42,10 @@ const serverEvents = {
 
 
 export default class Websocket {
-    constructor(token) {
+    constructor(token, io = SocketIO) {
         this.authenticated = false;
         let tokenDecoded = decode(token);
         this.socket = io(getSocketApiBase(tokenDecoded));
-
-        this.socket.emit(serverEvents.authenticate, token);
 
         this.on(clientEvents.authenticated, () => {
             this.authenticated = true;
@@ -54,6 +53,10 @@ export default class Websocket {
             logger.log(`    User: ${tokenDecoded.platformDisplayName}`);
             logger.log(`    Region: ${tokenDecoded.region}`);
             logger.log(`    Platform: ${tokenDecoded.platform}`);
+        });
+
+        this.on(clientEvents.connect, () => {
+            this.socket.emit(serverEvents.authenticate, token);
         });
     }
 

@@ -1,8 +1,16 @@
 import 'isomorphic-fetch';
 
 import { users } from 'resources/users';
+import token from 'resources/token';
+import { getSocketApiBase } from "api/apiRouter";
 
+import { Server } from 'mock-socket';
+const decode  = require('jwt-decode');
 const mockSocket = require('socket-io-mock');
+
+export const mockSocketServer = (url = getSocketApiBase(decode(token))) => {
+    return new Server(url);
+};
 
 export const getMockSocket = () => {
     let websocket = new mockSocket();
