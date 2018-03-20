@@ -4,14 +4,18 @@ class GoogleAnalyticTracker {
         this.gtag = gtag;
     }
 
-    trackEvent(action) {
-        let [eventCategory, eventAction] = action.type.split('/');
+    trackEvent(event) {
+        let [category, action] = event.type.split('/');
         if(process.env.NODE_ENV === 'development') {
-            console.log(`GA event= [${action.region}, ${eventCategory}, ${eventAction}]`); // eslint-disable-line
+            console.log(`GA event= [${category}, ${action}, ${event.label}]`); // eslint-disable-line
+        } else if(category === 'googleAnalytic') {
+            this.gtag('event', action, {
+              event_category: category,
+              event_label: event.label
+            });
         } else {
-            this.gtag('event', eventAction, {
-              event_category: eventCategory,
-              event_label: action.region
+            this.gtag('event', action, {
+              event_category: category
             });
         }
     }

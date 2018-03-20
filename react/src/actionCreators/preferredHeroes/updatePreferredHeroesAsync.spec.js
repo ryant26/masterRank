@@ -7,6 +7,8 @@ import { updateHeroes as updatePreferredHeroesAction } from './preferredHeroes';
 jest.mock('./preferredHeroes');
 import { pushBlockingEvent as pushBlockingLoadingAction } from "../loading";
 jest.mock('../loading');
+import { updatePreferredHeroesTrackingEvent } from '../googleAnalytic/googleAnalytic';
+jest.mock('../googleAnalytic/googleAnalytic');
 
 import { updatePreferredHeroesAsync } from './updatePreferredHeroesAsync';
 
@@ -73,5 +75,10 @@ describe('updatePreferredHeroesAsync', () => {
     it('should call update preferred heroes action', function() {
         updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
+    });
+
+    it('should call update preferred heroes tracking event', function() {
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
+        expect(updatePreferredHeroesTrackingEvent).toHaveBeenCalled();
     });
 });

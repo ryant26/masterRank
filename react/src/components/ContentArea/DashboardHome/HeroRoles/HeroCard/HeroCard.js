@@ -1,6 +1,7 @@
 import React, {
   Component
 } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,7 @@ import UserStatsContainer from '../../../../Stats/UserStatsContainer';
 import HeroImage from '../../../../Images/HeroImage/HeroImage';
 import Modal from '../../../../Modal/Modal';
 import Model from '../../../../../model/model';
+import { viewPlayerStatsTrackingEvent } from '../../../../../actionCreators/googleAnalytic/googleAnalytic';
 
 const classNames = require('classnames');
 
@@ -55,6 +57,9 @@ class HeroCard extends Component {
     }
 
     toggleModal() {
+        if(this.state.showModal === false) {
+            this.props.onViewPlayerStats();
+        }
         this.setState({
             showModal: !this.state.showModal
         });
@@ -146,7 +151,8 @@ HeroCard.propTypes = {
             losses: PropTypes.number,
         })
     }).isRequired,
-    invitable: PropTypes.bool
+    invitable: PropTypes.bool,
+    onViewPlayerStats: PropTypes.func.isRequired
 
 };
 
@@ -157,4 +163,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(HeroCard);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        onViewPlayerStats: viewPlayerStatsTrackingEvent
+    }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeroCard);

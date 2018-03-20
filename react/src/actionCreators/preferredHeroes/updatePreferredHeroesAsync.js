@@ -1,6 +1,7 @@
 import { preferredHeroNotification } from '../../components/Notifications/Notifications';
 import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
 import { pushBlockingEvent as pushBlockingLoadingAction } from "../loading";
+import { updatePreferredHeroesTrackingEvent } from '../googleAnalytic/googleAnalytic';
 
 export const updatePreferredHeroesAsync = function(heroes, socket) {
 
@@ -27,6 +28,7 @@ export const updatePreferredHeroesAsync = function(heroes, socket) {
             }
         }
 
+        dispatch(updatePreferredHeroesTrackingEvent());
         dispatch(updatePreferredHeroesAction(heroes));
     };
 };
