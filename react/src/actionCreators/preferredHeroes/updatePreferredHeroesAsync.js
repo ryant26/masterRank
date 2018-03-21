@@ -9,23 +9,35 @@ export const updatePreferredHeroesAsync = function(heroes, socket) {
         let currentPreferredHeroes = getState().preferredHeroes.heroes;
         let numberOfHeroesToCheck = Math.max(heroes.length, currentPreferredHeroes.length);
 
+        let heroesToRemoveFromServer = [];
+        let heroesToAddToServer = [];
+
         for (let i = 0; i < numberOfHeroesToCheck; i++) {
             let currentPreferredHero = getState().preferredHeroes.heroes[i];
             let newPreferredHero = heroes[i];
 
             if (currentPreferredHero !== newPreferredHero){
                 if (currentPreferredHero) {
-                    socket.removeHero(currentPreferredHero);
+                    heroesToRemoveFromServer.push(currentPreferredHero);
                 }
 
                 if (newPreferredHero) {
-                    preferredHeroNotification(newPreferredHero);
-                    socket.addHero(newPreferredHero, i+1);
-                    //Popped in modle.js _addHeroToStore()
-                    dispatch(pushBlockingLoadingAction());
+                    heroesToAddToServer.push({hero: newPreferredHero, priority: i+1});
                 }
             }
         }
+
+        heroesToRemoveFromServer.forEach((hero) => {
+            socket.removeHero(hero);
+        });
+
+        heroesToAddToServer.forEach(({hero, priority}) => {
+            socket.addHero(hero, priority);
+            preferredHeroNotification(hero);
+
+            //Popped in modle.js _addHeroToStore()
+            dispatch(pushBlockingLoadingAction());
+        });
 
         dispatch(updatePreferredHeroesAction(heroes));
     };
