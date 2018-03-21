@@ -6,6 +6,8 @@ import Model from 'model/model';
 import HeroCard from 'components/ContentArea/DashboardHome/HeroRoles/HeroCard/HeroCard';
 import Modal from 'components/Modal/Modal';
 import UserStatsContainer from 'components/Stats/UserStatsContainer';
+import { viewPlayerStatsTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 import heroes from 'resources/heroes';
 import { users } from 'resources/users';
@@ -19,6 +21,7 @@ const getHeroCardComponent = (user, hero, group) => {
         group: group,
         user: user
     });
+    store.dispatch = jest.fn();
 
     return shallow(
         <HeroCard user={user} hero={hero} store={store}/>
@@ -45,6 +48,10 @@ describe('HeroCard Component',()=> {
         user = Object.create(users[0]);
         hero = Object.create(heroes[0]);
         HeroCardComponent = getHeroCardComponent(user, hero, group);
+    });
+
+    afterEach(() => {
+        viewPlayerStatsTrackingEvent.mockClear();
     });
 
     it('should render without exploding', () => {
@@ -149,6 +156,19 @@ describe('HeroCard Component',()=> {
                 platformDisplayName: hero.platformDisplayName,
                 heroName: hero.heroName
             });
+        });
+    });
+
+     describe("when the heroCard's stats button is clicked and modal is not already showing", () => {
+
+        beforeEach(() => {
+            expect(HeroCardComponent.state().showModal).toBe(false);
+            expect(viewPlayerStatsTrackingEvent).not.toHaveBeenCalled();
+            HeroCardComponent.find('.button-primary').simulate('click');
+        });
+
+        it('should call onViewPlayerStats', () => {
+            expect(viewPlayerStatsTrackingEvent).toHaveBeenCalled();
         });
     });
 

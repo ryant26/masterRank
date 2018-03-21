@@ -1,6 +1,7 @@
 import React, {
     Component
 } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,7 @@ import MemberCard from 'components/Sidebar/GroupContainer/MemberCard/MemberCard'
 import Modal from "components/Modal/Modal";
 import GroupStatsContainer from "components/Stats/GroupStatsContainer";
 import LeaveGroupButton from 'components/Sidebar/GroupContainer/LeaveGroupButton/LeaveGroupButton';
+import { viewTeamStatsTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 class GroupContainer extends Component {
 
@@ -21,6 +23,9 @@ class GroupContainer extends Component {
     }
 
     toggleModal() {
+        if(this.state.showModal === false) {
+            this.props.onViewTeamStats();
+        }
         this.setState({
             showModal: !this.state.showModal
         });
@@ -104,7 +109,8 @@ GroupContainer.propTypes = {
             stats: PropTypes.object,
         }),
     }),
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    onViewTeamStats: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -115,4 +121,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(GroupContainer);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        onViewTeamStats: viewTeamStatsTrackingEvent
+    }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupContainer);
