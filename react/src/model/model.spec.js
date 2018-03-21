@@ -21,6 +21,12 @@ import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
 jest.mock('actionCreators/group/leaveGroupAsync');
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 jest.mock('actionCreators/preferredHeroes/updatePreferredHeroesAsync');
+import {
+    loginTrackingEvent,
+    sendGroupInviteTrackingEvent,
+    acceptGroupInviteTrackingEvent
+} from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 import {
     addHero as addHeroAction,
@@ -55,6 +61,7 @@ jest.mock('actionCreators/loading');
 
 const mockStore = configureStore();
 const getMockStore = (
+    user,
     heroes=[],
     heroFilters=[],
     group=initialGroup,
@@ -62,6 +69,7 @@ const getMockStore = (
     preferredHeroes=[],
     blockUI=0,) => {
         return mockStore({
+            user,
             heroes,
             heroFilters,
             group,
@@ -96,6 +104,9 @@ const clearAllMocks = () => {
     removeGroupInviteAction.mockClear();
     pushBlockingLoadingAction.mockClear();
     popBlockingLoadingAction.mockClear();
+    loginTrackingEvent.mockClear();
+    sendGroupInviteTrackingEvent.mockClear();
+    acceptGroupInviteTrackingEvent.mockClear();
 };
 describe('Model', () => {
     const user = generateMockUser();
@@ -103,7 +114,7 @@ describe('Model', () => {
     let socket;
 
     beforeEach(() => {
-        store = getMockStore();
+        store = getMockStore(user);
         store.dispatch = jest.fn();
         socket = getMockSocket();
         model.initialize(socket, store);
@@ -116,6 +127,11 @@ describe('Model', () => {
     });
 
     describe('Constructor', () => {
+
+        it("should dispatch login event with user's platform dipaly name", () => {
+            expect(loginTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
+        });
+
         it('should set the loading state', () => {
             expect(pushBlockingLoadingAction).toHaveBeenCalled();
         });
@@ -244,6 +260,7 @@ describe('Model', () => {
             });
 
             describe('Group invite accepted', () => {
+
                 it('should call update group action when clientEvents.groupInviteAccepted is emitted', () => {
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
                     expect(updateGroupAction).toHaveBeenCalledWith(group);
@@ -260,6 +277,12 @@ describe('Model', () => {
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, newGroup);
                     expect(Notifications.userJoinedGroupNotification).toHaveBeenCalledWith(newMember.platformDisplayName);
                 });
+
+                it('should dispatch acceptGroupInviteTrackingEvent', () => {
+                    socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
+                    expect(acceptGroupInviteTrackingEvent).toHaveBeenCalled();
+                });
+
             });
 
             describe('Group Invite Canceled', () => {
@@ -348,6 +371,11 @@ describe('Model', () => {
 
         describe('inviteUserToGroup', () => {
             const userObject = groupInvites[0].members[0];
+
+            it('should dispatch sendGroupInviteTrackingEvent', () => {
+                model.inviteUserToGroup(userObject);
+                expect(sendGroupInviteTrackingEvent).toHaveBeenCalled();
+            });
 
             it('should call websocket.groupInviteSend with userObject', () => {
                 model.inviteUserToGroup(userObject);

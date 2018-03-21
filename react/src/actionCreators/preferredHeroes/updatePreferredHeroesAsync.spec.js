@@ -7,6 +7,8 @@ import { updateHeroes as updatePreferredHeroesAction } from 'actionCreators/pref
 jest.mock('actionCreators/preferredHeroes/preferredHeroes');
 import { pushBlockingEvent as pushBlockingLoadingAction } from "actionCreators/loading";
 jest.mock('actionCreators/loading');
+import { updatePreferredHeroesTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 
@@ -73,6 +75,11 @@ describe('updatePreferredHeroesAsync', () => {
     it('should call update preferred heroes action', function() {
         updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
+    });
+
+    it('should call update preferred heroes tracking event', function() {
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
+        expect(updatePreferredHeroesTrackingEvent).toHaveBeenCalled();
     });
 
     it('should remove heroes before attempting to add them', () => {

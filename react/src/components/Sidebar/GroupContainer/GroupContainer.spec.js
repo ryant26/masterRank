@@ -7,6 +7,8 @@ import MemberCard from 'components/Sidebar/GroupContainer/MemberCard/MemberCard'
 import Modal from "components/Modal/Modal";
 import GroupStatsContainer from 'components/Stats/GroupStatsContainer';
 import LeaveGroupButton from 'components/Sidebar/GroupContainer/LeaveGroupButton/LeaveGroupButton';
+import { viewTeamStatsTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 import { initialGroup, groupInvites } from 'resources/groupInvites';
 import { users } from 'resources/users';
@@ -19,6 +21,7 @@ const shallowGroupContainerComponent = (group, preferredHeroes, user) => {
         preferredHeroes: preferredHeroes,
         user: user,
     });
+    store.dispatch = jest.fn();
     return shallow(
         <GroupContainer store={store}/>
     );
@@ -52,9 +55,24 @@ describe('GroupContainer', () => {
             expect(GroupContainerComponent.find(Modal).prop('modalOpen')).toBe(false);
         });
 
-        it('should render Team Stats button when store.group is set', () => {
-            expect(GroupContainerComponent.find('.button-content')).toHaveLength(1);
-            expect(GroupContainerComponent.find('.button-content').text()).toBe('Team Stats');
+        describe('when store.group is set', () => {
+            it('should render Team Stats button', () => {
+                expect(GroupContainerComponent.find('.button-content')).toHaveLength(1);
+                expect(GroupContainerComponent.find('.button-content').text()).toBe('Team Stats');
+            });
+
+            describe('when team stats is clicked', () => {
+
+                afterEach(() => {
+                    viewTeamStatsTrackingEvent.mockClear();
+                });
+
+                it('should dispatch viewTeamStatsTrackingEvent', () => {
+                    expect(viewTeamStatsTrackingEvent).not.toHaveBeenCalled();
+                    GroupContainerComponent.find('.button-four').simulate('click');
+                    expect(viewTeamStatsTrackingEvent).toHaveBeenCalled();
+                });
+            });
         });
 
         it('when Modal is not showing should show Modal when Team Stats button is clicked', () => {

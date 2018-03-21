@@ -26,6 +26,12 @@ import {
 import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
+import {
+    loginTrackingEvent,
+    sendGroupInviteTrackingEvent,
+    acceptGroupInviteTrackingEvent
+} from 'actionCreators/googleAnalytic/googleAnalytic';
+
 
 import * as Notifications from 'components/Notifications/Notifications';
 
@@ -37,6 +43,7 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
+    store.dispatch(loginTrackingEvent(store.getState().user.platformDisplayName));
     //Popped in syncClientAndServerHeroesAsync()
     store.dispatch(pushBlockingLoadingAction());
 
@@ -89,6 +96,7 @@ const updateUser = function(user) {
 };
 
 const inviteUserToGroup = function(userObject) {
+    store.dispatch(sendGroupInviteTrackingEvent());
     Notifications.inviteSentNotification(userObject.platformDisplayName);
     socket.groupInviteSend(userObject);
 };
@@ -169,6 +177,7 @@ const _handleGroupInviteAccepted = (newGroup) => {
         }
     }
 
+    store.dispatch(acceptGroupInviteTrackingEvent());
     store.dispatch(updateGroupAction(newGroup));
 };
 
