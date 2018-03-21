@@ -5,7 +5,7 @@ export default function HeroReducer(state=[], action) {
   switch(action.type) {
       case HeroActionTypes.ADD_HERO: {
           let out = state;
-          if (!arrayHasDuplicate(out, action.hero, 'platformDisplayName', 'heroName')) {
+          if (!arrayHasDuplicate(out, action.hero, 'platformDisplayName', 'heroName', 'priority')) {
               out = [
                   ...state,
                   action.hero
@@ -17,7 +17,8 @@ export default function HeroReducer(state=[], action) {
       case HeroActionTypes.REMOVE_HERO: {
           let heroIndex = state.findIndex((hero) => {
               return hero.heroName === action.hero.heroName &&
-                  hero.platformDisplayName === action.hero.platformDisplayName;
+                  hero.platformDisplayName === action.hero.platformDisplayName &&
+                  hero.priority === action.hero.priority;
           });
 
           if (heroIndex >= 0) {

@@ -30,14 +30,14 @@ export const syncClientAndServerHeroesAsync = (heroesFromServer, socket) => {
         });
 
         serverPreferredHeroes.sort((a, b) => a.priority > b.priority);
-        serverPreferredHeroes = serverPreferredHeroes.map((hero) => hero.heroName);
+        let serverPreferredHeroNames = serverPreferredHeroes.map((hero) => hero.heroName);
 
         let localPreferredHeroes = getState().preferredHeroes.heroes;
 
-        if( !localPreferredHeroes.length && !serverPreferredHeroes.length) {
+        if( !localPreferredHeroes.length && !serverPreferredHeroNames.length) {
             dispatch(preferMostPlayedHeroesAsync(user, localStorage.getItem('accessToken'), socket));
-        } else if (serverPreferredHeroes.length) {
-            dispatch(updatePreferredHeroes(serverPreferredHeroes));
+        } else if (serverPreferredHeroNames.length) {
+            dispatch(updatePreferredHeroes(serverPreferredHeroNames));
         } else {
             dispatch(addHeroesToServerAsync(localPreferredHeroes, socket));
         }
