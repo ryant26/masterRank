@@ -43,6 +43,27 @@ describe('GroupController Tests', function() {
             groupService.getGroupId.restore();
         });
 
+        it('should rejoin the socket to any existing group room on construction', function(done) {
+            sinon.stub(groupService, 'getGroupId').resolves(1);
+            sinon.spy(groupService, 'addSocketToGroupRoom');
+
+            new GroupController({socket, token});
+
+            setTimeout(() => {
+                assert(groupService.addSocketToGroupRoom.calledWith(1 , socket));
+                groupService.getGroupId.restore();
+                groupService.addSocketToGroupRoom.restore();
+                done();
+            }, 100);
+        });
+
+        it('should not rejoin socket to any group rooms if the player is not part of a group', function() {
+            sinon.spy(groupService, 'addSocketToGroupRoom');
+            new GroupController({socket, token});
+            assert.isFalse(groupService.addSocketToGroupRoom.called);
+            groupService.addSocketToGroupRoom.restore();
+        });
+
         it('should attempt to set the groupID in redis when the property is set', function() {
             let groupId = 10;
             sinon.spy(groupService, 'setGroupId');
