@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { startWalkthrough } from 'actionCreators/walkthrough/walkthrough';
 import { clickTutorialTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
-const TutorialButton = ({ onClickTutorial, onStartTutorial, platformDisplayName }) => {
+const TutorialButton = ({ dispatchTutorialTrackingEvent, onStartTutorial, platformDisplayName }) => {
 
     const onClick = () => {
-        onClickTutorial();
+        dispatchTutorialTrackingEvent();
         onStartTutorial(platformDisplayName);
     };
 
@@ -23,7 +23,7 @@ const TutorialButton = ({ onClickTutorial, onStartTutorial, platformDisplayName 
 TutorialButton.propTypes =  {
     platformDisplayName: PropTypes.string.isRequired,
     onStartTutorial: PropTypes.func.isRequired,
-    onClickTutorial: PropTypes.func.isRequired,
+    dispatchTutorialTrackingEvent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -35,7 +35,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         onStartTutorial: startWalkthrough,
-        onClickTutorial: clickTutorialTrackingEvent
+        dispatchTutorialTrackingEvent: clickTutorialTrackingEvent
     }, dispatch);
 };
 

@@ -13,7 +13,7 @@ import {
 
 import { initialGroup, groupInvites } from 'resources/groupInvites';
 
-import * as Notifications from '../components/Notifications/Notifications';
+import * as Notifications from 'components/Notifications/Notifications';
 jest.mock('components/Notifications/Notifications');
 import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
 jest.mock('actionCreators/initialData/syncClientAndServerHeroesAsync');
