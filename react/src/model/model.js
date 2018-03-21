@@ -138,10 +138,6 @@ const _addHeroToStore = function(hero) {
 
 const _removeHeroFromStore = function(hero) {
     store.dispatch(removeHeroAction(hero));
-    //TODO: Multiple tabs or window messes up preferred heroes. 
-    if (hero.platformDisplayName === store.getState().user.platformDisplayName) {
-        removePreferredHeroFromStore(hero.heroName, hero.priority);
-    }
 };
 
 const _addHeroErrorHandler = function(error) {

@@ -81,4 +81,21 @@ describe('updatePreferredHeroesAsync', () => {
         updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
         expect(updatePreferredHeroesTrackingEvent).toHaveBeenCalled();
     });
+
+    it('should remove heroes before attempting to add them', () => {
+        let removeHeroCalled = false;
+        let addHeroCalled = false;
+
+        socket.removeHero = () => {
+            removeHeroCalled = true;
+            expect(addHeroCalled).toBeFalsy();
+        };
+
+        socket.addHero = () => {
+            addHeroCalled = true;
+            expect(removeHeroCalled).toBeTruthy();
+        };
+
+        updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
+    });
 });

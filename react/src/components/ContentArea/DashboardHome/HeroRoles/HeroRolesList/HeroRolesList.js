@@ -18,7 +18,7 @@ const HeroRolesList = ({heroes, role}) => {
     };
 
     let heroCardComponents = heroes.sort((h1, h2) => getWinRate(h1) < getWinRate(h2)).map((hero) => {
-        return <HeroCard hero={hero} key={hero.platformDisplayName + hero.heroName}/>;
+        return <HeroCard hero={hero} key={hero.platformDisplayName + hero.heroName + hero.priority}/>;
     });
 
     if (!heroCardComponents.length) {

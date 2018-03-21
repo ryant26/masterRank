@@ -212,12 +212,6 @@ describe('Model', () => {
                 socket.socketClient.emit(clientEvents.heroRemoved, hero);
                 expect(removeHeroAction).toHaveBeenCalledWith(hero);
             });
-
-            it("when hero belongs to user should remove hero from user's preferred heroes", function() {
-                store.getState().user.platformDisplayName = hero.platformDisplayName;
-                socket.socketClient.emit(clientEvents.heroRemoved, hero);
-                expect(removePreferredHeroAction).toHaveBeenCalledWith(hero.heroName, hero.priority);
-            });
         });
 
         describe('Group', () => {
