@@ -5,7 +5,7 @@ const HeroImage = ({ heroName, onClick }) => {
 
     return (
         <img className="HeroImage"
-            src={require(`../../../assets/${heroName}-icon.png`)}
+            src={require(`assets/${heroName}-icon.png`)}
             alt = {heroName+' icon'}
             onClick={onClick}
         />

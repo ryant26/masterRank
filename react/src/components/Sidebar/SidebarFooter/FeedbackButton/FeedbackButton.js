@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { feedback } from '../../../Routes/links';
-import { clickFeedbackTrackingEvent } from '../../../../actionCreators/googleAnalytic/googleAnalytic';
+import { feedback } from 'components/Routes/links';
+import { clickFeedbackTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 const FeedbackButton = ({ onClickFeedback }) => {
 

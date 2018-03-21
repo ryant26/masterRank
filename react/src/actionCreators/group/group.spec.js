@@ -1,5 +1,5 @@
-import * as groupActionType from '../../actiontypes/group';
-import * as groupActionCreators from './group';
+import * as groupActionType from 'actiontypes/group';
+import * as groupActionCreators from 'actionCreators/group/group';
 
 describe('updateGroup',() => {
     it ('should create the UPDATE_GROUP action', ()=> {

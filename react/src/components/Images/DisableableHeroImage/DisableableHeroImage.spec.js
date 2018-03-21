@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DisableableHeroImage from './DisableableHeroImage';
-import HeroImage from '../HeroImage/HeroImage';
+import DisableableHeroImage from 'components/Images/DisableableHeroImage/DisableableHeroImage';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
 
-import HEROES from '../../../resources/heroes';
+import HEROES from 'resources/heroes';
 
 const shallowDisableableHeroImage= (heroName, onClick, disabled) => {
     return shallow(

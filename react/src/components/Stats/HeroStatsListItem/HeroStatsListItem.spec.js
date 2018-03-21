@@ -3,13 +3,13 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
-import HeroStatsListItem from './HeroStatsListItem';
-import RecordStat from './RecordStat';
-import HeroStat from './HeroStat';
-import DisableableHeroImage from "../../Images/DisableableHeroImage/DisableableHeroImage";
+import HeroStatsListItem from 'components/Stats/HeroStatsListItem/HeroStatsListItem';
+import RecordStat from 'components/Stats/HeroStatsListItem/RecordStat';
+import HeroStat from 'components/Stats/HeroStatsListItem/HeroStat';
+import DisableableHeroImage from "components/Images/DisableableHeroImage/DisableableHeroImage";
 
-import { users } from '../../../resources/users';
-import { getHeroes } from '../../../resources/heroes';
+import { users } from 'resources/users';
+import { getHeroes } from 'resources/heroes';
 
 const mockStore = configureStore();
 

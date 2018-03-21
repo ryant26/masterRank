@@ -2,16 +2,16 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import GroupContainer from './GroupContainer';
-import MemberCard from './MemberCard/MemberCard';
-import Modal from "../../Modal/Modal";
-import GroupStatsContainer from "../../Stats/GroupStatsContainer";
-import LeaveGroupButton from './LeaveGroupButton/LeaveGroupButton';
-import { viewTeamStatsTrackingEvent } from '../../../actionCreators/googleAnalytic/googleAnalytic';
-jest.mock('../../../actionCreators/googleAnalytic/googleAnalytic');
+import GroupContainer from 'components/Sidebar/GroupContainer/GroupContainer';
+import MemberCard from 'components/Sidebar/GroupContainer/MemberCard/MemberCard';
+import Modal from "components/Modal/Modal";
+import GroupStatsContainer from 'components/Stats/GroupStatsContainer';
+import LeaveGroupButton from 'components/Sidebar/GroupContainer/LeaveGroupButton/LeaveGroupButton';
+import { viewTeamStatsTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
-import { initialGroup, groupInvites } from '../../../resources/groupInvites';
-import { users } from '../../../resources/users';
+import { initialGroup, groupInvites } from 'resources/groupInvites';
+import { users } from 'resources/users';
 
 const mockStore = configureStore();
 

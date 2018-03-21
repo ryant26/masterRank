@@ -4,13 +4,13 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
 
-import GroupStatsContainer from './GroupStatsContainer';
-import HeroStatsList from './HeroStatsList/HeroStatsList';
-import HeroImages from './HeroImages/HeroImages';
-import Model from '../../model/model';
+import GroupStatsContainer from 'components/Stats/GroupStatsContainer';
+import HeroStatsList from 'components/Stats/HeroStatsList/HeroStatsList';
+import HeroImages from 'components/Stats/HeroImages/HeroImages';
+import Model from 'model/model';
 
-import { users } from '../../resources/users';
-import groups from '../../resources/groupInvites';
+import { users } from 'resources/users';
+import groups from 'resources/groupInvites';
 
 const mockStore = configureStore();
 

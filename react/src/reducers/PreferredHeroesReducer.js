@@ -1,4 +1,4 @@
-import * as PreferredHeroActionTypes from '../actiontypes/preferredHeroes';
+import * as PreferredHeroActionTypes from 'actiontypes/preferredHeroes';
 
 const initialState = {
     heroes: [],

@@ -2,12 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import FeedbackButton from './FeedbackButton';
-import { feedback } from '../../../Routes/links';
-import { clickFeedbackTrackingEvent } from '../../../../actionCreators/googleAnalytic/googleAnalytic';
-jest.mock('../../../../actionCreators/googleAnalytic/googleAnalytic');
+import FeedbackButton from 'components/Sidebar/SidebarFooter/FeedbackButton/FeedbackButton';
+import { feedback } from 'components/Routes/links';
+import { clickFeedbackTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
-import { mockLocation } from '../../../../utilities/test/mockingUtilities';
+import { mockLocation } from 'utilities/test/mockingUtilities';
 
 const mockStore = configureStore();
 const shallowFeedbackButton = () => {
@@ -17,6 +17,8 @@ const shallowFeedbackButton = () => {
         <FeedbackButton store={store}/>
     ).dive();
 };
+
+
 
 describe('Feedback button', () => {
     let wrapper;

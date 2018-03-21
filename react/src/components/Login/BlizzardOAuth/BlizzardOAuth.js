@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {pushBlockingEvent as pushBlockingEventAction} from '../../../actionCreators/loading';
+import {pushBlockingEvent as pushBlockingEventAction} from 'actionCreators/loading';
 
-import LoginFailedCard from '../LoginFailedCard/LoginFailedCard';
+import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 
 const BlizzardOAuth = ({region, setLoading}) => {
 

@@ -4,13 +4,13 @@ import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
 
-import UserStatsContainer from './UserStatsContainer';
-import HeroImages from './HeroImages/HeroImages';
-import Model from '../../model/model';
-jest.mock('../Notifications/Notifications');
+import UserStatsContainer from 'components/Stats/UserStatsContainer';
+import HeroImages from 'components/Stats/HeroImages/HeroImages';
+import Model from 'model/model';
+jest.mock('components/Notifications/Notifications');
 
-import { users } from '../../resources/users';
-import { getHeroes } from '../../resources/heroes';
+import { users } from 'resources/users';
+import { getHeroes } from 'resources/heroes';
 
 
 const getMixedHeroes = () => {

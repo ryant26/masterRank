@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import BlizzardOAuth from './BlizzardOAuth';
-import LoginFailedCard from '../LoginFailedCard/LoginFailedCard';
+import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
+import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore();

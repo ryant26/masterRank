@@ -1,4 +1,4 @@
-import * as HeroActionTypes from '../../actiontypes/hero';
+import * as HeroActionTypes from 'actiontypes/hero';
 
 export const addHero = (hero) => {
   return {

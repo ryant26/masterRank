@@ -1,7 +1,7 @@
 import React from 'react';
-import HeroFilters from './HeroSelector/HeroSelectorCard';
-import HeroRoles from './HeroRoles/HeroRolesContainer';
-import AlphaCard from './AlphaCard/AlphaCard';
+import HeroFilters from 'components/ContentArea/DashboardHome/HeroSelector/HeroSelectorCard';
+import HeroRoles from 'components/ContentArea/DashboardHome/HeroRoles/HeroRolesContainer';
+import AlphaCard from 'components/ContentArea/DashboardHome/AlphaCard/AlphaCard';
 
 const DashboardHome = () => {
     return (

@@ -1,5 +1,5 @@
-import * as AppActionTypes from '../actiontypes/app';
-import * as AppActions from './app';
+import * as AppActionTypes from 'actiontypes/app';
+import * as AppActions from 'actionCreators/app';
 
 describe('Logout', () => {
 

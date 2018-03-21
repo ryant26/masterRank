@@ -2,10 +2,10 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import { users as arrayUsers} from '../../../resources/users';
-import UserSelector from './UserSelector';
-import UserCard from '../../UserCard/UserCard';
-import { home } from '../../Routes/links';
+import { users as arrayUsers} from 'resources/users';
+import UserSelector from 'components/Login/UserSelector/UserSelector';
+import UserCard from 'components/UserCard/UserCard';
+import { home } from 'components/Routes/links';
 
 const mockStore = configureStore();
 

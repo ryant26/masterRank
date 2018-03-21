@@ -1,5 +1,5 @@
-import * as HeroActionTypes from '../actiontypes/hero';
-import {arrayHasDuplicate} from "./reducerUtilities";
+import * as HeroActionTypes from 'actiontypes/hero';
+import {arrayHasDuplicate} from "reducers/reducerUtilities";
 
 export default function HeroReducer(state=[], action) {
   switch(action.type) {

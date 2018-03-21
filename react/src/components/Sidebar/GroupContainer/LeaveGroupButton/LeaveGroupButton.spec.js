@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import LeaveGroupButton from './LeaveGroupButton';
-import Model from '../../../../model/model';
-jest.mock('../../../../model/model');
+import LeaveGroupButton from 'components/Sidebar/GroupContainer/LeaveGroupButton/LeaveGroupButton';
+import Model from 'model/model';
+jest.mock('model/model');
 
 const shallowLeaveGroupButton = () => {
     return shallow(

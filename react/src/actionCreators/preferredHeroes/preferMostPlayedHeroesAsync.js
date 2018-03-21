@@ -1,11 +1,11 @@
-import { updateHeroes as updatePreferredHeroesAction } from "./preferredHeroes";
-import { addHeroesToServerAsync } from '../heroes/addHeroesToServerAsync';
+import { updateHeroes as updatePreferredHeroesAction } from "actionCreators/preferredHeroes/preferredHeroes";
+import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
-} from "../loading";
+} from 'actionCreators/loading';
 
-import fetchMostPlayedHeroesAsync from '../../api/heroApi/fetchMostPlayedHeroesAsync';
+import fetchMostPlayedHeroesAsync from 'api/heroApi/fetchMostPlayedHeroesAsync';
 
 export const preferMostPlayedHeroesAsync = (forUser, accessToken, socket) => {
 

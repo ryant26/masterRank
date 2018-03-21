@@ -1,4 +1,4 @@
-import * as AppActionTypes from '../actiontypes/app';
+import * as AppActionTypes from 'actiontypes/app';
 
 export const logout = () => {
     return {

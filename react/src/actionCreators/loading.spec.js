@@ -1,5 +1,5 @@
-import * as LoadingActionTypes from '../actiontypes/loading';
-import * as LoadingActionCreators from './loading';
+import * as LoadingActionTypes from 'actiontypes/loading';
+import * as LoadingActionCreators from 'actionCreators/loading';
 
 describe('pushLoadingEvent', () => {
     it ('should create the PUSH_BLOCKING_EVENT action', () => {

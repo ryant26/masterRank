@@ -1,38 +1,39 @@
 import {
     addHero as addHeroAction,
     removeHero as removeHeroAction,
-} from "../actionCreators/heroes/hero";
+} from "actionCreators/heroes/hero";
 import {
     removeHero as removePreferredHeroAction,
-} from "../actionCreators/preferredHeroes/preferredHeroes";
-import { updateUser as updateUserAction } from "../actionCreators/user";
+} from "actionCreators/preferredHeroes/preferredHeroes";
+import { updateUser as updateUserAction } from "actionCreators/user";
 import {
     addFilter as addFilterAction,
     removeFilter as removeFilterAction,
     removeAllFilters as removeAllFiltersAction
-} from "../actionCreators/heroFilters";
+} from "actionCreators/heroFilters";
 import {
     updateGroup as updateGroupAction
-} from '../actionCreators/group/group';
-import { clientEvents } from "../api/websocket";
+} from 'actionCreators/group/group';
+import { clientEvents } from "api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
     removeGroupInvite as removeGroupInviteAction
-} from '../actionCreators/groupInvites';
+} from 'actionCreators/groupInvites';
 import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
-} from "../actionCreators/loading";
-import { syncClientAndServerHeroesAsync } from '../actionCreators/initialData/syncClientAndServerHeroesAsync';
-import { updatePreferredHeroesAsync } from '../actionCreators/preferredHeroes/updatePreferredHeroesAsync';
-import { leaveGroupAsync } from '../actionCreators/group/leaveGroupAsync';
+} from "actionCreators/loading";
+import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
+import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
+import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
 import {
     loginTrackingEvent,
     sendGroupInviteTrackingEvent,
     acceptGroupInviteTrackingEvent
-} from '../actionCreators/googleAnalytic/googleAnalytic';
+} from 'actionCreators/googleAnalytic/googleAnalytic';
 
-import * as Notifications from '../components/Notifications/Notifications';
+
+import * as Notifications from 'components/Notifications/Notifications';
 
 
 let socket;

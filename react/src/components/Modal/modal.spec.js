@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Modal from './Modal';
+import Modal from 'components/Modal/Modal';
 
 describe('Modal Component', () => {
     let wrapper;

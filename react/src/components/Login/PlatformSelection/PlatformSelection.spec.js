@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import PlatformSelection from './PlatformSelection';
+import PlatformSelection from 'components/Login/PlatformSelection/PlatformSelection';
 
 const getPlatformSelectionComponent = (selectedPlatform) => {
     let onChange = jest.fn();

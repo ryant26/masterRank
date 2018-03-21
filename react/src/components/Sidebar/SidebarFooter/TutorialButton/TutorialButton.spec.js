@@ -2,13 +2,13 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import { generateMockUser } from '../../../../utilities/test/mockingUtilities';
-import { startWalkthrough } from '../../../../actionCreators/walkthrough/walkthrough';
-jest.mock('../../../../actionCreators/walkthrough/walkthrough');
-import { clickTutorialTrackingEvent } from '../../../../actionCreators/googleAnalytic/googleAnalytic';
-jest.mock('../../../../actionCreators/googleAnalytic/googleAnalytic');
+import { generateMockUser } from 'utilities/test/mockingUtilities';
+import { startWalkthrough } from 'actionCreators/walkthrough/walkthrough';
+jest.mock('actionCreators/walkthrough/walkthrough');
+import { clickTutorialTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
-import TutorialButton from './TutorialButton';
+import TutorialButton from 'components/Sidebar/SidebarFooter/TutorialButton/TutorialButton';
 
 const mockStore = configureStore();
 

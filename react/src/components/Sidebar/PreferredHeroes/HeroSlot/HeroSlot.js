@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import HeroImage from "../../../Images/HeroImage/HeroImage";
+import HeroImage from "components/Images/HeroImage/HeroImage";
 
 const HeroSlot = ({slotNumber, selectedSlotNumber, preferredHeroes, onSlotSelected}) => {
 

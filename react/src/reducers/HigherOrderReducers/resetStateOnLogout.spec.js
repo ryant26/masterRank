@@ -1,5 +1,5 @@
-import resetStateOnLogout from './resetStateOnLogout';
-import * as appActionsTypes from '../../actiontypes/app';
+import resetStateOnLogout from 'reducers/HigherOrderReducers/resetStateOnLogout';
+import * as appActionsTypes from 'actiontypes/app';
 
 
 describe('resetStateOnLogout', () => {

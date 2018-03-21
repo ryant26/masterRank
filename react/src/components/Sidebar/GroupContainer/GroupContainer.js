@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import MemberCard from './MemberCard/MemberCard';
-import Modal from "../../Modal/Modal";
-import GroupStatsContainer from "../../Stats/GroupStatsContainer";
-import LeaveGroupButton from './LeaveGroupButton/LeaveGroupButton';
-import { viewTeamStatsTrackingEvent } from '../../../actionCreators/googleAnalytic/googleAnalytic';
+import MemberCard from 'components/Sidebar/GroupContainer/MemberCard/MemberCard';
+import Modal from "components/Modal/Modal";
+import GroupStatsContainer from "components/Stats/GroupStatsContainer";
+import LeaveGroupButton from 'components/Sidebar/GroupContainer/LeaveGroupButton/LeaveGroupButton';
+import { viewTeamStatsTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 class GroupContainer extends Component {
 

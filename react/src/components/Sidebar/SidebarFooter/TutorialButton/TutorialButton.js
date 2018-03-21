@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { startWalkthrough } from '../../../../actionCreators/walkthrough/walkthrough';
-import { clickTutorialTrackingEvent } from '../../../../actionCreators/googleAnalytic/googleAnalytic';
+import { startWalkthrough } from 'actionCreators/walkthrough/walkthrough';
+import { clickTutorialTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 const TutorialButton = ({ onClickTutorial, onStartTutorial, platformDisplayName }) => {
 

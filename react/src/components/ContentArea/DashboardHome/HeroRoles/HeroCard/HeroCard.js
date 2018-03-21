@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import UserStatsContainer from '../../../../Stats/UserStatsContainer';
-import HeroImage from '../../../../Images/HeroImage/HeroImage';
-import Modal from '../../../../Modal/Modal';
-import Model from '../../../../../model/model';
-import { viewPlayerStatsTrackingEvent } from '../../../../../actionCreators/googleAnalytic/googleAnalytic';
+import UserStatsContainer from 'components/Stats/UserStatsContainer';
+import HeroImage from 'components/Images/HeroImage/HeroImage';
+import Modal from 'components/Modal/Modal';
+import Model from 'model/model';
+import { viewPlayerStatsTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 const classNames = require('classnames');
 

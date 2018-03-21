@@ -1,4 +1,4 @@
-import * as actionsTypes from '../actiontypes/heroFilters';
+import * as actionsTypes from 'actiontypes/heroFilters';
 
 export default function HeroFiltersReducer(state=[], action) {
   switch (action.type) {

@@ -1,4 +1,4 @@
-import * as HeroFilterActionTypes from '../actiontypes/heroFilters';
+import * as HeroFilterActionTypes from 'actiontypes/heroFilters';
 
 export const addFilter = (heroName) => {
   return {

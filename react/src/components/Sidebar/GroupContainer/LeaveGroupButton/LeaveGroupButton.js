@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Model from '../../../../model/model';
+import Model from 'model/model';
 
 const LeaveGroupButton = () => {
 

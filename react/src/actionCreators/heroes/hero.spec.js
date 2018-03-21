@@ -1,5 +1,5 @@
-import * as HeroActionTypes from '../../actiontypes/hero';
-import * as HeroActionCreators from './hero';
+import * as HeroActionTypes from 'actiontypes/hero';
+import * as HeroActionCreators from 'actionCreators/heroes/hero';
 
 describe('addHero', () => {
     it ('should create the ADD_HERO action', () => {

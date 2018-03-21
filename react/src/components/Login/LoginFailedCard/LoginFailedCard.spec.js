@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import LoginFailedCard from './LoginFailedCard';
+import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 
 
 const renderComponentWithQueryString = (queryString) => {

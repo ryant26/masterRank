@@ -9,15 +9,15 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import PrivateRoute from '../components/Routes/PrivateRoute/PrivateRoute';
-import Dashboard from '../pages/Dashboard/Dashboard';
-import history from '../model/history';
+import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
+import PrivateRoute from 'components/Routes/PrivateRoute/PrivateRoute';
+import Dashboard from 'pages/Dashboard/Dashboard';
+import history from 'model/history';
 
 import { ToastContainer} from 'react-toastify';
 
-import { home } from '../components/Routes/links';
-import hotjar from '../utilities/hotjar';
+import { home } from 'components/Routes/links';
+import hotjar from 'utilities/hotjar';
 import Raven from 'raven-js';
 
 
@@ -25,7 +25,10 @@ class App extends Component {
     constructor(props) {
         super(props);
         hotjar();
-        Raven.config('https://c816514ee6b14f959907ee6da946e782@sentry.io/294177').install();
+        if (process.env.NODE_ENV === 'production') {
+            Raven.config('https://c816514ee6b14f959907ee6da946e782@sentry.io/294177')
+            .install();
+        }
     }
 
     render() {
