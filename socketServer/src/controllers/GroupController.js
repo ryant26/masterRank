@@ -34,7 +34,10 @@ module.exports = class GroupController extends BaseController {
         groupService.addSocketToPlayerRoom(this.token, this.socket);
 
         groupService.getGroupId(this.token).then((id) => {
-            if(id) this._groupId = id;
+            if(id) {
+                this._groupId = id;
+                groupService.addSocketToGroupRoom(id, this.socket);
+            }
         });
 
         this.on(serverEvents.groupInviteSend, (data) => {
@@ -74,8 +77,9 @@ module.exports = class GroupController extends BaseController {
 
         this.on(serverEvents.disconnect, () => {
             if (this.groupId) {
-                return Promise.all([groupService.removePlayerFromGroup(this.token, this.groupId, this.socket, this.namespace),
-                    groupService.deleteGroupId(this.token)]);
+                return groupService.removePlayerFromGroup(this.token, this.groupId, this.socket, this.namespace).then(() => {
+                    groupService.deleteGroupId(this.token);
+                });
             }
         });
     }
