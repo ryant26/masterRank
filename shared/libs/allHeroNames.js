@@ -29,6 +29,7 @@ const tank = [
 
 const support = [
     'ana',
+    'brigitte',
     'lucio',
     'mercy',
     'moira',
