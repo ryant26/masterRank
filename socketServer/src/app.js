@@ -21,7 +21,7 @@ const playerControllerFactory = require('./controllers/factories/playerControlle
 const authenticationControllerFactory = require('./controllers/factories/authenticationControllerFactory');
 const dependencyMocker = require('./mockingUtilities/mockDependencies');
 const dataMocker = require('./mockingUtilities/mockData');
-const serverEvents = require('./socketEvents/serverEvents');
+const serverEvents = require('../../shared/libs/socketEvents/serverEvents');
 
 const port = config.get('port');
 const regionNamespaces = ['us', 'eu', 'apac'];

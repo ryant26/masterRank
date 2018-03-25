@@ -1,4 +1,4 @@
-module.exports = {
+const clientEvents = {
     authenticated: 'authenticated',
     initialData: 'initialData',
     heroAdded: 'heroAdded',
@@ -12,6 +12,8 @@ module.exports = {
     playerHeroLeft: 'playerHeroLeft',
     groupPromotedLeader: 'groupPromotedLeader',
     newGroupCreated: 'newGroupCreated',
+    connect: 'connect',
+    disconnect: 'disconnect',
     error: {
         addHero: 'error.addHero',
         authenticate: 'error.authenticate',
@@ -23,3 +25,5 @@ module.exports = {
         groupLeave: 'error.groupLeave'
     }
 };
+
+module.exports = clientEvents;

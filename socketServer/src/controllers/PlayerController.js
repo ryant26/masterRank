@@ -1,4 +1,4 @@
-const serverEvents = require('../socketEvents/serverEvents');
+const serverEvents = require('../../../shared/libs/socketEvents/serverEvents');
 const playerService = require('../services/playerService');
 const BaseController = require('./BaseController');
 const logger = require('../services/logger').sysLogger;

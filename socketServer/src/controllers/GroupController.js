@@ -1,5 +1,5 @@
 const BaseController = require('./BaseController');
-const serverEvents = require('../socketEvents/serverEvents');
+const serverEvents = require('../../../shared/libs/socketEvents/serverEvents');
 const groupService = require('../services/groupService');
 const playerService = require('../services/playerService');
 

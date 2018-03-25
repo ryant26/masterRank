@@ -1,45 +1,9 @@
 import SocketIO from 'socket.io-client';
 import logger from 'utilities/logger';
-import {getSocketApiBase} from 'api/apiRouter';
+import { getSocketApiBase } from 'api/apiRouter';
 const decode  = require('jwt-decode');
-
-export const clientEvents = {
-    initialData: 'initialData',
-    connect: 'connect',
-    disconnect: 'disconnect',
-    authenticated: 'authenticated',
-    heroAdded: 'heroAdded',
-    heroRemoved: 'heroRemoved',
-    newGroupCreated: 'newGroupCreated',
-    groupPromotedLeader: 'groupPromotedLeader',
-    groupInviteReceived: 'groupInviteReceived',
-    playerInvited: 'playerInvited',
-    groupInviteCanceled: 'groupInviteCanceled',
-    playerInviteCanceled: 'playerInviteCanceled',
-    playerHeroLeft: 'playerHeroLeft',
-    groupInviteAccepted: 'groupInviteAccepted',
-    groupInviteDeclined: 'groupInviteDeclined',
-    error: {
-        addHero: 'error.addHero',
-        groupLeave: 'error.groupLeave',
-        groupInviteAccept: 'error.groupInviteAccept',
-        groupInviteCancel: 'error.groupInviteCancel',
-        groupInviteDecline: 'error.groupInviteDecline'
-    }
-};
-
-const serverEvents = {
-    authenticate: 'authenticate',
-    addHero: 'addHero',
-    removeHero: 'removeHero',
-    createGroup: 'createGroup',
-    groupLeave: 'groupLeave',
-    groupInviteSend: 'groupInviteSend',
-    groupInviteDecline: 'groupInviteDecline',
-    groupInviteAccept: 'groupInviteAccept',
-    groupInviteCancel: 'groupInviteCancel'
-};
-
+const clientEvents = require('shared/libs/socketEvents/clientEvents');
+const serverEvents = require('shared/libs/socketEvents/serverEvents');
 
 export default class Websocket {
     constructor(token, io = SocketIO) {

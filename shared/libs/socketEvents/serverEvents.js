@@ -1,4 +1,4 @@
-module.exports = {
+const serverEvents = {
     connection: 'connection',
     authenticate: 'authenticate',
     addHero: 'addHero',
@@ -11,3 +11,5 @@ module.exports = {
     groupLeave: 'groupLeave',
     disconnect: 'disconnect'
 };
+
+module.exports = serverEvents;

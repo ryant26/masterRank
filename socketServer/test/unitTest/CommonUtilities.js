@@ -1,8 +1,8 @@
 const io = require('socket.io-client');
 const config = require('config');
 const randomString = require('randomstring');
-const serverEvents = require('../../src/socketEvents/serverEvents');
-const clientEvents = require('../../src/socketEvents/clientEvents');
+const serverEvents = require('../../../shared/libs/socketEvents/serverEvents');
+const clientEvents = require('../../../shared/libs/socketEvents/clientEvents');
 const jwt = require('jsonwebtoken');
 const logger = require('winston');
 
