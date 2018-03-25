@@ -1,6 +1,6 @@
 const groupValidators = require('../../validators/groupValidators');
 const playerValidators = require('../../validators/playerValidators');
-const serverEvents = require('../../socketEvents/serverEvents');
+const serverEvents = require('../../../../shared/libs/socketEvents/serverEvents');
 const GroupController = require('../GroupController');
 const RedisClient = require('../../apiClients/RedisClient');
 const exceptions = require('../../validators/exceptions/exceptions');

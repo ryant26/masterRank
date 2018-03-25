@@ -1,5 +1,5 @@
 const logger = require('./logger').sysLogger;
-const clientEvents = require('../socketEvents/clientEvents');
+const clientEvents = require('../../../shared/libs/socketEvents/clientEvents');
 const PlayerClient = require('../apiClients/PlayerClient');
 const RedisClient = require('../apiClients/RedisClient');
 const exceptions = require('../validators/exceptions/exceptions');

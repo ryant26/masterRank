@@ -14,7 +14,6 @@ import {
 import {
     updateGroup as updateGroupAction
 } from 'actionCreators/group/group';
-import { clientEvents } from "api/websocket";
 import {
     addGroupInvite as addGroupInviteAction,
     removeGroupInvite as removeGroupInviteAction
@@ -34,6 +33,7 @@ import {
 
 
 import * as Notifications from 'components/Notifications/Notifications';
+const clientEvents = require('shared/libs/socketEvents/clientEvents');
 
 
 let socket;

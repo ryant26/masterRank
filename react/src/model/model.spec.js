@@ -1,9 +1,9 @@
 import configureStore from 'redux-mock-store';
 
 import model from 'model/model';
-import { clientEvents } from 'api/websocket';
 
 const names = require('shared/libs/allHeroNames').names;
+const clientEvents = require('shared/libs/socketEvents/clientEvents');
 
 import {
     getMockSocket,

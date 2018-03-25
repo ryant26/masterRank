@@ -1,6 +1,6 @@
 const BaseController = require('./BaseController');
-const serverEvents = require('../socketEvents/serverEvents');
-const clientEvents = require('../socketEvents/clientEvents');
+const serverEvents = require('../../../shared/libs/socketEvents/serverEvents');
+const clientEvents = require('../../../shared/libs/socketEvents/clientEvents');
 const authenticationService = require('../services/authenticationService');
 
 /**
