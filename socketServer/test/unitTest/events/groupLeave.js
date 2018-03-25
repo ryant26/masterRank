@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
-const serverEvents = require('../../../src/socketEvents/serverEvents');
-const clientEvents = require('../../../src/socketEvents/clientEvents');
+const serverEvents = require('../../../../shared/libs/socketEvents/serverEvents');
+const clientEvents = require('../../../../shared/libs/socketEvents/clientEvents');
 const CommonUtilities = require('../CommonUtilities');
 
 let commonUtilities = new CommonUtilities();

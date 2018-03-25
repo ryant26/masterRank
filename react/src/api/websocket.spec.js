@@ -2,7 +2,7 @@ import Websocket from 'api/websocket';
 import token from 'resources/token';
 import groupInvites from 'resources/groupInvites';
 import { mockSocketServer } from 'utilities/test/mockingUtilities';
-import {SocketIO} from 'mock-socket';
+import { SocketIO } from 'mock-socket';
 
 describe('Websocket API', () => {
     let websocket;

@@ -1,5 +1,5 @@
 const playerValidators = require('../../validators/playerValidators');
-const serverEvents = require('../../socketEvents/serverEvents');
+const serverEvents = require('../../../../shared/libs/socketEvents/serverEvents');
 const PlayerController = require('../PlayerController');
 const SocketError = require('../../validators/exceptions/SocketError');
 

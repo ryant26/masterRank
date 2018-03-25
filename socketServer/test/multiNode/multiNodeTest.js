@@ -2,8 +2,8 @@ const assert = require('chai').assert;
 const CommonUtilities = require('../unitTest/CommonUtilities');
 const config = require('config');
 const randomString = require('randomstring');
-const clientEvents = require('../../src/socketEvents/clientEvents');
-const serverEvents = require('../../src/socketEvents/serverEvents');
+const clientEvents = require('../../../shared/libs/socketEvents/clientEvents');
+const serverEvents = require('../../../shared/libs/socketEvents/serverEvents');
 const logger = require('winston');
 const exec = require('child_process').exec;
 

@@ -1,5 +1,5 @@
 const authenticationValidator = require('../../validators/authenticationValidator');
-const serverEvents = require('../../socketEvents/serverEvents');
+const serverEvents = require('../../../../shared/libs/socketEvents/serverEvents');
 const AuthenticationController = require('../AuthenticationController');
 
 /**
