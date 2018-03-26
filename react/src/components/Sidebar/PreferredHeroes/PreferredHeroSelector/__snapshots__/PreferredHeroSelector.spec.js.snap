@@ -423,6 +423,21 @@ exports[`<PreferredHeroSelector/> Should render in the correct format with prefe
         onClick={[Function]}
       >
         <img
+          alt="brigitte icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
           alt="lucio icon"
           className="HeroImage"
           onClick={undefined}
@@ -898,6 +913,21 @@ exports[`<PreferredHeroSelector/> Should render in the correct format without an
       >
         <img
           alt="ana icon"
+          className="HeroImage"
+          onClick={undefined}
+          src={
+            Object {
+              "process": [Function],
+            }
+          }
+        />
+      </div>
+      <div
+        className="HeroButton"
+        onClick={[Function]}
+      >
+        <img
+          alt="brigitte icon"
           className="HeroImage"
           onClick={undefined}
           src={
