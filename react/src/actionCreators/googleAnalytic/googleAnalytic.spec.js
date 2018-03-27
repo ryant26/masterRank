@@ -23,6 +23,15 @@ describe('googleAnalytic',() => {
             });
     });
 
+    it ('should create the CLICK_CONSOLE_USER_SEARCH action', () => {
+        let query = 'luckybomb#1470';
+        expect(googleAnalyticActionCreator.clickConsoleUserSearchTrackingEvent(query))
+            .toEqual({
+                type: googleAnalyticActionTypes.CLICK_CONSOLE_USER_SEARCH,
+                label: query
+            });
+    });
+
     it ('should create the SEND_GROUP_INVITE action', () => {
         expect(googleAnalyticActionCreator.sendGroupInviteTrackingEvent())
             .toEqual({

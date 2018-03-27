@@ -1,5 +1,5 @@
-
 import GoogleAnalyticTracker from './GoogleAnalyticTracker';
+import { UPDATE_REGION as updateRegionAction } from 'actiontypes/region';
 
 const currentNodeEnv = process.env.NODE_ENV;
 
@@ -73,7 +73,33 @@ describe('GoogleAnalyticTracker', () => {
                 });
             });
 
-            describe('non google analytic action', () => {
+            describe('region action', () => {
+                const regionAction = updateRegionAction.split('/');
+                const category = regionAction[0];
+                const action = regionAction[1];
+                const region = 'us';
+                const regionEvent = {
+                    type: `${category}/${action}`,
+                    region
+                };
+
+                beforeEach(() => {
+                    tracker.trackEvent(regionEvent);
+                });
+
+                it('should call gtag with', () => {
+                    expect(gtag).toHaveBeenCalledWith(
+                        'event',
+                        action,
+                        {
+                            event_category: category,
+                            event_label: region
+                        }
+                    );
+                });
+            });
+
+            describe('all remaining actions', () => {
                 const action = 'action';
                 const category = 'category';
                 const nonGAevent = {

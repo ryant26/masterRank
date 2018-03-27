@@ -1,10 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
+
 import 'isomorphic-fetch';
 
 import ConsoleUserSearch from 'components/Login/ConsoleUserSearch/ConsoleUserSearch';
 import UserSelector from 'components/Login/UserSelector/UserSelector';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
+import { clickConsoleUserSearchTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
+
 import { users as arrayUsers } from 'resources/users';
 
 const mockResponse = (status, statusText, jsonObj) => {
@@ -17,14 +22,17 @@ const mockResponse = (status, statusText, jsonObj) => {
     });
 };
 
+const mockStore = configureStore();
 const getConsoleUserSearchComponent = (platform) => {
+    let store = mockStore({});
+    store.dispatch = jest.fn();
     return shallow(
-        <ConsoleUserSearch platform={platform}/>
-    );
+        <ConsoleUserSearch platform={platform} store={store}/>
+    ).dive();
 };
 
 describe('ConsoleUserSearch', () => {
-    const handleSubmitSpy = jest.spyOn(ConsoleUserSearch.prototype, "handleSubmit");
+    let handleSubmitSpy;
     const platform = 'xbl';
     const displayName = arrayUsers[0].platformDisplayName;
     const sanitizeDisplayName = displayName.replace(/#/g, '-');
@@ -33,6 +41,7 @@ describe('ConsoleUserSearch', () => {
 
     beforeEach(() => {
         ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform);
+        handleSubmitSpy = jest.spyOn(ConsoleUserSearchComponent.instance(), "handleSubmit");
     });
 
     it('should render when component loads', () => {
@@ -128,8 +137,17 @@ describe('ConsoleUserSearch', () => {
             ConsoleUserSearchComponent.setState({
                 displayName: displayName
             });
+            expect(clickConsoleUserSearchTrackingEvent).not.toHaveBeenCalled();
             window.fetch = jest.fn().mockImplementation(() => Promise.resolve({}));
             ConsoleUserSearchComponent.find('.button-primary').simulate('click');
+        });
+
+        afterEach(() => {
+            clickConsoleUserSearchTrackingEvent.mockClear();
+        });
+
+        it('should dispatch clickConsoleUserSearch with queried displayName', () => {
+            expect(clickConsoleUserSearchTrackingEvent).toHaveBeenCalledWith(displayName);
         });
 
         it('should set state isSearching to true', () => {

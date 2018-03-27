@@ -13,6 +13,11 @@ class GoogleAnalyticTracker {
               event_category: category,
               event_label: event.label
             });
+        } else if(category === 'region') {
+            this.gtag('event', action, {
+              event_category: category,
+              event_label: event.region
+            });
         } else {
             this.gtag('event', action, {
               event_category: category

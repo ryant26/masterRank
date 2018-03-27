@@ -1,12 +1,15 @@
 import React, {
   Component
 } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import UserSelector from 'components/Login/UserSelector/UserSelector';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
+import { clickConsoleUserSearchTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
-export default class ConsoleUserSearch extends Component {
+class ConsoleUserSearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,9 +36,11 @@ export default class ConsoleUserSearch extends Component {
     }
 
     onClick() {
+        let query = this.state.displayName;
+        this.props.dispatchClickConsoleUserSearchTrackingEvent(query);
         this.setState({
             isSearching: true,
-            lastSearch: this.state.displayName,
+            lastSearch: query,
             users: undefined
         });
     }
@@ -136,4 +141,13 @@ export default class ConsoleUserSearch extends Component {
 
 ConsoleUserSearch.propTypes = {
     platform: PropTypes.string.isRequired,
+    dispatchClickConsoleUserSearchTrackingEvent: PropTypes.func.isRequired
 };
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        dispatchClickConsoleUserSearchTrackingEvent: clickConsoleUserSearchTrackingEvent
+    }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(ConsoleUserSearch);

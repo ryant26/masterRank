@@ -1,6 +1,8 @@
 export const START_LOGIN = 'googleAnalytic/START_LOGIN';
 export const STOP_LOGIN = 'googleAnalytic/STOP_LOGIN';
 
+export const CLICK_CONSOLE_USER_SEARCH = 'googleAnalytic/CLICK_CONSOLE_USER_SEARCH';
+
 export const SEND_GROUP_INVITE = 'googleAnalytic/SEND_GROUP_INVITE';
 export const ACCEPT_GROUP_INVITE = 'googleAnalytic/ACCEPT_GROUP_INVITE';
 

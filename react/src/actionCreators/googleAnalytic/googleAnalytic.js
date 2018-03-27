@@ -14,6 +14,13 @@ export const stopLoginTrackingEvent = (platformDisplayName) => {
   };
 };
 
+export const clickConsoleUserSearchTrackingEvent = (query) => {
+  return {
+    type: googleAnalyticActionTypes.CLICK_CONSOLE_USER_SEARCH,
+    label: query
+  };
+};
+
 export const sendGroupInviteTrackingEvent = () => {
   return {
     type: googleAnalyticActionTypes.SEND_GROUP_INVITE,
