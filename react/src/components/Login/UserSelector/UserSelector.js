@@ -8,14 +8,16 @@ import {
     pushBlockingEvent as pushLoadingEventAction,
     popBlockingEvent as popLoadingEventAction
 } from 'actionCreators/loading';
+import { startLoginTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
-const UserSelector = ({users, region, setLoading, clearLoading}) => {
+const UserSelector = ({users, region, dispatchStartLoginTrackingEvent, setLoading, clearLoading}) => {
 
     function onClick(user) {
         const platform = user.platform;
         const username = user.platformDisplayName;
         const consoleCallbackUrl = `/auth/${platform}/callback?region=${region}&username=${username}&password=none`;
 
+        dispatchStartLoginTrackingEvent(platform);
         setLoading();
 
         let xhr = new XMLHttpRequest();
@@ -43,6 +45,7 @@ const UserSelector = ({users, region, setLoading, clearLoading}) => {
 UserSelector.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   region: PropTypes.string.isRequired,
+  dispatchStartLoginTrackingEvent: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
   clearLoading: PropTypes.func.isRequired
 };
@@ -55,6 +58,7 @@ const mapStateToProps = function(state){
 
 const mapDispatchToProps = function (dispatch) {
     return bindActionCreators({
+        dispatchStartLoginTrackingEvent: startLoginTrackingEvent,
         setLoading: pushLoadingEventAction,
         clearLoading: popLoadingEventAction
     }, dispatch);
