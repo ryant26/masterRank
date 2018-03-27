@@ -22,7 +22,6 @@ jest.mock('actionCreators/group/leaveGroupAsync');
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 jest.mock('actionCreators/preferredHeroes/updatePreferredHeroesAsync');
 import {
-    loginTrackingEvent,
     sendGroupInviteTrackingEvent,
     acceptGroupInviteTrackingEvent
 } from 'actionCreators/googleAnalytic/googleAnalytic';
@@ -104,7 +103,6 @@ const clearAllMocks = () => {
     removeGroupInviteAction.mockClear();
     pushBlockingLoadingAction.mockClear();
     popBlockingLoadingAction.mockClear();
-    loginTrackingEvent.mockClear();
     sendGroupInviteTrackingEvent.mockClear();
     acceptGroupInviteTrackingEvent.mockClear();
 };
@@ -127,11 +125,6 @@ describe('Model', () => {
     });
 
     describe('Constructor', () => {
-
-        it("should dispatch login event with user's platform dipaly name", () => {
-            expect(loginTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
-        });
-
         it('should set the loading state', () => {
             expect(pushBlockingLoadingAction).toHaveBeenCalled();
         });

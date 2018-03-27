@@ -6,10 +6,19 @@ import { generateMockUser } from '../../utilities/test/mockingUtilities';
 describe('googleAnalytic',() => {
     const user = generateMockUser();
 
-    it ('should create the LOGIN action', () => {
-        expect(googleAnalyticActionCreator.loginTrackingEvent(user.platformDisplayName))
+    it ('should create the START_LOGIN action', () => {
+        const platform = 'pc';
+        expect(googleAnalyticActionCreator.startLoginTrackingEvent(platform))
             .toEqual({
-                type: googleAnalyticActionTypes.LOGIN,
+                type: googleAnalyticActionTypes.START_LOGIN,
+                label: platform
+            });
+    });
+
+    it ('should create the STOP_LOGIN action', () => {
+        expect(googleAnalyticActionCreator.stopLoginTrackingEvent(user.platformDisplayName))
+            .toEqual({
+                type: googleAnalyticActionTypes.STOP_LOGIN,
                 label: user.platformDisplayName
             });
     });

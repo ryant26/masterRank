@@ -8,6 +8,7 @@ import {
 import { preferMostPlayedHeroesAsync } from 'actionCreators/preferredHeroes/preferMostPlayedHeroesAsync';
 import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerAsync';
 import { updateHeroes as updatePreferredHeroes } from 'actionCreators/preferredHeroes/preferredHeroes';
+import { stopLoginTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 import NotRealHeroes from 'resources/metaListFillerHeroes';
 
@@ -44,6 +45,7 @@ export const syncClientAndServerHeroesAsync = (heroesFromServer, socket) => {
 
         //Pushed in models.initialize
         dispatch(popBlockingLoadingAction());
+        dispatch(stopLoginTrackingEvent(user.platformDisplayName));
     };
 };
 

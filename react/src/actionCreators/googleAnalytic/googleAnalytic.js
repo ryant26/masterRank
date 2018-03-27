@@ -1,8 +1,15 @@
 import * as googleAnalyticActionTypes from '../../actiontypes/googleAnalytic';
 
-export const loginTrackingEvent = (platformDisplayName) => {
+export const startLoginTrackingEvent = (platform) => {
   return {
-    type: googleAnalyticActionTypes.LOGIN,
+    type: googleAnalyticActionTypes.START_LOGIN,
+    label: platform
+  };
+};
+
+export const stopLoginTrackingEvent = (platformDisplayName) => {
+  return {
+    type: googleAnalyticActionTypes.STOP_LOGIN,
     label: platformDisplayName
   };
 };
