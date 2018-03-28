@@ -16,7 +16,7 @@ import { addHeroesToServerAsync } from 'actionCreators/heroes/addHeroesToServerA
 jest.mock('actionCreators/heroes/addHeroesToServerAsync');
 import { updateHeroes as updatePreferredHeroes } from "actionCreators/preferredHeroes/preferredHeroes";
 jest.mock('actionCreators/preferredHeroes/preferredHeroes');
-import { stopLoginTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+import { syncClientAndServerTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 import NotRealHeroes from 'resources/metaListFillerHeroes';
@@ -31,7 +31,7 @@ const clearAllMockedImports = () => {
     preferMostPlayedHeroesAsync.mockClear();
     addHeroesToServerAsync.mockClear();
     updatePreferredHeroes.mockClear();
-    stopLoginTrackingEvent.mockClear();
+    syncClientAndServerTrackingEvent.mockClear();
 };
 
 describe('syncClientAndServerHeroesAsync', () => {
@@ -94,8 +94,8 @@ describe('syncClientAndServerHeroesAsync', () => {
             expect(popBlockingLoadingAction).toHaveBeenCalled();
         });
 
-        it('dispatch stopLoginTrackingEvent', () => {
-            expect(stopLoginTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
+        it('dispatch syncClientAndServerTrackingEvent', () => {
+            expect(syncClientAndServerTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
         });
     });
 

@@ -10,7 +10,7 @@ import {
     popBlockingEvent as popLoadingEventAction
 } from 'actionCreators/loading';
 jest.mock('actionCreators/loading');
-import { startLoginTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 import { users as arrayUsers} from 'resources/users';
@@ -67,7 +67,7 @@ describe('UserSelector', () => {
             mockLocation();
             mockXhr = getXhrMockClass();
             window.XMLHttpRequest = () => mockXhr;
-            expect(startLoginTrackingEvent).not.toHaveBeenCalled();
+            expect(signInTrackingEvent).not.toHaveBeenCalled();
             expect(pushLoadingEventAction).not.toHaveBeenCalled();
             UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
             expect(mockXhr.open).toBeCalledWith('POST', consoleCallbackUrl, true);
@@ -75,13 +75,13 @@ describe('UserSelector', () => {
         });
 
         afterEach(() => {
-            startLoginTrackingEvent.mockClear();
+            signInTrackingEvent.mockClear();
             pushLoadingEventAction.mockClear();
             popLoadingEventAction.mockClear();
         });
 
-        it("should dispatch startLoginTrackingEvent with user's platform", () => {
-            expect(startLoginTrackingEvent).toHaveBeenCalledWith(platform);
+        it("should dispatch signInTrackingEvent with user's platform", () => {
+            expect(signInTrackingEvent).toHaveBeenCalledWith(platform);
         });
 
         it('should set the loading state', () => {

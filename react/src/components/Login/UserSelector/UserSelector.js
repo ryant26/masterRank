@@ -8,16 +8,16 @@ import {
     pushBlockingEvent as pushLoadingEventAction,
     popBlockingEvent as popLoadingEventAction
 } from 'actionCreators/loading';
-import { startLoginTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
-const UserSelector = ({users, region, dispatchStartLoginTrackingEvent, setLoading, clearLoading}) => {
+const UserSelector = ({users, region, trackSignIn, setLoading, clearLoading}) => {
 
     function onClick(user) {
         const platform = user.platform;
         const username = user.platformDisplayName;
         const consoleCallbackUrl = `/auth/${platform}/callback?region=${region}&username=${username}&password=none`;
 
-        dispatchStartLoginTrackingEvent(platform);
+        trackSignIn(platform);
         setLoading();
 
         let xhr = new XMLHttpRequest();
@@ -45,7 +45,7 @@ const UserSelector = ({users, region, dispatchStartLoginTrackingEvent, setLoadin
 UserSelector.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   region: PropTypes.string.isRequired,
-  dispatchStartLoginTrackingEvent: PropTypes.func.isRequired,
+  trackSignIn: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
   clearLoading: PropTypes.func.isRequired
 };
@@ -58,7 +58,7 @@ const mapStateToProps = function(state){
 
 const mapDispatchToProps = function (dispatch) {
     return bindActionCreators({
-        dispatchStartLoginTrackingEvent: startLoginTrackingEvent,
+        trackSignIn: signInTrackingEvent,
         setLoading: pushLoadingEventAction,
         clearLoading: popLoadingEventAction
     }, dispatch);

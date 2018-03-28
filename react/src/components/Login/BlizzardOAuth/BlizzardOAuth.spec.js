@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
-import { startLoginTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 import { pushBlockingEvent as pushBlockingEventAction } from 'actionCreators/loading';
 jest.mock('actionCreators/loading');
@@ -47,13 +47,13 @@ describe('BlizzardOAuth', () => {
 
         beforeEach(() => {
             mockLocation();
-            expect(startLoginTrackingEvent).not.toHaveBeenCalled();
+            expect(signInTrackingEvent).not.toHaveBeenCalled();
             expect(pushBlockingEventAction).not.toHaveBeenCalled();
             BlizzardOAuthComponent.find('.button-primary').simulate('click');
         });
 
         afterEach(() => {
-            startLoginTrackingEvent.mockClear();
+            signInTrackingEvent.mockClear();
             pushBlockingEventAction.mockClear();
         });
 
@@ -65,8 +65,8 @@ describe('BlizzardOAuth', () => {
             expect(pushBlockingEventAction).toHaveBeenCalled();
         });
 
-        it("should dispatch startLoginTrackingEvent with user's platform", () => {
-            expect(startLoginTrackingEvent).toHaveBeenCalledWith(platform);
+        it("should dispatch signInTrackingEvent with user's platform", () => {
+            expect(signInTrackingEvent).toHaveBeenCalledWith(platform);
         });
     });
 });

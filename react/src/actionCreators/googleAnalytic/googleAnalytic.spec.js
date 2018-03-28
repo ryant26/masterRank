@@ -6,19 +6,27 @@ import { generateMockUser } from '../../utilities/test/mockingUtilities';
 describe('googleAnalytic',() => {
     const user = generateMockUser();
 
-    it ('should create the START_LOGIN action', () => {
+    it ('should create the SIGN_IN action', () => {
         const platform = 'pc';
-        expect(googleAnalyticActionCreator.startLoginTrackingEvent(platform))
+        expect(googleAnalyticActionCreator.signInTrackingEvent(platform))
             .toEqual({
-                type: googleAnalyticActionTypes.START_LOGIN,
+                type: googleAnalyticActionTypes.SIGN_IN,
                 label: platform
             });
     });
 
-    it ('should create the STOP_LOGIN action', () => {
-        expect(googleAnalyticActionCreator.stopLoginTrackingEvent(user.platformDisplayName))
+    it ('should create the SYNC_CLIENT_AND_SERVER_HEROES_COMPLETE action', () => {
+        expect(googleAnalyticActionCreator.syncClientAndServerTrackingEvent(user.platformDisplayName))
             .toEqual({
-                type: googleAnalyticActionTypes.STOP_LOGIN,
+                type: googleAnalyticActionTypes.SYNC_CLIENT_AND_SERVER_HEROES_COMPLETE,
+                label: user.platformDisplayName
+            });
+    });
+
+    it ('should create the AUTHENTICATION_SUCCESSFUL action', () => {
+        expect(googleAnalyticActionCreator.authenticationTrackingEvent(user.platformDisplayName))
+            .toEqual({
+                type: googleAnalyticActionTypes.AUTHENTICATION_SUCCESSFUL,
                 label: user.platformDisplayName
             });
     });
@@ -85,6 +93,14 @@ describe('googleAnalytic',() => {
             .toEqual({
                 type: googleAnalyticActionTypes.UPDATE_PREFERRED_HEROES,
                 label: 'UPDATE_PREFERRED_HEROES'
+            });
+    });
+
+    it ('should create the SOCKET_DISCONNECT action', () => {
+        expect(googleAnalyticActionCreator.socketDisconnectTrackingEvent(user.platformDisplayName))
+            .toEqual({
+                type: googleAnalyticActionTypes.SOCKET_DISCONNECT,
+                label: user.platformDisplayName
             });
     });
 });

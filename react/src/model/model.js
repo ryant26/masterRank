@@ -27,7 +27,8 @@ import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updat
 import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
 import {
     sendGroupInviteTrackingEvent,
-    acceptGroupInviteTrackingEvent
+    acceptGroupInviteTrackingEvent,
+    socketDisconnectTrackingEvent
 } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 
@@ -157,6 +158,8 @@ const _updateGroupInStore = function(groupInviteObject) {
 };
 
 const _handleSocketDisconnect = () => {
+    let platformDisplayName = store.getState().user.platformDisplayName;
+    store.dispatch(socketDisconnectTrackingEvent(platformDisplayName));
     Notifications.disconnectedNotification();
     store.dispatch(pushBlockingLoadingAction());
 };

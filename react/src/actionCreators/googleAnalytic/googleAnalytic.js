@@ -1,15 +1,22 @@
 import * as googleAnalyticActionTypes from '../../actiontypes/googleAnalytic';
 
-export const startLoginTrackingEvent = (platform) => {
+export const signInTrackingEvent = (platform) => {
   return {
-    type: googleAnalyticActionTypes.START_LOGIN,
+    type: googleAnalyticActionTypes.SIGN_IN,
     label: platform
   };
 };
 
-export const stopLoginTrackingEvent = (platformDisplayName) => {
+export const authenticationTrackingEvent = (platformDisplayName) => {
   return {
-    type: googleAnalyticActionTypes.STOP_LOGIN,
+    type: googleAnalyticActionTypes.AUTHENTICATION_SUCCESSFUL,
+    label: platformDisplayName
+  };
+};
+
+export const syncClientAndServerTrackingEvent = (platformDisplayName) => {
+  return {
+    type: googleAnalyticActionTypes.SYNC_CLIENT_AND_SERVER_HEROES_COMPLETE,
     label: platformDisplayName
   };
 };
@@ -67,5 +74,12 @@ export const updatePreferredHeroesTrackingEvent = () => {
   return {
     type: googleAnalyticActionTypes.UPDATE_PREFERRED_HEROES,
     label: 'UPDATE_PREFERRED_HEROES'
+  };
+};
+
+export const socketDisconnectTrackingEvent = (platformDisplayName) => {
+  return {
+    type: googleAnalyticActionTypes.SOCKET_DISCONNECT,
+    label: platformDisplayName
   };
 };

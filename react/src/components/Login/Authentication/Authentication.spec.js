@@ -8,15 +8,17 @@ import Authentication from 'components/Login/Authentication/Authentication';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import token from 'resources/token';
 import { home } from 'components/Routes/links';
-jest.mock('actionCreators/user', () => {
-    return jest.fn();
-});
+import { updateUser as updateUserAction } from 'actionCreators/user';
+jest.mock('actionCreators/user');
+import { authenticationTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
 const decode  = require('jwt-decode');
 
 const mockStore = configureStore();
 const getConnectAuthenticationContainer = () => {
     let store = mockStore({});
+    store.dispatch = jest.fn();
 
     return shallow(
         <Authentication updateUserAction={jest.fn()} store={store} />
@@ -90,6 +92,11 @@ describe('Authentication', () => {
             return fetchPromise;
         });
 
+        afterEach(() => {
+            updateUserAction.mockClear();
+            authenticationTrackingEvent.mockClear();
+        });
+
         it('should move access token in cookies to local storage', () => {
             expect(window.localStorage.setItem).toHaveBeenCalledWith('accessToken', token);
         });
@@ -101,7 +108,11 @@ describe('Authentication', () => {
         });
 
         it('should dispatch user update action', () => {
-            expect(connectAuthenticationContainer.props().updateUserAction).toHaveBeenCalledWith(user);
+            expect(updateUserAction).toHaveBeenCalledWith(user);
+        });
+
+        it("should track successful authentication with user's platform display name", () => {
+            expect(authenticationTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
         });
 
         it('should delete the access token in cookies', () => {

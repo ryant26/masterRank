@@ -7,7 +7,7 @@ describe('Update Region', () => {
         expect(RegionActions.updateRegion('us'))
             .toEqual({
                 type: RegionActionTypes.UPDATE_REGION,
-                region: 'us'
+                label: 'us'
             });
     });
 });

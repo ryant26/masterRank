@@ -23,7 +23,8 @@ import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updat
 jest.mock('actionCreators/preferredHeroes/updatePreferredHeroesAsync');
 import {
     sendGroupInviteTrackingEvent,
-    acceptGroupInviteTrackingEvent
+    acceptGroupInviteTrackingEvent,
+    socketDisconnectTrackingEvent
 } from 'actionCreators/googleAnalytic/googleAnalytic';
 jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
@@ -105,6 +106,7 @@ const clearAllMocks = () => {
     popBlockingLoadingAction.mockClear();
     sendGroupInviteTrackingEvent.mockClear();
     acceptGroupInviteTrackingEvent.mockClear();
+    socketDisconnectTrackingEvent.mockClear();
 };
 describe('Model', () => {
     const user = generateMockUser();
@@ -135,6 +137,11 @@ describe('Model', () => {
 
         describe('when socket disconnects', () => {
             const reason = 'lost connection to socket server';
+
+            it("should dispatch tracking event with user's platform display name", () => {
+                socket.socketClient.emit(clientEvents.disconnect, reason);
+                expect(socketDisconnectTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
+            });
 
             it('should send disconnect notification to user', () => {
                 socket.socketClient.emit(clientEvents.disconnect, reason);
