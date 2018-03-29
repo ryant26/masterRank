@@ -49,6 +49,7 @@ describe('Login Page', () => {
             region: 'eu'
         });
         expect(LoginPageComponent.find(BlizzardOAuth)).toHaveLength(1);
+        expect(LoginPageComponent.find(BlizzardOAuth).props().platform).toBe('pc');
         expect(LoginPageComponent.find(BlizzardOAuth).props().region).toBe('eu');
 
     });

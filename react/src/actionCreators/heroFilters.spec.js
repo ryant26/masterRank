@@ -8,7 +8,8 @@ describe('addFilter', () => {
     expect(HeroFilterActionCreators.addFilter(tracerFilter))
       .toEqual({
         type: heroFiltersActionType.ADD_FILTER,
-        heroName: tracerFilter
+        heroName: tracerFilter,
+        label: tracerFilter
       });
   });
 });
@@ -18,7 +19,8 @@ describe('removeFilter', () => {
         expect(HeroFilterActionCreators.removeFilter(tracerFilter))
             .toEqual({
                 type: heroFiltersActionType.REMOVE_FILTER,
-                heroName: tracerFilter
+                heroName: tracerFilter,
+                label: tracerFilter
             });
     });
 });
@@ -27,7 +29,8 @@ describe('removeAllFilter', () => {
     it ('should create the REMOVE_FILTER action', () => {
         expect(HeroFilterActionCreators.removeAllFilters())
             .toEqual({
-                type: heroFiltersActionType.REMOVE_ALL_FILTERS
+                type: heroFiltersActionType.REMOVE_ALL_FILTERS,
+                label: 'REMOVE_ALL_FILTERS'
             });
     });
 });

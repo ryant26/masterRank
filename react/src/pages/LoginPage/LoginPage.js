@@ -64,7 +64,7 @@ class LoginPage extends Component {
                     </div>
                 </div>
                 { this.state.platform === 'pc'
-                    ? <BlizzardOAuth region={this.state.region}/>
+                    ? <BlizzardOAuth region={this.state.region} platform={this.state.platform}/>
                     : <ConsoleUserSearch platform={this.state.platform}/>
                 }
 

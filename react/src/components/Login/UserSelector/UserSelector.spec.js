@@ -2,12 +2,32 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import { users as arrayUsers} from 'resources/users';
 import UserSelector from 'components/Login/UserSelector/UserSelector';
 import UserCard from 'components/UserCard/UserCard';
 import { home } from 'components/Routes/links';
+import {
+    pushBlockingEvent as pushLoadingEventAction,
+    popBlockingEvent as popLoadingEventAction
+} from 'actionCreators/loading';
+jest.mock('actionCreators/loading');
+import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
+
+import { users as arrayUsers} from 'resources/users';
+import { mockLocation } from 'utilities/test/mockingUtilities';
 
 const mockStore = configureStore();
+
+const getUserSelectorComponent = (users, region) => {
+    let store = mockStore({
+        region: region
+    });
+    store.dispatch = jest.fn();
+
+    return shallow(
+        <UserSelector users={users} store={store}/>
+    ).dive();
+};
 
 describe('UserSelector', () => {
     const region = 'us';
@@ -15,20 +35,9 @@ describe('UserSelector', () => {
     const platform = user.platform;
     const username = user.platformDisplayName;
     const consoleCallbackUrl = `/auth/${platform}/callback?region=${region}&username=${username}&password=none`;
-    let store;
     let UserSelectorComponent;
 
-    const getUserSelectorComponent = (users, region) => {
-        store = mockStore({
-            region: region
-        });
-        return shallow(
-            <UserSelector users={users} store={store}/>
-        ).dive();
-    };
-
     beforeEach(() => {
-        window.location.assign = jest.fn();
         UserSelectorComponent = getUserSelectorComponent(arrayUsers, region);
     });
 
@@ -55,27 +64,40 @@ describe('UserSelector', () => {
         };
 
         beforeEach(() => {
+            mockLocation();
             mockXhr = getXhrMockClass();
             window.XMLHttpRequest = () => mockXhr;
+            expect(signInTrackingEvent).not.toHaveBeenCalled();
+            expect(pushLoadingEventAction).not.toHaveBeenCalled();
             UserSelectorComponent.find(UserCard).at(0).simulate('click', user);
             expect(mockXhr.open).toBeCalledWith('POST', consoleCallbackUrl, true);
             expect(mockXhr.send).toBeCalled();
         });
 
+        afterEach(() => {
+            signInTrackingEvent.mockClear();
+            pushLoadingEventAction.mockClear();
+            popLoadingEventAction.mockClear();
+        });
+
+        it("should dispatch signInTrackingEvent with user's platform", () => {
+            expect(signInTrackingEvent).toHaveBeenCalledWith(platform);
+        });
+
         it('should set the loading state', () => {
-            expect(store.getActions()).toContainEqual(expect.objectContaining({type: 'loading/PUSH_BLOCKING_EVENT'}));
+            expect(pushLoadingEventAction).toHaveBeenCalled();
         });
 
         it('should clear the loading state when the request returns successfully', () => {
-            expect(store.getActions()).not.toContainEqual(expect.objectContaining({type: 'loading/POP_BLOCKING_EVENT'}));
+            expect(popLoadingEventAction).not.toHaveBeenCalled();
             mockXhr.onload();
-            expect(store.getActions()).toContainEqual(expect.objectContaining({type: 'loading/POP_BLOCKING_EVENT'}));
+            expect(popLoadingEventAction).toHaveBeenCalled();
         });
 
         it('should clear the loading state when the request returns unsuccessfully', () => {
-            expect(store.getActions()).not.toContainEqual(expect.objectContaining({type: 'loading/POP_BLOCKING_EVENT'}));
+            expect(popLoadingEventAction).not.toHaveBeenCalled();
             mockXhr.onerror();
-            expect(store.getActions()).toContainEqual(expect.objectContaining({type: 'loading/POP_BLOCKING_EVENT'}));
+            expect(popLoadingEventAction).toHaveBeenCalled();
         });
 
         it('should wait to redirect till post is successful', () => {

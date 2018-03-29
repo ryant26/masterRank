@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {pushBlockingEvent as pushBlockingEventAction} from 'actionCreators/loading';
+import { pushBlockingEvent as pushBlockingEventAction } from 'actionCreators/loading';
+import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 
-const BlizzardOAuth = ({region, setLoading}) => {
+const BlizzardOAuth = ({region, platform, trackSignIn, setLoading}) => {
 
     function onClick() {
+        trackSignIn(platform);
         setLoading();
         window.location.assign(redirectBlizzardAuthUrl());
     }
@@ -31,11 +33,14 @@ const BlizzardOAuth = ({region, setLoading}) => {
 
 BlizzardOAuth.propTypes = {
     region: PropTypes.string.isRequired,
-    setLoading: PropTypes.func.isRequired,
+    platform: PropTypes.string.isRequired,
+    trackSignIn:  PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
+        trackSignIn: signInTrackingEvent,
         setLoading: pushBlockingEventAction
     }, dispatch);
 };

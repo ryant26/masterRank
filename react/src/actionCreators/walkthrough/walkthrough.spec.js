@@ -10,7 +10,8 @@ describe('Walkthrough', () => {
         expect(WalkthroughActions.startWalkthrough(user.platformDisplayName))
             .toEqual({
                 type: WalkthroughActionTypes.START_WALKTHROUGH,
-                platformDisplayName: user.platformDisplayName
+                platformDisplayName: user.platformDisplayName,
+                label: user.platformDisplayName
             });
     });
 
@@ -18,7 +19,8 @@ describe('Walkthrough', () => {
         expect(WalkthroughActions.finishWalkthrough(user.platformDisplayName))
             .toEqual({
                 type: WalkthroughActionTypes.FINISH_WALKTHROUGH,
-                platformDisplayName: user.platformDisplayName
+                platformDisplayName: user.platformDisplayName,
+                label: user.platformDisplayName
             });
     });
 });

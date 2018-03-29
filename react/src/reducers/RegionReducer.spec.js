@@ -7,7 +7,7 @@ describe('Platform Reducer', () => {
         let region = 'us';
         expect(RegionReducer(undefined, {
             type: RegionActionTypes.UPDATE_REGION,
-            region: region,
+            label: region,
         })).toEqual(region);
     });
 });
