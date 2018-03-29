@@ -7,7 +7,8 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 
 import LoginPage from 'pages/LoginPage/LoginPage';
-import {updateUser as updateUserAction} from 'actionCreators/user';
+import { updateUser as updateUserAction } from 'actionCreators/user';
+import { authenticationTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 import { home } from 'components/Routes/links';
 
 const decode  = require('jwt-decode');
@@ -47,6 +48,7 @@ class Authentication extends Component {
                 .then(response => response.json())
                 .then(user => {
                     this.props.updateUserAction(user);
+                    this.props.trackAuthentication(user.platformDisplayName);
                     deleteCookie('access_token');
                 });
         }
@@ -71,11 +73,13 @@ class Authentication extends Component {
 
 Authentication.propTypes = {
     updateUserAction: PropTypes.func.isRequired,
+    trackAuthentication: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = function (dispatch) {
   return bindActionCreators({
     updateUserAction: updateUserAction,
+    trackAuthentication: authenticationTrackingEvent
   }, dispatch);
 };
 

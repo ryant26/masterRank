@@ -6,17 +6,15 @@ class GoogleAnalyticTracker {
 
     trackEvent(event) {
         let [category, action] = event.type.split('/');
-        if(process.env.NODE_ENV === 'development') {
-            console.log(`GA event= [${category}, ${action}, ${event.label}]`); // eslint-disable-line
-        } else if(category === 'googleAnalytic') {
-            this.gtag('event', action, {
-              event_category: category,
-              event_label: event.label
-            });
-        } else {
-            this.gtag('event', action, {
-              event_category: category
-            });
+        if(event.label) {
+            if(process.env.NODE_ENV === 'development') {
+                console.log(`GA event= [${category}, ${action}, ${event.label}]`); // eslint-disable-line
+            } else {
+                this.gtag('event', action, {
+                  event_category: category,
+                  event_label: event.label
+                });
+            }
         }
     }
 }

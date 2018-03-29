@@ -26,9 +26,9 @@ import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncC
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
 import {
-    loginTrackingEvent,
     sendGroupInviteTrackingEvent,
-    acceptGroupInviteTrackingEvent
+    acceptGroupInviteTrackingEvent,
+    socketDisconnectTrackingEvent
 } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 
@@ -43,7 +43,6 @@ const initialize = function(passedSocket, passedStore) {
     store = passedStore;
     socket = passedSocket;
 
-    store.dispatch(loginTrackingEvent(store.getState().user.platformDisplayName));
     //Popped in syncClientAndServerHeroesAsync()
     store.dispatch(pushBlockingLoadingAction());
 
@@ -159,6 +158,8 @@ const _updateGroupInStore = function(groupInviteObject) {
 };
 
 const _handleSocketDisconnect = () => {
+    let platformDisplayName = store.getState().user.platformDisplayName;
+    store.dispatch(socketDisconnectTrackingEvent(platformDisplayName));
     Notifications.disconnectedNotification();
     store.dispatch(pushBlockingLoadingAction());
 };

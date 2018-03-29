@@ -3,20 +3,32 @@ import { shallow } from 'enzyme';
 
 import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
+import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+jest.mock('actionCreators/googleAnalytic/googleAnalytic');
+import { pushBlockingEvent as pushBlockingEventAction } from 'actionCreators/loading';
+jest.mock('actionCreators/loading');
+
 import configureStore from 'redux-mock-store';
+import { mockLocation } from 'utilities/test/mockingUtilities';
 
 const mockStore = configureStore();
 
-describe('BlizzardOAuth', () => {
+const getBlizzardOAuth = (region, platform) => {
+    let store = mockStore({});
+    store.dispatch = jest.fn();
 
+    return shallow(
+        <BlizzardOAuth region={region} platform={platform} store={store}/>
+    ).dive();
+};
+
+describe('BlizzardOAuth', () => {
+    const region = 'us';
+    const platform = 'pc';
     let BlizzardOAuthComponent;
-    let store;
 
     beforeEach(() => {
-        store = mockStore({});
-        BlizzardOAuthComponent = shallow(
-            <BlizzardOAuth region="us" store={store}/>
-        ).dive();
+        BlizzardOAuthComponent = getBlizzardOAuth(region, platform);
     });
 
     it('should render when component loads', () => {
@@ -31,21 +43,30 @@ describe('BlizzardOAuth', () => {
         expect(BlizzardOAuthComponent.find(LoginFailedCard)).toHaveLength(1);
     });
 
-    it('should redirect to "/auth/bnet/callback?region=ANY_REGION" when button is clicked and props region is ANY_REGION', () => {
-        window.location.assign = jest.fn();
-        BlizzardOAuthComponent.setProps({
-           region: 'ANY_REGION',
+    describe('when clicked', () => {
+
+        beforeEach(() => {
+            mockLocation();
+            expect(signInTrackingEvent).not.toHaveBeenCalled();
+            expect(pushBlockingEventAction).not.toHaveBeenCalled();
+            BlizzardOAuthComponent.find('.button-primary').simulate('click');
         });
-        BlizzardOAuthComponent.find('.button-primary').simulate('click');
-        expect(window.location.assign).toHaveBeenCalledWith('/auth/bnet/callback?region=ANY_REGION');
-    });
 
-    it('should call the setLoading function when button is clicked', () => {
-        let setLoading = jest.fn();
-        BlizzardOAuthComponent.setProps({setLoading});
+        afterEach(() => {
+            signInTrackingEvent.mockClear();
+            pushBlockingEventAction.mockClear();
+        });
 
-        expect(setLoading).not.toHaveBeenCalled();
-        BlizzardOAuthComponent.find('.button-primary').simulate('click');
-        expect(setLoading).toHaveBeenCalled();
+        it('should redirect to "/auth/bnet/callback?region=us"', () => {
+            expect(window.location.assign).toHaveBeenCalledWith(`/auth/bnet/callback?region=${region}`);
+        });
+
+        it('should dispatch pushBlockingEventAction when button is clicked', () => {
+            expect(pushBlockingEventAction).toHaveBeenCalled();
+        });
+
+        it("should dispatch signInTrackingEvent with user's platform", () => {
+            expect(signInTrackingEvent).toHaveBeenCalledWith(platform);
+        });
     });
 });
