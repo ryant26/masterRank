@@ -4,12 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { startWalkthrough } from 'actionCreators/walkthrough/walkthrough';
-import { clickTutorialTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
-const TutorialButton = ({ dispatchTutorialTrackingEvent, onStartTutorial, platformDisplayName }) => {
+const TutorialButton = ({ onStartTutorial, platformDisplayName }) => {
 
     const onClick = () => {
-        dispatchTutorialTrackingEvent();
         onStartTutorial(platformDisplayName);
     };
 
@@ -22,8 +20,7 @@ const TutorialButton = ({ dispatchTutorialTrackingEvent, onStartTutorial, platfo
 
 TutorialButton.propTypes =  {
     platformDisplayName: PropTypes.string.isRequired,
-    onStartTutorial: PropTypes.func.isRequired,
-    dispatchTutorialTrackingEvent: PropTypes.func.isRequired,
+    onStartTutorial: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -35,7 +32,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         onStartTutorial: startWalkthrough,
-        dispatchTutorialTrackingEvent: clickTutorialTrackingEvent
     }, dispatch);
 };
 

@@ -24,7 +24,7 @@ class GroupContainer extends Component {
 
     toggleModal() {
         if(this.state.showModal === false) {
-            this.props.onViewTeamStats();
+            this.props.trackViewTeamStats(this.props.user.platformDisplayName);
         }
         this.setState({
             showModal: !this.state.showModal
@@ -110,7 +110,7 @@ GroupContainer.propTypes = {
         }),
     }),
     user: PropTypes.object.isRequired,
-    onViewTeamStats: PropTypes.func.isRequired
+    trackViewTeamStats: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -123,7 +123,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        onViewTeamStats: viewTeamStatsTrackingEvent
+        trackViewTeamStats: viewTeamStatsTrackingEvent
     }, dispatch);
 };
 

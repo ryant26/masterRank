@@ -5,6 +5,7 @@ import { generateMockUser } from '../../utilities/test/mockingUtilities';
 
 describe('googleAnalytic',() => {
     const user = generateMockUser();
+    const platformDisplayName = user.platformDisplayName;
 
     it ('should create the SIGN_IN action', () => {
         const platform = 'pc';
@@ -16,23 +17,23 @@ describe('googleAnalytic',() => {
     });
 
     it ('should create the SYNC_CLIENT_AND_SERVER_HEROES_COMPLETE action', () => {
-        expect(googleAnalyticActionCreator.syncClientAndServerTrackingEvent(user.platformDisplayName))
+        expect(googleAnalyticActionCreator.syncClientAndServerTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.SYNC_CLIENT_AND_SERVER_HEROES_COMPLETE,
-                label: user.platformDisplayName
+                label: platformDisplayName
             });
     });
 
     it ('should create the AUTHENTICATION_SUCCESSFUL action', () => {
-        expect(googleAnalyticActionCreator.authenticationTrackingEvent(user.platformDisplayName))
+        expect(googleAnalyticActionCreator.authenticationTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.AUTHENTICATION_SUCCESSFUL,
-                label: user.platformDisplayName
+                label: platformDisplayName
             });
     });
 
     it ('should create the CLICK_CONSOLE_USER_SEARCH action', () => {
-        let query = 'luckybomb#1470';
+        let query = platformDisplayName;
         expect(googleAnalyticActionCreator.clickConsoleUserSearchTrackingEvent(query))
             .toEqual({
                 type: googleAnalyticActionTypes.CLICK_CONSOLE_USER_SEARCH,
@@ -41,66 +42,58 @@ describe('googleAnalytic',() => {
     });
 
     it ('should create the SEND_GROUP_INVITE action', () => {
-        expect(googleAnalyticActionCreator.sendGroupInviteTrackingEvent())
+        expect(googleAnalyticActionCreator.sendGroupInviteTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.SEND_GROUP_INVITE,
-                label: 'SEND_GROUP_INVITE'
+                label: platformDisplayName
             });
     });
 
     it ('should create the ACCEPT_GROUP_INVITE action', () => {
-        expect(googleAnalyticActionCreator.acceptGroupInviteTrackingEvent())
+        expect(googleAnalyticActionCreator.acceptGroupInviteTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.ACCEPT_GROUP_INVITE,
-                label: 'ACCEPT_GROUP_INVITE'
+                label: platformDisplayName
             });
     });
 
     it ('should create the VIEW_PLAYER_STATS action', () => {
-        expect(googleAnalyticActionCreator.viewPlayerStatsTrackingEvent())
+        expect(googleAnalyticActionCreator.viewPlayerStatsTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.VIEW_PLAYER_STATS,
-                label: 'VIEW_PLAYER_STATS'
+                label: platformDisplayName
             });
     });
 
     it ('should create the VIEW_TEAM_STATS action', () => {
-        expect(googleAnalyticActionCreator.viewTeamStatsTrackingEvent())
+        expect(googleAnalyticActionCreator.viewTeamStatsTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.VIEW_TEAM_STATS,
-                label: 'VIEW_TEAM_STATS'
+                label: platformDisplayName
             });
     });
 
     it ('should create the CLICK_FEEDBACK action', () => {
-        expect(googleAnalyticActionCreator.clickFeedbackTrackingEvent())
+        expect(googleAnalyticActionCreator.clickFeedbackTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.CLICK_FEEDBACK,
-                label: 'CLICK_FEEDBACK'
-            });
-    });
-
-    it ('should create the CLICK_TUTORIAL action', () => {
-        expect(googleAnalyticActionCreator.clickTutorialTrackingEvent())
-            .toEqual({
-                type: googleAnalyticActionTypes.CLICK_TUTORIAL,
-                label: 'CLICK_TUTORIAL'
+                label: platformDisplayName
             });
     });
 
     it ('should create the UPDATE_PREFERRED_HEROES action', () => {
-        expect(googleAnalyticActionCreator.updatePreferredHeroesTrackingEvent())
+        expect(googleAnalyticActionCreator.updatePreferredHeroesTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.UPDATE_PREFERRED_HEROES,
-                label: 'UPDATE_PREFERRED_HEROES'
+                label: platformDisplayName
             });
     });
 
     it ('should create the SOCKET_DISCONNECT action', () => {
-        expect(googleAnalyticActionCreator.socketDisconnectTrackingEvent(user.platformDisplayName))
+        expect(googleAnalyticActionCreator.socketDisconnectTrackingEvent(platformDisplayName))
             .toEqual({
                 type: googleAnalyticActionTypes.SOCKET_DISCONNECT,
-                label: user.platformDisplayName
+                label: platformDisplayName
             });
     });
 });

@@ -280,7 +280,7 @@ describe('Model', () => {
 
                 it('should dispatch acceptGroupInviteTrackingEvent', () => {
                     socket.socketClient.emit(clientEvents.groupInviteAccepted, group);
-                    expect(acceptGroupInviteTrackingEvent).toHaveBeenCalled();
+                    expect(acceptGroupInviteTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
                 });
 
             });
@@ -374,7 +374,7 @@ describe('Model', () => {
 
             it('should dispatch sendGroupInviteTrackingEvent', () => {
                 model.inviteUserToGroup(userObject);
-                expect(sendGroupInviteTrackingEvent).toHaveBeenCalled();
+                expect(sendGroupInviteTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
             });
 
             it('should call websocket.groupInviteSend with userObject', () => {
