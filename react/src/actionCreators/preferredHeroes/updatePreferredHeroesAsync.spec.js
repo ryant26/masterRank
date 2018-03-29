@@ -1,4 +1,4 @@
-import { getMockSocket, mockGetState } from 'utilities/test/mockingUtilities';
+import { generateMockUser, getMockSocket, mockGetState } from 'utilities/test/mockingUtilities';
 
 import { preferredHeroNotification } from 'components/Notifications/Notifications';
 jest.mock('components/Notifications/Notifications');
@@ -13,6 +13,7 @@ jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 
 describe('updatePreferredHeroesAsync', () => {
+    const user = generateMockUser();
     const preferredHeroNames = ['genji', 'tracer', 'widowmaker'];
     const notPreferredHeroNames = ['winston', 'phara'];
     let dispatch;
@@ -23,6 +24,7 @@ describe('updatePreferredHeroesAsync', () => {
         dispatch = jest.fn();
         socket = getMockSocket();
         getState = mockGetState({
+            user,
             preferredHeroes: {
                 heroes: preferredHeroNames
             }
@@ -77,9 +79,9 @@ describe('updatePreferredHeroesAsync', () => {
         expect(updatePreferredHeroesAction).toHaveBeenCalledWith(notPreferredHeroNames);
     });
 
-    it('should call update preferred heroes tracking event', function() {
+    it("should call update preferred heroes tracking event with user's platform display name", function() {
         updatePreferredHeroesAsync(notPreferredHeroNames, socket)(dispatch, getState);
-        expect(updatePreferredHeroesTrackingEvent).toHaveBeenCalled();
+        expect(updatePreferredHeroesTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
     });
 
     it('should remove heroes before attempting to add them', () => {

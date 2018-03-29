@@ -7,11 +7,13 @@ import { feedback } from 'components/Routes/links';
 import { clickFeedbackTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 
-import { mockLocation } from 'utilities/test/mockingUtilities';
+import { generateMockUser, mockLocation } from 'utilities/test/mockingUtilities';
 
 const mockStore = configureStore();
-const shallowFeedbackButton = () => {
-    let store = mockStore({});
+const shallowFeedbackButton = (user) => {
+    let store = mockStore({
+        user
+    });
     store.dispatch = jest.fn();
     return shallow(
         <FeedbackButton store={store}/>
@@ -21,11 +23,12 @@ const shallowFeedbackButton = () => {
 
 
 describe('Feedback button', () => {
+    const user = generateMockUser();
     let wrapper;
 
     beforeEach(() => {
         mockLocation();
-        wrapper = shallowFeedbackButton();
+        wrapper = shallowFeedbackButton(user);
     });
 
     describe('when clicked', () => {
@@ -34,7 +37,7 @@ describe('Feedback button', () => {
         });
 
         it('should dispatch clickFeedbackTrackingEvent', () => {
-            expect(clickFeedbackTrackingEvent).toHaveBeenCalled();
+            expect(clickFeedbackTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
         });
 
         it('should redirect to login page', () => {

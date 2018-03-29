@@ -95,7 +95,8 @@ const updateUser = function(user) {
 };
 
 const inviteUserToGroup = function(userObject) {
-    store.dispatch(sendGroupInviteTrackingEvent());
+    let platformDisplayName = store.getState().user.platformDisplayName;
+    store.dispatch(sendGroupInviteTrackingEvent(platformDisplayName));
     Notifications.inviteSentNotification(userObject.platformDisplayName);
     socket.groupInviteSend(userObject);
 };
@@ -178,7 +179,8 @@ const _handleGroupInviteAccepted = (newGroup) => {
         }
     }
 
-    store.dispatch(acceptGroupInviteTrackingEvent());
+    let platformDisplayName = store.getState().user.platformDisplayName;
+    store.dispatch(acceptGroupInviteTrackingEvent(platformDisplayName));
     store.dispatch(updateGroupAction(newGroup));
 };
 
