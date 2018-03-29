@@ -58,7 +58,7 @@ class HeroCard extends Component {
 
     toggleModal() {
         if(this.state.showModal === false) {
-            this.props.onViewPlayerStats();
+            this.props.trackViewPlayerStats(this.props.user.platformDisplayName);
         }
         this.setState({
             showModal: !this.state.showModal
@@ -152,7 +152,7 @@ HeroCard.propTypes = {
         })
     }).isRequired,
     invitable: PropTypes.bool,
-    onViewPlayerStats: PropTypes.func.isRequired
+    trackViewPlayerStats: PropTypes.func.isRequired
 
 };
 
@@ -165,7 +165,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        onViewPlayerStats: viewPlayerStatsTrackingEvent
+        trackViewPlayerStats: viewPlayerStatsTrackingEvent
     }, dispatch);
 };
 
