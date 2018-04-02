@@ -23,6 +23,12 @@ class PreferredHeroesContainer extends Component {
         this.setHeroPreference = this.setHeroPreference.bind(this);
         this.setSelectedSlot = this.setSelectedSlot.bind(this);
         this.clearHeroPreference = this.clearHeroPreference.bind(this);
+        this.handleStorageEvent = this.handleStorageEvent.bind(this);
+    }
+
+
+    componentDidMount() {
+        window.addEventListener('storage', this.handleStorageEvent);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -31,6 +37,10 @@ class PreferredHeroesContainer extends Component {
                 pendingPreferredHeroes: [...nextProps.heroes]
             };
         });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('storage', this.handleStorageEvent);
     }
 
     setHeroPreference(heroName) {
@@ -97,6 +107,10 @@ class PreferredHeroesContainer extends Component {
                 modalOpen: false
             };
         });
+    }
+
+    handleStorageEvent() {
+        Model.updatePreferredHeroes(JSON.parse(window.localStorage.getItem('state')).preferredHeroes.heroes);
     }
 
     render() {
