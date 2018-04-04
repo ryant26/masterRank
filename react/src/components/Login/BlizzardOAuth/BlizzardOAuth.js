@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { pushBlockingEvent as pushBlockingEventAction } from 'actionCreators/loading';
 import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
+import SiteInformation from 'components/Login/SiteInformation/SiteInformation';
+import ScrollButton from 'components/Login/SiteInformation/ScrollButton/ScrollButton';
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 
 const BlizzardOAuth = ({region, platform, trackSignIn, setLoading}) => {
@@ -20,13 +22,15 @@ const BlizzardOAuth = ({region, platform, trackSignIn, setLoading}) => {
     }
 
     return(
-        <div className="BlizzardOAuth flex flex-column align-center">
+        <div className="BlizzardOAuth flex flex-column align-center grow">
             <div className="button-primary flex align-center justify-center" onClick={onClick}>
                 <div className="button-content">
                     LOGIN VIA BATTLE.NET
                 </div>
             </div>
             <LoginFailedCard/>
+            <ScrollButton/>
+            <SiteInformation/>
         </div>
     );
 };

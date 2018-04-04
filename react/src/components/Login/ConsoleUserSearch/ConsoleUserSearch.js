@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 import UserSelector from 'components/Login/UserSelector/UserSelector';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
+import SiteInformation from 'components/Login/SiteInformation/SiteInformation';
+import ScrollButton from 'components/Login/SiteInformation/ScrollButton/ScrollButton';
 import { clickConsoleUserSearchTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
 class ConsoleUserSearch extends Component {
@@ -134,6 +136,12 @@ class ConsoleUserSearch extends Component {
                         </div>
                     )}
                 </div>
+                { !this.state.users && !this.state.isSearching && !this.state.lastSearch && (
+                    <div className="flex flex-column grow">
+                        <ScrollButton/>
+                        <SiteInformation/>
+                    </div>
+                )}
             </div>
         );
     }

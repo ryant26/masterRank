@@ -1,10 +1,46 @@
 .LoginPage {
+  position: relative;
+  overflow-y: auto;
+
+  & > div {
+    z-index: 1;
+  }
+
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    z-index: 0;
+
+    img {
+      position: relative;
+      top: -300px;
+      width: 100%;
+      height: 900px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $transparentBlue1;
+    }
+  }
+
+
   .title {
-    margin-top: 16vh;
+    margin-top: 150px;
     margin-bottom: 19px;
+    min-height: 66px;
 
     h1 {
-      color: $blue1;
+      color: white;
       font-size: 36pt;
       margin: 5px 0 0 5px;
     }
@@ -16,7 +52,7 @@
 
   .info-line {
     font-size: 16px;
-    color: $gray3;
+    color: white;
     margin-bottom: 75px;
   }
 
@@ -47,11 +83,12 @@
   }
 
   .copyright-box {
-    padding-top:20px;
-    margin-top: auto;
-    margin-bottom: 20px;
+    position: absolute;
+    bottom: 10px;
     color: $gray3;
   }
 
-
+  .BlizzardOAuth {
+    min-height: 60px;
+  }
 }

@@ -1,0 +1,53 @@
+.InformationSection {
+  padding: 60px 20px;
+
+  img {
+    padding: 0 20px;
+
+    height: 500px;
+    width: 600px;
+
+    &.info-1 {
+      height: 300px;
+      width: 600px;
+    }
+
+    &.info-3 {
+      height: 600px;
+      width: 580px;
+    }
+  }
+
+  .section-content {
+    text-align: left;
+    padding: 0 20px;
+
+    .section-text {
+      max-width: 470px;
+
+      ol {
+        margin-left: 15px;
+      }
+    }
+
+    .section-title {
+      margin-bottom: 10px;
+
+      .section-title-text {
+        margin-top: -35px;
+      }
+
+      .section-title-number {
+        font-family: "Industry-Demi", sans-serif;
+        font-size: 72px;
+        color: $gray1;
+      }
+    }
+
+    .button-primary {
+      width: max-content;
+      padding: 5px 30px;
+      margin-top: 20px;
+    }
+  }
+}
