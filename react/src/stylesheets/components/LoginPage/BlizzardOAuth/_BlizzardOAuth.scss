@@ -1,7 +1,7 @@
 .BlizzardOAuth {
   width: 100%;
 
-  .button-primary {
+  & > .button-primary {
     width: 180px;
     min-height: 35px;
     font-family: Industry, Roboto, sans-serif;
@@ -10,6 +10,16 @@
 
   .LoginFailedCard {
     width: 44%;
+  }
+
+  .SiteInformation {
+    position: absolute;
+    top: 100vh;
+  }
+
+  .ScrollButton {
+    margin-top: auto;
+    margin-bottom: 10px;
   }
 
 }
