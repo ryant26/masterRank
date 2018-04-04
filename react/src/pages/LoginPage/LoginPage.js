@@ -42,6 +42,9 @@ class LoginPage extends Component {
     render() {
         return (
             <div className="LoginPage flex flex-column align-center grow">
+                <div className="background">
+                    <img src={require('assets/home-bg.jpg')}/>
+                </div>
                 <div className="title flex align-center">
                     <img className="logo" src={require('assets/logo-icon.png')} alt="logo icon"/>
                     <h1>FIRETEAM.GG</h1>
@@ -67,10 +70,6 @@ class LoginPage extends Component {
                     ? <BlizzardOAuth region={this.state.region} platform={this.state.platform}/>
                     : <ConsoleUserSearch platform={this.state.platform}/>
                 }
-
-                <div className="copyright-box">
-                    Copyright &copy; Fireteam.gg 2018. All Rights Reserved
-                </div>
                 <FullPageLoadingSpinner/>
             </div>
         );
