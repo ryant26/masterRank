@@ -41,6 +41,6 @@ export const updatePreferredHeroesAsync = function(heroes, socket) {
         });
 
         dispatch(updatePreferredHeroesAction(heroes));
-        dispatch(updatePreferredHeroesTrackingEvent());
+        dispatch(updatePreferredHeroesTrackingEvent(getState().user.platformDisplayName));
     };
 };

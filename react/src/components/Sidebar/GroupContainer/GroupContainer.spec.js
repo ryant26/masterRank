@@ -70,7 +70,7 @@ describe('GroupContainer', () => {
                 it('should dispatch viewTeamStatsTrackingEvent', () => {
                     expect(viewTeamStatsTrackingEvent).not.toHaveBeenCalled();
                     GroupContainerComponent.find('.button-four').simulate('click');
-                    expect(viewTeamStatsTrackingEvent).toHaveBeenCalled();
+                    expect(viewTeamStatsTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
                 });
             });
         });

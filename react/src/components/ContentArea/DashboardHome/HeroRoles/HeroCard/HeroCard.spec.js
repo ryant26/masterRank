@@ -167,8 +167,8 @@ describe('HeroCard Component',()=> {
             HeroCardComponent.find('.button-primary').simulate('click');
         });
 
-        it('should call onViewPlayerStats', () => {
-            expect(viewPlayerStatsTrackingEvent).toHaveBeenCalled();
+        it("should call onViewPlayerStats with user's platform display name", () => {
+            expect(viewPlayerStatsTrackingEvent).toHaveBeenCalledWith(user.platformDisplayName);
         });
     });
 

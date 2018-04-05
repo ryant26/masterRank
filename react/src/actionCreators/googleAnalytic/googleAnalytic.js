@@ -28,52 +28,45 @@ export const clickConsoleUserSearchTrackingEvent = (query) => {
   };
 };
 
-export const sendGroupInviteTrackingEvent = () => {
+export const sendGroupInviteTrackingEvent = (platformDisplayName) => {
   return {
     type: googleAnalyticActionTypes.SEND_GROUP_INVITE,
-    label: 'SEND_GROUP_INVITE'
+    label: platformDisplayName
   };
 };
 
-export const acceptGroupInviteTrackingEvent = () => {
+export const acceptGroupInviteTrackingEvent = (platformDisplayName) => {
   return {
     type: googleAnalyticActionTypes.ACCEPT_GROUP_INVITE,
-    label: 'ACCEPT_GROUP_INVITE'
+    label: platformDisplayName
   };
 };
 
-export const viewPlayerStatsTrackingEvent = () => {
+export const viewPlayerStatsTrackingEvent = (platformDisplayName) => {
   return {
     type: googleAnalyticActionTypes.VIEW_PLAYER_STATS,
-    label: 'VIEW_PLAYER_STATS'
+    label: platformDisplayName
   };
 };
 
-export const viewTeamStatsTrackingEvent = () => {
+export const viewTeamStatsTrackingEvent = (platformDisplayName) => {
   return {
     type: googleAnalyticActionTypes.VIEW_TEAM_STATS,
-    label: 'VIEW_TEAM_STATS'
+    label: platformDisplayName
   };
 };
 
-export const clickFeedbackTrackingEvent = () => {
+export const clickFeedbackTrackingEvent = (platformDisplayName) => {
   return {
     type: googleAnalyticActionTypes.CLICK_FEEDBACK,
-    label: 'CLICK_FEEDBACK'
+    label: platformDisplayName
   };
 };
 
-export const clickTutorialTrackingEvent = () => {
-  return {
-    type: googleAnalyticActionTypes.CLICK_TUTORIAL,
-    label: 'CLICK_TUTORIAL'
-  };
-};
-
-export const updatePreferredHeroesTrackingEvent = () => {
+export const updatePreferredHeroesTrackingEvent = (platformDisplayName) => {
   return {
     type: googleAnalyticActionTypes.UPDATE_PREFERRED_HEROES,
-    label: 'UPDATE_PREFERRED_HEROES'
+    label: platformDisplayName
   };
 };
 

@@ -9,7 +9,6 @@ export const VIEW_PLAYER_STATS = 'googleAnalytic/VIEW_PLAYER_STATS';
 export const VIEW_TEAM_STATS = 'googleAnalytic/VIEW_TEAM_STATS';
 
 export const CLICK_FEEDBACK = 'googleAnalytic/CLICK_FEEDBACK';
-export const CLICK_TUTORIAL = 'googleAnalytic/CLICK_TUTORIAL';
 
 export const CLEAR_FILTERS = 'googleAnalytic/CLEAR_FILTERS';
 

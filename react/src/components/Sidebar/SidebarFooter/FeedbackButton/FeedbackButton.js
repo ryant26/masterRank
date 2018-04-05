@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { feedback } from 'components/Routes/links';
 import { clickFeedbackTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 
-const FeedbackButton = ({ dispatchFeedbackTrackingEvent }) => {
+const FeedbackButton = ({ trackFeedback, platformDisplayName }) => {
 
     function onClick() {
-        dispatchFeedbackTrackingEvent();
+        trackFeedback(platformDisplayName);
         window.location.assign(feedback);
     }
 
@@ -21,13 +21,20 @@ const FeedbackButton = ({ dispatchFeedbackTrackingEvent }) => {
 };
 
 FeedbackButton.propTypes = {
-    dispatchFeedbackTrackingEvent: PropTypes.func.isRequired
+    platformDisplayName: PropTypes.string.isRequired,
+    trackFeedback: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        platformDisplayName: state.user.platformDisplayName
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        dispatchFeedbackTrackingEvent: clickFeedbackTrackingEvent
+        trackFeedback: clickFeedbackTrackingEvent
     }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(FeedbackButton);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedbackButton);
