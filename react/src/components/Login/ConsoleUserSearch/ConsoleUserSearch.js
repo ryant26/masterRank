@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import UserSelector from 'components/Login/UserSelector/UserSelector';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import { clickConsoleUserSearchTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+import Raven from 'raven-js';
 
 class ConsoleUserSearch extends Component {
     constructor(props) {
@@ -71,6 +72,7 @@ class ConsoleUserSearch extends Component {
                     });
                 }
             }).catch((error) => {
+                Raven.captureException(error);
                 throw error;
             });
     }

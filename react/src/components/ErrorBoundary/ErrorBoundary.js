@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { clearLocalStorage } from 'utilities/localStorage/localStorageUtilities';
 import {home} from "components/Routes/links";
+import Raven from 'raven-js';
 
 class ErrorBoundary extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class ErrorBoundary extends Component {
             error,
             errorInfo
         });
-        //TODO: add error reporting service
+        Raven.captureException(error, { extra: errorInfo });
     }
 
     clearStateAndReload() {
