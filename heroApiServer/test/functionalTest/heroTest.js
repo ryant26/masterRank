@@ -73,11 +73,11 @@ describe('Hero Tests', function() {
 
         it('should return a null stats field when stats are unavailable', function () {
             return chai.request(server)
-                .get('/api/heros/doomfist')
+                .get('/api/heros/torbjorn')
                 .set('authorization', authHeader)
                 .query({platformDisplayName, region,  platform})
                 .then((result) => {
-                    assert.equal(result.body.heroName, 'doomfist');
+                    assert.equal(result.body.heroName, 'torbjorn');
                     assert.equal(result.body.platformDisplayName, platformDisplayName);
                     assert.isNull(result.body.stats);
                 });
