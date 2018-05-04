@@ -31,16 +31,16 @@ class PreferredHeroesContainer extends Component {
         window.addEventListener('visibilitychange', this.handleVisibilityEvent);
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('visibilitychange', this.handleVisibilityEvent);
-    }
-
     componentWillReceiveProps(nextProps) {
         this.setState(() => {
             return {
                 pendingPreferredHeroes: [...nextProps.heroes]
             };
         });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('visibilitychange', this.handleVisibilityEvent);
     }
 
     setHeroPreference(heroName) {

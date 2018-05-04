@@ -58,6 +58,8 @@ import {
     popBlockingEvent as popBlockingLoadingAction,
 } from 'actionCreators/loading';
 jest.mock('actionCreators/loading');
+import {logout as logoutAction} from 'actionCreators/app';
+jest.mock('actionCreators/app');
 
 const mockStore = configureStore();
 const getMockStore = (
@@ -107,6 +109,7 @@ const clearAllMocks = () => {
     sendGroupInviteTrackingEvent.mockClear();
     acceptGroupInviteTrackingEvent.mockClear();
     socketDisconnectTrackingEvent.mockClear();
+    Notifications.disconnectedNotification.mockClear();
 };
 describe('Model', () => {
     const user = generateMockUser();
@@ -149,8 +152,16 @@ describe('Model', () => {
             });
 
             it('should block user actions', () => {
+                expect(pushBlockingLoadingAction).toHaveBeenCalledTimes(1);
                 socket.socketClient.emit(clientEvents.disconnect, reason);
-                expect(pushBlockingLoadingAction).toHaveBeenCalled();
+                expect(pushBlockingLoadingAction).toHaveBeenCalledTimes(2);
+            });
+
+            it('should not dispatch further events if a user cannot be found', () => {
+                store.getState().user = null;
+                socket.socketClient.emit(clientEvents.disconnect, reason);
+                expect(socketDisconnectTrackingEvent).not.toHaveBeenCalled();
+                expect(Notifications.disconnectedNotification).not.toHaveBeenCalled();
             });
         });
 
@@ -323,6 +334,16 @@ describe('Model', () => {
                 shouldCallErrorNotification(clientEvents.error.groupInviteAccept);
                 shouldCallErrorNotification(clientEvents.error.groupInviteDecline);
                 shouldCallErrorNotification(clientEvents.error.groupInviteCancel);
+            });
+        });
+
+        describe('Authentication', () => {
+            describe('Authentication Error', () => {
+                it('Should call the logout action upon authentication error', () => {
+                    expect(logoutAction).not.toHaveBeenCalled();
+                    socket.socketClient.emit(clientEvents.error.authenticate, {});
+                    expect(logoutAction).toHaveBeenCalled();
+                });
             });
         });
     });
