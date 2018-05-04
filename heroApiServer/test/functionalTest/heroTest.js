@@ -6,7 +6,7 @@ const tokenUtil = require('../../devTools/tokenHelpers');
 const platformDisplayName = 'iddqd#2884';
 const region = 'us';
 const platform = 'pc';
-const heroName = 'soldier76';
+const heroName = 'brigitte';
 const filterBy = 'top';
 const limit = 5;
 
