@@ -22,6 +22,7 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction,
 } from "actionCreators/loading";
+import {logout as logoutAction} from 'actionCreators/app';
 import { syncClientAndServerHeroesAsync } from 'actionCreators/initialData/syncClientAndServerHeroesAsync';
 import { updatePreferredHeroesAsync } from 'actionCreators/preferredHeroes/updatePreferredHeroesAsync';
 import { leaveGroupAsync } from 'actionCreators/group/leaveGroupAsync';
@@ -68,6 +69,7 @@ const initialize = function(passedSocket, passedStore) {
     socket.on(clientEvents.error.groupInviteAccept, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteCancel, _groupErrorHandler);
     socket.on(clientEvents.error.groupInviteDecline, _groupErrorHandler);
+    socket.on(clientEvents.error.authenticate, _logout);
 };
 
 const addHeroFilterToStore = function(filter) {
@@ -159,10 +161,13 @@ const _updateGroupInStore = function(groupInviteObject) {
 };
 
 const _handleSocketDisconnect = () => {
-    let platformDisplayName = store.getState().user.platformDisplayName;
-    store.dispatch(socketDisconnectTrackingEvent(platformDisplayName));
-    Notifications.disconnectedNotification();
-    store.dispatch(pushBlockingLoadingAction());
+    let user = store.getState().user;
+    if (user) {
+        let platformDisplayName = user.platformDisplayName;
+        store.dispatch(socketDisconnectTrackingEvent(platformDisplayName));
+        Notifications.disconnectedNotification();
+        store.dispatch(pushBlockingLoadingAction());
+    }
 };
 
 const _handleGroupInviteAccepted = (newGroup) => {
@@ -192,6 +197,10 @@ const _handleGroupPromotedLeader = (newGroup) => {
 
 const _groupErrorHandler = (error) => {
     Notifications.errorNotification(error.message);
+};
+
+const _logout = () => {
+    store.dispatch(logoutAction());
 };
 
 const Actions = {
