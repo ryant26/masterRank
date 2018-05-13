@@ -12,18 +12,19 @@ import ConsoleUserSearch from 'components/Login/ConsoleUserSearch/ConsoleUserSea
 import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
 import {updateRegion as updateRegionAction} from 'actionCreators/region';
 
-
 class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             platform: 'pc',
             region: 'us',
+            checked: false
         };
         this.props.updateRegionAction(this.state.region);
 
         this.onPlatformChange = this.onPlatformChange.bind(this);
         this.onRegionChange = this.onRegionChange.bind(this);
+        this.onCheckedChange = this.onCheckedChange.bind(this);
     }
 
     onPlatformChange(event) {
@@ -36,6 +37,12 @@ class LoginPage extends Component {
         this.props.updateRegionAction(event.target.value);
         this.setState({
             region: event.target.value,
+        });
+    }
+
+    onCheckedChange() {
+        this.setState({
+            checked: !this.state.checked
         });
     }
 
@@ -66,9 +73,18 @@ class LoginPage extends Component {
                         </div>
                     </div>
                 </div>
+                { this.state.region === 'eu' &&  
+                    <div ref="GDPRArea" className="gdpr-container sub-title card flex align-center">
+                        <div className="flex gdpr-checkbox">
+                            <input type="checkbox" checked={this.state.checked} onChange={this.onCheckedChange}/>
+                            <label className="gdpr-label">As a member of the EU, by logging in, you are agreeing to having information related to your battlenet account stored and used for the site experience (player and hero stats).</label>
+                        </div>
+                        <br/>
+                    </div>
+                }
                 { this.state.platform === 'pc'
-                    ? <BlizzardOAuth region={this.state.region} platform={this.state.platform}/>
-                    : <ConsoleUserSearch platform={this.state.platform}/>
+                    ? <BlizzardOAuth region={this.state.region} platform={this.state.platform} disabled={!this.state.checked && this.state.region === 'eu'}/>
+                    : <ConsoleUserSearch platform={this.state.platform} region={this.state.region} disabled={!this.state.checked && this.state.region === 'eu'}/>
                 }
                 <FullPageLoadingSpinner/>
             </div>

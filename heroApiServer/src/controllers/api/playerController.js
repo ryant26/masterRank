@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const playerService = require('../../services/playerService');
 const stringValidator = require('../../validators/stringValidator').allValidators;
+const decode = require('jwt-decode');
+const authenticationService = require('../../services/authenticationService');
+
 
 router.get('', function(req, res, next) {
     if(!stringValidator(req.query.platformDisplayName, req.query.platform)) {
@@ -46,6 +49,22 @@ router.get('/search', function (req, res) {
     }).then((players) => {
         res.json(players);
     });
+});
+
+router.use('/remove', authenticationService.authenticateWithToken);
+
+router.get('/remove', function(req, res, next) {
+    const token = decode(req.headers['authorization'].split(' ')[1]);
+    return playerService.findAndDeletePlayer(token)
+        .then((result) => {
+            if (result === null) {
+                let error = new Error(`Error finding/deleting player [${token.platformDisplayName}]`);
+                error.status = 404;
+                next(error);
+            } else {
+                res.json(result._doc);
+            }
+        });
 });
 
 module.exports = {

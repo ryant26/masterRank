@@ -5,10 +5,11 @@ import SidebarFooter from 'components/Sidebar/SidebarFooter/SidebarFooter';
 import FeedbackButton from 'components/Sidebar/SidebarFooter/FeedbackButton/FeedbackButton';
 import TutorialButton from 'components/Sidebar/SidebarFooter/TutorialButton/TutorialButton';
 import LogoutButton from 'components/Sidebar/SidebarFooter/LogoutButton/LogoutButton';
+import GDPRButton from 'components/Sidebar/SidebarFooter/GDPRButton/GDPRButton';
 
-const shallowSidebarFooter = () => {
+const shallowSidebarFooter = (region) => {
     return shallow(
-        <SidebarFooter/>
+        <SidebarFooter region={region}/>
     );
 };
 
@@ -16,7 +17,7 @@ describe('SelectorButton Component',()=> {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallowSidebarFooter();
+        wrapper = shallowSidebarFooter('us');
     });
 
     it('should render without exploding', () => {
@@ -33,5 +34,15 @@ describe('SelectorButton Component',()=> {
 
     it('should mount LogoutButton', () => {
         expect(wrapper.find(LogoutButton)).toHaveLength(1);
+    });
+
+    describe('if user member of EU', () => {
+        beforeEach(() => {
+            wrapper = shallowSidebarFooter('eu');
+        });
+        
+        it('should mount GDPRButton', () => {
+            expect(wrapper.find(GDPRButton)).toHaveLength(1);
+        });
     });
 });

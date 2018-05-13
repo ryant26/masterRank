@@ -1,6 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 const chaiHttp = require('chai-http');
+const tokenUtil = require('../../devTools/tokenHelpers');
 
 const platformDisplayName = 'PwNShoPP#1662';
 const region = 'us';
@@ -9,6 +10,7 @@ const platform = 'pc';
 let server = require('../../src/app');
 let playerUrl = '/api/players';
 let searchUrl = `${playerUrl}/search`;
+let removeUrl = `${playerUrl}/remove`;
 
 chai.use(chaiHttp);
 
@@ -95,5 +97,55 @@ describe('Player Tests', function() {
                     assert.equal(res.body.platformDisplayName, platformDisplayName);
                 });
         });
+    });
+
+    describe('Players/remove', function() {
+
+        it('should return 401 if no token is in header authorization req', function() {
+            return chai.request(server)
+                .get(removeUrl)
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.response.body.message, 'No authorization token was found');
+                });
+        });
+
+        it('should return 401 when valid token passed but is expired', () => {
+            let expiredToken = tokenUtil.getExpiredToken();
+            let authHeader = `Bearer ${expiredToken}`;
+            return chai.request(server)
+                .get(removeUrl)
+                .set('authorization', authHeader)
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.response.body.message, 'jwt expired');
+                });
+        });
+
+        it('should return 401 when valid token passed but signed with wrong secret', () => {
+            let wrongToken = tokenUtil.getTokenSignedWithOldSecret();
+            let authHeader = `Bearer ${wrongToken}`;
+            return chai.request(server)
+                .get(removeUrl)
+                .set('authorization', authHeader)
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.response.body.message, 'invalid signature');
+                });
+        });
+
+        it('should return valid object with correct platformDisplayName player assigned to platformDisplayName', function() {
+            let token = tokenUtil.getValidToken(platformDisplayName, region, platform);
+            let authHeader = `Bearer ${token}`;
+            return chai.request(server)
+                .get(removeUrl)
+                .set('authorization', authHeader)
+                .then((res) => {
+                    assert.equal(res.status, 200);
+                    assert.equal(res.body.platformDisplayName, platformDisplayName);
+                });
+        });
+
+
     });
 });
