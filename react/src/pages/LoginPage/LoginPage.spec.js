@@ -75,4 +75,18 @@ describe('Login Page', () => {
         expect(LoginPageComponent.find(ConsoleUserSearch)).toHaveLength(1);
         expect(LoginPageComponent.find(ConsoleUserSearch).props().platform).toBe('xbl');
     });
+
+    it('should render gdpr-container when state.region is eu', () => {
+        LoginPageComponent.setState({
+            region: 'eu'
+        });
+        expect(LoginPageComponent.find('.gdpr-container > div')).toHaveLength(1);
+    });
+
+    it('should not render gdpr-container when state.region is not eu', () => {
+        LoginPageComponent.setState({
+            region: 'us'
+        });
+        expect(LoginPageComponent.find('.gdpr-container > div')).toHaveLength(0);
+    });
 });

@@ -20,6 +20,7 @@
     "glob": "^6.0.4",
     "helmet": "^3.10.0",
     "jsonwebtoken": "^8.0.1",
+    "jwt-decode": "^2.2.0",
     "memoizee": "^0.4.12",
     "method-override": "^2.3.0",
     "mongoose": "^5.0.9",

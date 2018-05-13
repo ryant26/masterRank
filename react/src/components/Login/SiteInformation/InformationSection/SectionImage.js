@@ -6,7 +6,6 @@ const SectionImage = ({number, imgName}) => {
 };
 
 SectionImage.propTypes = {
-    altText: PropTypes.string.isRequired,
     imgName: PropTypes.string.isRequired,
     number: PropTypes.number.isRequired,
 };

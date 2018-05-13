@@ -105,7 +105,7 @@ class ConsoleUserSearch extends Component {
                                 type="submit"
                                 className="button-primary"
                                 onClick={this.onClick}
-                                disabled={!this.state.displayName}
+                                disabled={!this.state.displayName || this.props.disabled}
                             >
                                 <div className="button-content">
                                     SEARCH
@@ -149,6 +149,8 @@ class ConsoleUserSearch extends Component {
 
 ConsoleUserSearch.propTypes = {
     platform: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    region: PropTypes.string.isRequired,
     dispatchClickConsoleUserSearchTrackingEvent: PropTypes.func.isRequired
 };
 

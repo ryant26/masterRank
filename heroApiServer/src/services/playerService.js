@@ -7,6 +7,23 @@ const memoize = require('memoizee');
 const config = require('config');
 const cachingEnabled = config.get('cachingEnabled');
 
+let findAndDeletePlayer = function(token) {
+    return Player.findOne({
+        platformDisplayName: token.platformDisplayName, 
+        platform: token.platform
+    }).then((result) => {
+        if (result) {
+            return Player.findByIdAndRemove(result._id).catch((err) => {
+                logger.error(`Error finding/deleting player [${token.platformDisplayName}]: ${err}`);
+                return null;
+            });
+        } 
+        return null; 
+    }).catch((err) => {
+        logger.error(`Error finding/deleting player [${token.platformDisplayName}]: ${err}`);
+        return null;
+    });
+};
 
 let searchForPlayer = function(token) {
     let queryCriteria = {
@@ -110,5 +127,6 @@ module.exports = {
     findOrCreatePlayer: cachingEnabled ?
         memoize(findOrCreatePlayer, {promise: true, maxAge: 60000, normalizer: JSON.stringify}) :
         findOrCreatePlayer,
-    searchForPlayer
+    searchForPlayer,
+    findAndDeletePlayer
 };

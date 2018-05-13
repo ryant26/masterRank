@@ -26,6 +26,25 @@ let getTopHeroes = function(token, number) {
     return _runQuery(token, queryForHeroes);
 };
 
+let removeHeroes = function(token) {
+    let removeHeroes = function() {
+        return Hero.find(_getAllUserHeroesQueryCriteria(token)).then((res) => {
+            if (res.length > 0) {
+                return Hero.deleteMany(_getAllUserHeroesQueryCriteria(token)).catch((err) => {
+                    logger.error(`Error finding/deleting player [${token.platformDisplayName}]: ${err}`);
+                    return null;
+                });
+            }
+            return null;
+        }).catch((err) => {
+            logger.error(`Error finding/deleting user heroes of [${token.platformDisplayName}]: ${err}`);
+            return null;
+        });
+    };
+    
+    return removeHeroes();
+};
+
 let _runQuery = function(token, query) {
     return query().then((result) => {
         let sample = Array.isArray(result) ? result[0] : result;
@@ -249,5 +268,6 @@ let _getPercentileKey = function(key) {
 
 module.exports = {
     getHero,
-    getTopHeroes
+    getTopHeroes,
+    removeHeroes
 };

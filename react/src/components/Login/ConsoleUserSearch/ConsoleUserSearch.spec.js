@@ -23,24 +23,26 @@ const mockResponse = (status, statusText, jsonObj) => {
 };
 
 const mockStore = configureStore();
-const getConsoleUserSearchComponent = (platform) => {
+const getConsoleUserSearchComponent = (platform, disabled, region) => {
     let store = mockStore({});
     store.dispatch = jest.fn();
     return shallow(
-        <ConsoleUserSearch platform={platform} store={store}/>
+        <ConsoleUserSearch platform={platform} store={store} disabled={disabled} region={region}/>
     ).dive();
 };
 
 describe('ConsoleUserSearch', () => {
     let handleSubmitSpy;
     const platform = 'xbl';
+    const disabled = false;
+    const region = 'eu';
     const displayName = arrayUsers[0].platformDisplayName;
     const sanitizeDisplayName = displayName.replace(/#/g, '-');
     const fetchUrl = `/api/players/search?platformDisplayName=${sanitizeDisplayName}&platform=${platform}`;
     let ConsoleUserSearchComponent;
 
     beforeEach(() => {
-        ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform);
+        ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform, disabled, region);
         handleSubmitSpy = jest.spyOn(ConsoleUserSearchComponent.instance(), "handleSubmit");
     });
 
@@ -129,6 +131,31 @@ describe('ConsoleUserSearch', () => {
             displayName: arrayUsers[0].platformDisplayName
         });
         expect(ConsoleUserSearchComponent.find('.button-primary').prop('disabled')).toBe(false);
+    });
+
+    describe('search button on gdpr compliance', () => {
+        
+        it('should be disabled when disabled is true and region is eu even with display name present', () => {
+            const region = 'eu';
+            const platform = 'pc';
+            const disabled = true;
+            ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform, disabled, region);
+            ConsoleUserSearchComponent.setState({
+                displayName: arrayUsers[0].platformDisplayName
+            });
+            expect(ConsoleUserSearchComponent.find('.button-primary').props().disabled).toBe(true);
+        });
+    
+        it('should be enabled when disabled is false and region is eu with display name present', () => {
+            const region = 'eu';
+            const platform = 'pc';
+            const disabled = false;
+            ConsoleUserSearchComponent = getConsoleUserSearchComponent(platform, disabled, region);
+            ConsoleUserSearchComponent.setState({
+                displayName: arrayUsers[0].platformDisplayName
+            });
+            expect(ConsoleUserSearchComponent.find('.button-primary').props().disabled).toBe(false);
+        });
     });
 
     describe('when displayName is entered and search button is clicked', () => {

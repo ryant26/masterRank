@@ -316,4 +316,20 @@ describe('playerService', function() {
             });
         });
     });
+
+    describe('findAndDeletePlayer', function() {
+        it('should return null for non-existent players', function() {
+            return playerService.findAndDeletePlayer(token).then((result) => {
+                assert.isNull(result);
+            });
+        });
+
+        it('should return the player object if player was removed', function() {
+            return playerService.findOrCreatePlayer(token).then(() => {
+                return playerService.findAndDeletePlayer(token);
+            }).then((player) => {
+                assert.equal(player.platformDisplayName, token.platformDisplayName);
+            });
+        });
+    });
 });
