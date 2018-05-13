@@ -13,22 +13,23 @@ import { mockLocation } from 'utilities/test/mockingUtilities';
 
 const mockStore = configureStore();
 
-const getBlizzardOAuth = (region, platform) => {
+const getBlizzardOAuth = (region, platform, disabled) => {
     let store = mockStore({});
     store.dispatch = jest.fn();
 
     return shallow(
-        <BlizzardOAuth region={region} platform={platform} store={store}/>
+        <BlizzardOAuth region={region} platform={platform} store={store} disabled={disabled}/>
     ).dive();
 };
 
 describe('BlizzardOAuth', () => {
     const region = 'us';
     const platform = 'pc';
+    const disabled = true;
     let BlizzardOAuthComponent;
 
     beforeEach(() => {
-        BlizzardOAuthComponent = getBlizzardOAuth(region, platform);
+        BlizzardOAuthComponent = getBlizzardOAuth(region, platform, disabled);
     });
 
     it('should render when component loads', () => {
@@ -41,6 +42,25 @@ describe('BlizzardOAuth', () => {
 
     it('should render the loginFailedCard', () => {
         expect(BlizzardOAuthComponent.find(LoginFailedCard)).toHaveLength(1);
+    });
+
+    describe('login button on gdpr compliance', () => {
+        
+        it('should be disabled when disabled is true and region is eu', () => {
+            const region = 'eu';
+            const platform = 'pc';
+            const disabled = true;
+            BlizzardOAuthComponent = getBlizzardOAuth(region, platform, disabled);
+            expect(BlizzardOAuthComponent.find('.button-primary').props().disabled).toBe(true);
+        });
+    
+        it('should be enabled when disabled is false and region is eu', () => {
+            const region = 'eu';
+            const platform = 'pc';
+            const disabled = false;
+            BlizzardOAuthComponent = getBlizzardOAuth(region, platform, disabled);
+            expect(BlizzardOAuthComponent.find('.button-primary').props().disabled).toBe(false);
+        });
     });
 
     describe('when clicked', () => {

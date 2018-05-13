@@ -320,4 +320,28 @@ describe('heroService', function () {
 
         });
     });
+
+    describe('removeHeroes', function() {
+        it('should return null if a players heros does not exist', function() {
+            return heroService.removeHeroes(token).then((result) => {
+                assert.isNull(result);
+            });
+        });
+
+        it('should return ok if players heroes were removed', function() {
+            return new Hero(getHeroConfig(token, heroName)).save()
+                .then(() => {
+                    return queryForHero(token, heroName);
+                }).then((result) => {
+                    assert.isNotNull(result);
+                    return heroService.removeHeroes(token).then((res) => {
+                        assert.equal(res.ok, 1);
+                    }).then(() => {
+                        return queryForHero(token, heroName).then((result) => {
+                            assert.isNull(result, 'Hero was removed');
+                        });
+                    });
+                });
+        });
+    });
 });

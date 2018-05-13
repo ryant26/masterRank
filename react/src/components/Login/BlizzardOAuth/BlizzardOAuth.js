@@ -9,7 +9,7 @@ import SiteInformation from 'components/Login/SiteInformation/SiteInformation';
 import ScrollButton from 'components/Login/SiteInformation/ScrollButton/ScrollButton';
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 
-const BlizzardOAuth = ({region, platform, trackSignIn, setLoading}) => {
+const BlizzardOAuth = ({region, platform, disabled, trackSignIn, setLoading}) => {
 
     function onClick() {
         trackSignIn(platform);
@@ -23,11 +23,11 @@ const BlizzardOAuth = ({region, platform, trackSignIn, setLoading}) => {
 
     return(
         <div className="BlizzardOAuth flex flex-column align-center grow">
-            <div className="button-primary flex align-center justify-center" onClick={onClick}>
+            <button className="button-primary flex align-center justify-center" disabled={disabled} onClick={onClick}>
                 <div className="button-content">
                     LOGIN VIA BATTLE.NET
                 </div>
-            </div>
+            </button>
             <LoginFailedCard/>
             <ScrollButton/>
             <SiteInformation/>
@@ -38,6 +38,7 @@ const BlizzardOAuth = ({region, platform, trackSignIn, setLoading}) => {
 BlizzardOAuth.propTypes = {
     region: PropTypes.string.isRequired,
     platform: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
     trackSignIn:  PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired
 };

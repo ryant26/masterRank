@@ -23,7 +23,7 @@ const Sidebar = ({user, region}) => {
                 <GroupContainer />
             </div>
             <div className="footer">
-                <SidebarFooter/>
+                <SidebarFooter region={region}/>
             </div>
         </div>
     );

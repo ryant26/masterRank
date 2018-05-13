@@ -7,6 +7,8 @@ const stringValidator = stringValidators.allValidators;
 const heroNameValidator = require('../../validators/heroNameValidator').validateHeroName;
 const numberValidator = require('../../validators/numberValidator').allValidators;
 const authenticationService = require('../../services/authenticationService');
+const decode = require('jwt-decode');
+const unless = require('../../services/unless');
 
 const getTokenFromQueryParams = function(req) {
     return {
@@ -18,17 +20,17 @@ const getTokenFromQueryParams = function(req) {
 
 router.use(authenticationService.authenticateWithToken);
 
-router.use(function(req, res, next) {
-    if(!stringValidator(req.query.platformDisplayName)
+router.use(unless('/remove', function(req, res, next) {
+    if((!stringValidator(req.query.platformDisplayName)
         || !stringValidator(req.query.region)
-        || !stringValidator(req.query.platform)) {
+        || !stringValidator(req.query.platform))) {
         let error = new Error('Missing or malformed query parameter');
         error.status = 400;
         next(error);
     } else {
         next();
     }
-});
+}));
 
 router.get('', function(req, res, next) {
     if (!stringValidator(req.query.filterBy) ||
@@ -45,6 +47,29 @@ router.get('', function(req, res, next) {
 router.get('', function(req, res, next) {
     return heroService.getTopHeroes(getTokenFromQueryParams(req), req.query.limit).then((result) => {
         res.json(result);
+    }).catch((err) => {
+        next(err);
+    });
+});
+
+router.use('/remove', authenticationService.authenticateWithToken);
+
+router.get('/remove', function(req, res, next) {    
+    const token = decode(req.headers['authorization'].split(' ')[1]);
+    return heroService.removeHeroes(token).then((result) => {
+        if (result === null || result === []) {
+            let error = new Error('Error finding/deleting player');
+            error.status = 404;
+            next(error);
+        } else {
+            const result2 = Object.assign({
+                action:'deleted',
+                platformDisplayName: token.platformDisplayName,
+                platform: token.platform,
+                region: token.region
+            }, result._doc);
+            res.json(result2);
+        }
     }).catch((err) => {
         next(err);
     });

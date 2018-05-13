@@ -164,4 +164,48 @@ describe('Hero Tests', function() {
         });
     });
 
+    describe('/heros/remove', function() {
+        it('should have a status of 401 when auth token is not supplied', function() {
+            return chai.request(server)
+                .get('/api/heros/remove')
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.response.body.message, 'No authorization token was found');
+                });
+        });
+
+        it('should return 401 when valid token passed but is expired', () => {
+            let expiredToken = tokenUtil.getExpiredToken();
+            let authHeader = `Bearer ${expiredToken}`;
+            return chai.request(server)
+                .get('/api/heros/remove')
+                .set('authorization', authHeader)
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.response.body.message, 'jwt expired');
+                });
+        });
+
+        it('should return 401 when valid token passed but signed with wrong secret', () => {
+            let wrongToken = tokenUtil.getTokenSignedWithOldSecret();
+            let authHeader = `Bearer ${wrongToken}`;
+            return chai.request(server)
+                .get('/api/heros/remove')
+                .set('authorization', authHeader)
+                .catch((err) => {
+                    assert.equal(err.status, 401);
+                    assert.equal(err.response.body.message, 'invalid signature');
+                });
+        });
+
+        it('should return valid object with deleted string assigned to action', function() {
+            return chai.request(server)
+                .get('/api/heros/remove')
+                .set('authorization', authHeader)
+                .then((result) => {
+                    assert.equal(result.status, 200);
+                    assert.equal(result.body.action, 'deleted');
+                });
+        });
+    });
 });
