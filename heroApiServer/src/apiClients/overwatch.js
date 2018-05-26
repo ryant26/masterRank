@@ -1,6 +1,4 @@
-let ow = require('oversmash').default({
-    accountIdentityRegex: /^\/career\/([\w]+)\/.+$/
-});
+let ow = require('overstat')();
 
 let getPlayerDetails = function(token) {
     return getAccountInfo(token.platformDisplayName).then((result) => {
