@@ -76,8 +76,8 @@ class HeroCard extends Component {
 
         if(this.props.hero.stats) {
             let wins = this.props.hero.stats.wins || 0;
-            let losses = this.props.hero.stats.losses || 0;
-            let winPercentage =  (wins + losses) ? parseFloat(wins/(wins+losses) * 100.0).toFixed(1) : 0;
+            let gamesPlayed = this.props.hero.stats.gamesPlayed || 0;
+            let winPercentage =  (gamesPlayed) ? parseFloat(wins/(gamesPlayed) * 100.0).toFixed(1) : 0;
 
 
             statLine = (
@@ -148,7 +148,7 @@ HeroCard.propTypes = {
         skillRating: PropTypes.number.isRequired,
         stats: PropTypes.shape({
             wins: PropTypes.number,
-            losses: PropTypes.number,
+            gamesPlayed: PropTypes.number,
         })
     }).isRequired,
     invitable: PropTypes.bool,
