@@ -45,6 +45,7 @@
     "http-proxy": "^1.16.2",
     "mocha": "^3.0.2",
     "nyc": "^10.0.0",
+    "proxyquire": "^2.0.1",
     "randomstring": "^1.1.5",
     "run-sequence": "^2.1.0",
     "sinon": "^3.3.0",

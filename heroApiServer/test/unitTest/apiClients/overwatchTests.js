@@ -1,14 +1,16 @@
 const chai = require('chai');
 const assert = chai.assert;
-const oversmash = require('oversmash');
 const sinon = require('sinon');
+const proxyquire = require('proxyquire');
 
-let oversmashStubs = {
-
+const overstatStubs = {
+    player: sinon.stub().resolves({accounts: []}),
+    playerStats: sinon.stub().resolves({}),
 };
-oversmash.default = function() {return oversmashStubs;};
 
-const ow = require('../../../src/apiClients/overwatch');
+const overstat = function() {return overstatStubs;};
+
+const ow = proxyquire('../../../src/apiClients/overwatch', {'overstat': overstat});
 
 const getToken = function({platformDisplayName='test#1234', platform='pc', region='us'} = {}) {
     return {
@@ -31,16 +33,12 @@ describe('Overwatch API', function() {
     });
 
     describe('getPlayerDetails', function() {
-        beforeEach(function() {
-            oversmashStubs.player = sandbox.stub().resolves({accounts: []});
-        });
-
         it('should call the API with the correct platform display name', function() {
             const platformDisplayName = 'myDisplayName';
 
-            assert.isFalse(oversmashStubs.player.called);
+            assert.isFalse(overstatStubs.player.called);
             return ow.getPlayerDetails(getToken({platformDisplayName})).then(() => {
-                assert.isTrue(oversmashStubs.player.calledWith(platformDisplayName));
+                assert.isTrue(overstatStubs.player.calledWith(platformDisplayName));
             });
         });
 
@@ -48,7 +46,7 @@ describe('Overwatch API', function() {
             const platformDisplayName = 'パイオツ#1203';
             const uriEncoded = '%E3%83%91%E3%82%A4%E3%82%AA%E3%83%84%231203';
             return ow.getPlayerDetails(getToken({platformDisplayName})).then(() => {
-                assert.isTrue(oversmashStubs.player.calledWith(uriEncoded));
+                assert.isTrue(overstatStubs.player.calledWith(uriEncoded));
             });
         });
 
@@ -65,7 +63,7 @@ describe('Overwatch API', function() {
                 platform
             };
 
-            oversmashStubs.player = sandbox.stub().resolves({accounts: [badName, badPlatform]});
+            overstatStubs.player = sandbox.stub().resolves({accounts: [badName, badPlatform]});
 
             return ow.getPlayerDetails(getToken({platformDisplayName})).then((result) => {
                 assert.isUndefined(result);
@@ -81,7 +79,7 @@ describe('Overwatch API', function() {
                 platform
             };
 
-            oversmashStubs.player = sandbox.stub().resolves({accounts: [account]});
+            overstatStubs.player = sandbox.stub().resolves({accounts: [account]});
 
             return ow.getPlayerDetails(getToken({platformDisplayName, platform})).then((result) => {
                 assert.deepEqual(result, account);
@@ -92,15 +90,15 @@ describe('Overwatch API', function() {
 
     describe('getPlayerStats', function() {
         beforeEach(function() {
-            oversmashStubs.playerStats = sandbox.stub().resolves({});
+            overstatStubs.playerStats = sandbox.stub().resolves({});
         });
 
         it('should replace # with - in platformDisplayName', function() {
             const platformDisplayName = 'Test#1234';
 
-            assert.isFalse(oversmashStubs.playerStats.called);
+            assert.isFalse(overstatStubs.playerStats.called);
             return ow.getPlayerStats(getToken({platformDisplayName})).then(() => {
-                assert.isTrue(oversmashStubs.playerStats.calledWith('Test-1234'));
+                assert.isTrue(overstatStubs.playerStats.calledWith('Test-1234'));
             });
         });
 
@@ -109,22 +107,22 @@ describe('Overwatch API', function() {
             const uriEncoded = '%E3%83%91%E3%82%A4%E3%82%AA%E3%83%84-1203';
 
             return ow.getPlayerStats(getToken({platformDisplayName})).then(() => {
-                assert.isTrue(oversmashStubs.playerStats.calledWith(uriEncoded));
+                assert.isTrue(overstatStubs.playerStats.calledWith(uriEncoded));
             });
         });
     });
 
     describe('searchForPlayer', function() {
         beforeEach(function() {
-            oversmashStubs.player = sandbox.stub().resolves({accounts: []});
+            overstatStubs.player = sandbox.stub().resolves({accounts: []});
         });
 
         it('should call the API with the correct platform display name', function() {
             const platformDisplayName = 'myDisplayName';
 
-            assert.isFalse(oversmashStubs.player.called);
+            assert.isFalse(overstatStubs.player.called);
             return ow.searchForPlayer(getToken({platformDisplayName})).then(() => {
-                assert.isTrue(oversmashStubs.player.calledWith(platformDisplayName));
+                assert.isTrue(overstatStubs.player.calledWith(platformDisplayName));
             });
         });
 
@@ -132,7 +130,7 @@ describe('Overwatch API', function() {
             const platformDisplayName = 'パイオツ#1203';
             const uriEncoded = '%E3%83%91%E3%82%A4%E3%82%AA%E3%83%84%231203';
             return ow.searchForPlayer(getToken({platformDisplayName})).then(() => {
-                assert.isTrue(oversmashStubs.player.calledWith(uriEncoded));
+                assert.isTrue(overstatStubs.player.calledWith(uriEncoded));
             });
         });
 
@@ -140,7 +138,7 @@ describe('Overwatch API', function() {
             const platformDisplayName = 'myDisplayName';
             const platform = 'pc';
 
-            oversmashStubs.player = sandbox.stub().resolves({accounts: [
+            overstatStubs.player = sandbox.stub().resolves({accounts: [
                 {displayName: platformDisplayName, platform}
             ]});
 
@@ -154,7 +152,7 @@ describe('Overwatch API', function() {
             const platformDisplayName = 'myDisplayName';
             const platform = 'pc';
 
-            oversmashStubs.player = sandbox.stub().resolves({accounts: [
+            overstatStubs.player = sandbox.stub().resolves({accounts: [
                 {displayName: platformDisplayName, platform}, {displayName: platformDisplayName, platform: 'xbl'}
             ]});
 
@@ -169,7 +167,7 @@ describe('Overwatch API', function() {
             const platformDisplayName = 'myDisplayName';
             const platform = 'pc';
 
-            oversmashStubs.player = sandbox.stub().resolves({accounts: [
+            overstatStubs.player = sandbox.stub().resolves({accounts: [
                 {displayName: platformDisplayName, platform}, {displayName: 'secondDisplayName', platform}
             ]});
 
