@@ -24,5 +24,14 @@
     "baseUrl" : "http://localhost",
     "port" : 3002,
     "endpoint": "/auth/token/validate"
+  },
+  "discordApi": {
+    "token": "NDUwMTM4MjU2NDM3MTQ5Njk2.Deu3qA.Zz8OEw0A6MAKD-ylejVWUeZ2P5g",
+    "guild": {
+      "id": "442150547080871936"
+    },
+    "invite": {
+      "maxAgeInSec": 43200
+    }
   }
 }
