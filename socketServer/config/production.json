@@ -23,5 +23,11 @@
     "baseUrl" : "https://fireteam.gg",
     "port" : 0,
     "endpoint": "/auth/token/validate"
+  },
+  "discordApi": {
+    "token": "NDUwMTQwNDI3Mzc5NTM5OTc5.DeyPfg.-YHpb-PXWmyuVN05C6p3_Ala9Ps",
+    "guild": {
+      "id": "442146693685706782"
+    }
   }
 }
