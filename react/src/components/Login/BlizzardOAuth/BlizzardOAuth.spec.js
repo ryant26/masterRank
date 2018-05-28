@@ -3,6 +3,8 @@ import { shallow } from 'enzyme';
 
 import BlizzardOAuth from 'components/Login/BlizzardOAuth/BlizzardOAuth';
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
+import ScrollButton from 'components/Login/SiteInformation/ScrollButton/ScrollButton';
+import SiteInformation from 'components/Login/SiteInformation/SiteInformation';
 import { signInTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
 jest.mock('actionCreators/googleAnalytic/googleAnalytic');
 import { pushBlockingEvent as pushBlockingEventAction } from 'actionCreators/loading';
@@ -42,6 +44,22 @@ describe('BlizzardOAuth', () => {
 
     it('should render the loginFailedCard', () => {
         expect(BlizzardOAuthComponent.find(LoginFailedCard)).toHaveLength(1);
+    });
+
+    it('should remove ScrollButton from dom if isLoading is true', () => {
+        expect(BlizzardOAuthComponent.find(ScrollButton)).toHaveLength(1);
+        BlizzardOAuthComponent.setState({
+            isLoading: true
+        });
+        expect(BlizzardOAuthComponent.find(ScrollButton)).toHaveLength(0);
+    });
+
+    it('should remove SiteInfo from dom if isLoading is true', () => {
+        expect(BlizzardOAuthComponent.find(SiteInformation)).toHaveLength(1);
+        BlizzardOAuthComponent.setState({
+            isLoading: true
+        });
+        expect(BlizzardOAuthComponent.find(SiteInformation)).toHaveLength(0);
     });
 
     describe('login button on gdpr compliance', () => {
@@ -87,6 +105,10 @@ describe('BlizzardOAuth', () => {
 
         it("should dispatch signInTrackingEvent with user's platform", () => {
             expect(signInTrackingEvent).toHaveBeenCalledWith(platform);
+        });
+
+        it('should set the state of isLoading to true', () => {
+            expect(BlizzardOAuthComponent.state().isLoading).toBe(true);
         });
     });
 });
