@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+    Component
+} from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,31 +11,50 @@ import SiteInformation from 'components/Login/SiteInformation/SiteInformation';
 import ScrollButton from 'components/Login/SiteInformation/ScrollButton/ScrollButton';
 import LoginFailedCard from 'components/Login/LoginFailedCard/LoginFailedCard';
 
-const BlizzardOAuth = ({region, platform, disabled, trackSignIn, setLoading}) => {
+class BlizzardOAuth extends Component {
 
-    function onClick() {
-        trackSignIn(platform);
-        setLoading();
-        window.location.assign(redirectBlizzardAuthUrl());
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false
+        };
+
+        this.onClick = this.onClick.bind(this);
+        this.redirectBlizzardAuthUrl = this.redirectBlizzardAuthUrl.bind(this);
     }
 
-    function redirectBlizzardAuthUrl() {
-        return `/auth/bnet/callback?region=${region}`;
+    onClick() {
+        this.props.trackSignIn(this.props.platform);
+        this.props.setLoading();
+        this.setState({
+            isLoading: true
+        });
+        window.location.assign(this.redirectBlizzardAuthUrl());
     }
 
-    return(
-        <div className="BlizzardOAuth flex flex-column align-center grow">
-            <button className="button-primary flex align-center justify-center" disabled={disabled} onClick={onClick}>
-                <div className="button-content">
-                    LOGIN VIA BATTLE.NET
-                </div>
-            </button>
-            <LoginFailedCard/>
-            <ScrollButton/>
-            <SiteInformation/>
-        </div>
-    );
-};
+    redirectBlizzardAuthUrl() {
+        return `/auth/bnet/callback?region=${this.props.region}`;
+    }
+
+    render() {
+        return(
+            <div className="BlizzardOAuth flex flex-column align-center grow">
+                <button className="button-primary flex align-center justify-center" disabled={this.props.disabled} onClick={this.onClick}>
+                    <div className="button-content">
+                        LOGIN VIA BATTLE.NET
+                    </div>
+                </button>
+                <LoginFailedCard/>
+                {!this.state.isLoading &&
+                    <ScrollButton/>
+                }
+                {!this.state.isLoading &&
+                    <SiteInformation/>
+                }
+            </div>
+        );
+    }
+}
 
 BlizzardOAuth.propTypes = {
     region: PropTypes.string.isRequired,
