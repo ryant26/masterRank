@@ -555,4 +555,31 @@ describe('RedisClient Tests', function() {
             });
         });
     });
+
+    describe('groupDiscord', function() {
+
+        it('should be able to set a groupDiscord', function(done) {
+            const groupDiscord = 'PwnShopp-Discord';
+            const groupId = 10;
+            RedisClient.setGroupDiscord(groupId, groupDiscord).then(() => {
+                return RedisClient.getGroupDiscord(groupId);
+            }).then((discord) => {
+                assert.equal(discord, groupDiscord);
+                done();
+            });
+        });
+
+        it('should be able to delete a groupDiscord', function(done) {
+            const groupDiscord = 'PwnShopp-Discord';
+            const groupId = 10;
+            RedisClient.setGroupDiscord(groupId, groupDiscord).then(() => {
+                return RedisClient.deleteGroupDiscord(groupId);
+            }).then(() => {
+                return RedisClient.getGroupDiscord(groupId);
+            }).then((discord) => {
+                assert.isNull(discord);
+                done();
+            });
+        });
+    });
 });
