@@ -33,6 +33,10 @@ let redisKeys = {
         return `groups.${groupId}.members`;
     },
 
+    groupDiscord: function(groupId) {
+        return `groups.${groupId}.discord`
+    },
+
     groupId: function(platformDisplayName, platform) {
         return `groups.${platformDisplayName}.${platform}.groupId`;
     }
@@ -200,7 +204,7 @@ let deleteGroupMembers = function (groupId) {
 };
 
 let deleteGroup = function (groupId) {
-    return Promise.all([deleteGroupLeader(groupId), deleteGroupPending(groupId), deleteGroupMembers(groupId)]);
+    return Promise.all([deleteGroupLeader(groupId), deleteGroupPending(groupId), deleteGroupMembers(groupId), deleteGroupDiscord(groupId)]);
 };
 
 let replaceGroupLeaderWithMember = function (groupId) {
@@ -212,6 +216,18 @@ let replaceGroupLeaderWithMember = function (groupId) {
             .srem(redisKeys.groupMembers(groupId), newLeader)
             .execAsync();
     });
+};
+
+let getGroupDiscord = function(groupId) {
+    return client.getAsync(redisKeys.groupDiscord(groupId));
+};
+
+let setGroupDiscord = function(groupId, discordObject) {
+    return client.setexAsync(redisKeys.groupDiscord(groupId), timeToLive, discordObject);
+};
+
+let deleteGroupDiscord = function(groupId) {
+    return client.delAsync(redisKeys.groupDiscord(groupId));
 };
 
 let getGroupDetails = function(groupId) {
@@ -231,7 +247,11 @@ let getGroupDetails = function(groupId) {
         groupDetails.pending = pending;
     });
 
-    return Promise.all([groupLeader, groupMembers, groupPending]).then(() => {
+    let groupDiscord = getGroupDiscord(groupId).then((discord) => {
+        groupDetails.discord = discord;
+    });
+
+    return Promise.all([groupLeader, groupMembers, groupPending, groupDiscord]).then(() => {
         return groupDetails;
     });
 };
@@ -271,5 +291,8 @@ module.exports = {
     removeHeroFromGroupMembers,
     getGroupDetails,
     deleteGroup,
-    replaceGroupLeaderWithMember
+    replaceGroupLeaderWithMember,
+    getGroupDiscord,
+    setGroupDiscord,
+    deleteGroupDiscord
 };
