@@ -99,7 +99,7 @@ describe('Discord API', function() {
             let channelId;
 
             return client.getVoiceChannelInvite(groupId).then((invite) => {
-                channelId = invite.channel.id;
+                channelId = invite.id;
                 return client.getChannel(channelId);
             }).then((channel) => {
                 assert.equal(channelId, channel.id);

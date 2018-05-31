@@ -2,6 +2,7 @@ const logger = require('./logger').sysLogger;
 const clientEvents = require('../../../shared/libs/socketEvents/clientEvents');
 const PlayerClient = require('../apiClients/PlayerClient');
 const RedisClient = require('../apiClients/RedisClient');
+const DiscordClient = require('../apiClients/discordClient');
 const exceptions = require('../validators/exceptions/exceptions');
 const SocketError = require('../validators/exceptions/SocketError');
 
@@ -132,7 +133,10 @@ let acceptGroupInvite = function (token, groupId, socket, namespace) {
         addSocketToGroupRoom(groupId, socket);
         return RedisClient.getGroupDetails(groupId);
     }).then((details) => {
-        namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteAccepted, details);
+        if (details.members.length === 1) {
+            sendDiscordToGroup(groupId, namespace);
+        }
+        return namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupInviteAccepted, details);
     }).catch((err) => {
         logger.error(`${token.platformDisplayName} encountered a problem accepting invite to ${groupId}: ${err}`);
         throw err;
@@ -347,6 +351,24 @@ let addSocketToGroupRoom = function (groupId, socket) {
  */
 let addSocketToPlayerRoom = function (token, socket) {
     socket.join(getPlayerRoom(token));
+};
+
+let sendDiscordToGroup = function(groupId, namespace) {
+    let discordInvite;
+    return DiscordClient.getVoiceChannelInvite(groupId).then((invite) => {
+        discordInvite = invite;
+        return RedisClient.getGroupDetails(groupId);
+    }).then((details) => {
+        if (details.leader) {
+            return RedisClient.setGroupDiscord(groupId, discordInvite).then(() => {
+                return RedisClient.getGroupDetails(groupId);
+            }).then((details) => {
+                return namespace.to(getGroupRoom(groupId)).emit(clientEvents.groupDiscordAdded, details);
+            });
+        } else {
+            return DiscordClient.deleteVoiceChannel(discordInvite.id);
+        }
+    });
 };
 
 let getHeroFromListById = function(list, id) {

@@ -34,7 +34,7 @@ let redisKeys = {
     },
 
     groupDiscord: function(groupId) {
-        return `groups.${groupId}.discord`
+        return `groups.${groupId}.discord`;
     },
 
     groupId: function(platformDisplayName, platform) {
@@ -219,11 +219,13 @@ let replaceGroupLeaderWithMember = function (groupId) {
 };
 
 let getGroupDiscord = function(groupId) {
-    return client.getAsync(redisKeys.groupDiscord(groupId));
+    return client.getAsync(redisKeys.groupDiscord(groupId)).then((discordObjString) => {
+        return JSON.parse(discordObjString);
+    });
 };
 
 let setGroupDiscord = function(groupId, discordObject) {
-    return client.setexAsync(redisKeys.groupDiscord(groupId), timeToLive, discordObject);
+    return client.setexAsync(redisKeys.groupDiscord(groupId), timeToLive, JSON.stringify(discordObject));
 };
 
 let deleteGroupDiscord = function(groupId) {
