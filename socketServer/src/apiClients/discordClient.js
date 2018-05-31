@@ -50,6 +50,11 @@ const getVoiceChannelInvite = function(groupId) {
             temporary: true,
             maxAge: maxAgeInSec
         });
+    }).then((invite) => {
+        return {
+            id: invite.channel.id,
+            url: invite.url
+        };
     });
 };
 

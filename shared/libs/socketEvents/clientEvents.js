@@ -5,6 +5,7 @@ const clientEvents = {
     heroRemoved: 'heroRemoved',
     groupInviteReceived: 'groupInviteReceived',
     playerInvited: 'playerInvited',
+    groupDiscordAdded: 'groupDiscordAdded',
     groupInviteCanceled: 'groupInviteCanceled',
     playerInviteCanceled: 'playerInviteCanceled',
     groupInviteAccepted: 'groupInviteAccepted',
