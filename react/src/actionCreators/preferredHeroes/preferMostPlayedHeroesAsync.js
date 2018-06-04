@@ -4,6 +4,7 @@ import {
     pushBlockingEvent as pushBlockingLoadingAction,
     popBlockingEvent as popBlockingLoadingAction
 } from 'actionCreators/loading';
+import Raven from 'raven-js';
 
 import fetchMostPlayedHeroesAsync from 'api/heroApi/fetchMostPlayedHeroesAsync';
 
@@ -24,6 +25,7 @@ export const preferMostPlayedHeroesAsync = (forUser, accessToken, socket) => {
             })
             .catch(() => {
                 dispatch(popBlockingLoadingAction());
+                Raven.captureException(Error("fetchMostPlayedHeroesAsync failed"));
                 throw Error("fetchMostPlayedHeroesAsync failed");
             });
     };

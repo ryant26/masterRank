@@ -10,6 +10,7 @@ import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import SiteInformation from 'components/Login/SiteInformation/SiteInformation';
 import ScrollButton from 'components/Login/SiteInformation/ScrollButton/ScrollButton';
 import { clickConsoleUserSearchTrackingEvent } from 'actionCreators/googleAnalytic/googleAnalytic';
+import Raven from 'raven-js';
 
 class ConsoleUserSearch extends Component {
     constructor(props) {
@@ -73,6 +74,7 @@ class ConsoleUserSearch extends Component {
                     });
                 }
             }).catch((error) => {
+                Raven.captureException(error);
                 throw error;
             });
     }

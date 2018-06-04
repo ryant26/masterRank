@@ -35,7 +35,7 @@ import {
 
 import * as Notifications from 'components/Notifications/Notifications';
 const clientEvents = require('shared/libs/socketEvents/clientEvents');
-
+import Raven from 'raven-js';
 
 let socket;
 let store;
@@ -144,6 +144,7 @@ const _removeHeroFromStore = function(hero) {
 
 const _addHeroErrorHandler = function(error) {
     Notifications.errorNotification(error.hero.heroName);
+    Raven.captureException(error);
     removePreferredHeroFromStore(error.hero.heroName, error.hero.priority);
 };
 
@@ -196,6 +197,7 @@ const _handleGroupPromotedLeader = (newGroup) => {
 };
 
 const _groupErrorHandler = (error) => {
+    Raven.captureException(error);
     Notifications.errorNotification(error.message);
 };
 
