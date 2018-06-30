@@ -1,5 +1,12 @@
-# overrank
+# Fireteam.gg (Not Maintained)
 Check individual directories for their READMEs.
+
+## Summary
+This was a web-app deployed on AWS to facilitate the process of group creation for Overwatch.
+Blizzard has now added this functionality in-game so we have taken the application down.
+This repo has been made public to serve as example code for anyone who may find it useful.
+
+FYI, documentation is a little light as the team size was small.
 
 ## QuickStart
 ### Prerequisites
