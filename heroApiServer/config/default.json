@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "heroapiserver",
+    "hostname": "localhost",
+    "port": 3000
+  },
+  "cachingEnabled" : true,
+  "db": "mongodb://localhost/heroapiserver",
+  "logFormat": "combined",
+  "logLevel": "debug",
+  "reloadThreshold": 6,
+  "minimumGamesPlayed": 1,
+  "bnet": {
+    "id": "bnetID",
+    "secret": "bnetSecret"
+  },
+  "token": {
+    "secret": "shh its a secret",
+    "expiry": 604800
+  }
+}

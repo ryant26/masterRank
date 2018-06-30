@@ -1,0 +1,9 @@
+{
+    "app": {
+        "name": "landingpage",
+        "port": 3000
+    },
+    "loggingLevel": "dev",
+    "db": "postgres://localhost/landingpage-development"
+}
+

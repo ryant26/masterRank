@@ -1,0 +1,37 @@
+{
+  "port": 3000,
+  "url": "https://localhost",
+  "keyExpiry": 7200,
+  "eventsAllowedPerMinute": 50,
+  "logLevel": "debug",
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  },
+  "heroApi": {
+    "baseUrl" : "http://localhost",
+    "port" : 3002,
+    "endpoint": "/api/heros",
+    "token": "secret"
+  },
+  "playerApi": {
+    "baseUrl" : "http://localhost",
+    "port" : 3002,
+    "endpoint": "/api/players",
+    "token": "secret"
+  },
+  "authenticationApi": {
+    "baseUrl" : "http://localhost",
+    "port" : 3002,
+    "endpoint": "/auth/token/validate"
+  },
+  "discordApi": {
+    "token": "secret",
+    "guild": {
+      "id": "1234"
+    },
+    "invite": {
+      "maxAgeInSec": 43200
+    }
+  }
+}

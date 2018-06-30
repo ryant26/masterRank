@@ -1,0 +1,15 @@
+{
+    "heroApi": {
+        "token": "secret"
+    },
+    "playerApi": {
+        "port" : 3002
+    },
+    "authenticationApi": {
+        "port": 3002
+    },
+    "token": {
+        "secret": "issaSecret",
+        "expiry": 604800
+    }
+}
